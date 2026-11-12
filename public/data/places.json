@@ -1,0 +1,610 @@
+{
+  "note": "Mock place data. Names from the kit README; reconcile with WMC app venue data. 'confirm' marks items needing organiser confirmation. | v2 (13 Nov 2026): coordinates match campus-layout.json v2.",
+  "places": [
+    {
+      "id": "admin",
+      "name": "Admin Block",
+      "category": "venue",
+      "buildingId": "admin",
+      "aliases": [
+        "Administrative Block",
+        "IIM Shillong",
+        "L-Shaped Hall",
+        "Main building"
+      ],
+      "inside": [
+        "Director's office",
+        "Programme office",
+        "L-Shaped Hall",
+        "Help desk (ground floor)",
+        "IIM Shillong Auditorium",
+        "Knowledge Centre (Library)"
+      ],
+      "hours": "9:00–18:00"
+    },
+    {
+      "id": "auditorium",
+      "name": "IIM Shillong Auditorium",
+      "category": "venue",
+      "buildingId": "admin",
+      "aliases": [
+        "Auditorium",
+        "Main hall"
+      ],
+      "inside": [
+        "Main auditorium",
+        "Foyer"
+      ],
+      "hours": "During sessions",
+      "confirm": "Inside the Admin Block (confirmed); which wing and floor to confirm"
+    },
+    {
+      "id": "nab",
+      "name": "New Academic Block (NAB)",
+      "category": "venue",
+      "buildingId": "nab",
+      "aliases": [
+        "NAB",
+        "Academic block",
+        "Classrooms"
+      ],
+      "inside": [
+        "Classrooms 101–112",
+        "Classrooms 201–210",
+        "Computer lab"
+      ]
+    },
+    {
+      "id": "library",
+      "name": "Knowledge Centre (Library)",
+      "category": "venue",
+      "buildingId": "admin",
+      "aliases": [
+        "Library",
+        "Knowledge Center"
+      ],
+      "inside": [
+        "Reading room overlooking the pine hills",
+        "Stacks",
+        "Digital resources"
+      ],
+      "hours": "8:00–23:00",
+      "confirm": "Inside the Admin Block (confirmed); which wing and floor to confirm"
+    },
+    {
+      "id": "kalam-centre",
+      "name": "Dr. Kalam Centre",
+      "category": "venue",
+      "buildingId": "kalam-centre",
+      "aliases": [
+        "Kalam Centre",
+        "Incubation Centre"
+      ],
+      "inside": [
+        "Incubation Centre",
+        "Seminar room"
+      ]
+    },
+    {
+      "id": "kalam-building",
+      "name": "Kalam Building",
+      "category": "venue",
+      "buildingId": "kalam-building",
+      "aliases": [],
+      "confirm": "Position"
+    },
+    {
+      "id": "cafe-cloud",
+      "name": "Cafe Cloud Campus",
+      "category": "food",
+      "buildingId": "cafe-cloud",
+      "aliases": [
+        "Cafe",
+        "Coffee",
+        "Nescafe",
+        "Octagonal pavilion"
+      ],
+      "hours": "8:00–21:00",
+      "confirm": "Name of the small octagonal pavilion"
+    },
+    {
+      "id": "amul-cafe",
+      "name": "Amul Cafe",
+      "category": "food",
+      "buildingId": "amul-cafe",
+      "aliases": [
+        "Amul",
+        "Ice cream",
+        "Milkshake"
+      ],
+      "confirm": "Opening hours"
+    },
+    {
+      "id": "tin-cafe",
+      "name": "Worth The Taste (Tin Café)",
+      "category": "food",
+      "aliases": [
+        "Tin Cafe",
+        "Worth the Taste"
+      ],
+      "hours": "10:00–22:00",
+      "at": [
+        69,
+        -209
+      ],
+      "confirm": "Not the kiosk next to Cafe Cloud (that is Amul Cafe). Where is Worth The Taste (Tin Café)?"
+    },
+    {
+      "id": "mess",
+      "name": "Students' Mess",
+      "category": "food",
+      "buildingId": "mess",
+      "aliases": [
+        "Mess",
+        "Dining hall",
+        "Lunch",
+        "Canteen"
+      ],
+      "hours": "Breakfast 7:30–9:30 · Lunch 12:30–14:30 · Dinner 19:30–21:30",
+      "menu": "mess"
+    },
+    {
+      "id": "commercial",
+      "name": "Commercial Complex",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": [
+        "Shops",
+        "Market",
+        "Mithaas",
+        "Commercial complex"
+      ],
+      "inside": [
+        "Mithaas",
+        "Golmei Creations Cafe",
+        "Jim's Shop",
+        "Fruit & Vegetable Shop",
+        "Salon",
+        "TK's",
+        "AJ's Laundry"
+      ]
+    },
+    {
+      "id": "mithaas",
+      "name": "Mithaas Restaurant",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": [
+        "Sweets"
+      ],
+      "hours": "9:00–22:00"
+    },
+    {
+      "id": "golmei",
+      "name": "Golmei Creations Cafe",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": [
+        "Golmei"
+      ]
+    },
+    {
+      "id": "jims",
+      "name": "Jim's Shop",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": [
+        "Stationery",
+        "General store"
+      ]
+    },
+    {
+      "id": "fruit",
+      "name": "Fruit & Vegetable Shop",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": []
+    },
+    {
+      "id": "salon",
+      "name": "Salon",
+      "category": "service",
+      "buildingId": "commercial",
+      "aliases": [
+        "Barber",
+        "Haircut"
+      ]
+    },
+    {
+      "id": "tks",
+      "name": "TK's",
+      "category": "food",
+      "buildingId": "commercial",
+      "aliases": []
+    },
+    {
+      "id": "laundry",
+      "name": "AJ's Laundry",
+      "category": "service",
+      "buildingId": "commercial",
+      "aliases": [
+        "Laundry"
+      ]
+    },
+    {
+      "id": "hostel-1",
+      "name": "Hostel 1 · D Block",
+      "category": "hostel",
+      "buildingId": "hostel-1",
+      "aliases": [
+        "D Block",
+        "D block",
+        "Hostel 1",
+        "H1"
+      ]
+    },
+    {
+      "id": "hostel-2",
+      "name": "Hostel 2 · F Block",
+      "category": "hostel",
+      "buildingId": "hostel-2",
+      "aliases": [
+        "F Block",
+        "F Block New Hostel",
+        "Hostel 2",
+        "H2"
+      ]
+    },
+    {
+      "id": "hostel-3",
+      "name": "Hostel 3",
+      "category": "hostel",
+      "buildingId": "hostel-3",
+      "aliases": [
+        "Hostel 3",
+        "H3",
+        "North ridge hostel"
+      ]
+    },
+    {
+      "id": "hostel-4",
+      "name": "Hostel 4",
+      "category": "hostel",
+      "buildingId": "hostel-4",
+      "aliases": [
+        "Hostel 4",
+        "H4",
+        "New block"
+      ],
+      "confirm": "Outline placed by eye; survey the corners"
+    },
+    {
+      "id": "type2",
+      "name": "Type 2 Quarters",
+      "category": "staff",
+      "buildingId": "type2",
+      "aliases": [
+        "Staff housing",
+        "Faculty quarters"
+      ],
+      "landmarkOnly": true
+    },
+    {
+      "id": "football",
+      "name": "Football Ground",
+      "category": "sports",
+      "areaId": "football",
+      "at": [
+        -98,
+        200
+      ],
+      "aliases": [
+        "Cricket ground",
+        "Ground",
+        "Floodlit ground"
+      ]
+    },
+    {
+      "id": "basketball",
+      "name": "Basketball Courts",
+      "category": "sports",
+      "at": [
+        -210,
+        140
+      ],
+      "aliases": [
+        "Basketball"
+      ]
+    },
+    {
+      "id": "volleyball",
+      "name": "Volleyball Court",
+      "category": "sports",
+      "at": [
+        -180,
+        137
+      ],
+      "aliases": [
+        "Volleyball"
+      ]
+    },
+    {
+      "id": "tennis",
+      "name": "Tennis Court",
+      "category": "sports",
+      "at": [
+        -219,
+        140
+      ],
+      "aliases": [
+        "Tennis",
+        "Badminton"
+      ],
+      "confirm": "OSM tags both west courts as basketball; whether one is used for tennis/badminton to confirm"
+    },
+    {
+      "id": "covered-walkway",
+      "name": "Covered walkway",
+      "category": "landmark",
+      "at": [
+        -150,
+        170
+      ],
+      "aliases": [
+        "Walkway",
+        "Corridor"
+      ],
+      "confirm": "Roof footprints from Overture; the joins between them by eye"
+    },
+    {
+      "id": "gym",
+      "name": "Sports Pavilion & Gym",
+      "category": "sports",
+      "buildingId": "gym",
+      "aliases": [
+        "Fitness",
+        "Gym",
+        "Sports pavilion",
+        "Yoga"
+      ],
+      "hours": "6:00–22:00",
+      "confirm": "Whether the gym is inside the court pavilion"
+    },
+    {
+      "id": "lake",
+      "name": "Campus Lake",
+      "category": "landmark",
+      "at": [
+        -79,
+        -55
+      ],
+      "aliases": [
+        "Lake",
+        "Walking trail",
+        "Lake trail"
+      ]
+    },
+    {
+      "id": "main-gate",
+      "name": "Main Gate",
+      "category": "help",
+      "landmarkId": "main-gate",
+      "aliases": [
+        "Gate",
+        "Entrance",
+        "Security"
+      ],
+      "confirm": "Placed at the Google listing pin on the south road; survey the gate posts"
+    },
+    {
+      "id": "kalam-statue",
+      "name": "Dr. Kalam Statue",
+      "category": "landmark",
+      "landmarkId": "kalam-statue",
+      "aliases": [
+        "Statue",
+        "APJ Abdul Kalam"
+      ]
+    },
+    {
+      "id": "atm",
+      "name": "ICICI Bank ATM",
+      "category": "service",
+      "landmarkId": "atm",
+      "aliases": [
+        "ATM",
+        "Cash",
+        "Bank"
+      ]
+    },
+    {
+      "id": "medical",
+      "name": "Medical Room",
+      "category": "help",
+      "buildingId": "hostel-1",
+      "floor": "Ground floor",
+      "aliases": [
+        "Doctor",
+        "First aid",
+        "Clinic",
+        "Infirmary"
+      ],
+      "phone": "+91-0000000000",
+      "confirm": "Placeholder in Hostel 1 (D Block). Real location and phone to confirm"
+    },
+    {
+      "id": "help-desk",
+      "name": "Help Desk",
+      "category": "help",
+      "buildingId": "admin",
+      "floor": "Ground floor",
+      "aliases": [
+        "Information",
+        "Registration help",
+        "Lost and found"
+      ],
+      "phone": "+91-0000000000",
+      "confirm": "Location and phone"
+    },
+    {
+      "id": "parking",
+      "name": "Admin Block Parking",
+      "category": "service",
+      "areaId": "admin-parking",
+      "at": [
+        108,
+        -153
+      ],
+      "aliases": [
+        "Parking",
+        "Car park"
+      ],
+      "confirm": "Paved lot between NAB and the Admin Block (satellite); confirm it is the visitor car park"
+    },
+    {
+      "id": "water-tank",
+      "name": "Water Supply Tank",
+      "category": "landmark",
+      "landmarkId": "water-tank",
+      "aliases": []
+    },
+    {
+      "id": "substation",
+      "name": "IIM Substation",
+      "category": "service",
+      "buildingId": "substation",
+      "aliases": [
+        "Electrical"
+      ]
+    },
+    {
+      "id": "service-block",
+      "name": "Service block (across from the Octagonal Hall)",
+      "category": "service",
+      "buildingId": "road-block",
+      "aliases": [],
+      "confirm": "Use of this building"
+    },
+    {
+      "id": "octagon-hall",
+      "name": "Octagonal Hall",
+      "category": "venue",
+      "buildingId": "octagon-hall",
+      "aliases": [
+        "Octagon",
+        "Hall"
+      ],
+      "confirm": "Use and exact spot"
+    },
+    {
+      "id": "type3",
+      "name": "Faculty Quarters Type 3",
+      "category": "staff",
+      "buildingId": "type3",
+      "aliases": [
+        "Faculty quarters"
+      ],
+      "landmarkOnly": true
+    }
+  ],
+  "rooms": [
+    {
+      "code": "AUD",
+      "name": "Main Auditorium",
+      "buildingId": "admin",
+      "floor": 0
+    },
+    {
+      "code": "LSH",
+      "name": "L-Shaped Hall",
+      "buildingId": "admin",
+      "floor": 1
+    },
+    {
+      "code": "101",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "102",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "103",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "104",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "105",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "106",
+      "buildingId": "nab",
+      "floor": 1
+    },
+    {
+      "code": "201",
+      "buildingId": "nab",
+      "floor": 2
+    },
+    {
+      "code": "202",
+      "buildingId": "nab",
+      "floor": 2
+    },
+    {
+      "code": "203",
+      "buildingId": "nab",
+      "floor": 2
+    },
+    {
+      "code": "204",
+      "buildingId": "nab",
+      "floor": 2
+    },
+    {
+      "code": "301",
+      "name": "Hybrid Classroom 301 (120 seats)",
+      "buildingId": "nab",
+      "floor": 3
+    },
+    {
+      "code": "302",
+      "name": "Hybrid Classroom 302 (120 seats)",
+      "buildingId": "nab",
+      "floor": 3
+    },
+    {
+      "code": "KC-S1",
+      "name": "Kalam Centre Seminar Room",
+      "buildingId": "kalam-centre",
+      "floor": 1
+    },
+    {
+      "code": "LIB-R",
+      "name": "Library Reading Room",
+      "buildingId": "admin",
+      "floor": 1
+    }
+  ],
+  "excluded": [
+    "Lariti",
+    "North East Centre for Technology",
+    "NIELIT Shillong",
+    "NEEPCO Township",
+    "[24]7.ai",
+    "Umsawli Picnic Area",
+    "New Shillong View Point",
+    "New Shillong Capital Region",
+    "Thiolit Care Salon",
+    "National Institute of Fashion Technology"
+  ]
+}

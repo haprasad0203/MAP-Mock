@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [91.9480803, 25.6105361]}, "properties": {"addr:city": "shillong", "addr:district": "East Khasi Hills", "name": "National Institute of Fashion Technology", "office": "educational_institution", "osm_id": "node/11909066838"}}]}

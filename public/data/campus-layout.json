@@ -1,0 +1,6947 @@
+{
+ "version": 2,
+ "note": "Remapped 13 Nov 2026 from Overture footprints, OSM roads/lake/courts, Google pins (names only) and drone photos. See reference/layout/LAYOUT_INVENTORY.md. Parts carry \"poly\" (true footprint) and \"src\".",
+ "origin": {
+  "lat": 25.6176,
+  "lon": 91.9522
+ },
+ "boundary": [
+  [
+   250,
+   -345
+  ],
+  [
+   335,
+   -330
+  ],
+  [
+   420,
+   -232
+  ],
+  [
+   500,
+   -225
+  ],
+  [
+   575,
+   -242
+  ],
+  [
+   602,
+   -140
+  ],
+  [
+   540,
+   -138
+  ],
+  [
+   545,
+   -190
+  ],
+  [
+   500,
+   -222
+  ],
+  [
+   417,
+   -198
+  ],
+  [
+   319,
+   -180
+  ],
+  [
+   268,
+   -100
+  ],
+  [
+   240,
+   -10
+  ],
+  [
+   265,
+   40
+  ],
+  [
+   235,
+   110
+  ],
+  [
+   60,
+   145
+  ],
+  [
+   -40,
+   175
+  ],
+  [
+   -75,
+   330
+  ],
+  [
+   -110,
+   470
+  ],
+  [
+   -180,
+   540
+  ],
+  [
+   -300,
+   535
+  ],
+  [
+   -440,
+   545
+  ],
+  [
+   -560,
+   330
+  ],
+  [
+   -560,
+   120
+  ],
+  [
+   -470,
+   95
+  ],
+  [
+   -380,
+   30
+  ],
+  [
+   -330,
+   -20
+  ],
+  [
+   -200,
+   -130
+  ],
+  [
+   -40,
+   -160
+  ],
+  [
+   0,
+   -205
+  ],
+  [
+   30,
+   -260
+  ],
+  [
+   150,
+   -300
+  ]
+ ],
+ "buildings": [
+  {
+   "id": "admin",
+   "name": "Admin Block",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#4B525A",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 165.7,
+     "cy": -199.9,
+     "w": 23.0,
+     "d": 22.3,
+     "angle": -33.7,
+     "floors": 4,
+     "roof": "hip",
+     "glass": "atrium",
+     "poly": [
+      [
+       169.0,
+       -215.5
+      ],
+      [
+       181.4,
+       -197.0
+      ],
+      [
+       173.3,
+       -191.6
+      ],
+      [
+       171.7,
+       -193.9
+      ],
+      [
+       167.1,
+       -190.9
+      ],
+      [
+       168.7,
+       -188.5
+      ],
+      [
+       162.3,
+       -184.3
+      ],
+      [
+       149.9,
+       -202.8
+      ]
+     ],
+     "src": "overture b636eb74-95f6-4bac-97db-8f8e1a525506 (Google Open Buildings)"
+    },
+    {
+     "cx": 156.5,
+     "cy": -215.0,
+     "w": 27.0,
+     "d": 13.2,
+     "angle": -33.9,
+     "floors": 4,
+     "roof": "hip",
+     "poly": [
+      [
+       164.0,
+       -228.0
+      ],
+      [
+       171.3,
+       -217.1
+      ],
+      [
+       149.0,
+       -202.0
+      ],
+      [
+       141.6,
+       -213.0
+      ]
+     ],
+     "src": "overture 0120412b-6ab3-4a6c-83d9-e4b0c2e67d37 (Google Open Buildings)"
+    },
+    {
+     "cx": 207.6,
+     "cy": -183.7,
+     "w": 59.8,
+     "d": 44.4,
+     "angle": -15.0,
+     "floors": 3,
+     "roof": "gable",
+     "poly": [
+      [
+       184.5,
+       -154.6
+      ],
+      [
+       238.7,
+       -183.2
+      ],
+      [
+       230.5,
+       -212.9
+      ],
+      [
+       173.2,
+       -197.5
+      ]
+     ],
+     "src": "by-eye (drone + satellite), survey to confirm"
+    },
+    {
+     "cx": 239.7,
+     "cy": -201.0,
+     "w": 24.3,
+     "d": 14.4,
+     "angle": 56.2,
+     "floors": 3,
+     "roof": "hip",
+     "glass": "stair",
+     "poly": [
+      [
+       239.0,
+       -215.1
+      ],
+      [
+       252.5,
+       -194.9
+      ],
+      [
+       240.5,
+       -187.0
+      ],
+      [
+       227.0,
+       -207.1
+      ]
+     ],
+     "src": "overture a9105d83-2702-4452-b261-1ec8d1a3de96 (Google Open Buildings)"
+    }
+   ],
+   "short": "Admin",
+   "confirm": "One building holding the Admin offices, the Auditorium and the Library (confirmed). Which wing holds which: to confirm. Google labels it \"IIM Shillong Auditorium\".",
+   "groundElev": 9.6
+  },
+  {
+   "id": "nab",
+   "name": "New Academic Block (NAB)",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 111.1,
+     "cy": -59.0,
+     "w": 40.8,
+     "d": 30.3,
+     "angle": 54.7,
+     "floors": 5,
+     "roof": "flat",
+     "stoneTowers": true,
+     "poly": [
+      [
+       111.7,
+       -84.4
+      ],
+      [
+       117.0,
+       -76.9
+      ],
+      [
+       115.2,
+       -75.6
+      ],
+      [
+       119.6,
+       -69.5
+      ],
+      [
+       121.4,
+       -70.7
+      ],
+      [
+       129.2,
+       -59.7
+      ],
+      [
+       125.0,
+       -56.8
+      ],
+      [
+       131.0,
+       -48.3
+      ],
+      [
+       121.6,
+       -41.7
+      ],
+      [
+       121.7,
+       -41.5
+      ],
+      [
+       110.5,
+       -33.6
+      ],
+      [
+       96.6,
+       -53.2
+      ],
+      [
+       99.0,
+       -54.9
+      ],
+      [
+       97.5,
+       -57.0
+      ],
+      [
+       95.1,
+       -55.3
+      ],
+      [
+       88.6,
+       -64.5
+      ],
+      [
+       94.1,
+       -68.3
+      ],
+      [
+       92.3,
+       -70.7
+      ]
+     ],
+     "src": "overture 7b55d77f-4157-4a79-b618-085fe8cc4a1f (Google Open Buildings)"
+    },
+    {
+     "cx": 92.5,
+     "cy": -84.0,
+     "w": 59.6,
+     "d": 18.0,
+     "angle": 53.2,
+     "floors": 4,
+     "roof": "flat",
+     "glass": "atrium",
+     "poly": [
+      [
+       103.2,
+       -54.8
+      ],
+      [
+       67.4,
+       -102.5
+      ],
+      [
+       81.8,
+       -113.3
+      ],
+      [
+       117.6,
+       -65.5
+      ]
+     ],
+     "src": "derived"
+    },
+    {
+     "cx": 74.8,
+     "cy": -106.6,
+     "w": 28.4,
+     "d": 21.5,
+     "angle": 58.9,
+     "floors": 5,
+     "roof": "flat",
+     "stoneTowers": true,
+     "poly": [
+      [
+       78.1,
+       -122.0
+      ],
+      [
+       81.6,
+       -116.0
+      ],
+      [
+       76.0,
+       -112.7
+      ],
+      [
+       85.7,
+       -96.7
+      ],
+      [
+       79.2,
+       -92.7
+      ],
+      [
+       77.2,
+       -96.0
+      ],
+      [
+       70.9,
+       -92.2
+      ],
+      [
+       58.2,
+       -113.2
+      ],
+      [
+       69.0,
+       -119.7
+      ],
+      [
+       70.4,
+       -117.4
+      ]
+     ],
+     "src": "overture 8d96f549-e917-4949-8901-743e55339937 (Google Open Buildings)"
+    },
+    {
+     "cx": 88.5,
+     "cy": -107.8,
+     "w": 12.7,
+     "d": 10.7,
+     "angle": 8.6,
+     "floors": 4,
+     "roof": "flat",
+     "poly": [
+      [
+       81.4,
+       -103.5
+      ],
+      [
+       83.0,
+       -114.1
+      ],
+      [
+       95.6,
+       -112.2
+      ],
+      [
+       94.6,
+       -106.0
+      ],
+      [
+       89.4,
+       -106.8
+      ],
+      [
+       88.7,
+       -102.4
+      ]
+     ],
+     "src": "overture 11b15f55-45af-452c-84ba-f05576a08a20 (Google Open Buildings)"
+    }
+   ],
+   "short": "NAB",
+   "confirm": "Long white block at the Google \"IIM SHILLONG\" pin; stone stair towers at both ends (drone).",
+   "groundElev": 5.4
+  },
+  {
+   "id": "cafe-cloud",
+   "name": "Cafe Cloud Campus",
+   "category": "food",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": 58.4,
+     "cy": -208.9,
+     "w": 30.9,
+     "d": 29.0,
+     "angle": 9.7,
+     "floors": 1,
+     "roof": "octagon",
+     "glass": "atrium",
+     "poly": [
+      [
+       53.9,
+       -222.0
+      ],
+      [
+       54.3,
+       -224.3
+      ],
+      [
+       63.7,
+       -222.7
+      ],
+      [
+       72.3,
+       -211.8
+      ],
+      [
+       74.5,
+       -211.4
+      ],
+      [
+       71.9,
+       -196.3
+      ],
+      [
+       63.2,
+       -197.8
+      ],
+      [
+       62.5,
+       -193.5
+      ],
+      [
+       51.4,
+       -195.4
+      ],
+      [
+       52.2,
+       -199.6
+      ],
+      [
+       45.1,
+       -200.8
+      ],
+      [
+       46.4,
+       -208.4
+      ],
+      [
+       42.8,
+       -209.0
+      ],
+      [
+       45.2,
+       -223.4
+      ]
+     ],
+     "src": "overture e3541016-8dfe-46b6-8b61-10198be2c242 (Google Open Buildings)"
+    }
+   ],
+   "short": "Cafe Cloud",
+   "confirm": "Octagonal pavilion west of the main road, opposite the Admin Block (Google pin + drone).",
+   "groundElev": 6.7
+  },
+  {
+   "id": "amul-cafe",
+   "name": "Amul Cafe",
+   "category": "food",
+   "wall": "#C9B48A",
+   "roofColor": "#77808A",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": 58.1,
+     "cy": -230.8,
+     "w": 10.0,
+     "d": 7.0,
+     "angle": 0.0,
+     "floors": 1,
+     "roof": "gable",
+     "poly": [
+      [
+       53.1,
+       -234.3
+      ],
+      [
+       63.1,
+       -234.3
+      ],
+      [
+       63.1,
+       -227.3
+      ],
+      [
+       53.1,
+       -227.3
+      ]
+     ],
+     "src": "by-eye (drone + satellite), survey to confirm"
+    }
+   ],
+   "short": "Amul Cafe",
+   "confirm": "Kiosk next to Cafe Cloud (confirmed as Amul Cafe); exact outline by eye.",
+   "groundElev": 2.9
+  },
+  {
+   "id": "kalam-centre",
+   "name": "Dr. Kalam Centre",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -39.0,
+     "cy": 40.9,
+     "w": 16.2,
+     "d": 12.7,
+     "angle": 39.8,
+     "floors": 3,
+     "roof": "hip",
+     "glass": "stair",
+     "poly": [
+      [
+       -41.2,
+       30.9
+      ],
+      [
+       -28.7,
+       41.3
+      ],
+      [
+       -36.9,
+       51.0
+      ],
+      [
+       -49.3,
+       40.6
+      ]
+     ],
+     "src": "overture b12e4b19-c9b5-48ca-847c-aa0362470c9b (Google Open Buildings)"
+    },
+    {
+     "cx": -28.0,
+     "cy": 50.2,
+     "w": 12.7,
+     "d": 12.7,
+     "angle": -50.1,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -28.7,
+       41.3
+      ],
+      [
+       -19.0,
+       49.4
+      ],
+      [
+       -27.1,
+       59.1
+      ],
+      [
+       -36.9,
+       51.0
+      ]
+     ],
+     "src": "overture 9958e5f4-6003-4526-9835-518e9a4fe766 (Google Open Buildings)"
+    }
+   ],
+   "short": "Kalam Centre",
+   "groundElev": 12.3
+  },
+  {
+   "id": "kalam-building",
+   "name": "Kalam Building",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -4.4,
+     "cy": 39.0,
+     "w": 14.2,
+     "d": 6.0,
+     "angle": 9.3,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -11.0,
+       34.9
+      ],
+      [
+       3.0,
+       37.2
+      ],
+      [
+       2.1,
+       43.1
+      ],
+      [
+       -11.9,
+       40.8
+      ]
+     ],
+     "src": "overture 1d5f62f3-25bd-4295-99d6-a9a8aa2acb69 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Assumed to be the block just east of the Kalam Centre.",
+   "groundElev": 10.9
+  },
+  {
+   "id": "east-cluster",
+   "name": "Campus blocks (between NAB and Kalam Centre)",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 82.2,
+     "cy": -43.1,
+     "w": 12.9,
+     "d": 7.4,
+     "angle": 23.1,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       77.8,
+       -49.0
+      ],
+      [
+       89.6,
+       -44.0
+      ],
+      [
+       87.9,
+       -40.0
+      ],
+      [
+       85.0,
+       -41.3
+      ],
+      [
+       83.8,
+       -38.4
+      ],
+      [
+       74.9,
+       -42.3
+      ]
+     ],
+     "src": "overture 0feb4c2a-c8f3-4dbe-b6e7-a42d7a9b8f84 (Google Open Buildings)"
+    },
+    {
+     "cx": 70.0,
+     "cy": -11.3,
+     "w": 16.9,
+     "d": 11.2,
+     "angle": 49.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       65.1,
+       -18.2
+      ],
+      [
+       72.7,
+       -9.2
+      ],
+      [
+       76.4,
+       -12.3
+      ],
+      [
+       79.7,
+       -8.4
+      ],
+      [
+       71.2,
+       -1.2
+      ],
+      [
+       60.2,
+       -14.1
+      ]
+     ],
+     "src": "overture 302d5659-89a5-4015-a17f-aed7552aedeb (Google Open Buildings)"
+    },
+    {
+     "cx": 76.1,
+     "cy": -33.3,
+     "w": 12.1,
+     "d": 11.3,
+     "angle": 28.6,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       84.1,
+       -35.3
+      ],
+      [
+       78.6,
+       -25.4
+      ],
+      [
+       68.0,
+       -31.2
+      ],
+      [
+       73.5,
+       -41.1
+      ]
+     ],
+     "src": "overture f017c95d-1c5c-4276-afae-b36235cf1025 (Microsoft ML Buildings)"
+    },
+    {
+     "cx": 47.2,
+     "cy": -33.2,
+     "w": 14.3,
+     "d": 11.2,
+     "angle": -27.5,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       43.4,
+       -25.0
+      ],
+      [
+       41.2,
+       -29.1
+      ],
+      [
+       44.3,
+       -30.7
+      ],
+      [
+       41.3,
+       -36.4
+      ],
+      [
+       50.9,
+       -41.4
+      ],
+      [
+       56.1,
+       -31.5
+      ]
+     ],
+     "src": "overture 3ec851db-906d-4508-be40-0afcdabece63 (Microsoft ML Buildings)"
+    },
+    {
+     "cx": 34.1,
+     "cy": -20.2,
+     "w": 10.6,
+     "d": 6.7,
+     "angle": -34.0,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       27.8,
+       -20.0
+      ],
+      [
+       36.6,
+       -25.9
+      ],
+      [
+       40.3,
+       -20.4
+      ],
+      [
+       31.6,
+       -14.5
+      ]
+     ],
+     "src": "overture 8ddc16a0-c95a-417a-9e6c-fb26084c40d4 (Microsoft ML Buildings)"
+    }
+   ],
+   "short": "Campus blocks",
+   "confirm": "Use of these small blocks to confirm.",
+   "groundElev": 7.8
+  },
+  {
+   "id": "block-501",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 44.6,
+     "cy": 36.8,
+     "w": 16.6,
+     "d": 8.2,
+     "angle": -37.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       48.7,
+       28.5
+      ],
+      [
+       53.7,
+       34.9
+      ],
+      [
+       40.6,
+       45.1
+      ],
+      [
+       35.6,
+       38.6
+      ]
+     ],
+     "src": "overture fa00f7a3-6067-4d5c-b801-a21a8d131aa3 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": 4.8
+  },
+  {
+   "id": "block-503",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 29.9,
+     "cy": 101.3,
+     "w": 20.9,
+     "d": 6.4,
+     "angle": 44.1,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       24.6,
+       91.8
+      ],
+      [
+       39.6,
+       106.3
+      ],
+      [
+       35.2,
+       110.9
+      ],
+      [
+       20.2,
+       96.3
+      ]
+     ],
+     "src": "overture 9cc582bf-871b-4132-b087-aa1459dd9e0e (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": 9.7
+  },
+  {
+   "id": "east-residence",
+   "name": "East hill residence",
+   "category": "staff",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 181.8,
+     "cy": 43.6,
+     "w": 25.1,
+     "d": 12.9,
+     "angle": -7.7,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       193.4,
+       35.5
+      ],
+      [
+       195.1,
+       48.3
+      ],
+      [
+       170.2,
+       51.7
+      ],
+      [
+       168.5,
+       38.9
+      ]
+     ],
+     "src": "overture 2572658b-cd6f-44e7-99ad-6ddaffeb239f (Google Open Buildings)"
+    },
+    {
+     "cx": 200.7,
+     "cy": 67.2,
+     "w": 12.9,
+     "d": 6.3,
+     "angle": 84.1,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       196.9,
+       61.1
+      ],
+      [
+       203.2,
+       60.5
+      ],
+      [
+       204.5,
+       73.3
+      ],
+      [
+       201.2,
+       73.6
+      ],
+      [
+       200.7,
+       68.3
+      ],
+      [
+       197.7,
+       68.6
+      ]
+     ],
+     "src": "overture e0738b6e-8731-4fc1-9aea-0402b9f300a5 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": -2.3
+  },
+  {
+   "id": "octagon-hall",
+   "name": "Octagonal Hall",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -198.1,
+     "cy": 24.4,
+     "w": 18.3,
+     "d": 17.4,
+     "angle": -64.7,
+     "floors": 1,
+     "roof": "octagon",
+     "glass": "atrium",
+     "poly": [
+      [
+       -202.1,
+       12.4
+      ],
+      [
+       -186.3,
+       19.9
+      ],
+      [
+       -194.1,
+       36.4
+      ],
+      [
+       -209.9,
+       28.9
+      ]
+     ],
+     "src": "overture 4d49fe96-b500-4c72-8356-b2d835ab17f9 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Hall on the north shore of the lake beside the road (drone video). Use to confirm.",
+   "groundElev": 0.8
+  },
+  {
+   "id": "road-block",
+   "name": "Service block",
+   "category": "service",
+   "wall": "#E4DAC4",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -91.9,
+     "cy": 47.5,
+     "w": 18.4,
+     "d": 4.5,
+     "angle": -75.6,
+     "floors": 1,
+     "roof": "flat",
+     "poly": [
+      [
+       -91.8,
+       38.0
+      ],
+      [
+       -87.4,
+       39.1
+      ],
+      [
+       -92.0,
+       56.9
+      ],
+      [
+       -96.4,
+       55.8
+      ]
+     ],
+     "src": "overture 02e26daf-8f73-42dc-9144-3df0f9f07931 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Small block at the lake-road junction; use to confirm.",
+   "groundElev": 8.5
+  },
+  {
+   "id": "gym",
+   "name": "Sports Pavilion & Gym",
+   "category": "sports",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -276.6,
+     "cy": 154.2,
+     "w": 21.5,
+     "d": 11.2,
+     "angle": -50.2,
+     "floors": 1,
+     "roof": "gable",
+     "poly": [
+      [
+       -274.1,
+       142.4
+      ],
+      [
+       -265.4,
+       149.6
+      ],
+      [
+       -279.2,
+       166.1
+      ],
+      [
+       -287.8,
+       158.9
+      ]
+     ],
+     "src": "overture e3e4c25c-ce6b-4f44-97b1-88a36edf3db9 (Google Open Buildings)"
+    }
+   ],
+   "short": "Gym",
+   "confirm": "Pavilion at the west end of the court strip; whether the gym is inside to confirm.",
+   "groundElev": 16.4
+  },
+  {
+   "id": "court-kiosk",
+   "name": "Court-side kiosk",
+   "category": "service",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -219.9,
+     "cy": 203.4,
+     "w": 18.7,
+     "d": 3.7,
+     "angle": -60.0,
+     "floors": 1,
+     "roof": "gable",
+     "poly": [
+      [
+       -213.6,
+       196.2
+      ],
+      [
+       -222.9,
+       212.4
+      ],
+      [
+       -226.2,
+       210.6
+      ],
+      [
+       -216.8,
+       194.4
+      ]
+     ],
+     "src": "overture 3d4a91cc-60bb-41ad-825d-5e27bb9fdd00 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 11.6
+  },
+  {
+   "id": "west-cluster",
+   "name": "Residential cluster (west of the courts)",
+   "category": "hostel",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -294.0,
+     "cy": 57.3,
+     "w": 14.0,
+     "d": 13.4,
+     "angle": -31.9,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -291.6,
+       47.9
+      ],
+      [
+       -284.5,
+       59.3
+      ],
+      [
+       -287.9,
+       61.4
+      ],
+      [
+       -290.1,
+       57.9
+      ],
+      [
+       -294.9,
+       60.9
+      ],
+      [
+       -293.8,
+       62.6
+      ],
+      [
+       -297.5,
+       64.9
+      ],
+      [
+       -303.5,
+       55.3
+      ]
+     ],
+     "src": "overture 13e0aa23-b16b-41be-8f0e-da713454bb38 (Google Open Buildings)"
+    },
+    {
+     "cx": -271.3,
+     "cy": 57.8,
+     "w": 13.7,
+     "d": 11.6,
+     "angle": -35.8,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -269.2,
+       49.1
+      ],
+      [
+       -262.4,
+       58.5
+      ],
+      [
+       -273.5,
+       66.5
+      ],
+      [
+       -280.2,
+       57.1
+      ]
+     ],
+     "src": "overture e4052ddf-584a-4522-a44c-a290702e9982 (Google Open Buildings)"
+    },
+    {
+     "cx": -279.3,
+     "cy": 45.1,
+     "w": 14.8,
+     "d": 10.3,
+     "angle": -34.0,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -276.0,
+       36.7
+      ],
+      [
+       -270.3,
+       45.2
+      ],
+      [
+       -282.6,
+       53.5
+      ],
+      [
+       -288.3,
+       45.0
+      ]
+     ],
+     "src": "overture 34348fdd-0cf9-4a39-9e8f-5a0719e103e7 (Google Open Buildings)"
+    },
+    {
+     "cx": -287.4,
+     "cy": 67.9,
+     "w": 14.0,
+     "d": 11.6,
+     "angle": -31.9,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -284.5,
+       59.3
+      ],
+      [
+       -278.3,
+       69.1
+      ],
+      [
+       -290.2,
+       76.5
+      ],
+      [
+       -296.4,
+       66.7
+      ]
+     ],
+     "src": "overture f8368257-661b-4640-b825-efccfb0054cb (Google Open Buildings)"
+    },
+    {
+     "cx": -278.5,
+     "cy": 80.6,
+     "w": 14.4,
+     "d": 10.4,
+     "angle": -47.5,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -269.8,
+       78.8
+      ],
+      [
+       -279.5,
+       89.4
+      ],
+      [
+       -287.2,
+       82.4
+      ],
+      [
+       -277.5,
+       71.8
+      ]
+     ],
+     "src": "overture b60b0a9e-c7c5-4c38-8006-64a3d9e60ebc (Google Open Buildings)"
+    },
+    {
+     "cx": -267.6,
+     "cy": 89.8,
+     "w": 15.1,
+     "d": 10.7,
+     "angle": -48.5,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -266.6,
+       80.6
+      ],
+      [
+       -258.5,
+       87.7
+      ],
+      [
+       -268.5,
+       99.0
+      ],
+      [
+       -276.6,
+       91.9
+      ]
+     ],
+     "src": "overture f89e5ec6-49b4-45c2-aa48-3e531f92afa0 (Google Open Buildings)"
+    },
+    {
+     "cx": -298.4,
+     "cy": 102.6,
+     "w": 15.9,
+     "d": 9.0,
+     "angle": 44.6,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -300.9,
+       93.8
+      ],
+      [
+       -289.6,
+       104.9
+      ],
+      [
+       -295.9,
+       111.3
+      ],
+      [
+       -307.2,
+       100.2
+      ]
+     ],
+     "src": "overture 6bb54687-be4a-4017-a4e1-62fe3f968cf0 (Google Open Buildings)"
+    },
+    {
+     "cx": -253.3,
+     "cy": 80.5,
+     "w": 14.7,
+     "d": 10.7,
+     "angle": -36.9,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -250.7,
+       71.8
+      ],
+      [
+       -244.2,
+       80.4
+      ],
+      [
+       -255.9,
+       89.2
+      ],
+      [
+       -262.4,
+       80.6
+      ]
+     ],
+     "src": "overture 78c7dad5-3795-4d23-9f65-171df6d8dae2 (Google Open Buildings)"
+    },
+    {
+     "cx": -261.5,
+     "cy": 68.7,
+     "w": 14.7,
+     "d": 10.2,
+     "angle": -36.7,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -258.7,
+       60.2
+      ],
+      [
+       -252.6,
+       68.4
+      ],
+      [
+       -264.4,
+       77.2
+      ],
+      [
+       -270.5,
+       69.0
+      ]
+     ],
+     "src": "overture 814e600f-24c0-4467-95e5-dc438450ba4f (Google Open Buildings)"
+    },
+    {
+     "cx": -256.6,
+     "cy": 35.9,
+     "w": 15.3,
+     "d": 8.4,
+     "angle": 53.1,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -257.8,
+       27.3
+      ],
+      [
+       -248.6,
+       39.5
+      ],
+      [
+       -255.4,
+       44.6
+      ],
+      [
+       -264.6,
+       32.3
+      ]
+     ],
+     "src": "overture 292b2482-315e-45be-a3d9-9ba5e322ca8a (Google Open Buildings)"
+    }
+   ],
+   "short": "West cluster",
+   "confirm": "Ten small blocks west of the courts. NOT Hostel 1 (H A: D Block is Hostel 1). Name and use to confirm.",
+   "groundElev": 7.5
+  },
+  {
+   "id": "hostel-1",
+   "name": "Hostel 1 \u00b7 D Block",
+   "category": "hostel",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -176.0,
+     "cy": 288.4,
+     "w": 45.7,
+     "d": 10.6,
+     "angle": 30.7,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true,
+     "glass": "stair",
+     "poly": [
+      [
+       -192.9,
+       272.2
+      ],
+      [
+       -153.6,
+       295.5
+      ],
+      [
+       -159.0,
+       304.7
+      ],
+      [
+       -198.3,
+       281.3
+      ]
+     ],
+     "src": "overture 7f847e9f-6895-47ac-86cc-aa764bd64073 (Google Open Buildings)"
+    },
+    {
+     "cx": -166.7,
+     "cy": 265.8,
+     "w": 35.4,
+     "d": 11.2,
+     "angle": 30.4,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -179.1,
+       252.0
+      ],
+      [
+       -148.6,
+       269.9
+      ],
+      [
+       -154.3,
+       279.6
+      ],
+      [
+       -184.8,
+       261.7
+      ]
+     ],
+     "src": "overture d22fc617-076a-4950-bf44-a2ef1d428a3d (Google Open Buildings)"
+    },
+    {
+     "cx": -194.4,
+     "cy": 262.7,
+     "w": 14.6,
+     "d": 12.3,
+     "angle": -59.2,
+     "floors": 4,
+     "roof": "hip",
+     "poly": [
+      [
+       -196.0,
+       253.3
+      ],
+      [
+       -185.4,
+       259.6
+      ],
+      [
+       -192.8,
+       272.1
+      ],
+      [
+       -203.4,
+       265.8
+      ]
+     ],
+     "src": "overture f461e91f-5750-4ece-b029-5e2e715ebe51 (Google Open Buildings)"
+    },
+    {
+     "cx": -209.2,
+     "cy": 237.1,
+     "w": 34.6,
+     "d": 15.1,
+     "angle": 30.3,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -221.7,
+       224.2
+      ],
+      [
+       -213.7,
+       228.9
+      ],
+      [
+       -212.3,
+       226.5
+      ],
+      [
+       -205.1,
+       230.7
+      ],
+      [
+       -206.5,
+       233.1
+      ],
+      [
+       -191.8,
+       241.7
+      ],
+      [
+       -198.0,
+       252.4
+      ],
+      [
+       -227.9,
+       234.9
+      ]
+     ],
+     "src": "overture 457a832e-91c0-4cbc-8a82-8419c5d2c108 (Google Open Buildings)"
+    },
+    {
+     "cx": -226.6,
+     "cy": 258.3,
+     "w": 43.3,
+     "d": 10.8,
+     "angle": 30.7,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true,
+     "poly": [
+      [
+       -248.0,
+       251.9
+      ],
+      [
+       -242.5,
+       242.6
+      ],
+      [
+       -205.3,
+       264.7
+      ],
+      [
+       -210.8,
+       273.9
+      ]
+     ],
+     "src": "overture a9f5bb2f-3e05-4aa6-961b-804339c2814f (Google Open Buildings)"
+    }
+   ],
+   "short": "Hostel 1",
+   "confirm": "Named by H A (Google: \"D block\"). Whether the two south-west blocks belong to it to confirm.",
+   "groundElev": 17.5
+  },
+  {
+   "id": "mess",
+   "name": "Students' Mess",
+   "category": "food",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -269.2,
+     "cy": 264.8,
+     "w": 23.3,
+     "d": 21.7,
+     "angle": -17.2,
+     "floors": 2,
+     "roof": "gable",
+     "poly": [
+      [
+       -264.0,
+       251.9
+      ],
+      [
+       -262.0,
+       258.4
+      ],
+      [
+       -259.2,
+       257.6
+      ],
+      [
+       -256.8,
+       265.5
+      ],
+      [
+       -259.5,
+       266.3
+      ],
+      [
+       -257.6,
+       272.6
+      ],
+      [
+       -272.7,
+       277.3
+      ],
+      [
+       -273.8,
+       273.8
+      ],
+      [
+       -276.1,
+       274.5
+      ],
+      [
+       -277.7,
+       269.3
+      ],
+      [
+       -279.7,
+       270.0
+      ],
+      [
+       -282.6,
+       260.7
+      ],
+      [
+       -273.3,
+       257.9
+      ],
+      [
+       -274.2,
+       255.0
+      ]
+     ],
+     "src": "overture 2fb6ec79-1339-4f3f-9591-561a06df143c (Google Open Buildings)"
+    }
+   ],
+   "short": "Mess",
+   "groundElev": 20.0
+  },
+  {
+   "id": "commercial",
+   "name": "Commercial Complex",
+   "category": "food",
+   "wall": "#E9DCC0",
+   "roofColor": "#77808A",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -270.5,
+     "cy": 203.2,
+     "w": 25.3,
+     "d": 24.1,
+     "angle": -17.1,
+     "floors": 1,
+     "roof": "flat",
+     "poly": [
+      [
+       -265.3,
+       189.0
+      ],
+      [
+       -263.1,
+       196.3
+      ],
+      [
+       -259.7,
+       195.3
+      ],
+      [
+       -257.1,
+       203.9
+      ],
+      [
+       -260.4,
+       204.9
+      ],
+      [
+       -258.2,
+       212.0
+      ],
+      [
+       -272.2,
+       216.3
+      ],
+      [
+       -273.3,
+       212.9
+      ],
+      [
+       -280.1,
+       214.9
+      ],
+      [
+       -285.2,
+       198.2
+      ],
+      [
+       -277.4,
+       195.8
+      ],
+      [
+       -278.3,
+       193.0
+      ]
+     ],
+     "src": "overture 4bd019b8-cd12-4c8d-bd4d-6a656d533983 (Google Open Buildings)"
+    }
+   ],
+   "short": "Commercial Complex",
+   "confirm": "Google labels it \"Mithaas\" (a shop inside). Confirmed by H A as the Commercial Complex.",
+   "groundElev": 20.3
+  },
+  {
+   "id": "west-blocks",
+   "name": "Residential blocks (west of the Mess)",
+   "category": "hostel",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -298.1,
+     "cy": 271.6,
+     "w": 24.5,
+     "d": 23.3,
+     "angle": -13.8,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -309.1,
+       262.3
+      ],
+      [
+       -292.1,
+       258.1
+      ],
+      [
+       -291.3,
+       261.6
+      ],
+      [
+       -288.1,
+       260.8
+      ],
+      [
+       -284.1,
+       277.3
+      ],
+      [
+       -286.9,
+       278.0
+      ],
+      [
+       -286.2,
+       280.7
+      ],
+      [
+       -300.5,
+       284.2
+      ],
+      [
+       -301.0,
+       281.9
+      ],
+      [
+       -307.7,
+       283.6
+      ],
+      [
+       -311.0,
+       270.5
+      ],
+      [
+       -307.3,
+       269.6
+      ]
+     ],
+     "src": "overture 20759c83-89b0-4892-b910-5e7c8ae16c6e (Google Open Buildings)"
+    },
+    {
+     "cx": -291.6,
+     "cy": 295.9,
+     "w": 32.2,
+     "d": 24.3,
+     "angle": 75.1,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -307.5,
+       283.5
+      ],
+      [
+       -300.8,
+       281.7
+      ],
+      [
+       -298.6,
+       289.9
+      ],
+      [
+       -286.4,
+       286.7
+      ],
+      [
+       -285.1,
+       291.3
+      ],
+      [
+       -280.5,
+       290.1
+      ],
+      [
+       -276.4,
+       305.5
+      ],
+      [
+       -282.5,
+       307.1
+      ],
+      [
+       -281.8,
+       310.0
+      ],
+      [
+       -290.6,
+       312.3
+      ],
+      [
+       -291.3,
+       309.5
+      ],
+      [
+       -296.5,
+       310.8
+      ],
+      [
+       -300.6,
+       295.4
+      ],
+      [
+       -304.1,
+       296.3
+      ]
+     ],
+     "src": "overture 269b6599-9289-4828-9ae8-7b10854aadaa (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Two blocks west of the Mess; use to confirm.",
+   "groundElev": 21.7
+  },
+  {
+   "id": "hostel-4",
+   "name": "Hostel 4",
+   "category": "hostel",
+   "wall": "#EDCDA6",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -194.8,
+     "cy": 326.3,
+     "w": 40.6,
+     "d": 23.8,
+     "angle": 21.0,
+     "floors": 4,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true,
+     "poly": [
+      [
+       -218.1,
+       330.1
+      ],
+      [
+       -180.5,
+       343.8
+      ],
+      [
+       -171.9,
+       323.3
+      ],
+      [
+       -209.5,
+       307.9
+      ]
+     ],
+     "src": "by-eye (drone + satellite), survey to confirm"
+    }
+   ],
+   "short": "Hostel 4",
+   "confirm": "Named by H A. Blue-roofed block between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners.",
+   "groundElev": 20.8
+  },
+  {
+   "id": "hostel-2",
+   "name": "Hostel 2 \u00b7 F Block",
+   "category": "hostel",
+   "wall": "#EDCDA6",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -198.5,
+     "cy": 420.6,
+     "w": 36.6,
+     "d": 13.3,
+     "angle": 32.3,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true,
+     "poly": [
+      [
+       -210.4,
+       405.3
+      ],
+      [
+       -179.5,
+       424.8
+      ],
+      [
+       -186.5,
+       436.0
+      ],
+      [
+       -217.5,
+       416.5
+      ]
+     ],
+     "src": "overture f95baa66-cb45-43d3-9489-4f502beb7e0e (Google Open Buildings)"
+    },
+    {
+     "cx": -184.0,
+     "cy": 398.0,
+     "w": 36.9,
+     "d": 14.5,
+     "angle": 32.1,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true,
+     "poly": [
+      [
+       -195.8,
+       382.1
+      ],
+      [
+       -171.3,
+       397.4
+      ],
+      [
+       -172.9,
+       400.1
+      ],
+      [
+       -166.2,
+       404.3
+      ],
+      [
+       -172.3,
+       413.9
+      ],
+      [
+       -203.5,
+       394.4
+      ]
+     ],
+     "src": "overture 977ef6e5-9257-4cfd-ad16-bd1768f9c0fc (Google Open Buildings)"
+    },
+    {
+     "cx": -210.2,
+     "cy": 390.0,
+     "w": 19.2,
+     "d": 11.5,
+     "angle": -63.0,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "poly": [
+      [
+       -211.0,
+       378.9
+      ],
+      [
+       -203.3,
+       382.8
+      ],
+      [
+       -206.5,
+       389.0
+      ],
+      [
+       -203.9,
+       390.4
+      ],
+      [
+       -209.4,
+       401.2
+      ],
+      [
+       -219.7,
+       396.0
+      ]
+     ],
+     "src": "overture e16a8d20-0504-464a-9601-bd72f4974ea7 (Google Open Buildings)"
+    },
+    {
+     "cx": -225.7,
+     "cy": 367.2,
+     "w": 36.4,
+     "d": 16.5,
+     "angle": 32.1,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true,
+     "poly": [
+      [
+       -239.4,
+       354.8
+      ],
+      [
+       -233.0,
+       358.8
+      ],
+      [
+       -230.3,
+       354.5
+      ],
+      [
+       -216.8,
+       363.0
+      ],
+      [
+       -219.5,
+       367.2
+      ],
+      [
+       -208.6,
+       374.1
+      ],
+      [
+       -214.7,
+       383.8
+      ],
+      [
+       -245.5,
+       364.5
+      ]
+     ],
+     "src": "overture d9519c06-861d-4934-98cb-6f4539c4ffaf (Google Open Buildings)"
+    }
+   ],
+   "short": "Hostel 2",
+   "groundElev": 33.5
+  },
+  {
+   "id": "hostel-3",
+   "name": "Hostel 3",
+   "category": "hostel",
+   "wall": "#EDCDA6",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -306.1,
+     "cy": 443.0,
+     "w": 37.7,
+     "d": 12.4,
+     "angle": 28.0,
+     "floors": 4,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "poly": [
+      [
+       -319.8,
+       428.6
+      ],
+      [
+       -286.5,
+       446.4
+      ],
+      [
+       -292.4,
+       457.3
+      ],
+      [
+       -325.7,
+       439.6
+      ]
+     ],
+     "src": "overture b2e72d24-cd2f-40ae-a5b1-8bf5fcdc0f98 (Google Open Buildings)"
+    },
+    {
+     "cx": -291.8,
+     "cy": 416.4,
+     "w": 36.0,
+     "d": 15.9,
+     "angle": 30.3,
+     "floors": 4,
+     "roof": "hip",
+     "stoneBase": true,
+     "poly": [
+      [
+       -305.2,
+       403.8
+      ],
+      [
+       -297.0,
+       408.6
+      ],
+      [
+       -295.1,
+       405.3
+      ],
+      [
+       -293.2,
+       406.4
+      ],
+      [
+       -295.1,
+       409.7
+      ],
+      [
+       -274.2,
+       421.9
+      ],
+      [
+       -280.3,
+       432.3
+      ],
+      [
+       -296.0,
+       423.2
+      ],
+      [
+       -294.4,
+       420.4
+      ],
+      [
+       -296.7,
+       419.1
+      ],
+      [
+       -298.3,
+       421.8
+      ],
+      [
+       -311.4,
+       414.2
+      ]
+     ],
+     "src": "overture ee204de9-f116-43fc-9d14-7f98173a22cb (Google Open Buildings)"
+    },
+    {
+     "cx": -247.9,
+     "cy": 443.4,
+     "w": 36.5,
+     "d": 13.3,
+     "angle": 28.3,
+     "floors": 4,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "poly": [
+      [
+       -260.8,
+       428.9
+      ],
+      [
+       -236.4,
+       442.0
+      ],
+      [
+       -237.5,
+       443.9
+      ],
+      [
+       -229.7,
+       448.1
+      ],
+      [
+       -235.0,
+       457.9
+      ],
+      [
+       -248.6,
+       450.6
+      ],
+      [
+       -247.5,
+       448.5
+      ],
+      [
+       -249.5,
+       447.3
+      ],
+      [
+       -250.7,
+       449.5
+      ],
+      [
+       -267.1,
+       440.6
+      ]
+     ],
+     "src": "overture e93cc05b-ec80-4e0f-9f7d-f17521c5603d (Google Open Buildings)"
+    }
+   ],
+   "short": "Hostel 3",
+   "confirm": "Named by H A. Highest hostel blocks on the north ridge.",
+   "groundElev": 52.0
+  },
+  {
+   "id": "block-962",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -128.5,
+     "cy": 322.6,
+     "w": 16.0,
+     "d": 11.9,
+     "angle": -36.5,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -125.6,
+       313.1
+      ],
+      [
+       -118.5,
+       322.6
+      ],
+      [
+       -131.4,
+       332.1
+      ],
+      [
+       -138.5,
+       322.6
+      ]
+     ],
+     "src": "overture 65cc1db3-c158-4faf-93ca-b1387e7744c6 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": 18.6
+  },
+  {
+   "id": "block-488",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -96.0,
+     "cy": 255.7,
+     "w": 15.8,
+     "d": 11.0,
+     "angle": -75.2,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -88.6,
+       249.5
+      ],
+      [
+       -92.6,
+       264.8
+      ],
+      [
+       -103.3,
+       262.0
+      ],
+      [
+       -100.1,
+       249.7
+      ],
+      [
+       -94.6,
+       251.2
+      ],
+      [
+       -93.8,
+       248.1
+      ]
+     ],
+     "src": "overture 066330ce-dbf3-4996-bca7-fc33af4b1ac8 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": 16.4
+  },
+  {
+   "id": "type2",
+   "name": "Type 2 Quarters (staff housing)",
+   "category": "staff",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -433.1,
+     "cy": 228.4,
+     "w": 12.4,
+     "d": 11.3,
+     "angle": 55.5,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -431.9,
+       220.1
+      ],
+      [
+       -424.9,
+       230.3
+      ],
+      [
+       -434.3,
+       236.7
+      ],
+      [
+       -441.3,
+       226.4
+      ]
+     ],
+     "src": "overture f10b6c8e-5a17-4606-be55-7219108227b1 (Google Open Buildings)"
+    },
+    {
+     "cx": -443.0,
+     "cy": 213.9,
+     "w": 12.0,
+     "d": 11.3,
+     "angle": 55.5,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -441.7,
+       205.8
+      ],
+      [
+       -434.9,
+       215.7
+      ],
+      [
+       -444.3,
+       222.1
+      ],
+      [
+       -451.1,
+       212.2
+      ]
+     ],
+     "src": "overture 27ed40fa-8a36-441e-93a5-eb034bd600cc (Google Open Buildings)"
+    },
+    {
+     "cx": -519.6,
+     "cy": 153.4,
+     "w": 11.1,
+     "d": 8.0,
+     "angle": -31.7,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -517.0,
+       147.1
+      ],
+      [
+       -512.8,
+       154.0
+      ],
+      [
+       -522.2,
+       159.8
+      ],
+      [
+       -526.4,
+       152.9
+      ]
+     ],
+     "src": "overture 9b0853b4-0432-4dd8-8c4e-82823742b8ab (Google Open Buildings)"
+    },
+    {
+     "cx": -502.9,
+     "cy": 179.7,
+     "w": 11.7,
+     "d": 7.9,
+     "angle": -33.8,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -500.2,
+       173.1
+      ],
+      [
+       -495.8,
+       179.7
+      ],
+      [
+       -505.5,
+       186.2
+      ],
+      [
+       -509.9,
+       179.6
+      ]
+     ],
+     "src": "overture 53561c83-a487-44c8-a4cb-e3556f60eb90 (Google Open Buildings)"
+    },
+    {
+     "cx": -508.6,
+     "cy": 171.1,
+     "w": 12.8,
+     "d": 11.7,
+     "angle": 56.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -507.3,
+       162.5
+      ],
+      [
+       -500.2,
+       173.1
+      ],
+      [
+       -509.9,
+       179.6
+      ],
+      [
+       -517.0,
+       169.0
+      ]
+     ],
+     "src": "overture 6d8d4be0-ba33-4a30-88d9-6cc501410b01 (Google Open Buildings)"
+    },
+    {
+     "cx": -490.3,
+     "cy": 201.3,
+     "w": 10.9,
+     "d": 5.3,
+     "angle": -31.9,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -484.3,
+       200.6
+      ],
+      [
+       -493.5,
+       206.4
+      ],
+      [
+       -496.3,
+       201.9
+      ],
+      [
+       -487.1,
+       196.1
+      ]
+     ],
+     "src": "overture 7d983151-4647-43d0-82db-95313c9739a5 (Google Open Buildings)"
+    },
+    {
+     "cx": -486.9,
+     "cy": 206.8,
+     "w": 10.9,
+     "d": 7.7,
+     "angle": -31.9,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -484.3,
+       200.6
+      ],
+      [
+       -480.2,
+       207.1
+      ],
+      [
+       -489.4,
+       212.9
+      ],
+      [
+       -493.5,
+       206.4
+      ]
+     ],
+     "src": "overture 918114a8-b67d-4fb5-862d-153d4e340c75 (Google Open Buildings)"
+    },
+    {
+     "cx": -493.6,
+     "cy": 196.0,
+     "w": 10.9,
+     "d": 7.1,
+     "angle": -32.0,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -490.8,
+       190.1
+      ],
+      [
+       -487.1,
+       196.1
+      ],
+      [
+       -496.3,
+       201.9
+      ],
+      [
+       -500.1,
+       195.9
+      ]
+     ],
+     "src": "overture 71503132-0e3c-4e76-9be7-82f79203af5b (Google Open Buildings)"
+    },
+    {
+     "cx": -525.1,
+     "cy": 144.7,
+     "w": 12.5,
+     "d": 11.2,
+     "angle": 57.3,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -523.8,
+       136.4
+      ],
+      [
+       -517.0,
+       146.9
+      ],
+      [
+       -526.4,
+       153.0
+      ],
+      [
+       -533.2,
+       142.4
+      ]
+     ],
+     "src": "overture a33d4fc4-58f8-437a-b4d1-54cc8fe35fae (Google Open Buildings)"
+    }
+   ],
+   "short": "Type 2 Quarters",
+   "groundElev": 23.2
+  },
+  {
+   "id": "type3",
+   "name": "Faculty Quarters Type 3",
+   "category": "staff",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -416.9,
+     "cy": 295.0,
+     "w": 13.0,
+     "d": 9.5,
+     "angle": -54.4,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -417.0,
+       287.0
+      ],
+      [
+       -409.3,
+       292.5
+      ],
+      [
+       -416.8,
+       303.0
+      ],
+      [
+       -424.5,
+       297.6
+      ]
+     ],
+     "src": "overture d3668254-2e29-462e-8b1b-80edc8479e72 (Google Open Buildings)"
+    },
+    {
+     "cx": -394.1,
+     "cy": 310.1,
+     "w": 12.4,
+     "d": 4.7,
+     "angle": -60.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -393.1,
+       303.6
+      ],
+      [
+       -389.0,
+       305.9
+      ],
+      [
+       -395.1,
+       316.7
+      ],
+      [
+       -399.2,
+       314.3
+      ]
+     ],
+     "src": "overture d6e07593-5baf-4207-bcd6-7b7d968eacf0 (Google Open Buildings)"
+    },
+    {
+     "cx": -400.4,
+     "cy": 306.6,
+     "w": 12.4,
+     "d": 9.7,
+     "angle": -60.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -401.5,
+       298.8
+      ],
+      [
+       -393.1,
+       303.6
+      ],
+      [
+       -399.2,
+       314.3
+      ],
+      [
+       -407.6,
+       309.5
+      ]
+     ],
+     "src": "overture a5191f05-9d54-4a18-8c12-1f16d896ec6c (Google Open Buildings)"
+    },
+    {
+     "cx": -388.1,
+     "cy": 314.2,
+     "w": 13.4,
+     "d": 9.8,
+     "angle": -60.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -389.0,
+       305.9
+      ],
+      [
+       -380.5,
+       310.8
+      ],
+      [
+       -387.1,
+       322.4
+      ],
+      [
+       -395.7,
+       317.5
+      ]
+     ],
+     "src": "overture b55b0899-ed05-4763-a507-256222ffd92f (Google Open Buildings)"
+    },
+    {
+     "cx": -381.5,
+     "cy": 280.0,
+     "w": 13.2,
+     "d": 12.5,
+     "angle": -53.9,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -382.6,
+       271.0
+      ],
+      [
+       -372.5,
+       278.4
+      ],
+      [
+       -380.3,
+       289.1
+      ],
+      [
+       -390.4,
+       281.7
+      ]
+     ],
+     "src": "overture a5d59e33-3788-4269-9dc5-260cc82f574c (Google Open Buildings)"
+    },
+    {
+     "cx": -388.2,
+     "cy": 274.3,
+     "w": 11.8,
+     "d": 5.2,
+     "angle": -53.9,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -386.8,
+       268.0
+      ],
+      [
+       -382.6,
+       271.0
+      ],
+      [
+       -389.6,
+       280.6
+      ],
+      [
+       -393.8,
+       277.5
+      ]
+     ],
+     "src": "overture 94332a3e-d2c6-49d9-9eee-f8af99e896ca (Google Open Buildings)"
+    },
+    {
+     "cx": -395.4,
+     "cy": 269.0,
+     "w": 12.8,
+     "d": 12.1,
+     "angle": 37.0,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -396.9,
+       260.3
+      ],
+      [
+       -386.6,
+       268.0
+      ],
+      [
+       -393.9,
+       277.7
+      ],
+      [
+       -404.1,
+       270.0
+      ]
+     ],
+     "src": "overture addbde39-d91c-4033-a057-0d8c5b7729b6 (Google Open Buildings)"
+    },
+    {
+     "cx": -415.1,
+     "cy": 249.6,
+     "w": 12.2,
+     "d": 5.6,
+     "angle": -46.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -412.9,
+       243.2
+      ],
+      [
+       -408.9,
+       247.1
+      ],
+      [
+       -417.3,
+       255.9
+      ],
+      [
+       -421.4,
+       252.0
+      ]
+     ],
+     "src": "overture 271494d4-d677-4aad-9ec8-4f344c9cb855 (Google Open Buildings)"
+    },
+    {
+     "cx": -408.9,
+     "cy": 256.0,
+     "w": 12.9,
+     "d": 12.3,
+     "angle": -46.2,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -408.9,
+       247.1
+      ],
+      [
+       -400.1,
+       255.6
+      ],
+      [
+       -409.0,
+       264.9
+      ],
+      [
+       -417.8,
+       256.4
+      ]
+     ],
+     "src": "overture 1d9bd205-5281-47b3-926a-8de296510737 (Google Open Buildings)"
+    },
+    {
+     "cx": -428.3,
+     "cy": 286.1,
+     "w": 11.7,
+     "d": 9.1,
+     "angle": -54.5,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -428.6,
+       278.7
+      ],
+      [
+       -421.2,
+       284.0
+      ],
+      [
+       -428.0,
+       293.6
+      ],
+      [
+       -435.4,
+       288.3
+      ]
+     ],
+     "src": "overture 83fc64b0-7ee8-44fb-89be-0596697434cd (Google Open Buildings)"
+    },
+    {
+     "cx": -421.6,
+     "cy": 243.4,
+     "w": 12.3,
+     "d": 12.2,
+     "angle": 43.8,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -421.8,
+       234.7
+      ],
+      [
+       -412.9,
+       243.2
+      ],
+      [
+       -421.4,
+       252.0
+      ],
+      [
+       -430.2,
+       243.5
+      ]
+     ],
+     "src": "overture c1135616-34c8-414c-bb22-61f9dec8965c (Google Open Buildings)"
+    },
+    {
+     "cx": -440.4,
+     "cy": 273.3,
+     "w": 13.1,
+     "d": 9.4,
+     "angle": -42.9,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -438.8,
+       265.4
+      ],
+      [
+       -432.4,
+       272.3
+      ],
+      [
+       -442.0,
+       281.3
+      ],
+      [
+       -448.5,
+       274.4
+      ]
+     ],
+     "src": "overture 3d51159e-a303-4ada-aaf2-8e39df8e904e (Google Open Buildings)"
+    },
+    {
+     "cx": -448.2,
+     "cy": 263.9,
+     "w": 14.8,
+     "d": 12.5,
+     "angle": 48.1,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -448.5,
+       254.3
+      ],
+      [
+       -438.6,
+       265.3
+      ],
+      [
+       -448.0,
+       273.6
+      ],
+      [
+       -457.8,
+       262.6
+      ]
+     ],
+     "src": "overture 67a836dd-6552-4187-8f53-13f4c86d9b67 (Google Open Buildings)"
+    },
+    {
+     "cx": -422.5,
+     "cy": 290.3,
+     "w": 11.7,
+     "d": 5.2,
+     "angle": -54.5,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       -421.2,
+       284.0
+      ],
+      [
+       -417.0,
+       287.0
+      ],
+      [
+       -423.8,
+       296.5
+      ],
+      [
+       -428.0,
+       293.6
+      ]
+     ],
+     "src": "overture 7e08a179-838a-452b-a1d4-d4a315bad3fc (Google Open Buildings)"
+    }
+   ],
+   "short": "Type 3 Quarters",
+   "groundElev": 30.3
+  },
+  {
+   "id": "substation",
+   "name": "IIM Substation",
+   "category": "service",
+   "wall": "#D9D4C8",
+   "roofColor": "#77808A",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 552.5,
+     "cy": -162.2,
+     "w": 24.6,
+     "d": 9.9,
+     "angle": 58.0,
+     "floors": 1,
+     "roof": "flat",
+     "poly": [
+      [
+       550.2,
+       -175.2
+      ],
+      [
+       563.2,
+       -154.4
+      ],
+      [
+       554.8,
+       -149.1
+      ],
+      [
+       541.8,
+       -170.0
+      ]
+     ],
+     "src": "overture fb3b9887-d191-4b8b-bde5-136ba12eddf2 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": -46.6
+  },
+  {
+   "id": "service-east",
+   "name": "Service buildings (east of Admin)",
+   "category": "service",
+   "wall": "#D9D4C8",
+   "roofColor": "#77808A",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 299.8,
+     "cy": -181.9,
+     "w": 12.6,
+     "d": 6.3,
+     "angle": 18.2,
+     "floors": 1,
+     "roof": "flat",
+     "poly": [
+      [
+       294.8,
+       -186.9
+      ],
+      [
+       306.7,
+       -183.0
+      ],
+      [
+       304.8,
+       -177.0
+      ],
+      [
+       292.8,
+       -180.9
+      ]
+     ],
+     "src": "overture 8d7855ba-51e9-4c98-96a5-804f19fedcf4 (Google Open Buildings)"
+    },
+    {
+     "cx": 303.9,
+     "cy": -188.0,
+     "w": 16.4,
+     "d": 4.1,
+     "angle": 26.3,
+     "floors": 1,
+     "roof": "flat",
+     "poly": [
+      [
+       297.4,
+       -193.4
+      ],
+      [
+       312.2,
+       -186.1
+      ],
+      [
+       310.4,
+       -182.5
+      ],
+      [
+       295.6,
+       -189.8
+      ]
+     ],
+     "src": "overture d7be7489-c34d-4610-89e6-626de991d577 (Google Open Buildings)"
+    }
+   ],
+   "confirm": "Use to confirm.",
+   "groundElev": -11.6
+  },
+  {
+   "id": "guard-room",
+   "name": "Main Gate Security",
+   "category": "help",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 235.7,
+     "cy": -323.3,
+     "w": 6.0,
+     "d": 5.0,
+     "angle": 0.0,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       232.7,
+       -325.8
+      ],
+      [
+       238.7,
+       -325.8
+      ],
+      [
+       238.7,
+       -320.8
+      ],
+      [
+       232.7,
+       -320.8
+      ]
+     ],
+     "src": "by-eye (drone + satellite), survey to confirm"
+    }
+   ],
+   "short": "Security",
+   "confirm": "Gate at the \"Indian Institute of Management\u2013Shillong\" pin; guard-room spot to confirm.",
+   "groundElev": 4.5
+  },
+  {
+   "id": "bldg-467",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 539.4,
+     "cy": -209.4,
+     "w": 4.9,
+     "d": 3.2,
+     "angle": -86.1,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       538.0,
+       -211.9
+      ],
+      [
+       541.2,
+       -211.7
+      ],
+      [
+       540.8,
+       -206.9
+      ],
+      [
+       537.7,
+       -207.1
+      ]
+     ],
+     "src": "overture 389bbaf1-da4d-4617-b2da-a62418d63484 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": -43.1
+  },
+  {
+   "id": "bldg-485",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 196.3,
+     "cy": 53.3,
+     "w": 4.3,
+     "d": 3.9,
+     "angle": 79.7,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       194.0,
+       51.5
+      ],
+      [
+       197.9,
+       50.8
+      ],
+      [
+       198.6,
+       55.1
+      ],
+      [
+       194.8,
+       55.8
+      ]
+     ],
+     "src": "overture 27668b94-5a06-4e2f-b666-696f9bf72fa9 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": -1.1
+  },
+  {
+   "id": "bldg-489",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -59.7,
+     "cy": 160.1,
+     "w": 6.3,
+     "d": 4.3,
+     "angle": 40.1,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -56.0,
+       160.5
+      ],
+      [
+       -58.8,
+       163.8
+      ],
+      [
+       -63.5,
+       159.7
+      ],
+      [
+       -60.7,
+       156.5
+      ]
+     ],
+     "src": "overture 32c99c35-77a3-4919-88b6-6b31ef5935c6 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 20.3
+  },
+  {
+   "id": "bldg-490",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -56.0,
+     "cy": 90.8,
+     "w": 7.0,
+     "d": 3.5,
+     "angle": 1.5,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -59.5,
+       92.5
+      ],
+      [
+       -59.4,
+       89.0
+      ],
+      [
+       -52.5,
+       89.2
+      ],
+      [
+       -52.5,
+       92.7
+      ]
+     ],
+     "src": "overture e7ab5666-6153-45c4-b083-d9b14ea982bf (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 15.1
+  },
+  {
+   "id": "bldg-493",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -97.2,
+     "cy": 60.0,
+     "w": 8.5,
+     "d": 4.8,
+     "angle": -53.1,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -92.8,
+       58.1
+      ],
+      [
+       -97.9,
+       64.9
+      ],
+      [
+       -101.7,
+       62.0
+      ],
+      [
+       -96.6,
+       55.2
+      ]
+     ],
+     "src": "overture 49e63200-ddbd-434b-9b1e-08f3b28061f3 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 8.6
+  },
+  {
+   "id": "bldg-496",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -45.8,
+     "cy": 108.7,
+     "w": 15.3,
+     "d": 3.9,
+     "angle": 18.4,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -52.5,
+       104.5
+      ],
+      [
+       -38.0,
+       109.3
+      ],
+      [
+       -39.2,
+       113.0
+      ],
+      [
+       -53.7,
+       108.1
+      ]
+     ],
+     "src": "overture 80e08f1b-d52a-4d7d-9604-01b43b347a19 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 18.3
+  },
+  {
+   "id": "bldg-497",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -29.8,
+     "cy": 103.4,
+     "w": 6.9,
+     "d": 5.1,
+     "angle": 33.7,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -25.5,
+       103.2
+      ],
+      [
+       -28.3,
+       107.5
+      ],
+      [
+       -34.1,
+       103.6
+      ],
+      [
+       -31.2,
+       99.4
+      ]
+     ],
+     "src": "overture 421ff361-fdaa-4472-874d-8f75078bdb3f (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 18.5
+  },
+  {
+   "id": "bldg-498",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -36.1,
+     "cy": 98.6,
+     "w": 7.5,
+     "d": 4.3,
+     "angle": 28.8,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -31.7,
+       98.5
+      ],
+      [
+       -33.8,
+       102.3
+      ],
+      [
+       -40.4,
+       98.7
+      ],
+      [
+       -38.3,
+       94.9
+      ]
+     ],
+     "src": "overture 5c76a2da-d44f-4575-82e6-9bcb12ecfe6c (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 18.0
+  },
+  {
+   "id": "bldg-502",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 47.2,
+     "cy": 43.5,
+     "w": 5.2,
+     "d": 3.7,
+     "angle": 54.7,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       44.2,
+       42.4
+      ],
+      [
+       47.2,
+       40.3
+      ],
+      [
+       50.2,
+       44.6
+      ],
+      [
+       47.2,
+       46.7
+      ]
+     ],
+     "src": "overture 6ac492f1-46fc-4656-a76a-3f2b26a14ca0 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 4.1
+  },
+  {
+   "id": "bldg-504",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 28.6,
+     "cy": 89.8,
+     "w": 8.4,
+     "d": 6.1,
+     "angle": 51.3,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       23.5,
+       88.4
+      ],
+      [
+       28.3,
+       84.6
+      ],
+      [
+       33.6,
+       91.2
+      ],
+      [
+       28.8,
+       95.0
+      ]
+     ],
+     "src": "overture b0d111cf-049f-41d9-bcbe-d0811c109822 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 10.6
+  },
+  {
+   "id": "bldg-505",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 37.4,
+     "cy": 80.8,
+     "w": 5.1,
+     "d": 4.9,
+     "angle": -29.9,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       33.9,
+       79.9
+      ],
+      [
+       38.4,
+       77.4
+      ],
+      [
+       40.8,
+       81.6
+      ],
+      [
+       36.4,
+       84.1
+      ]
+     ],
+     "src": "overture 1bfa6aae-86ba-41c6-8e47-27a6473f6912 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 8.0
+  },
+  {
+   "id": "bldg-506",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 48.0,
+     "cy": 100.6,
+     "w": 6.5,
+     "d": 4.0,
+     "angle": 61.9,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       47.8,
+       104.4
+      ],
+      [
+       44.7,
+       98.6
+      ],
+      [
+       48.3,
+       96.7
+      ],
+      [
+       51.3,
+       102.5
+      ]
+     ],
+     "src": "overture 4594ac81-6974-4a89-af6e-26b044f5412e (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 5.0
+  },
+  {
+   "id": "bldg-507",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 74.9,
+     "cy": 108.3,
+     "w": 10.0,
+     "d": 5.7,
+     "angle": 77.4,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       76.6,
+       102.8
+      ],
+      [
+       78.1,
+       109.6
+      ],
+      [
+       76.1,
+       110.1
+      ],
+      [
+       76.8,
+       113.0
+      ],
+      [
+       73.2,
+       113.8
+      ],
+      [
+       71.0,
+       104.1
+      ]
+     ],
+     "src": "overture 983d2836-aaa6-4d3f-8038-cdf805feb7d4 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": -2.8
+  },
+  {
+   "id": "bldg-508",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 66.8,
+     "cy": 109.1,
+     "w": 9.5,
+     "d": 4.8,
+     "angle": 82.1,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       63.8,
+       104.7
+      ],
+      [
+       68.6,
+       104.1
+      ],
+      [
+       69.9,
+       113.5
+      ],
+      [
+       65.1,
+       114.2
+      ]
+     ],
+     "src": "overture 254e63c7-0409-4218-a1dc-8457b8704907 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": -1.8
+  },
+  {
+   "id": "bldg-509",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 58.4,
+     "cy": 125.5,
+     "w": 12.6,
+     "d": 3.3,
+     "angle": -42.9,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       52.6,
+       128.6
+      ],
+      [
+       61.8,
+       120.1
+      ],
+      [
+       64.1,
+       122.5
+      ],
+      [
+       54.9,
+       131.0
+      ]
+     ],
+     "src": "overture 91edad4e-6d5f-4c0f-ac2f-bb8008837492 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": -1.0
+  },
+  {
+   "id": "bldg-510",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 54.3,
+     "cy": 38.5,
+     "w": 12.9,
+     "d": 4.0,
+     "angle": -41.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       60.4,
+       35.7
+      ],
+      [
+       50.8,
+       44.3
+      ],
+      [
+       48.1,
+       41.3
+      ],
+      [
+       57.7,
+       32.7
+      ]
+     ],
+     "src": "overture 74f1acd1-33f7-4a34-9bf7-53c6a9dc5395 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 2.3
+  },
+  {
+   "id": "bldg-511",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 61.5,
+     "cy": 32.1,
+     "w": 5.4,
+     "d": 3.2,
+     "angle": -35.3,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       62.7,
+       29.3
+      ],
+      [
+       64.6,
+       31.9
+      ],
+      [
+       60.2,
+       35.0
+      ],
+      [
+       58.4,
+       32.3
+      ]
+     ],
+     "src": "overture 505ad6a6-e0ac-43cd-ab22-5f09d2b1d772 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 1.5
+  },
+  {
+   "id": "bldg-521",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 18.3,
+     "cy": -4.3,
+     "w": 9.9,
+     "d": 5.5,
+     "angle": 42.0,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       16.4,
+       -9.7
+      ],
+      [
+       23.8,
+       -3.1
+      ],
+      [
+       20.1,
+       1.0
+      ],
+      [
+       12.8,
+       -5.6
+      ]
+     ],
+     "src": "overture 4e386b4d-7b77-434b-b710-7709642564a0 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 5.5
+  },
+  {
+   "id": "bldg-556",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 118.0,
+     "cy": -125.3,
+     "w": 4.0,
+     "d": 4.0,
+     "angle": 20.2,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       115.4,
+       -124.1
+      ],
+      [
+       116.8,
+       -127.9
+      ],
+      [
+       120.6,
+       -126.5
+      ],
+      [
+       119.2,
+       -122.7
+      ]
+     ],
+     "src": "overture 7d87c78e-0085-4c93-8fc9-d741ecdba696 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 6.5
+  },
+  {
+   "id": "bldg-558",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 139.5,
+     "cy": -72.5,
+     "w": 5.9,
+     "d": 4.6,
+     "angle": 54.5,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       136.0,
+       -73.6
+      ],
+      [
+       139.7,
+       -76.2
+      ],
+      [
+       143.1,
+       -71.4
+      ],
+      [
+       139.4,
+       -68.8
+      ]
+     ],
+     "src": "overture 381ada03-da65-4ea0-a8d0-2feaa59eb25d (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": -0.2
+  },
+  {
+   "id": "bldg-559",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 139.5,
+     "cy": -48.5,
+     "w": 6.5,
+     "d": 4.7,
+     "angle": -28.0,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       137.8,
+       -44.8
+      ],
+      [
+       135.5,
+       -49.0
+      ],
+      [
+       141.3,
+       -52.1
+      ],
+      [
+       143.5,
+       -47.9
+      ]
+     ],
+     "src": "overture b380bc01-d239-4451-b709-9be0062aedbb (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 0.1
+  },
+  {
+   "id": "bldg-566",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": 311.2,
+     "cy": -332.5,
+     "w": 8.0,
+     "d": 2.1,
+     "angle": 0.4,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       315.2,
+       -333.5
+      ],
+      [
+       315.1,
+       -331.4
+      ],
+      [
+       307.2,
+       -331.5
+      ],
+      [
+       307.2,
+       -333.6
+      ]
+     ],
+     "src": "overture 9227bd42-7388-4c02-a698-1c6016fbb2fb (Google Open Buildings)"
+    }
+   ],
+   "groundElev": -1.6
+  },
+  {
+   "id": "bldg-935",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -308.1,
+     "cy": 249.1,
+     "w": 7.5,
+     "d": 6.8,
+     "angle": -17.2,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -305.6,
+       244.8
+      ],
+      [
+       -303.5,
+       251.3
+      ],
+      [
+       -310.7,
+       253.5
+      ],
+      [
+       -312.7,
+       247.0
+      ]
+     ],
+     "src": "overture 3f298a08-4a69-4180-a85a-f09ca63b0c35 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 22.2
+  },
+  {
+   "id": "bldg-940",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -289.0,
+     "cy": 165.2,
+     "w": 7.5,
+     "d": 6.4,
+     "angle": 40.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -289.8,
+       160.3
+      ],
+      [
+       -284.1,
+       165.2
+      ],
+      [
+       -288.2,
+       170.0
+      ],
+      [
+       -293.9,
+       165.1
+      ]
+     ],
+     "src": "overture 77910395-bab0-4e2d-8848-6c8a155c1844 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 18.5
+  },
+  {
+   "id": "bldg-948",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -159.6,
+     "cy": 36.5,
+     "w": 6.4,
+     "d": 4.6,
+     "angle": 48.1,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -160.0,
+       32.6
+      ],
+      [
+       -155.8,
+       37.4
+      ],
+      [
+       -159.2,
+       40.4
+      ],
+      [
+       -163.5,
+       35.7
+      ]
+     ],
+     "src": "overture 653094e2-f098-4d76-b684-437ef2b6631b (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 1.2
+  },
+  {
+   "id": "bldg-950",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -122.8,
+     "cy": 226.8,
+     "w": 4.1,
+     "d": 4.1,
+     "angle": -74.5,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -124.3,
+       224.2
+      ],
+      [
+       -120.3,
+       225.3
+      ],
+      [
+       -121.4,
+       229.3
+      ],
+      [
+       -125.4,
+       228.2
+      ]
+     ],
+     "src": "overture f9e5e751-6555-4d7a-816a-97c1805a3385 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 17.6
+  },
+  {
+   "id": "bldg-951",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -123.6,
+     "cy": 232.9,
+     "w": 4.8,
+     "d": 3.4,
+     "angle": -81.5,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -124.9,
+       230.2
+      ],
+      [
+       -121.5,
+       230.7
+      ],
+      [
+       -122.2,
+       235.5
+      ],
+      [
+       -125.6,
+       235.0
+      ]
+     ],
+     "src": "overture 2c20de35-5ce6-4eae-82af-e083a5e14915 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 17.5
+  },
+  {
+   "id": "bldg-959",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -160.5,
+     "cy": 343.1,
+     "w": 6.8,
+     "d": 3.3,
+     "angle": 13.7,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -163.4,
+       340.7
+      ],
+      [
+       -156.8,
+       342.3
+      ],
+      [
+       -157.6,
+       345.5
+      ],
+      [
+       -164.2,
+       343.9
+      ]
+     ],
+     "src": "overture 90d4f8af-31e3-4afc-9545-abdcc458c66e (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 21.4
+  },
+  {
+   "id": "bldg-960",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -165.1,
+     "cy": 330.2,
+     "w": 10.8,
+     "d": 2.7,
+     "angle": 81.4,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -167.3,
+       325.1
+      ],
+      [
+       -164.6,
+       324.6
+      ],
+      [
+       -163.0,
+       335.3
+      ],
+      [
+       -165.7,
+       335.7
+      ]
+     ],
+     "src": "overture 15344fac-6910-49cd-9c4c-78a8ce139529 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 20.9
+  },
+  {
+   "id": "bldg-961",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -136.6,
+     "cy": 331.9,
+     "w": 7.5,
+     "d": 5.0,
+     "angle": 57.9,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -136.5,
+       327.4
+      ],
+      [
+       -132.5,
+       333.8
+      ],
+      [
+       -136.8,
+       336.4
+      ],
+      [
+       -140.7,
+       330.1
+      ]
+     ],
+     "src": "overture ce1d78f6-496b-42f2-9e41-3b6abb17a079 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 20.5
+  },
+  {
+   "id": "bldg-963",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -146.0,
+     "cy": 375.2,
+     "w": 8.9,
+     "d": 3.3,
+     "angle": -85.8,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -144.0,
+       370.9
+      ],
+      [
+       -144.6,
+       379.8
+      ],
+      [
+       -148.0,
+       379.6
+      ],
+      [
+       -147.3,
+       370.7
+      ]
+     ],
+     "src": "overture b449c08b-f4a5-4a6e-8d70-0d9e0356d801 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 26.2
+  },
+  {
+   "id": "bldg-964",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -152.4,
+     "cy": 377.7,
+     "w": 9.8,
+     "d": 6.4,
+     "angle": -85.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -155.2,
+       372.6
+      ],
+      [
+       -148.8,
+       373.0
+      ],
+      [
+       -149.6,
+       382.8
+      ],
+      [
+       -156.0,
+       382.3
+      ]
+     ],
+     "src": "overture 7820324a-c689-4e34-9f39-2d29965f9416 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 26.3
+  },
+  {
+   "id": "bldg-965",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -196.4,
+     "cy": 495.9,
+     "w": 7.8,
+     "d": 7.8,
+     "angle": 14.5,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -201.1,
+       498.7
+      ],
+      [
+       -199.1,
+       491.2
+      ],
+      [
+       -191.6,
+       493.2
+      ],
+      [
+       -193.6,
+       500.7
+      ]
+     ],
+     "src": "overture 8b03c57e-03da-41e7-a18d-0d3da1c4b962 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 47.2
+  },
+  {
+   "id": "bldg-966",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -206.7,
+     "cy": 486.9,
+     "w": 7.0,
+     "d": 4.0,
+     "angle": 14.1,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -209.6,
+       484.1
+      ],
+      [
+       -202.8,
+       485.8
+      ],
+      [
+       -203.8,
+       489.7
+      ],
+      [
+       -205.7,
+       489.2
+      ]
+     ],
+     "src": "overture c113e27e-67e2-497a-b2e2-4ae0f2ea68d0 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 46.8
+  },
+  {
+   "id": "bldg-967",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -199.3,
+     "cy": 508.0,
+     "w": 7.2,
+     "d": 7.0,
+     "angle": -83.2,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -203.2,
+       511.2
+      ],
+      [
+       -202.3,
+       504.1
+      ],
+      [
+       -195.4,
+       504.9
+      ],
+      [
+       -196.3,
+       512.0
+      ]
+     ],
+     "src": "overture 010e8772-45d5-43b3-94cf-97cb358495dd (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 50.0
+  },
+  {
+   "id": "bldg-968",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -239.3,
+     "cy": 518.2,
+     "w": 10.0,
+     "d": 4.5,
+     "angle": 28.1,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -242.7,
+       513.9
+      ],
+      [
+       -233.8,
+       518.6
+      ],
+      [
+       -236.0,
+       522.6
+      ],
+      [
+       -244.8,
+       517.9
+      ]
+     ],
+     "src": "overture 348d0d7d-fc45-4961-92c2-97c858be7871 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 62.0
+  },
+  {
+   "id": "bldg-970",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -246.4,
+     "cy": 482.7,
+     "w": 8.8,
+     "d": 6.5,
+     "angle": 40.6,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -247.6,
+       477.3
+      ],
+      [
+       -244.3,
+       480.2
+      ],
+      [
+       -245.7,
+       481.8
+      ],
+      [
+       -242.3,
+       484.7
+      ],
+      [
+       -245.2,
+       488.0
+      ],
+      [
+       -251.8,
+       482.3
+      ]
+     ],
+     "src": "overture 2810b68c-5174-4a67-ade6-96ce4320f5d6 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 53.8
+  },
+  {
+   "id": "bldg-978",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -307.9,
+     "cy": 470.3,
+     "w": 11.1,
+     "d": 4.3,
+     "angle": 20.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -302.0,
+       470.3
+      ],
+      [
+       -303.5,
+       474.3
+      ],
+      [
+       -313.9,
+       470.3
+      ],
+      [
+       -312.4,
+       466.4
+      ]
+     ],
+     "src": "overture a11f1b97-36b0-48a0-aa55-4998b3dbd357 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 56.3
+  },
+  {
+   "id": "bldg-979",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -309.1,
+     "cy": 475.7,
+     "w": 5.5,
+     "d": 3.0,
+     "angle": 21.6,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -312.2,
+       476.0
+      ],
+      [
+       -311.1,
+       473.3
+      ],
+      [
+       -305.9,
+       475.3
+      ],
+      [
+       -307.1,
+       478.1
+      ]
+     ],
+     "src": "overture bb48e8a9-c918-476b-aab0-d4d62be94edc (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 58.2
+  },
+  {
+   "id": "bldg-980",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -298.2,
+     "cy": 478.9,
+     "w": 9.4,
+     "d": 5.1,
+     "angle": 23.8,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -303.5,
+       479.3
+      ],
+      [
+       -301.4,
+       474.6
+      ],
+      [
+       -292.8,
+       478.4
+      ],
+      [
+       -294.9,
+       483.1
+      ]
+     ],
+     "src": "overture 20a50ad2-a694-4ff6-ad26-fd47224f0db3 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 58.0
+  },
+  {
+   "id": "bldg-982",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -288.6,
+     "cy": 485.9,
+     "w": 9.8,
+     "d": 9.5,
+     "angle": -64.2,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -295.0,
+       488.2
+      ],
+      [
+       -290.8,
+       479.4
+      ],
+      [
+       -282.2,
+       483.5
+      ],
+      [
+       -286.5,
+       492.3
+      ]
+     ],
+     "src": "overture 2a468ea3-e379-43c3-aee1-70257baa7206 (Microsoft ML Buildings)"
+    }
+   ],
+   "groundElev": 59.6
+  },
+  {
+   "id": "bldg-983",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -324.4,
+     "cy": 460.1,
+     "w": 13.0,
+     "d": 4.2,
+     "angle": 29.9,
+     "floors": 2,
+     "roof": "hip",
+     "poly": [
+      [
+       -328.9,
+       455.0
+      ],
+      [
+       -317.7,
+       461.4
+      ],
+      [
+       -319.8,
+       465.1
+      ],
+      [
+       -331.0,
+       458.6
+      ]
+     ],
+     "src": "overture c4d2fcb6-82f8-4a38-9203-701042aa5005 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 57.0
+  },
+  {
+   "id": "bldg-984",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -332.6,
+     "cy": 455.3,
+     "w": 6.1,
+     "d": 4.2,
+     "angle": 29.9,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -334.2,
+       451.9
+      ],
+      [
+       -328.9,
+       455.0
+      ],
+      [
+       -331.0,
+       458.6
+      ],
+      [
+       -336.3,
+       455.6
+      ]
+     ],
+     "src": "overture 8a7e9ba7-ef6b-4ac4-965f-d5c0c72230b9 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 57.2
+  },
+  {
+   "id": "bldg-985",
+   "name": "Campus building",
+   "category": "service",
+   "wall": "#ECE4D2",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "unnamed": true,
+   "parts": [
+    {
+     "cx": -345.1,
+     "cy": 449.1,
+     "w": 6.0,
+     "d": 4.1,
+     "angle": 28.8,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -346.7,
+       445.8
+      ],
+      [
+       -341.5,
+       448.7
+      ],
+      [
+       -343.5,
+       452.3
+      ],
+      [
+       -348.7,
+       449.4
+      ]
+     ],
+     "src": "overture 3bbe92ca-ad46-4f3f-9d37-3707f40ea66d (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 56.5
+  }
+ ],
+ "paths": [
+  {
+   "id": "rd-fblock",
+   "kind": "service",
+   "name": "F Block access road",
+   "src": "by-eye (satellite + drone)",
+   "pts": [
+    [
+     -164.4,
+     320.5
+    ],
+    [
+     -199.3,
+     313.7
+    ],
+    [
+     -240.3,
+     311.3
+    ],
+    [
+     -274.4,
+     316.4
+    ],
+    [
+     -293.2,
+     335.2
+    ],
+    [
+     -296.7,
+     357.4
+    ],
+    [
+     -283.0,
+     371.1
+    ],
+    [
+     -257.4,
+     374.5
+    ],
+    [
+     -236.9,
+     383.1
+    ],
+    [
+     -233.4,
+     400.1
+    ],
+    [
+     -243.7,
+     418.9
+    ],
+    [
+     -264.2,
+     422.4
+    ],
+    [
+     -291.5,
+     422.4
+    ]
+   ]
+  },
+  {
+   "id": "rd-north",
+   "kind": "service",
+   "name": "North hostel road",
+   "src": "by-eye",
+   "pts": [
+    [
+     -236.9,
+     383.1
+    ],
+    [
+     -221.5,
+     415.5
+    ],
+    [
+     -216.3,
+     432.6
+    ],
+    [
+     -221.5,
+     453.1
+    ]
+   ]
+  },
+  {
+   "id": "rd-hostel2-lower",
+   "kind": "service",
+   "name": "Hostel 2 lower road",
+   "src": "by-eye (satellite shot 02)",
+   "pts": [
+    [
+     -240.8,
+     381.5
+    ],
+    [
+     -233.4,
+     363.9
+    ],
+    [
+     -202.7,
+     368.0
+    ],
+    [
+     -165.8,
+     371.1
+    ],
+    [
+     -155.5,
+     358.8
+    ],
+    [
+     -155.5,
+     334.2
+    ],
+    [
+     -159.6,
+     319.8
+    ],
+    [
+     -159.6,
+     320.3
+    ]
+   ]
+  },
+  {
+   "id": "rd-east",
+   "kind": "service",
+   "name": "East road (Kalam junction to the east hill)",
+   "src": "by-eye (satellite shots 01-03)",
+   "pts": [
+    [
+     12.8,
+     123.4
+    ],
+    [
+     15.7,
+     122.6
+    ],
+    [
+     63.8,
+     113.4
+    ],
+    [
+     107.8,
+     122.6
+    ],
+    [
+     196.7,
+     146.1
+    ]
+   ]
+  },
+  {
+   "id": "covered-walk",
+   "kind": "covered",
+   "name": "Covered walkway",
+   "src": "Overture 954 + 949 (walkway roofs) joined by eye",
+   "pts": [
+    [
+     -221.7,
+     224.2
+    ],
+    [
+     -208.0,
+     184.1
+    ],
+    [
+     -160.7,
+     183.6
+    ],
+    [
+     -139.0,
+     111.6
+    ],
+    [
+     -96.7,
+     67.2
+    ],
+    [
+     -91.9,
+     47.5
+    ]
+   ]
+  },
+  {
+   "id": "lake-trail",
+   "kind": "footpath",
+   "name": "Lake walking trail",
+   "src": "OSM lake outline + 7 m",
+   "pts": [
+    [
+     -188.3,
+     -13.5
+    ],
+    [
+     -189.3,
+     -2.6
+    ],
+    [
+     -180.1,
+     5.0
+    ],
+    [
+     -171.9,
+     25.5
+    ],
+    [
+     -160.3,
+     29.2
+    ],
+    [
+     -146.5,
+     23.8
+    ],
+    [
+     -142.0,
+     16.1
+    ],
+    [
+     -140.3,
+     2.7
+    ],
+    [
+     -107.7,
+     -25.3
+    ],
+    [
+     -80.1,
+     -30.1
+    ],
+    [
+     -41.7,
+     -29.9
+    ],
+    [
+     -17.3,
+     -40.3
+    ],
+    [
+     -9.3,
+     -48.1
+    ],
+    [
+     -5.1,
+     -75.6
+    ],
+    [
+     5.2,
+     -101.3
+    ],
+    [
+     -0.4,
+     -120.9
+    ],
+    [
+     -12.3,
+     -130.7
+    ],
+    [
+     -23.8,
+     -131.4
+    ],
+    [
+     -32.9,
+     -127.9
+    ],
+    [
+     -56.3,
+     -107.4
+    ],
+    [
+     -80.6,
+     -71.9
+    ],
+    [
+     -116.6,
+     -65.3
+    ],
+    [
+     -126.4,
+     -60.7
+    ],
+    [
+     -153.6,
+     -35.9
+    ],
+    [
+     -169.9,
+     -31.1
+    ],
+    [
+     -182.0,
+     -23.0
+    ],
+    [
+     -188.3,
+     -13.5
+    ]
+   ]
+  },
+  {
+   "id": "fp-nab",
+   "kind": "footpath",
+   "pts": [
+    [
+     57.0,
+     -114.1
+    ],
+    [
+     41.9,
+     -125.2
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-cafe-cloud",
+   "kind": "footpath",
+   "pts": [
+    [
+     73.4,
+     -195.9
+    ],
+    [
+     88.1,
+     -192.1
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-amul-cafe",
+   "kind": "footpath",
+   "pts": [
+    [
+     64.6,
+     -227.0
+    ],
+    [
+     94.1,
+     -220.2
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-kalam-centre",
+   "kind": "footpath",
+   "pts": [
+    [
+     -50.4,
+     41.6
+    ],
+    [
+     -63.6,
+     53.7
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-kalam-building",
+   "kind": "footpath",
+   "pts": [
+    [
+     -12.9,
+     41.9
+    ],
+    [
+     -43.7,
+     74.8
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-east-cluster",
+   "kind": "footpath",
+   "pts": [
+    [
+     40.0,
+     -37.2
+    ],
+    [
+     16.8,
+     -52.6
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-block-501",
+   "kind": "footpath",
+   "pts": [
+    [
+     40.9,
+     46.6
+    ],
+    [
+     54.0,
+     115.3
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-block-503",
+   "kind": "footpath",
+   "pts": [
+    [
+     35.5,
+     112.4
+    ],
+    [
+     36.7,
+     118.6
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-octagon-hall",
+   "kind": "footpath",
+   "pts": [
+    [
+     -193.1,
+     37.5
+    ],
+    [
+     -174.0,
+     59.6
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-road-block",
+   "kind": "footpath",
+   "pts": [
+    [
+     -91.6,
+     36.5
+    ],
+    [
+     -91.3,
+     33.7
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-gym",
+   "kind": "footpath",
+   "pts": [
+    [
+     -278.4,
+     167.3
+    ],
+    [
+     -272.2,
+     176.5
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-court-kiosk",
+   "kind": "footpath",
+   "pts": [
+    [
+     -223.0,
+     213.9
+    ],
+    [
+     -223.4,
+     220.5
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-west-cluster",
+   "kind": "footpath",
+   "pts": [
+    [
+     -242.9,
+     81.2
+    ],
+    [
+     -234.3,
+     86.7
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-hostel-1",
+   "kind": "footpath",
+   "pts": [
+    [
+     -211.7,
+     225.1
+    ],
+    [
+     -211.2,
+     224.0
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-mess",
+   "kind": "footpath",
+   "pts": [
+    [
+     -255.4,
+     266.1
+    ],
+    [
+     -254.0,
+     266.7
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-commercial",
+   "kind": "footpath",
+   "pts": [
+    [
+     -279.1,
+     191.8
+    ],
+    [
+     -284.1,
+     184.4
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-west-blocks",
+   "kind": "footpath",
+   "pts": [
+    [
+     -280.7,
+     311.1
+    ],
+    [
+     -274.9,
+     316.9
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-block-962",
+   "kind": "footpath",
+   "pts": [
+    [
+     -126.5,
+     311.9
+    ],
+    [
+     -131.4,
+     305.2
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-block-488",
+   "kind": "footpath",
+   "pts": [
+    [
+     -101.5,
+     249.2
+    ],
+    [
+     -106.8,
+     247.4
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-type2",
+   "kind": "footpath",
+   "pts": [
+    [
+     -494.4,
+     179.1
+    ],
+    [
+     -491.6,
+     177.7
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-type3",
+   "kind": "footpath",
+   "pts": [
+    [
+     -432.8,
+     269.7
+    ],
+    [
+     -429.2,
+     266.4
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-substation",
+   "kind": "footpath",
+   "pts": [
+    [
+     540.3,
+     -170.3
+    ],
+    [
+     535.2,
+     -171.3
+    ]
+   ],
+   "src": "entrance connector (auto)"
+  },
+  {
+   "id": "fp-admin-forecourt",
+   "kind": "footpath",
+   "pts": [
+    [
+     201.8,
+     -207.2
+    ],
+    [
+     203.5,
+     -226.8
+    ],
+    [
+     241.7,
+     -327.8
+    ]
+   ],
+   "src": "forecourt walk to the gate road"
+  }
+ ],
+ "areas": [
+  {
+   "id": "lake",
+   "kind": "water",
+   "name": "Campus Lake",
+   "pts": [
+    [
+     -182.4,
+     -9.9
+    ],
+    [
+     -183.1,
+     -5.8
+    ],
+    [
+     -179.4,
+     -2.3
+    ],
+    [
+     -174.5,
+     -0.3
+    ],
+    [
+     -172.3,
+     5.8
+    ],
+    [
+     -170.1,
+     14.5
+    ],
+    [
+     -165.8,
+     22.1
+    ],
+    [
+     -160.0,
+     22.2
+    ],
+    [
+     -151.1,
+     18.6
+    ],
+    [
+     -148.9,
+     14.7
+    ],
+    [
+     -149.6,
+     7.5
+    ],
+    [
+     -146.5,
+     -0.9
+    ],
+    [
+     -138.3,
+     -10.8
+    ],
+    [
+     -127.9,
+     -18.6
+    ],
+    [
+     -119.9,
+     -25.1
+    ],
+    [
+     -110.7,
+     -31.7
+    ],
+    [
+     -97.2,
+     -35.4
+    ],
+    [
+     -80.4,
+     -37.1
+    ],
+    [
+     -65.5,
+     -37.1
+    ],
+    [
+     -54.6,
+     -36.5
+    ],
+    [
+     -41.9,
+     -36.9
+    ],
+    [
+     -29.4,
+     -41.9
+    ],
+    [
+     -20.5,
+     -46.5
+    ],
+    [
+     -15.5,
+     -51.3
+    ],
+    [
+     -14.0,
+     -62.0
+    ],
+    [
+     -13.4,
+     -70.5
+    ],
+    [
+     -11.8,
+     -78.1
+    ],
+    [
+     -6.7,
+     -87.5
+    ],
+    [
+     -3.6,
+     -96.0
+    ],
+    [
+     -1.5,
+     -103.2
+    ],
+    [
+     -3.4,
+     -110.6
+    ],
+    [
+     -6.7,
+     -118.0
+    ],
+    [
+     -13.2,
+     -123.7
+    ],
+    [
+     -21.4,
+     -124.8
+    ],
+    [
+     -28.7,
+     -122.3
+    ],
+    [
+     -40.0,
+     -113.8
+    ],
+    [
+     -51.4,
+     -102.5
+    ],
+    [
+     -57.5,
+     -92.0
+    ],
+    [
+     -63.5,
+     -81.1
+    ],
+    [
+     -71.1,
+     -70.7
+    ],
+    [
+     -77.1,
+     -65.7
+    ],
+    [
+     -88.2,
+     -61.6
+    ],
+    [
+     -97.5,
+     -61.5
+    ],
+    [
+     -107.0,
+     -60.4
+    ],
+    [
+     -115.0,
+     -58.5
+    ],
+    [
+     -123.4,
+     -54.4
+    ],
+    [
+     -131.2,
+     -45.2
+    ],
+    [
+     -140.5,
+     -37.6
+    ],
+    [
+     -150.2,
+     -29.7
+    ],
+    [
+     -159.5,
+     -26.5
+    ],
+    [
+     -168.2,
+     -24.3
+    ],
+    [
+     -177.9,
+     -17.3
+    ]
+   ],
+   "src": "OSM lake outline"
+  },
+  {
+   "id": "football",
+   "kind": "ground",
+   "surface": "earth",
+   "name": "Football Ground",
+   "pts": [
+    [
+     -139.1,
+     241.9
+    ],
+    [
+     -71.5,
+     256.3
+    ],
+    [
+     -57.1,
+     157.9
+    ],
+    [
+     -124.8,
+     145.6
+    ]
+   ],
+   "src": "by-eye; Google pin"
+  },
+  {
+   "id": "courts-surround",
+   "kind": "plaza",
+   "pts": [
+    [
+     -236.1,
+     163.8
+    ],
+    [
+     -164.6,
+     162.4
+    ],
+    [
+     -165.6,
+     110.1
+    ],
+    [
+     -237.1,
+     111.5
+    ]
+   ],
+   "src": "OSM recreation ground + 4 m"
+  },
+  {
+   "id": "admin-forecourt",
+   "kind": "garden",
+   "name": "Flag forecourt",
+   "pts": [
+    [
+     215.5,
+     -226.8
+    ],
+    [
+     215.0,
+     -223.1
+    ],
+    [
+     213.3,
+     -219.8
+    ],
+    [
+     210.6,
+     -217.1
+    ],
+    [
+     207.3,
+     -215.4
+    ],
+    [
+     203.5,
+     -214.8
+    ],
+    [
+     199.8,
+     -215.4
+    ],
+    [
+     196.5,
+     -217.1
+    ],
+    [
+     193.8,
+     -219.8
+    ],
+    [
+     192.1,
+     -223.1
+    ],
+    [
+     191.5,
+     -226.8
+    ],
+    [
+     192.1,
+     -230.5
+    ],
+    [
+     193.8,
+     -233.9
+    ],
+    [
+     196.5,
+     -236.5
+    ],
+    [
+     199.8,
+     -238.3
+    ],
+    [
+     203.5,
+     -238.8
+    ],
+    [
+     207.3,
+     -238.3
+    ],
+    [
+     210.6,
+     -236.5
+    ],
+    [
+     213.3,
+     -233.9
+    ],
+    [
+     215.0,
+     -230.5
+    ]
+   ],
+   "src": "by-eye (drone: circular garden + flag)"
+  },
+  {
+   "id": "aud-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     152.4,
+     -218.3
+    ],
+    [
+     246.2,
+     -213.2
+    ],
+    [
+     253.0,
+     -240.5
+    ],
+    [
+     152.4,
+     -247.3
+    ]
+   ],
+   "src": "by-eye"
+  },
+  {
+   "id": "terrace-garden",
+   "kind": "garden",
+   "name": "Kalam statue garden",
+   "pts": [
+    [
+     213.8,
+     -238.8
+    ],
+    [
+     333.1,
+     -238.8
+    ],
+    [
+     333.1,
+     -307.0
+    ],
+    [
+     230.8,
+     -307.0
+    ]
+   ],
+   "src": "by-eye (drone)"
+  },
+  {
+   "id": "admin-parking",
+   "kind": "parking",
+   "name": "Admin Block Parking",
+   "pts": [
+    [
+     94.5,
+     -143.3
+    ],
+    [
+     121.7,
+     -143.3
+    ],
+    [
+     121.7,
+     -162.1
+    ],
+    [
+     94.5,
+     -162.1
+    ]
+   ],
+   "src": "by-eye"
+  },
+  {
+   "id": "nab-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     138.8,
+     -85.4
+    ],
+    [
+     183.1,
+     -112.6
+    ],
+    [
+     169.5,
+     -143.3
+    ],
+    [
+     128.6,
+     -122.9
+    ]
+   ],
+   "src": "by-eye"
+  },
+  {
+   "id": "kalam-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     -43.0,
+     11.2
+    ],
+    [
+     -69.1,
+     42.4
+    ],
+    [
+     -45.8,
+     61.8
+    ],
+    [
+     -25.4,
+     78.8
+    ],
+    [
+     0.7,
+     47.6
+    ],
+    [
+     -19.8,
+     30.5
+    ]
+   ],
+   "src": "around footprints"
+  },
+  {
+   "id": "west-cluster-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     -247.6,
+     21.5
+    ],
+    [
+     -284.9,
+     36.6
+    ],
+    [
+     -302.5,
+     54.1
+    ],
+    [
+     -310.4,
+     118.4
+    ],
+    [
+     -262.9,
+     98.7
+    ],
+    [
+     -242.9,
+     85.6
+    ]
+   ],
+   "src": "around footprints"
+  },
+  {
+   "id": "hostel2-court",
+   "kind": "plaza",
+   "pts": [
+    [
+     -223.6,
+     361.9
+    ],
+    [
+     -223.9,
+     361.7
+    ],
+    [
+     -224.3,
+     361.5
+    ],
+    [
+     -224.7,
+     361.3
+    ],
+    [
+     -225.0,
+     361.2
+    ],
+    [
+     -225.4,
+     361.1
+    ],
+    [
+     -225.8,
+     361.1
+    ],
+    [
+     -226.2,
+     361.1
+    ],
+    [
+     -226.6,
+     361.1
+    ],
+    [
+     -227.0,
+     361.2
+    ],
+    [
+     -227.4,
+     361.3
+    ],
+    [
+     -227.7,
+     361.5
+    ],
+    [
+     -228.1,
+     361.7
+    ],
+    [
+     -228.4,
+     361.9
+    ],
+    [
+     -228.7,
+     362.2
+    ],
+    [
+     -229.0,
+     362.4
+    ],
+    [
+     -229.2,
+     362.7
+    ],
+    [
+     -229.4,
+     363.1
+    ],
+    [
+     -229.6,
+     363.4
+    ],
+    [
+     -229.8,
+     363.8
+    ],
+    [
+     -229.9,
+     364.2
+    ],
+    [
+     -230.0,
+     364.6
+    ],
+    [
+     -230.0,
+     365.0
+    ],
+    [
+     -230.0,
+     365.4
+    ],
+    [
+     -229.9,
+     365.7
+    ],
+    [
+     -229.8,
+     366.1
+    ],
+    [
+     -229.7,
+     366.5
+    ],
+    [
+     -229.6,
+     366.9
+    ],
+    [
+     -202.1,
+     422.4
+    ],
+    [
+     -201.9,
+     422.8
+    ],
+    [
+     -201.6,
+     423.1
+    ],
+    [
+     -201.4,
+     423.4
+    ],
+    [
+     -201.1,
+     423.7
+    ],
+    [
+     -200.8,
+     423.9
+    ],
+    [
+     -200.4,
+     424.1
+    ],
+    [
+     -200.1,
+     424.3
+    ],
+    [
+     -199.7,
+     424.4
+    ],
+    [
+     -199.3,
+     424.5
+    ],
+    [
+     -198.9,
+     424.6
+    ],
+    [
+     -198.5,
+     424.6
+    ],
+    [
+     -198.1,
+     424.6
+    ],
+    [
+     -197.7,
+     424.6
+    ],
+    [
+     -197.4,
+     424.5
+    ],
+    [
+     -197.0,
+     424.4
+    ],
+    [
+     -196.6,
+     424.2
+    ],
+    [
+     -196.3,
+     424.0
+    ],
+    [
+     -196.0,
+     423.7
+    ],
+    [
+     -195.7,
+     423.5
+    ],
+    [
+     -195.4,
+     423.2
+    ],
+    [
+     -177.2,
+     401.2
+    ],
+    [
+     -177.0,
+     400.9
+    ],
+    [
+     -176.8,
+     400.6
+    ],
+    [
+     -176.6,
+     400.3
+    ],
+    [
+     -176.5,
+     399.9
+    ],
+    [
+     -176.4,
+     399.5
+    ],
+    [
+     -176.4,
+     399.2
+    ],
+    [
+     -176.3,
+     398.8
+    ],
+    [
+     -176.3,
+     398.4
+    ],
+    [
+     -176.4,
+     398.0
+    ],
+    [
+     -176.5,
+     397.6
+    ],
+    [
+     -176.6,
+     397.3
+    ],
+    [
+     -176.7,
+     396.9
+    ],
+    [
+     -176.9,
+     396.6
+    ],
+    [
+     -177.1,
+     396.3
+    ],
+    [
+     -177.4,
+     396.0
+    ],
+    [
+     -177.7,
+     395.7
+    ],
+    [
+     -178.0,
+     395.5
+    ]
+   ],
+   "src": "between F Block blocks"
+  },
+  {
+   "id": "octagon-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     -205.9,
+     1.8
+    ],
+    [
+     -220.5,
+     32.7
+    ],
+    [
+     -190.3,
+     47.0
+    ],
+    [
+     -175.7,
+     16.1
+    ]
+   ],
+   "src": "around footprint"
+  }
+ ],
+ "trees": [
+  {
+   "c": [
+    -580,
+    0
+   ],
+   "r": 140,
+   "density": 0.7
+  },
+  {
+   "c": [
+    -560,
+    380
+   ],
+   "r": 120,
+   "density": 0.65
+  },
+  {
+   "c": [
+    -380,
+    620
+   ],
+   "r": 140,
+   "density": 0.7
+  },
+  {
+   "c": [
+    -60,
+    560
+   ],
+   "r": 150,
+   "density": 0.6
+  },
+  {
+   "c": [
+    120,
+    300
+   ],
+   "r": 120,
+   "density": 0.6
+  },
+  {
+   "c": [
+    330,
+    120
+   ],
+   "r": 130,
+   "density": 0.65
+  },
+  {
+   "c": [
+    420,
+    -40
+   ],
+   "r": 90,
+   "density": 0.55
+  },
+  {
+   "c": [
+    -130,
+    -230
+   ],
+   "r": 120,
+   "density": 0.5
+  },
+  {
+   "c": [
+    80,
+    -330
+   ],
+   "r": 90,
+   "density": 0.5
+  },
+  {
+   "c": [
+    -60,
+    -120
+   ],
+   "r": 50,
+   "density": 0.55
+  },
+  {
+   "c": [
+    10,
+    60
+   ],
+   "r": 35,
+   "density": 0.5
+  },
+  {
+   "c": [
+    -330,
+    160
+   ],
+   "r": 45,
+   "density": 0.5
+  },
+  {
+   "c": [
+    -60,
+    300
+   ],
+   "r": 50,
+   "density": 0.5
+  },
+  {
+   "c": [
+    130,
+    -10
+   ],
+   "r": 45,
+   "density": 0.5
+  },
+  {
+   "c": [
+    330,
+    -230
+   ],
+   "r": 70,
+   "density": 0.55
+  }
+ ],
+ "entrances": [
+  {
+   "id": "admin-main",
+   "buildingId": "admin",
+   "at": [
+    201.8,
+    -207.2
+   ],
+   "main": true
+  },
+  {
+   "id": "nab-main",
+   "buildingId": "nab",
+   "at": [
+    57.0,
+    -114.1
+   ],
+   "main": true
+  },
+  {
+   "id": "cafe-cloud-main",
+   "buildingId": "cafe-cloud",
+   "at": [
+    73.4,
+    -195.9
+   ],
+   "main": true
+  },
+  {
+   "id": "amul-cafe-main",
+   "buildingId": "amul-cafe",
+   "at": [
+    64.6,
+    -227.0
+   ],
+   "main": true
+  },
+  {
+   "id": "kalam-centre-main",
+   "buildingId": "kalam-centre",
+   "at": [
+    -50.4,
+    41.6
+   ],
+   "main": true
+  },
+  {
+   "id": "kalam-building-main",
+   "buildingId": "kalam-building",
+   "at": [
+    -12.9,
+    41.9
+   ],
+   "main": true
+  },
+  {
+   "id": "east-cluster-main",
+   "buildingId": "east-cluster",
+   "at": [
+    40.0,
+    -37.2
+   ],
+   "main": true
+  },
+  {
+   "id": "block-501-main",
+   "buildingId": "block-501",
+   "at": [
+    40.9,
+    46.6
+   ],
+   "main": true
+  },
+  {
+   "id": "block-503-main",
+   "buildingId": "block-503",
+   "at": [
+    35.5,
+    112.4
+   ],
+   "main": true
+  },
+  {
+   "id": "octagon-hall-main",
+   "buildingId": "octagon-hall",
+   "at": [
+    -193.1,
+    37.5
+   ],
+   "main": true
+  },
+  {
+   "id": "road-block-main",
+   "buildingId": "road-block",
+   "at": [
+    -91.6,
+    36.5
+   ],
+   "main": true
+  },
+  {
+   "id": "gym-main",
+   "buildingId": "gym",
+   "at": [
+    -278.4,
+    167.3
+   ],
+   "main": true
+  },
+  {
+   "id": "court-kiosk-main",
+   "buildingId": "court-kiosk",
+   "at": [
+    -223.0,
+    213.9
+   ],
+   "main": true
+  },
+  {
+   "id": "west-cluster-main",
+   "buildingId": "west-cluster",
+   "at": [
+    -242.9,
+    81.2
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-1-main",
+   "buildingId": "hostel-1",
+   "at": [
+    -211.7,
+    225.1
+   ],
+   "main": true
+  },
+  {
+   "id": "mess-main",
+   "buildingId": "mess",
+   "at": [
+    -255.4,
+    266.1
+   ],
+   "main": true
+  },
+  {
+   "id": "commercial-main",
+   "buildingId": "commercial",
+   "at": [
+    -279.1,
+    191.8
+   ],
+   "main": true
+  },
+  {
+   "id": "west-blocks-main",
+   "buildingId": "west-blocks",
+   "at": [
+    -280.7,
+    311.1
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-4-main",
+   "buildingId": "hostel-4",
+   "at": [
+    -191.7,
+    315.2
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-2-main",
+   "buildingId": "hostel-2",
+   "at": [
+    -218.6,
+    365.9
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-3-main",
+   "buildingId": "hostel-3",
+   "at": [
+    -274.5,
+    422.4
+   ],
+   "main": true
+  },
+  {
+   "id": "block-962-main",
+   "buildingId": "block-962",
+   "at": [
+    -126.5,
+    311.9
+   ],
+   "main": true
+  },
+  {
+   "id": "block-488-main",
+   "buildingId": "block-488",
+   "at": [
+    -101.5,
+    249.2
+   ],
+   "main": true
+  },
+  {
+   "id": "type2-main",
+   "buildingId": "type2",
+   "at": [
+    -494.4,
+    179.1
+   ],
+   "main": true
+  },
+  {
+   "id": "type3-main",
+   "buildingId": "type3",
+   "at": [
+    -432.8,
+    269.7
+   ],
+   "main": true
+  },
+  {
+   "id": "substation-main",
+   "buildingId": "substation",
+   "at": [
+    540.3,
+    -170.3
+   ],
+   "main": true
+  },
+  {
+   "id": "service-east-main",
+   "buildingId": "service-east",
+   "at": [
+    300.9,
+    -193.3
+   ],
+   "main": true
+  },
+  {
+   "id": "guard-room-main",
+   "buildingId": "guard-room",
+   "at": [
+    237.6,
+    -325.8
+   ],
+   "main": true
+  }
+ ],
+ "landmarks": [
+  {
+   "id": "main-gate",
+   "name": "Main Gate",
+   "kind": "gate",
+   "at": [
+    241.7,
+    -327.8
+   ],
+   "src": "Google pin \"Indian Institute Of Management\u2013Shillong\""
+  },
+  {
+   "id": "flag",
+   "name": "Flag mast",
+   "kind": "flag",
+   "at": [
+    203.5,
+    -226.8
+   ],
+   "src": "centre of the forecourt (drone)"
+  },
+  {
+   "id": "kalam-statue",
+   "name": "Dr. Kalam Statue",
+   "kind": "statue",
+   "at": [
+    254.0,
+    -284.5
+   ],
+   "src": "centre of the terraced garden south-east of the Admin Block (confirmed by H A)"
+  },
+  {
+   "id": "water-tank",
+   "name": "Water Supply Tank",
+   "kind": "tank",
+   "at": [
+    -419.8,
+    498.0
+   ],
+   "src": "Google pin + Overture 1009"
+  },
+  {
+   "id": "atm",
+   "name": "ICICI Bank ATM",
+   "kind": "atm",
+   "at": [
+    234.6,
+    -370.6
+   ],
+   "src": "Google pin (on the public road)"
+  }
+ ],
+ "attribution": "\u00a9 OpenStreetMap contributors \u00b7 Overture Maps Foundation \u00b7 Google Open Buildings \u00b7 Microsoft"
+}

@@ -1,0 +1,1733 @@
+{
+ "origin": {
+  "lat": 25.6176,
+  "lon": 91.9522
+ },
+ "boundary": [
+  [
+   -560,
+   90
+  ],
+  [
+   -470,
+   330
+  ],
+  [
+   -330,
+   455
+  ],
+  [
+   -150,
+   445
+  ],
+  [
+   -40,
+   300
+  ],
+  [
+   20,
+   150
+  ],
+  [
+   120,
+   -40
+  ],
+  [
+   300,
+   -120
+  ],
+  [
+   520,
+   -150
+  ],
+  [
+   520,
+   -260
+  ],
+  [
+   330,
+   -280
+  ],
+  [
+   250,
+   -345
+  ],
+  [
+   120,
+   -300
+  ],
+  [
+   -20,
+   -170
+  ],
+  [
+   -210,
+   -70
+  ],
+  [
+   -330,
+   10
+  ]
+ ],
+ "buildings": [
+  {
+   "id": "admin",
+   "name": "Admin Block",
+   "short": "Admin",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "sprite": "admin-block",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 195,
+     "cy": -170,
+     "w": 86,
+     "d": 18,
+     "angle": 30,
+     "floors": 4,
+     "roof": "hip"
+    },
+    {
+     "cx": 195,
+     "cy": -170,
+     "w": 30,
+     "d": 30,
+     "angle": 30,
+     "floors": 4,
+     "roof": "hip",
+     "glass": "atrium"
+    }
+   ]
+  },
+  {
+   "id": "auditorium",
+   "name": "IIM Shillong Auditorium",
+   "short": "Auditorium",
+   "category": "venue",
+   "wall": "#F1EBDC",
+   "roofColor": "#4B525A",
+   "sprite": "auditorium",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 130,
+     "cy": -205,
+     "w": 36,
+     "d": 30,
+     "angle": 30,
+     "floors": 3,
+     "roof": "shed",
+     "glass": "atrium"
+    }
+   ],
+   "confirm": "Separate building (confirmed); exact footprint to survey"
+  },
+  {
+   "id": "nab",
+   "name": "New Academic Block (NAB)",
+   "short": "NAB",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "sprite": "nab",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 72,
+     "cy": -92,
+     "w": 80,
+     "d": 20,
+     "angle": 111,
+     "floors": 4,
+     "roof": "flat",
+     "glass": "atrium",
+     "stoneTowers": true
+    }
+   ]
+  },
+  {
+   "id": "library",
+   "name": "Knowledge Centre (Library)",
+   "short": "Library",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": 240,
+     "cy": -128,
+     "w": 42,
+     "d": 22,
+     "angle": 30,
+     "floors": 3,
+     "roof": "hip",
+     "glass": "stair"
+    }
+   ],
+   "confirm": "Position assumed next to Admin Block"
+  },
+  {
+   "id": "kalam-centre",
+   "name": "Dr. Kalam Centre",
+   "short": "Kalam Centre",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -48,
+     "cy": 78,
+     "w": 40,
+     "d": 18,
+     "angle": -40,
+     "floors": 3,
+     "roof": "hip",
+     "glass": "stair"
+    }
+   ]
+  },
+  {
+   "id": "kalam-building",
+   "name": "Kalam Building",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -10,
+     "cy": 104,
+     "w": 30,
+     "d": 16,
+     "angle": -40,
+     "floors": 3,
+     "roof": "hip"
+    }
+   ],
+   "confirm": "Position to confirm"
+  },
+  {
+   "id": "cafe-cloud",
+   "name": "Cafe Cloud Campus",
+   "short": "Cafe Cloud",
+   "category": "food",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "sprite": "cafe-pavilion",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": 28,
+     "cy": -178,
+     "w": 20,
+     "d": 20,
+     "angle": 0,
+     "floors": 1,
+     "roof": "octagon",
+     "glass": "atrium"
+    }
+   ],
+   "confirm": "Name of the small octagonal pavilion"
+  },
+  {
+   "id": "octagon-hall",
+   "name": "Octagonal Hall",
+   "category": "venue",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -122,
+     "cy": 126,
+     "w": 27,
+     "d": 27,
+     "angle": 0,
+     "floors": 1,
+     "roof": "octagon",
+     "glass": "atrium"
+    }
+   ],
+   "confirm": "What this hall is used for, and its exact spot"
+  },
+  {
+   "id": "road-block",
+   "name": "Service block (across from the Octagonal Hall)",
+   "short": "Service block",
+   "category": "service",
+   "wall": "#E4DAC4",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -62,
+     "cy": 126,
+     "w": 18,
+     "d": 13,
+     "angle": 20,
+     "floors": 1,
+     "roof": "flat"
+    },
+    {
+     "cx": -58,
+     "cy": 112,
+     "w": 9,
+     "d": 7,
+     "angle": 20,
+     "floors": 1,
+     "roof": "gable"
+    }
+   ],
+   "confirm": "Use of this building to confirm"
+  },
+  {
+   "id": "tin-cafe",
+   "name": "Worth The Taste (Tin Café)",
+   "short": "Tin Café",
+   "category": "food",
+   "wall": "#C9B48A",
+   "roofColor": "#77808A",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 58,
+     "cy": -212,
+     "w": 12,
+     "d": 8,
+     "angle": 30,
+     "floors": 1,
+     "roof": "gable"
+    }
+   ]
+  },
+  {
+   "id": "hostel-1",
+   "name": "Hostel 1",
+   "category": "hostel",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "confirm": "Lowest hostel (by elevation); block letters to confirm",
+   "parts": [
+    {
+     "cx": -280,
+     "cy": 58,
+     "w": 30,
+     "d": 12,
+     "angle": 25,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true
+    },
+    {
+     "cx": -243,
+     "cy": 44,
+     "w": 30,
+     "d": 12,
+     "angle": 25,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true
+    },
+    {
+     "cx": -258,
+     "cy": 82,
+     "w": 28,
+     "d": 12,
+     "angle": 25,
+     "floors": 3,
+     "roof": "hip",
+     "balconies": true
+    }
+   ]
+  },
+  {
+   "id": "hostel-2",
+   "name": "Hostel 2 · D Block",
+   "short": "D Block",
+   "category": "hostel",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "confirm": "D Block assumed to be Hostel 2 (middle elevation)",
+   "parts": [
+    {
+     "cx": -200,
+     "cy": 262,
+     "w": 56,
+     "d": 15,
+     "angle": 28,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true,
+     "glass": "stair"
+    },
+    {
+     "cx": -150,
+     "cy": 290,
+     "w": 40,
+     "d": 15,
+     "angle": 28,
+     "floors": 4,
+     "roof": "hip",
+     "balconies": true
+    }
+   ]
+  },
+  {
+   "id": "hostel-3",
+   "name": "Hostel 3 · F Block (U Tirot Sing Student Residence)",
+   "short": "F Block",
+   "category": "hostel",
+   "wall": "#EDCDA6",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "confirm": "F Block / New Hostel assumed to be U Tirot Sing (highest hostel)",
+   "parts": [
+    {
+     "cx": -300,
+     "cy": 378,
+     "w": 42,
+     "d": 14,
+     "angle": 20,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true
+    },
+    {
+     "cx": -248,
+     "cy": 400,
+     "w": 42,
+     "d": 14,
+     "angle": -12,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true
+    },
+    {
+     "cx": -212,
+     "cy": 356,
+     "w": 38,
+     "d": 14,
+     "angle": 62,
+     "floors": 5,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair",
+     "balconies": true
+    },
+    {
+     "cx": -258,
+     "cy": 360,
+     "w": 20,
+     "d": 16,
+     "angle": 10,
+     "floors": 2,
+     "roof": "hip",
+     "stoneBase": true
+    }
+   ]
+  },
+  {
+   "id": "hostel-4",
+   "name": "Hostel 4 (new, under construction)",
+   "short": "Hostel 4",
+   "category": "hostel",
+   "wall": "#EDCDA6",
+   "roofColor": "#3E8A4E",
+   "sprite": "hostel",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -330,
+     "cy": 255,
+     "w": 36,
+     "d": 14,
+     "angle": 35,
+     "floors": 4,
+     "roof": "hip",
+     "stoneBase": true,
+     "glass": "stair"
+    }
+   ],
+   "confirm": "Which building is Hostel 4 — to confirm"
+  },
+  {
+   "id": "mess",
+   "name": "Students' Mess",
+   "short": "Mess",
+   "category": "food",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 1,
+   "parts": [
+    {
+     "cx": -262,
+     "cy": 288,
+     "w": 34,
+     "d": 18,
+     "angle": 28,
+     "floors": 2,
+     "roof": "gable"
+    }
+   ],
+   "confirm": "Google pin is beside D Block, to its west; exact spot to confirm"
+  },
+  {
+   "id": "commercial",
+   "name": "Commercial Complex",
+   "short": "Shops",
+   "category": "food",
+   "wall": "#E9DCC0",
+   "roofColor": "#77808A",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -292,
+     "cy": 236,
+     "w": 38,
+     "d": 12,
+     "angle": 40,
+     "floors": 1,
+     "roof": "flat"
+    }
+   ],
+   "confirm": "Mithaas pin is just west of the football ground near the mess; exact spot to confirm"
+  },
+  {
+   "id": "type2",
+   "name": "Type 2 Quarters (staff housing)",
+   "short": "Type 2 Quarters",
+   "category": "staff",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -470,
+     "cy": 138,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -448,
+     "cy": 165,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -426,
+     "cy": 190,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -404,
+     "cy": 215,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -382,
+     "cy": 240,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -497,
+     "cy": 168,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -475,
+     "cy": 196,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -453,
+     "cy": 222,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -431,
+     "cy": 248,
+     "w": 20,
+     "d": 12,
+     "angle": 50,
+     "floors": 3,
+     "roof": "hip"
+    }
+   ]
+  },
+  {
+   "id": "type3",
+   "name": "Faculty Quarters Type 3",
+   "short": "Type 3 Quarters",
+   "category": "staff",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": -430,
+     "cy": 318,
+     "w": 22,
+     "d": 12,
+     "angle": 40,
+     "floors": 3,
+     "roof": "hip"
+    },
+    {
+     "cx": -410,
+     "cy": 340,
+     "w": 22,
+     "d": 12,
+     "angle": 40,
+     "floors": 3,
+     "roof": "hip"
+    }
+   ],
+   "confirm": "Google lists it; exact position to confirm"
+  },
+  {
+   "id": "gym",
+   "name": "Sports Pavilion & Gym",
+   "short": "Gym",
+   "category": "sports",
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "labelPriority": 2,
+   "parts": [
+    {
+     "cx": -262,
+     "cy": 138,
+     "w": 18,
+     "d": 12,
+     "angle": 0,
+     "floors": 1,
+     "roof": "gable"
+    }
+   ],
+   "confirm": "Whether the gym is inside this pavilion — to confirm"
+  },
+  {
+   "id": "substation",
+   "name": "IIM Substation",
+   "category": "service",
+   "wall": "#D9D4C8",
+   "roofColor": "#77808A",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 470,
+     "cy": -180,
+     "w": 30,
+     "d": 18,
+     "angle": 20,
+     "floors": 1,
+     "roof": "flat"
+    }
+   ]
+  },
+  {
+   "id": "guard-room",
+   "name": "Main Gate Security",
+   "short": "Security",
+   "category": "help",
+   "wall": "#F1EBDC",
+   "roofColor": "#3E8A4E",
+   "labelPriority": 3,
+   "parts": [
+    {
+     "cx": 200,
+     "cy": -300,
+     "w": 7,
+     "d": 5,
+     "angle": 30,
+     "floors": 1,
+     "roof": "hip"
+    }
+   ],
+   "confirm": "Gate position to confirm"
+  }
+ ],
+ "paths": [
+  {
+   "id": "fp-nab-lake",
+   "kind": "footpath",
+   "pts": [
+    [
+     55,
+     -80
+    ],
+    [
+     20,
+     -70
+    ],
+    [
+     0,
+     -60
+    ]
+   ]
+  },
+  {
+   "id": "fp-admin-aud",
+   "kind": "footpath",
+   "pts": [
+    [
+     175,
+     -190
+    ],
+    [
+     150,
+     -205
+    ],
+    [
+     130,
+     -222
+    ]
+   ]
+  },
+  {
+   "id": "fp-admin-lib",
+   "kind": "footpath",
+   "pts": [
+    [
+     215,
+     -160
+    ],
+    [
+     228,
+     -140
+    ]
+   ]
+  },
+  {
+   "id": "fp-courts",
+   "kind": "footpath",
+   "pts": [
+    [
+     -170,
+     56
+    ],
+    [
+     -185,
+     100
+    ],
+    [
+     -198,
+     115
+    ]
+   ]
+  },
+  {
+   "id": "fp-hostel1",
+   "kind": "footpath",
+   "pts": [
+    [
+     -238,
+     93
+    ],
+    [
+     -258,
+     70
+    ],
+    [
+     -275,
+     50
+    ]
+   ]
+  },
+  {
+   "id": "fp-football",
+   "kind": "footpath",
+   "pts": [
+    [
+     -198,
+     160
+    ],
+    [
+     -175,
+     175
+    ]
+   ]
+  },
+  {
+   "id": "fp-mess",
+   "kind": "footpath",
+   "pts": [
+    [
+     -200,
+     228
+    ],
+    [
+     -175,
+     300
+    ],
+    [
+     -160,
+     325
+    ]
+   ]
+  },
+  {
+   "id": "fp-fblock",
+   "kind": "footpath",
+   "pts": [
+    [
+     -200,
+     318
+    ],
+    [
+     -230,
+     345
+    ],
+    [
+     -258,
+     365
+    ]
+   ]
+  },
+  {
+   "id": "fp-kalam",
+   "kind": "footpath",
+   "pts": [
+    [
+     -82,
+     35
+    ],
+    [
+     -60,
+     60
+    ],
+    [
+     -48,
+     70
+    ]
+   ]
+  },
+  {
+   "id": "fp-cafe",
+   "kind": "footpath",
+   "pts": [
+    [
+     49,
+     -135
+    ],
+    [
+     35,
+     -160
+    ],
+    [
+     30,
+     -168
+    ]
+   ]
+  },
+  {
+   "id": "covered-walk",
+   "kind": "covered",
+   "name": "Covered walkway",
+   "pts": [
+    [
+     -200,
+     226
+    ],
+    [
+     -232,
+     196
+    ],
+    [
+     -256,
+     166
+    ],
+    [
+     -262,
+     122
+    ],
+    [
+     -246,
+     104
+    ],
+    [
+     -214,
+     104
+    ],
+    [
+     -190,
+     94
+    ],
+    [
+     -176,
+     66
+    ],
+    [
+     -150,
+     50
+    ],
+    [
+     -110,
+     42
+    ],
+    [
+     -84,
+     40
+    ]
+   ]
+  },
+  {
+   "id": "lake-trail",
+   "kind": "footpath",
+   "name": "Lake walking trail",
+   "pts": [
+    [
+     -190,
+     -12
+    ],
+    [
+     -168,
+     30
+    ],
+    [
+     -136,
+     -2
+    ],
+    [
+     -64,
+     -28
+    ],
+    [
+     -6,
+     -52
+    ],
+    [
+     8,
+     -116
+    ],
+    [
+     -52,
+     -112
+    ],
+    [
+     -100,
+     -72
+    ],
+    [
+     -154,
+     -40
+    ],
+    [
+     -190,
+     -12
+    ]
+   ]
+  }
+ ],
+ "areas": [
+  {
+   "id": "football",
+   "kind": "ground",
+   "surface": "earth",
+   "name": "Football Ground",
+   "pts": [
+    [
+     -172.4,
+     159.8
+    ],
+    [
+     -99.6,
+     201.8
+    ],
+    [
+     -127.6,
+     250.2
+    ],
+    [
+     -200.4,
+     208.2
+    ]
+   ]
+  },
+  {
+   "id": "tennis",
+   "kind": "court",
+   "sport": "tennis",
+   "name": "Tennis court",
+   "pts": [
+    [
+     -248,
+     122
+    ],
+    [
+     -234,
+     122
+    ],
+    [
+     -234,
+     152
+    ],
+    [
+     -248,
+     152
+    ]
+   ]
+  },
+  {
+   "id": "octagon-pond-1",
+   "kind": "water",
+   "pts": [
+    [
+     -137,
+     146
+    ],
+    [
+     -138.5,
+     149.5
+    ],
+    [
+     -142,
+     151
+    ],
+    [
+     -145.5,
+     149.5
+    ],
+    [
+     -147,
+     146
+    ],
+    [
+     -145.5,
+     142.5
+    ],
+    [
+     -142,
+     141
+    ],
+    [
+     -138.5,
+     142.5
+    ]
+   ]
+  },
+  {
+   "id": "octagon-pond-2",
+   "kind": "water",
+   "pts": [
+    [
+     -121.5,
+     152
+    ],
+    [
+     -122.8,
+     155.2
+    ],
+    [
+     -126,
+     156.5
+    ],
+    [
+     -129.2,
+     155.2
+    ],
+    [
+     -130.5,
+     152
+    ],
+    [
+     -129.2,
+     148.8
+    ],
+    [
+     -126,
+     147.5
+    ],
+    [
+     -122.8,
+     148.8
+    ]
+   ]
+  },
+  {
+   "id": "octagon-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     -109,
+     103
+    ],
+    [
+     -87,
+     103
+    ],
+    [
+     -87,
+     137
+    ],
+    [
+     -109,
+     137
+    ]
+   ]
+  },
+  {
+   "id": "kalam-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     -84.6,
+     82.6
+    ],
+    [
+     -37.1,
+     42.8
+    ],
+    [
+     -11.4,
+     73.4
+    ],
+    [
+     -58.9,
+     113.2
+    ]
+   ]
+  },
+  {
+   "id": "admin-forecourt",
+   "kind": "garden",
+   "name": "Admin forecourt",
+   "pts": [
+    [
+     217,
+     -222
+    ],
+    [
+     215.7,
+     -215.5
+    ],
+    [
+     212,
+     -210
+    ],
+    [
+     206.5,
+     -206.3
+    ],
+    [
+     200,
+     -205
+    ],
+    [
+     193.5,
+     -206.3
+    ],
+    [
+     188,
+     -210
+    ],
+    [
+     184.3,
+     -215.5
+    ],
+    [
+     183,
+     -222
+    ],
+    [
+     184.3,
+     -228.5
+    ],
+    [
+     188,
+     -234
+    ],
+    [
+     193.5,
+     -237.7
+    ],
+    [
+     200,
+     -239
+    ],
+    [
+     206.5,
+     -237.7
+    ],
+    [
+     212,
+     -234
+    ],
+    [
+     215.7,
+     -228.5
+    ]
+   ]
+  },
+  {
+   "id": "admin-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     160.5,
+     -225.3
+    ],
+    [
+     238.5,
+     -180.3
+    ],
+    [
+     229.5,
+     -164.7
+    ],
+    [
+     151.5,
+     -209.7
+    ]
+   ]
+  },
+  {
+   "id": "admin-parking",
+   "kind": "parking",
+   "name": "Admin Block Parking",
+   "pts": [
+    [
+     251.2,
+     -221.3
+    ],
+    [
+     285.8,
+     -201.3
+    ],
+    [
+     272.8,
+     -178.7
+    ],
+    [
+     238.2,
+     -198.7
+    ]
+   ]
+  },
+  {
+   "id": "nab-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     147.8,
+     -106.1
+    ],
+    [
+     133.5,
+     -68.8
+    ],
+    [
+     68.2,
+     -93.9
+    ],
+    [
+     82.5,
+     -131.2
+    ]
+   ]
+  },
+  {
+   "id": "terrace-garden",
+   "kind": "garden",
+   "name": "Terraced garden",
+   "pts": [
+    [
+     140.6,
+     -288.6
+    ],
+    [
+     213.4,
+     -246.6
+    ],
+    [
+     195.4,
+     -215.4
+    ],
+    [
+     122.6,
+     -257.4
+    ]
+   ]
+  },
+  {
+   "id": "aud-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     108.5,
+     -241.6
+    ],
+    [
+     134.5,
+     -226.6
+    ],
+    [
+     127.5,
+     -214.4
+    ],
+    [
+     101.5,
+     -229.4
+    ]
+   ]
+  },
+  {
+   "id": "hostel1-lawn",
+   "kind": "lawn",
+   "pts": [
+    [
+     -283.2,
+     24.6
+    ],
+    [
+     -219.7,
+     54.1
+    ],
+    [
+     -240.8,
+     99.4
+    ],
+    [
+     -304.3,
+     69.9
+    ]
+   ]
+  },
+  {
+   "id": "fblock-court",
+   "kind": "plaza",
+   "pts": [
+    [
+     -278,
+     361.2
+    ],
+    [
+     -232.7,
+     369.2
+    ],
+    [
+     -238,
+     398.8
+    ],
+    [
+     -283.3,
+     390.8
+    ]
+   ]
+  },
+  {
+   "id": "courts-surround",
+   "kind": "plaza",
+   "pts": [
+    [
+     -256,
+     114
+    ],
+    [
+     -160,
+     114
+    ],
+    [
+     -160,
+     160
+    ],
+    [
+     -256,
+     160
+    ]
+   ]
+  },
+  {
+   "id": "kalam-plaza",
+   "kind": "plaza",
+   "pts": [
+    [
+     -45.1,
+     62.2
+    ],
+    [
+     -25.2,
+     45.5
+    ],
+    [
+     -14.9,
+     57.8
+    ],
+    [
+     -34.8,
+     74.5
+    ]
+   ]
+  }
+ ],
+ "trees": [
+  {
+   "c": [
+    -120,
+    -60
+   ],
+   "r": 40,
+   "density": 0.5
+  },
+  {
+   "c": [
+    80,
+    -10
+   ],
+   "r": 45,
+   "density": 0.55
+  },
+  {
+   "c": [
+    10,
+    40
+   ],
+   "r": 30,
+   "density": 0.5
+  },
+  {
+   "c": [
+    -330,
+    80
+   ],
+   "r": 50,
+   "density": 0.6
+  },
+  {
+   "c": [
+    -90,
+    260
+   ],
+   "r": 40,
+   "density": 0.45
+  },
+  {
+   "c": [
+    -400,
+    300
+   ],
+   "r": 60,
+   "density": 0.6
+  },
+  {
+   "c": [
+    160,
+    -60
+   ],
+   "r": 50,
+   "density": 0.5
+  },
+  {
+   "c": [
+    300,
+    -100
+   ],
+   "r": 60,
+   "density": 0.55
+  },
+  {
+   "c": [
+    -20,
+    -230
+   ],
+   "r": 60,
+   "density": 0.6
+  },
+  {
+   "c": [
+    -200,
+    -40
+   ],
+   "r": 40,
+   "density": 0.4
+  },
+  {
+   "c": [
+    -120,
+    400
+   ],
+   "r": 50,
+   "density": 0.5
+  }
+ ],
+ "entrances": [
+  {
+   "id": "admin-main",
+   "buildingId": "admin",
+   "at": [
+    205,
+    -190
+   ],
+   "main": true
+  },
+  {
+   "id": "auditorium-main",
+   "buildingId": "auditorium",
+   "at": [
+    122,
+    -220
+   ],
+   "main": true
+  },
+  {
+   "id": "nab-main",
+   "buildingId": "nab",
+   "at": [
+    60,
+    -82
+   ],
+   "main": true
+  },
+  {
+   "id": "library-main",
+   "buildingId": "library",
+   "at": [
+    246.5,
+    -139.3
+   ],
+   "main": true
+  },
+  {
+   "id": "kalam-centre-main",
+   "buildingId": "kalam-centre",
+   "at": [
+    -55.1,
+    69.6
+   ],
+   "main": true
+  },
+  {
+   "id": "kalam-building-main",
+   "buildingId": "kalam-building",
+   "at": [
+    -16.4,
+    96.3
+   ],
+   "main": true
+  },
+  {
+   "id": "cafe-cloud-main",
+   "buildingId": "cafe-cloud",
+   "at": [
+    28,
+    -190
+   ],
+   "main": true
+  },
+  {
+   "id": "octagon-hall-main",
+   "buildingId": "octagon-hall",
+   "at": [
+    -122,
+    110.5
+   ],
+   "main": true
+  },
+  {
+   "id": "road-block-main",
+   "buildingId": "road-block",
+   "at": [
+    -59.1,
+    118
+   ],
+   "main": true
+  },
+  {
+   "id": "tin-cafe-main",
+   "buildingId": "tin-cafe",
+   "at": [
+    61,
+    -217.2
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-1-main",
+   "buildingId": "hostel-1",
+   "at": [
+    -276.6,
+    50.7
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-2-main",
+   "buildingId": "hostel-2",
+   "at": [
+    -195.5,
+    253.6
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-3-main",
+   "buildingId": "hostel-3",
+   "at": [
+    -296.9,
+    369.5
+   ],
+   "main": true
+  },
+  {
+   "id": "hostel-4-main",
+   "buildingId": "hostel-4",
+   "at": [
+    -324.8,
+    247.6
+   ],
+   "main": true
+  },
+  {
+   "id": "mess-main",
+   "buildingId": "mess",
+   "at": [
+    -256.8,
+    278.3
+   ],
+   "main": true
+  },
+  {
+   "id": "commercial-main",
+   "buildingId": "commercial",
+   "at": [
+    -286.9,
+    229.9
+   ],
+   "main": true
+  },
+  {
+   "id": "type2-main",
+   "buildingId": "type2",
+   "at": [
+    -463.9,
+    132.9
+   ],
+   "main": true
+  },
+  {
+   "id": "type3-main",
+   "buildingId": "type3",
+   "at": [
+    -424.9,
+    311.9
+   ],
+   "main": true
+  },
+  {
+   "id": "gym-main",
+   "buildingId": "gym",
+   "at": [
+    -262,
+    130
+   ],
+   "main": true
+  },
+  {
+   "id": "substation-main",
+   "buildingId": "substation",
+   "at": [
+    473.8,
+    -190.3
+   ],
+   "main": true
+  },
+  {
+   "id": "guard-room-main",
+   "buildingId": "guard-room",
+   "at": [
+    202.3,
+    -303.9
+   ],
+   "main": true
+  }
+ ],
+ "landmarks": [
+  {
+   "id": "main-gate",
+   "name": "Main Gate",
+   "kind": "gate",
+   "at": [
+    212,
+    -310
+   ],
+   "confirm": "Gate position to confirm on campus"
+  },
+  {
+   "id": "kalam-statue",
+   "name": "Dr. Kalam Statue",
+   "kind": "statue",
+   "at": [
+    -28,
+    60
+   ],
+   "confirm": "Statue position to confirm"
+  },
+  {
+   "id": "flag",
+   "name": "Flag mast",
+   "kind": "flag",
+   "at": [
+    200,
+    -222
+   ]
+  },
+  {
+   "id": "water-tank",
+   "name": "Water Supply Tank",
+   "kind": "tank",
+   "at": [
+    -351,
+    420
+   ]
+  },
+  {
+   "id": "atm",
+   "name": "ICICI Bank ATM",
+   "kind": "atm",
+   "at": [
+    178,
+    -340
+   ],
+   "confirm": "On the public road near the gate"
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+  "note": "Mock WMC 2026 schedule (27–29 Nov 2026, IST). Replace with the app's ScheduleSource.",
+  "sessions": [
+    { "id": "s1", "title": "Inaugural Plenary: Management for a Plural World", "start": "2026-11-27T09:30:00+05:30", "end": "2026-11-27T11:00:00+05:30", "room": "AUD", "track": "Plenary" },
+    { "id": "s2", "title": "Track A1 · Sustainable Supply Chains in the North East", "start": "2026-11-27T11:30:00+05:30", "end": "2026-11-27T13:00:00+05:30", "room": "101", "track": "Operations",
+      "papers": ["Last-mile logistics in hill economies", "Carbon accounting for regional SMEs"] },
+    { "id": "s3", "title": "Track B1 · Digital Public Infrastructure", "start": "2026-11-27T11:30:00+05:30", "end": "2026-11-27T13:00:00+05:30", "room": "104", "track": "Strategy",
+      "papers": ["UPI and the informal economy", "Platform governance in India"] },
+    { "id": "s4", "title": "Track C1 · Behavioural Finance", "start": "2026-11-27T14:15:00+05:30", "end": "2026-11-27T15:45:00+05:30", "room": "201", "track": "Finance",
+      "papers": ["Herding in retail F&O trading", "Mental accounting and SIP flows"] },
+    { "id": "s5", "title": "Panel: Entrepreneurship from the Hills", "start": "2026-11-27T14:15:00+05:30", "end": "2026-11-27T15:45:00+05:30", "room": "KC-S1", "track": "Entrepreneurship" },
+    { "id": "s6", "title": "Track A2 · Marketing to the Next Billion", "start": "2026-11-27T16:15:00+05:30", "end": "2026-11-27T17:45:00+05:30", "room": "301", "track": "Marketing" },
+    { "id": "s7", "title": "Keynote: Organisations in the Age of AI", "start": "2026-11-28T09:30:00+05:30", "end": "2026-11-28T10:30:00+05:30", "room": "AUD", "track": "Plenary" },
+    { "id": "s8", "title": "Track B2 · HR Analytics", "start": "2026-11-28T11:00:00+05:30", "end": "2026-11-28T12:30:00+05:30", "room": "LSH", "track": "OB/HR" },
+    { "id": "s9", "title": "Doctoral Colloquium", "start": "2026-11-28T14:00:00+05:30", "end": "2026-11-28T17:00:00+05:30", "room": "LIB-R", "track": "Doctoral" },
+    { "id": "s10", "title": "Valedictory Session", "start": "2026-11-29T15:00:00+05:30", "end": "2026-11-29T16:30:00+05:30", "room": "AUD", "track": "Plenary" }
+  ],
+  "mess": {
+    "2026-11-27": { "breakfast": "Puri sabzi, poha, eggs, tea", "lunch": "Rice, dal, jadoh, chicken curry, salad", "dinner": "Rotis, paneer butter masala, veg pulao, kheer" },
+    "2026-11-28": { "breakfast": "Idli, sambar, bread-omelette", "lunch": "Rice, rajma, pork with bamboo shoot, mixed veg", "dinner": "Biryani, raita, gulab jamun" },
+    "2026-11-29": { "breakfast": "Aloo paratha, curd, fruit", "lunch": "Rice, dal, fish curry, aloo gobi", "dinner": "Gala dinner (see event pins)" }
+  }
+}
