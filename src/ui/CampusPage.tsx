@@ -154,7 +154,7 @@ export default function CampusPage() {
         </div>
       )}
 
-      <div className={'attrib' + (tier === 'campus' ? '' : '')}>{world?.attribution ?? ''} · Schematic layout, survey pending</div>
+      <div className="attrib">{world?.attribution ?? ''} · Layout v2, survey pending</div>
 
       {places && (
         <BottomSheet sel={sel} places={places} sched={sched} nameOf={nameOf} tier={tier}

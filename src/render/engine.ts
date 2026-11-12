@@ -187,6 +187,7 @@ export class MapEngine {
     const fs = tier === 'building' ? 13 : 12; c.font = `600 ${fs}px "Pixelify Sans", monospace`; c.textBaseline = 'middle';
     const items: { id: string; text: string; at: XY; z: number; pri: number; cat: string; sel: boolean }[] = [];
     for (const b of this.world.buildings) {
+      if (b.unnamed) continue; // v2: unnamed footprints are scenery only
       if (b.labelPriority > maxP && this.selected !== b.id) continue;
       if (this.filter !== 'all' && b.category !== this.filter && this.selected !== b.id) continue;
       const p = b.parts[0]; const top = Math.max(...b.parts.map(q => 4 + (q.floors - 1) * 3.4)) + 6;
@@ -251,7 +252,7 @@ export class MapEngine {
     const fx = bx + (px - this.W / 2) / s, fy = by + (py - this.H / 2) / s;
     const ents = this.entities();
     for (let i = ents.length - 1; i >= 0; i--) {
-      const e = ents[i]; if (e.kind !== 'b') continue; const sp = this.sprite(e.b!);
+      const e = ents[i]; if (e.kind !== 'b' || e.b!.unnamed) continue; const sp = this.sprite(e.b!);
       const lx = Math.floor(fx - sp.x0), ly = Math.floor(fy - sp.y0);
       if (lx >= 0 && ly >= 0 && lx < sp.w && ly < sp.h && sp.alpha[ly * sp.w + lx]) return { buildingId: e.b!.id, at: [e.x, e.y] };
     }

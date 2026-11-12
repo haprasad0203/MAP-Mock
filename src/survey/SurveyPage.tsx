@@ -23,7 +23,7 @@ export default function SurveyPage() {
   const targets = useMemo(() => !layout ? [] : [
     ...layout.entrances.map(e => ({ id: 'entrance:' + e.id, label: `Entrance · ${layout.buildings.find(b => b.id === e.buildingId)?.name ?? e.buildingId}` })),
     ...layout.landmarks.map(l => ({ id: 'landmark:' + l.id, label: `Landmark · ${l.name}` })),
-    ...layout.buildings.map(b => ({ id: 'building:' + b.id, label: `Building centre · ${b.name}` })),
+    ...layout.buildings.filter(b => !b.unnamed).map(b => ({ id: 'building:' + b.id, label: `Building centre · ${b.name}` })),
   ], [layout]);
 
   function startGps() {

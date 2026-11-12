@@ -67,7 +67,8 @@ export class SchematicSurveySource implements CampusGeometrySource {
   private surveyed = new Map<string, XY>();
 
   constructor(private layout: CampusLayout, private osm?: OsmData, survey: SurveyPoint[] = []) {
-    this.attribution = osm?.attribution;
+    // v2 layouts carry the full credit line (OSM, Overture, Google Open Buildings, Microsoft).
+    this.attribution = layout.attribution ?? osm?.attribution;
     if (survey.length) {
       const f = computeSurveyFit(layout, survey);
       this.t = f.transform; this.nudges = f.nudges;
@@ -91,7 +92,10 @@ export class SchematicSurveySource implements CampusGeometrySource {
     const s = this.scale(), r = this.rot();
     return this.layout.buildings.map(b => ({
       ...b,
-      parts: b.parts.map((pt: Part) => { const [cx, cy] = this.tx([pt.cx, pt.cy], b.id); return { ...pt, cx, cy, w: pt.w * s, d: pt.d * s, angle: pt.angle + r }; }),
+      parts: b.parts.map((pt: Part) => {
+        const [cx, cy] = this.tx([pt.cx, pt.cy], b.id);
+        return { ...pt, cx, cy, w: pt.w * s, d: pt.d * s, angle: pt.angle + r, poly: pt.poly?.map(q => this.tx(q, b.id)) };
+      }),
     }));
   }
   // OSM geometry is already in true coordinates; only the hand-authored layer moves with the survey fit.

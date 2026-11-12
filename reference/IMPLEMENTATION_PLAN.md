@@ -1,3 +1,37 @@
+# Implementation plan: layout v2 + tycoon 3D restyle (13 Nov 2026)
+
+Source: `reference/MASTER_PROMPT.md` and `reference/style/RESTYLE_TYCOON.md`. Each phase stops for the organiser's OK and ends with a commit.
+
+1. **Phase 1, data.**
+   - Add the v2 optional fields to `src/geo/types.ts` (`poly`, `src`, `groundElev`, `unnamed`, `version`, `note`, `attribution`).
+   - The loader accepts v2 and still merges `osm.json`. Survey transforms also move `poly`.
+   - The 2D map renders v2. `unnamed` buildings have no label, no hit-test and no Survey target.
+   - The credits show OSM, Overture, Google Open Buildings and Microsoft.
+   - Add the `?debug=layout` top-down view.
+   - Add the section 0.3 data tests (references, including sessions; entrances on the main network; pins inside the boundary within 10 m, ATM excepted).
+   - Data problems are logged in `reference/layout/LAYOUT_CHECK.md` and never "fixed" by moving buildings.
+2. **Phase 2, assets.**
+   - Pixel sprites move to `public/campus-art/pixel/`.
+   - Gemini (Chrome) produces the mood frame, 7 landmark renders and 9 seamless textures.
+   - `scripts/process-asset.mjs` processes them into `public/campus-art/tycoon/`, logged in `GENERATED.md`.
+   - Icons are code SVG.
+3. **Phase 3, 3D engine.**
+   - `src/render3d/Engine3D.ts` (Three.js + postprocessing) has the same public API as `MapEngine`.
+   - World: terrain from `terrain.json` with flattened pads, extruded `poly` footprints, road ribbons, the lake shader and instanced pines.
+   - Look: golden-hour light, tilt-shift, AO, bloom and the ACES grade.
+   - Quality tiers, with the 2D engine as fallback.
+   - All existing features keep working.
+4. **Phase 4, UI skin and refinement.**
+   - Soft, rounded game UI.
+   - At least 3 scored passes at 390×844 and 1280×800, saved in `reference/style/compare/` and scored in `STYLE_LOG.md`.
+   - 30 fps or better at the Medium tier.
+
+Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layout/build-layout.v1.mjs` so it can't overwrite v2.
+
+---
+
+# Previous plan (pixel)
+
 # Campus map: implementation plan (standalone mock in D:\Map Mock)
 
 ## Context
