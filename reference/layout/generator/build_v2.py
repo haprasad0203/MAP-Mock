@@ -153,7 +153,8 @@ def circle(c, r, n=20): return [(c[0] + r * math.cos(2 * math.pi * k / n), c[1] 
 lake_poly = Polygon(ring_local(load_osm('water')[0]))
 pitches = [f for f in load_osm('areas') if f['properties'].get('leisure') == 'pitch']
 court_union = Polygon(ring_local([f for f in load_osm('areas') if f['properties'].get('landuse') == 'recreation_ground'][0]))
-foot = [I02(772, 336), I02(838, 322), I02(852, 418), I02(786, 430)]
+# Football ground re-traced 13 Nov (H A: old box was wrong): the playing field between the light perimeter track, shot 02 raw px
+foot = [I02(751.7, 351.7), I02(791.7, 321.7), I02(848.3, 405.0), I02(808.3, 435.0)]
 forecourt_c = z03(620, 665)
 areas = [
   {'id': 'lake', 'kind': 'water', 'name': 'Campus Lake', 'pts': rnd(list(lake_poly.exterior.coords)[:-1]), 'src': 'OSM lake outline'},
@@ -162,7 +163,6 @@ areas = [
   {'id': 'admin-forecourt', 'kind': 'garden', 'name': 'Flag forecourt', 'pts': rnd(circle(forecourt_c, 12)), 'src': 'by-eye (drone: circular garden + flag)'},
   {'id': 'aud-plaza', 'kind': 'plaza', 'pts': rnd([z03(470, 640), z03(745, 625), z03(765, 705), z03(470, 725)]), 'src': 'by-eye'},
   {'id': 'terrace-garden', 'kind': 'garden', 'name': 'Kalam statue garden', 'pts': rnd([z03(650, 700), z03(1000, 700), z03(1000, 900), z03(700, 900)]), 'src': 'by-eye (drone)'},
-  {'id': 'admin-parking', 'kind': 'parking', 'name': 'Admin Block Parking', 'pts': rnd([z03(300, 420), z03(380, 420), z03(380, 475), z03(300, 475)]), 'src': 'by-eye'},
   {'id': 'nab-lawn', 'kind': 'lawn', 'pts': rnd([z03(430, 250), z03(560, 330), z03(520, 420), z03(400, 360)]), 'src': 'by-eye'},
   {'id': 'kalam-lawn', 'kind': 'lawn', 'pts': rnd(list(Polygon(FP[494]['ring']).union(Polygon(FP[495]['ring'])).buffer(14, join_style=2).exterior.coords)[:-1]), 'src': 'around footprints'},
   {'id': 'west-cluster-lawn', 'kind': 'lawn', 'pts': rnd(list(Polygon([FP[i]['c'] for i in (934, 928, 930, 946, 944, 933)]).convex_hull.buffer(10, join_style=2).exterior.coords)[:-1]), 'src': 'around footprints'},
@@ -182,15 +182,28 @@ paths.append({'id': 'rd-hostel2-lower', 'kind': 'service', 'name': 'Hostel 2 low
               'pts': rnd([I02(*p) for p in [(680, 217), (710, 213), (746, 210), (756, 222), (756, 246), (752, 260)]])})
 paths.append({'id': 'rd-east', 'kind': 'service', 'name': 'East road (Kalam junction to the east hill)', 'src': 'by-eye (satellite shots 01-03)',
               'pts': rnd([I03(*p) for p in [(783, 110), (830, 119), (873, 110), (960, 87)]])})
+# NAB roads (by eye on satellite shot 03, 13 Nov; H A: "road in front of NAB is not marked")
+paths.append({'id': 'rd-nab-north', 'kind': 'service', 'name': 'NAB approach road (from the Kalam side)', 'src': 'by-eye (satellite shot 03)',
+              'pts': rnd([I03(*p) for p in [(772, 190), (775, 205), (780, 222), (792, 240), (816, 252), (832, 264), (840, 278)]])})
+paths.append({'id': 'rd-nab-west', 'kind': 'service', 'name': 'NAB west lane (beside the main road)', 'src': 'by-eye (satellite shot 03)',
+              'pts': rnd([I03(*p) for p in [(840, 278), (834, 290), (826, 304), (820, 322), (822, 346), (830, 362), (836, 372)]])})
+# NAB front road: traced by H A on the check image (13 Nov), runs round the east (front) side of NAB past the lawn
+paths.append({'id': 'rd-nab-front', 'kind': 'road', 'surface': 'asphalt', 'name': 'NAB front road', 'src': 'traced by H A on zoom_G (13 Nov)',
+              'pts': rnd([I03(*p) for p in [(843.6, 221.2), (861.8, 238.3), (874.5, 249.3), (889.0, 263.8), (903.5, 272.9), (909.0, 283.8), (907.2, 302.0), (896.3, 320.2), (879.9, 338.4), (867.2, 353.0), (854.5, 367.5), (843.6, 376.6)]])})
 from shapely.ops import unary_union as _uu
 _net = _uu(osm_roads + [LineString(p['pts']) for p in paths if p['kind'] == 'service'])
 for p in paths:
-    if p['id'] in ('rd-hostel2-lower', 'rd-east'):
+    if p['id'] in ('rd-hostel2-lower', 'rd-east', 'rd-nab-north', 'rd-nab-west', 'rd-nab-front'):
         others = _uu(osm_roads + [LineString(q['pts']) for q in paths if q['kind'] == 'service' and q['id'] != p['id']])
         for end in (0, -1):
             pt = Point(p['pts'][end]); q = nearest_points(others, pt)[0]
             if 0.5 < pt.distance(q) < 30:
                 (p['pts'].insert(0, [r1(q.x), r1(q.y)]) if end == 0 else p['pts'].append([r1(q.x), r1(q.y)]))
+# NAB lawn (H A marked it with an X, 13 Nov): east of NAB, kept clear of the NAB front road
+_lawn = Polygon([I03(*p) for p in [(892.7, 314.8), (945.3, 338.4), (932.6, 369.3), (889.0, 349.3)]]).difference(LineString(next(q['pts'] for q in paths if q['id'] == 'rd-nab-front')).buffer(4))
+if _lawn.geom_type != 'Polygon': _lawn = max(_lawn.geoms, key=lambda g: g.area)
+for _a in areas:
+    if _a['id'] == 'nab-lawn': _a['pts'] = rnd(list(_lawn.exterior.coords)[:-1]); _a['name'] = 'NAB lawn'; _a['src'] = 'marked by H A on zoom_G'
 w954 = Polygon(FP[954]['ring']).minimum_rotated_rectangle; w949 = Polygon(FP[949]['ring']).minimum_rotated_rectangle
 def long_axis(r):
     c = list(r.exterior.coords)[:4]; e = [(c[k], c[(k + 1) % 4]) for k in range(4)]
@@ -260,6 +273,7 @@ _used = set(USED)
 _skip = {949, 954, 1009, 891, 892, 522, 523, 524}   # walkway roofs (drawn as the covered walk), the tank, SW village edge
 for i, f in sorted(FP.items()):
     if i in _used or i in _skip or f['area'] < 15 or not _bd.contains(Point(f['c'])): continue
+    if Polygon(foot).buffer(2).contains(Point(f['c'])): continue   # stray shapes on the football ground
     buildings.append({'id': f'bldg-{i}', 'name': 'Campus building', 'category': 'service', 'wall': '#ECE4D2', 'roofColor': C['GREEN'],
                       'labelPriority': 3, 'unnamed': True, 'parts': [fpart(i, 2 if f['area'] > 40 else 1, 'hip')]})
 

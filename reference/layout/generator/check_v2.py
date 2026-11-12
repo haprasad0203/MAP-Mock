@@ -10,10 +10,10 @@ for k,(path,obs) in SHOTS.items():
     tp=lambda pts:[P(x,y) for x,y in pts]
     d.line(tp(lay['boundary']+[lay['boundary'][0]]),fill=(255,255,0,255),width=2)
     for a in lay['areas']: d.polygon(tp(a['pts']),outline=AK[a['kind']]+(255,),fill=AK[a['kind']]+(50,))
-    for r in osm['roads']:
-        col=(255,255,255) if r['src'].startswith('OSM') else (0,255,255)
-        d.line(tp(r['pts']),fill=col+(235,),width=3 if r['kind']=='road' else 2)
-    for p in lay['paths']: d.line(tp(p['pts']),fill=PK[p['kind']]+(230,),width=2 if p['kind'] in('road','service') else 1)
+    for r in osm['roads']+[q for q in lay['paths'] if q['kind'] in ('road','service','track')]:
+        d.line(tp(r['pts']),fill=((255,255,255) if r['kind']=='road' else (215,215,215))+(235,),width=3 if r['kind']=='road' else 2)
+        if not str(r.get('src','')).startswith('OSM'): d.line(tp(r['pts']),fill=(255,120,0,255),width=1)
+    for p in [q for q in lay['paths'] if q['kind'] not in ('road','service','track')]: d.line(tp(p['pts']),fill=PK[p['kind']]+(230,),width=2 if p['kind'] in('road','service') else 1)
     for b in lay['buildings']:
         c=CAT[b['category']]
         for pt in b['parts']: d.polygon(tp(pt['poly']),outline=c+(255,),fill=c+(90,))

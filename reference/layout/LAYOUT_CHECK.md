@@ -24,3 +24,11 @@ None. `campus-layout.json` v2, `places.json`, `osm.json` and `terrain.json` are 
 - **`lake-trail` (layout path) is not connected to the main network.** Its ends are more than 3 m from any road and it crosses none. No entrance depends on it, but Phase 3 routing can't use the trail until a connector is surveyed.
 - **Small detached OSM pieces** (expected): `osm-1050925777+…779+…782`, `osm-1051011499+osm-1051186881+osm-1051189581`, `osm-1050216167`, `osm-1050925783`, `ovt-150`.
 - Low-confidence items in `LAYOUT_INVENTORY.md` stay flagged `confirm` for Survey mode.
+
+## Road types (13 Nov 2026, data update)
+- The data update marks `rd-nab-front`, `osm-1050247311` (main campus road) and `osm-1050247312` (campus loop) as `kind: road`, `surface: asphalt`. The rest of the campus roads stay `service`.
+- 2D renderer:
+  - `road` is about 8 m of asphalt with a kerb, white edge lines (shown from k ≥ 0.64) and a 3 m on / 3 m off centre dash (shown from k ≥ 0.9).
+  - `service` is narrower, about 4.4 m, with no markings.
+  - The public `road` lines outside campus get the same asphalt look.
+- All 13 data tests pass on the updated data. No layout changes made.

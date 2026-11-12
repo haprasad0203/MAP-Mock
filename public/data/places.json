@@ -295,8 +295,8 @@
       "category": "sports",
       "areaId": "football",
       "at": [
-        -98,
-        200
+        -110,
+        198
       ],
       "aliases": [
         "Cricket ground",
@@ -445,21 +445,6 @@
       ],
       "phone": "+91-0000000000",
       "confirm": "Location and phone"
-    },
-    {
-      "id": "parking",
-      "name": "Admin Block Parking",
-      "category": "service",
-      "areaId": "admin-parking",
-      "at": [
-        108,
-        -153
-      ],
-      "aliases": [
-        "Parking",
-        "Car park"
-      ],
-      "confirm": "Paved lot between NAB and the Admin Block (satellite); confirm it is the visitor car park"
     },
     {
       "id": "water-tank",

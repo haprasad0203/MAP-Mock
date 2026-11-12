@@ -7,6 +7,7 @@ import { hash2, valueNoise } from './noise';
 export const G = {
   WILD: 0, LAWN: 1, ROAD: 2, SERVICE: 3, TRACK: 4, PATH: 5, WATER: 6, COURT: 7, GROUND: 8, PLAZA: 9,
   PARKING: 10, GARDEN: 11, BUILDING: 12, COURT_RED: 13, ROAD_EDGE: 14, COVERED: 15, COURT_BLUE: 16, EARTH: 17,
+  ROAD_LINE: 18, ROAD_DASH: 19, // white edge lines and centre dash on asphalt roads
 } as const;
 
 export const HALF = 1300; // raster covers [-HALF, HALF) metres in x and y
@@ -71,12 +72,31 @@ function strokeLine(buf: Uint8Array, pts: XY[], radius: number, val: number, onl
   }
 }
 
+/** 1-cell-wide dashed stamp along a polyline (dash pattern continues across vertices). */
+function dashLine(buf: Uint8Array, pts: XY[], on: number, off: number, val: number, onlyIf: (cur: number) => boolean) {
+  let dist = 0; const period = on + off;
+  for (let i = 0; i + 1 < pts.length; i++) {
+    const [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
+    const len = Math.hypot(x1 - x0, y1 - y0), steps = Math.max(1, Math.ceil(len / 0.4));
+    for (let s = 0; s < steps; s++) {
+      const t = s / steps; if ((dist + t * len) % period >= on) continue;
+      const ix = Math.floor(x0 + (x1 - x0) * t + HALF), iy = Math.floor(y0 + (y1 - y0) * t + HALF);
+      if (ix < 0 || iy < 0 || ix >= SIZE || iy >= SIZE) continue;
+      const q = iy * SIZE + ix; if (onlyIf(buf[q])) buf[q] = val;
+    }
+    dist += len;
+  }
+}
+
 export function partCorners(p: { cx: number; cy: number; w: number; d: number; angle: number }): XY[] {
   const a = (p.angle * Math.PI) / 180, c = Math.cos(a), s = Math.sin(a);
   return ([[-p.w / 2, -p.d / 2], [p.w / 2, -p.d / 2], [p.w / 2, p.d / 2], [-p.w / 2, p.d / 2]] as XY[]).map(([x, y]) => [p.cx + x * c - y * s, p.cy + x * s + y * c]);
 }
 
-const ROAD_W: Record<PathLine['kind'], number> = { road: 3.6, service: 2.8, track: 1.8, footpath: 1.1, covered: 1.4 };
+// Half-widths in metres. 'road' = full-width asphalt (~8 m with edge lines); 'service' = narrower campus lane (~4.4 m).
+const ROAD_W: Record<PathLine['kind'], number> = { road: 3.9, service: 2.2, track: 1.8, footpath: 1.1, covered: 1.4 };
+const EDGE_LINE = 1.2; // white edge line, inside the road width
+const DASH_ON = 3, DASH_OFF = 3; // centre dash pattern in metres
 const ROAD_C: Record<PathLine['kind'], number> = { road: G.ROAD, service: G.SERVICE, track: G.TRACK, footpath: G.PATH, covered: G.COVERED };
 
 export function buildWorld(src: CampusGeometrySource): WorldModel {
@@ -95,11 +115,18 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   }
   const paths = src.getPaths();
   const notWater = (c: number) => c !== G.WATER;
+  const paved = (c: number) => c === G.ROAD || c === G.ROAD_LINE || c === G.ROAD_DASH || c === G.SERVICE;
   for (const kind of ['track', 'footpath', 'service', 'road', 'covered'] as const)
     for (const p of paths.filter(p => p.kind === kind)) {
-      if (kind === 'road' || kind === 'service') strokeLine(mask, p.pts, ROAD_W[kind] + 1, G.ROAD_EDGE, c => c !== G.ROAD && c !== G.SERVICE && c !== G.WATER);
-      strokeLine(mask, p.pts, ROAD_W[kind], ROAD_C[kind], kind === 'footpath' ? notWater : undefined);
+      if (kind === 'road' || kind === 'service') strokeLine(mask, p.pts, ROAD_W[kind] + (kind === 'road' ? 1 : 0.8), G.ROAD_EDGE, c => !paved(c) && c !== G.WATER);
+      if (kind === 'road') {
+        // edge lines: a ring just inside the road; never over another road's asphalt, so junctions stay clean
+        strokeLine(mask, p.pts, ROAD_W.road, G.ROAD_LINE, c => c !== G.ROAD && c !== G.ROAD_DASH);
+        strokeLine(mask, p.pts, ROAD_W.road - EDGE_LINE, G.ROAD);
+      } else strokeLine(mask, p.pts, ROAD_W[kind], ROAD_C[kind], kind === 'footpath' ? notWater : kind === 'service' ? (c => c !== G.ROAD && c !== G.ROAD_LINE && c !== G.ROAD_DASH) : undefined);
     }
+  // centre dash on asphalt, only where the cell is plain asphalt
+  for (const p of paths.filter(p => p.kind === 'road')) dashLine(mask, p.pts, DASH_ON, DASH_OFF, G.ROAD_DASH, c => c === G.ROAD);
   const buildings = src.getBuildings();
   for (const b of buildings) for (const p of b.parts) {
     const pad = { ...p, w: p.w + 3, d: p.d + 3 };

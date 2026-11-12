@@ -29,7 +29,7 @@ The old `campus-layout.json` was placed by eye and was wrong. It has been **repl
 ### 0.1 What you're given
 | File | What it is |
 |---|---|
-| `public/data/campus-layout.json` (v2) | 73 buildings (29 named + 44 `unnamed`), 126 parts, 29 paths, 12 areas (incl. the lake), 28 entrances, 5 landmarks, the campus boundary. The Auditorium and the Library are INSIDE the Admin Block (one building). The kiosk by Cafe Cloud is Amul Cafe. The Kalam statue stands in the terraced garden south-east of the Admin Block. Same schema as before, plus new optional fields (below). |
+| `public/data/campus-layout.json` (v2) | 71 buildings (29 named + 42 `unnamed`), 124 parts, 30 paths, 11 areas (incl. the lake and the NAB lawn), 28 entrances, 5 landmarks, the campus boundary. The Auditorium and the Library are INSIDE the Admin Block (one building). The kiosk by Cafe Cloud is Amul Cafe. The Kalam statue stands in the terraced garden south-east of the Admin Block. Same schema as before, plus new optional fields (below). |
 | `public/data/places.json` | Updated `at` coordinates. New place `amul-cafe`. Hostel names confirmed: Hostel 1 = D Block, Hostel 2 = F Block, Hostel 3 = the north-ridge blocks, Hostel 4 = the block between D and F. Google's "Mithaas" pin is the Commercial Complex. Places `auditorium` and `library` and rooms AUD and LIB-R point to `admin`. |
 | `public/data/terrain.json` | Height grid, 20 m step, ±1300 m, in metres above the lake (lake = 0). From SRTM, so it's coarse: smooth it. |
 | `public/data/osm.json` | REPLACED: 122 roads (the full fresh OSM export + 3 Overture-only segments) + the lake and courts. Merged by `src/geo/source.ts` as before. Each road has `src`. |

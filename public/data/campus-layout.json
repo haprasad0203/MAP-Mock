@@ -4288,86 +4288,6 @@
    "groundElev": 1.2
   },
   {
-   "id": "bldg-950",
-   "name": "Campus building",
-   "category": "service",
-   "wall": "#ECE4D2",
-   "roofColor": "#3E8A4E",
-   "labelPriority": 3,
-   "unnamed": true,
-   "parts": [
-    {
-     "cx": -122.8,
-     "cy": 226.8,
-     "w": 4.1,
-     "d": 4.1,
-     "angle": -74.5,
-     "floors": 1,
-     "roof": "hip",
-     "poly": [
-      [
-       -124.3,
-       224.2
-      ],
-      [
-       -120.3,
-       225.3
-      ],
-      [
-       -121.4,
-       229.3
-      ],
-      [
-       -125.4,
-       228.2
-      ]
-     ],
-     "src": "overture f9e5e751-6555-4d7a-816a-97c1805a3385 (Google Open Buildings)"
-    }
-   ],
-   "groundElev": 17.6
-  },
-  {
-   "id": "bldg-951",
-   "name": "Campus building",
-   "category": "service",
-   "wall": "#ECE4D2",
-   "roofColor": "#3E8A4E",
-   "labelPriority": 3,
-   "unnamed": true,
-   "parts": [
-    {
-     "cx": -123.6,
-     "cy": 232.9,
-     "w": 4.8,
-     "d": 3.4,
-     "angle": -81.5,
-     "floors": 1,
-     "roof": "hip",
-     "poly": [
-      [
-       -124.9,
-       230.2
-      ],
-      [
-       -121.5,
-       230.7
-      ],
-      [
-       -122.2,
-       235.5
-      ],
-      [
-       -125.6,
-       235.0
-      ]
-     ],
-     "src": "overture 2c20de35-5ce6-4eae-82af-e083a5e14915 (Google Open Buildings)"
-    }
-   ],
-   "groundElev": 17.5
-  },
-  {
    "id": "bldg-959",
    "name": "Campus building",
    "category": "service",
@@ -5210,6 +5130,143 @@
    ]
   },
   {
+   "id": "rd-nab-north",
+   "kind": "service",
+   "name": "NAB approach road (from the Kalam side)",
+   "src": "by-eye (satellite shot 03)",
+   "pts": [
+    [
+     4.5,
+     40.8
+    ],
+    [
+     7.5,
+     25.4
+    ],
+    [
+     12.6,
+     8.0
+    ],
+    [
+     24.9,
+     -10.4
+    ],
+    [
+     49.5,
+     -22.6
+    ],
+    [
+     65.8,
+     -34.9
+    ],
+    [
+     74.0,
+     -49.2
+    ]
+   ]
+  },
+  {
+   "id": "rd-nab-west",
+   "kind": "service",
+   "name": "NAB west lane (beside the main road)",
+   "src": "by-eye (satellite shot 03)",
+   "pts": [
+    [
+     74.0,
+     -49.2
+    ],
+    [
+     67.9,
+     -61.5
+    ],
+    [
+     59.7,
+     -75.8
+    ],
+    [
+     53.6,
+     -94.2
+    ],
+    [
+     55.6,
+     -118.8
+    ],
+    [
+     63.8,
+     -135.1
+    ],
+    [
+     69.9,
+     -145.4
+    ],
+    [
+     65.4,
+     -150.2
+    ]
+   ]
+  },
+  {
+   "id": "rd-nab-front",
+   "kind": "road",
+   "surface": "asphalt",
+   "name": "NAB front road",
+   "src": "traced by H A on zoom_G (13 Nov)",
+   "pts": [
+    [
+     77.7,
+     8.9
+    ],
+    [
+     96.3,
+     -8.6
+    ],
+    [
+     109.3,
+     -19.9
+    ],
+    [
+     124.1,
+     -34.7
+    ],
+    [
+     138.9,
+     -44.0
+    ],
+    [
+     144.6,
+     -55.2
+    ],
+    [
+     142.7,
+     -73.8
+    ],
+    [
+     131.6,
+     -92.4
+    ],
+    [
+     114.8,
+     -111.0
+    ],
+    [
+     101.8,
+     -125.9
+    ],
+    [
+     88.8,
+     -140.8
+    ],
+    [
+     77.7,
+     -150.1
+    ],
+    [
+     71.3,
+     -155.9
+    ]
+   ]
+  },
+  {
    "id": "covered-walk",
    "kind": "covered",
    "name": "Covered walkway",
@@ -5362,12 +5419,12 @@
    "kind": "footpath",
    "pts": [
     [
-     57.0,
-     -114.1
+     56.7,
+     -113.3
     ],
     [
-     41.9,
-     -125.2
+     55.2,
+     -113.4
     ]
    ],
    "src": "entrance connector (auto)"
@@ -5418,46 +5475,16 @@
    "src": "entrance connector (auto)"
   },
   {
-   "id": "fp-kalam-building",
-   "kind": "footpath",
-   "pts": [
-    [
-     -12.9,
-     41.9
-    ],
-    [
-     -43.7,
-     74.8
-    ]
-   ],
-   "src": "entrance connector (auto)"
-  },
-  {
-   "id": "fp-east-cluster",
-   "kind": "footpath",
-   "pts": [
-    [
-     40.0,
-     -37.2
-    ],
-    [
-     16.8,
-     -52.6
-    ]
-   ],
-   "src": "entrance connector (auto)"
-  },
-  {
    "id": "fp-block-501",
    "kind": "footpath",
    "pts": [
     [
-     40.9,
-     46.6
+     34.1,
+     38.3
     ],
     [
-     54.0,
-     115.3
+     6.0,
+     32.8
     ]
    ],
    "src": "entrance connector (auto)"
@@ -5931,20 +5958,20 @@
    "name": "Football Ground",
    "pts": [
     [
-     -139.1,
-     241.9
+     -159.9,
+     225.8
     ],
     [
-     -71.5,
-     256.3
+     -118.9,
+     256.6
     ],
     [
-     -57.1,
-     157.9
+     -60.9,
+     171.2
     ],
     [
-     -124.8,
-     145.6
+     -101.9,
+     140.4
     ]
    ],
    "src": "by-eye; Google pin"
@@ -6108,51 +6135,44 @@
    "src": "by-eye (drone)"
   },
   {
-   "id": "admin-parking",
-   "kind": "parking",
-   "name": "Admin Block Parking",
-   "pts": [
-    [
-     94.5,
-     -143.3
-    ],
-    [
-     121.7,
-     -143.3
-    ],
-    [
-     121.7,
-     -162.1
-    ],
-    [
-     94.5,
-     -162.1
-    ]
-   ],
-   "src": "by-eye"
-  },
-  {
    "id": "nab-lawn",
    "kind": "lawn",
    "pts": [
     [
-     138.8,
-     -85.4
+     181.7,
+     -111.0
     ],
     [
-     183.1,
-     -112.6
+     168.7,
+     -142.6
     ],
     [
-     169.5,
-     -143.3
+     124.1,
+     -122.2
     ],
     [
-     128.6,
-     -122.9
+     126.0,
+     -104.6
+    ],
+    [
+     134.6,
+     -95.1
+    ],
+    [
+     134.8,
+     -94.8
+    ],
+    [
+     135.0,
+     -94.4
+    ],
+    [
+     137.1,
+     -91.0
     ]
    ],
-   "src": "by-eye"
+   "src": "marked by H A on zoom_G",
+   "name": "NAB lawn"
   },
   {
    "id": "kalam-lawn",
@@ -6651,8 +6671,8 @@
    "id": "nab-main",
    "buildingId": "nab",
    "at": [
-    57.0,
-    -114.1
+    56.7,
+    -113.3
    ],
    "main": true
   },
@@ -6687,8 +6707,8 @@
    "id": "kalam-building-main",
    "buildingId": "kalam-building",
    "at": [
-    -12.9,
-    41.9
+    4.0,
+    40.7
    ],
    "main": true
   },
@@ -6696,8 +6716,8 @@
    "id": "east-cluster-main",
    "buildingId": "east-cluster",
    "at": [
-    40.0,
-    -37.2
+    32.3,
+    -13.2
    ],
    "main": true
   },
@@ -6705,8 +6725,8 @@
    "id": "block-501-main",
    "buildingId": "block-501",
    "at": [
-    40.9,
-    46.6
+    34.1,
+    38.3
    ],
    "main": true
   },

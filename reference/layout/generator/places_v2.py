@@ -7,7 +7,7 @@ pl=json.load(open('/mnt/user-data/uploads/Map Mock/public/data/places.json'))
 area={a['id']:a for a in lay['areas']}
 cen=lambda pts:[round(Polygon(pts).centroid.x),round(Polygon(pts).centroid.y)]
 AT={'football':cen(area['football']['pts']),'basketball':[-210,140],'volleyball':[-180,137],'tennis':[-219,140],
-    'covered-walkway':[-150,170],'lake':[-79,-55],'parking':cen(area['admin-parking']['pts'])}
+    'covered-walkway':[-150,170],'lake':[-79,-55]}
 for p in pl['places']:
     if p['id'] in AT: p['at']=AT[p['id']]
     if p['id']=='tennis': p['confirm']='OSM tags both west courts as basketball; whether one is used for tennis/badminton to confirm'
@@ -28,6 +28,7 @@ for p in pl['places']:
 for r in pl.get('rooms', []):
     if r.get('buildingId') in ('auditorium', 'library'): r['buildingId'] = 'admin'
 ids={p['id'] for p in pl['places']}
+pl['places']=[p for p in pl['places'] if p['id']!='parking']   # H A, 13 Nov: the Admin Block parking was wrong; removed
 if 'amul-cafe' not in ids:
     pl['places'].insert([p['id'] for p in pl['places']].index('tin-cafe'),
       {'id':'amul-cafe','name':'Amul Cafe','category':'food','buildingId':'amul-cafe','aliases':['Amul','Ice cream','Milkshake'],'confirm':'Opening hours'})

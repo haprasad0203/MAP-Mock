@@ -13,7 +13,7 @@ const P = {
   court: rgb(C.court), courtLine: rgb(C.courtLine), courtRed: rgb(C.courtRed), ground: rgb(C.ground), stripe: rgb(C.groundStripe),
   plaza: rgb(C.plaza), plazaDark: rgb(C.plazaDark), parking: rgb(C.parking), parkingLine: rgb(C.parkingLine), garden: rgb(C.garden), flower: rgb(C.flower),
   building: rgb('#BFB49C'), courtBlue: rgb('#3E95B8'), covered: rgb('#5FB7B0'), coveredDark: rgb('#2F8A8A'),
-  earth: rgb('#C9B48A'), earthDark: rgb('#BFB49C'), mist: [rgb(C.mist3), rgb(C.mist2), rgb(C.mist)],
+  roadLine: rgb('#ECE8DC'), roadDash: rgb('#F3EFE3'), earth: rgb('#C9B48A'), earthDark: rgb('#BFB49C'), mist: [rgb(C.mist3), rgb(C.mist2), rgb(C.mist)],
 };
 
 // Coarse hill-shade raster (8 m cells) so the per-pixel pass stays cheap.
@@ -62,6 +62,9 @@ export function renderChunk(m: WorldModel, rot: Rot, k: number, ci: number, cj: 
       }
       case G.LAWN: { const s = shadeAt(x, y) * 0.6 + (valueNoise(x / 9, y / 9, 8) - 0.5) * 0.6 + (b - 0.5) * 0.4; col = P.lawn[s > 0.22 ? 2 : s < -0.22 ? 0 : 1]; break; }
       case G.ROAD: col = P.road; break;
+      // markings only once a line is at least ~1 px wide; further out they read as plain asphalt
+      case G.ROAD_LINE: col = k >= 0.64 ? P.roadLine : P.road; break;
+      case G.ROAD_DASH: col = k >= 0.9 ? P.roadDash : P.road; break;
       case G.ROAD_EDGE: col = P.roadEdge; break;
       case G.SERVICE: col = P.service; break;
       case G.TRACK: col = P.track; break;

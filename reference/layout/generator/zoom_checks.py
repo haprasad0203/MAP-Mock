@@ -17,10 +17,11 @@ for name,shot,(X0,Y0,X1,Y1) in REG:
     T=lambda x,y:((P(x,y)[0]-X0)*K,(P(x,y)[1]-Y0)*K); tp=lambda pts:[T(*p) for p in pts]
     for a in lay['areas']:
         c=AK[a['kind']]; d.polygon(tp(a['pts']),outline=c+(255,),fill=c+(35 if a['kind']!='water' else 60,),width=3)
-    for r in osm['roads']:
-        d.line(tp(r['pts']),fill=((255,255,255) if r['src'].startswith('OSM') else (0,255,255))+(230,),width=4 if r['kind']=='road' else 3)
-    for p in lay['paths']:
-        c,w=PK[p['kind']]; d.line(tp(p['pts']),fill=c+(240,),width=w)
+    KC={'road':((255,255,255),9),'service':((215,215,215),4),'track':((220,180,120),3),'footpath':((255,150,220),2),'covered':((255,40,200),4)}
+    for r in osm['roads']+lay['paths']:
+        c,w=KC[r['kind']]; d.line(tp(r['pts']),fill=c+(235,),width=w)
+        if not str(r.get('src','')).startswith('OSM') and r['kind'] in ('road','service','track'):
+            d.line(tp(r['pts']),fill=(255,120,0,255),width=1)
     labels=[]
     for b in lay['buildings']:
         c=CAT[b['category']]
@@ -37,6 +38,6 @@ for name,shot,(X0,Y0,X1,Y1) in REG:
     for x,y,t,c,f in labels:
         if -50<x<im.size[0] and -20<y<im.size[1]: txt(d,(x+10,y-10),t,c,f)
     d.rectangle([0,im.size[1]-34,im.size[0],im.size[1]],fill=(0,0,0,170))
-    txt(d,(8,im.size[1]-30),'white = OSM road · cyan = Overture-only road · orange = added road · pink = footpath · magenta = covered walk · red dot = entrance · yellow = landmark · blue = lake',(255,255,255),ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',15))
+    txt(d,(8,im.size[1]-30),'white = asphalt road · grey = service road · orange stripe = road added (not in OSM) · pink = footpath · magenta = covered walk · red dot = entrance · yellow = landmark · blue = lake',(255,255,255),ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',15))
     Image.alpha_composite(im.convert('RGBA'),ov).convert('RGB').save(f'layout/out/zoom_{name}.png')
 print('ok')

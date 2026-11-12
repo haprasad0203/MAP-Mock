@@ -8,6 +8,11 @@
 - The statue in the middle of the terraced garden south-east of the Admin Block is the **Kalam statue**.
 - Hostels: **Hostel 1 = D Block**, **Hostel 2 = F Block**, **Hostel 3 = the north-ridge blocks**, **Hostel 4 = the block between D and F**. The old ten-block cluster west of the courts is NOT Hostel 1 (now `west-cluster`, name to confirm).
 - Google's "Mithaas" pin is the **Commercial Complex** (Mithaas is a shop inside).
+- The "Admin Block Parking" area was wrong and has been removed (no parking area for now).
+- NAB front road (`rd-nab-front`) traced by H A: it runs round the east side of NAB past the NAB lawn. Also added by eye: the approach road from the Kalam side (`rd-nab-north`) and the west lane beside the main road (`rd-nab-west`).
+- The lawn east of NAB (`nab-lawn`) marked by H A.
+- Road types: the NAB front road, the main campus road (gate → Kalam junction, OSM 1050247311) and the campus loop (OSM 1050247312) are `kind: road` (asphalt, full width with markings). OSM tags every campus road as `service`; the rest stay `service` (narrower).
+- Football ground re-traced on the actual field. OSM way 1050247323 ran through the middle of the field; that part is moved to 4 m outside the east edge in `osm.json`. Two stray shapes on the field were dropped.
 
 ## Sources used
 | Source | Used for | Licence |
@@ -24,7 +29,7 @@
   - `poly`: the true footprint polygon, to extrude in 3D;
   - `src`: where the part came from.
 - Each `Building` has `groundElev` (metres above the lake surface, from the DEM).
-- `unnamed: true` marks 44 small footprints inside the campus that we could not name (staff houses, sheds, plant rooms). Draw them, never label them, leave them out of search.
+- `unnamed: true` marks 42 small footprints inside the campus that we could not name (staff houses, sheds, plant rooms). Draw them, never label them, leave them out of search.
 - Entrances are placed on the face nearest a road, with a short `fp-<id>` footpath connector. The Admin entrance faces the flag forecourt.
 - The covered walkway comes from two long roof footprints in Overture, joined by eye.
 - Boundary: the campus only. The south-west village, the east settlements, NECT, NIELIT and NIFT are outside. The ATM is just outside, on the public road. Lariti is not on campus.
@@ -71,12 +76,11 @@ Lake = 0 m. Academic core is +5 to +12 m. Courts and the west cluster are +7 to 
 | Lake (`lake` area, also in `osm.json`) | OSM | High |
 | Lake walking trail | OSM lake outline + 7 m | Medium |
 | Basketball ×2, volleyball | OSM pitches | High; whether one west court is tennis/badminton is Low |
-| Football ground | by eye (satellite) at the Google pin | Medium |
+| Football ground | re-traced 13 Nov on the playing field inside the perimeter track (satellite) | High |
 | Flag forecourt (round garden), plaza | by eye (drone DJI_0338, Image_363) | Medium |
 | Kalam statue garden (terraced garden SE of the Admin Block) | by eye; confirmed by H A | High |
-| Admin Block parking (paved lot between NAB and Admin) | by eye | Low |
 | All public and campus roads (`public/data/osm.json`, 122 lines) | fresh OSM export + 3 Overture-only segments | High (OSM sits up to ~8 m off the satellite in places) |
-| Hostel 2 access loop, north hostel road, Hostel 2 lower road, east road from the Kalam junction | by eye (satellite); missing from OSM and Overture | Medium |
+| Hostel 2 access loop, north hostel road, Hostel 2 lower road, east road from the Kalam junction, NAB approach road, NAB west lane | by eye (satellite); missing from OSM and Overture | Medium |
 | Covered walkway | Overture roof footprints + joins by eye | Medium |
 | Main gate | Google listing pin on the south road | Medium |
 | Flag mast | centre of the forecourt | Medium |
@@ -90,4 +94,4 @@ Lake = 0 m. Academic core is +5 to +12 m. Courts and the west cluster are +7 to 
 - Overlays on the three satellite screenshots: `reference/layout/check_01.png`, `check_02.png`, `check_03.png`. Six close-ups with every label, road and the lake: `zoom_A..F_*.png`. Plain top-down: `layout_v2_topdown.png`.
 
 ## Survey on campus (Survey mode)
-Main gate posts, Admin main door (and which wing holds the Auditorium and the Library), NAB entrances (both ends), Hostel 4 corners (outline by eye), the west cluster (what it is), where Worth The Taste (Tin Café) is, the parking lot, the medical room, the help desk, and the guard room.
+Main gate posts, Admin main door (and which wing holds the Auditorium and the Library), NAB entrances (both ends), Hostel 4 corners (outline by eye), the west cluster (what it is), where Worth The Taste (Tin Café) is, the medical room, the help desk, and the guard room.

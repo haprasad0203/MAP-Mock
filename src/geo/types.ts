@@ -18,7 +18,7 @@ export interface Building {
   /** v2: drawn plainly, never labelled, not searchable, not hit-tested. */
   unnamed?: boolean;
 }
-export interface PathLine { id: string; kind: 'road' | 'service' | 'track' | 'footpath' | 'covered'; pts: XY[]; steps?: boolean; name?: string; src?: string }
+export interface PathLine { id: string; kind: 'road' | 'service' | 'track' | 'footpath' | 'covered'; pts: XY[]; steps?: boolean; name?: string; src?: string; surface?: string }
 export interface Area { id: string; kind: 'water' | 'court' | 'ground' | 'lawn' | 'plaza' | 'parking' | 'garden'; pts: XY[]; sport?: string; name?: string; surface?: 'earth' | 'grass' }
 export interface TreeCluster { c: XY; r: number; density: number }
 export interface Entrance { id: string; buildingId: string; at: XY; main?: boolean; surveyed?: boolean }
