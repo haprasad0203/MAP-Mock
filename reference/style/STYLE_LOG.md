@@ -77,3 +77,10 @@ The scene scores (SCENE_LOOK.md rows 1–10) start after H A's OK on these two.
 - Numbers: 0.053 m/px, offset [5.5, -7.5]. The lawn strip and steps below that line in the picture are cut off.
 - Screenshot: `compare/sprites_nab_facing_road_1280x800.jpg`. Admin is unchanged (it still faces the camera).
 
+### 14 Nov 2026: NAB made smaller; a front-on NAB tried in Gemini (H A's suggestion)
+- NAB sprite: 0.044 m/px, offset [7.5, -3.2]. It now sits inside its footprint, clear of the front road, the west lane and the approach road. Screenshot: `compare/sprites_nab_facing_road_1280x800.jpg`.
+- Gemini (H A allowed it for NAB, to get the Admin render's camera): one chat, `nab_v3` and `admin_v1` attached, asking for the same building with the entrance front level and facing the viewer.
+  - Try 1 (fast model, 3.5 Flash-Lite): the camera is right, the look is not. It came out pale and realistic rather than the chunky tycoon style, with stone across the whole middle, small dull tower caps and small windows. Preview only: `compare/nab_gemini_front_preview.png`. Not downloaded, not used.
+  - Try 2 (3.1 Pro, asking for the original look): the prompt was returned to the box unsent, twice. No image.
+- The map still uses the approved `nab_v3` cut-out, stood along its real facade line.
+
