@@ -110,8 +110,8 @@ B('west-cluster', 'Residential cluster (west of the courts)', 'hostel', C['CREAM
   short='West cluster', confirm='Ten small blocks west of the courts. NOT Hostel 1 (H A: D Block is Hostel 1). Name and use to confirm.')
 
 # ---------------- North: hostels, mess, shops ----------------
-B('hostel-1', 'Hostel 1 · D Block', 'hostel', C['WHITE'], C['GREEN'],
-  [fpart(953, 4, 'hip', balconies=True, glass='stair'), fpart(952, 4, 'hip', balconies=True), fpart(956, 4, 'hip'), fpart(955, 4, 'hip', balconies=True), fpart(942, 4, 'hip', balconies=True)], 1,
+B('hostel-1', 'Hostel 1 · D Block', 'hostel', C['WHITE'], '#D9D6CE',
+  [fpart(953, 4, 'flat', balconies=True, glass='stair', stoneBase=True), fpart(952, 4, 'flat', balconies=True, stoneBase=True), fpart(956, 4, 'flat', stoneBase=True), fpart(955, 4, 'flat', balconies=True, stoneBase=True), fpart(942, 4, 'flat', balconies=True, stoneBase=True)], 1,   # flat roofs: DSC_9111 + satellite (13 Nov)
   short='Hostel 1', confirm='Named by H A (Google: "D block"). Whether the two south-west blocks belong to it to confirm.')
 # Students' Mess = the cluster of four octagonal halls west of Hostel 1 (D Block), confirmed by H A 13 Nov.
 # Centres measured on H A's high-res screenshot (relative to each other), anchored to Overture footprints 975/937/938 (mean shift).
@@ -166,7 +166,7 @@ foot = [I02(751.7, 351.7), I02(791.7, 321.7), I02(848.3, 405.0), I02(808.3, 435.
 forecourt_c = z03(620, 665)
 areas = [
   {'id': 'lake', 'kind': 'water', 'name': 'Campus Lake', 'pts': rnd(list(lake_poly.exterior.coords)[:-1]), 'src': 'OSM lake outline'},
-  {'id': 'football', 'kind': 'ground', 'surface': 'earth', 'name': 'Football Ground', 'pts': rnd(foot), 'src': 'by-eye; Google pin'},
+  {'id': 'football', 'kind': 'ground', 'surface': 'grass', 'name': 'Football Ground', 'pts': rnd(foot), 'src': 'by-eye; Google pin'},
   {'id': 'courts-surround', 'kind': 'plaza', 'pts': rnd(list(court_union.buffer(4, join_style=2).exterior.coords)[:-1]), 'src': 'OSM recreation ground + 4 m'},
   {'id': 'admin-forecourt', 'kind': 'garden', 'name': 'Flag forecourt', 'pts': rnd(circle(forecourt_c, 12)), 'src': 'by-eye (drone: circular garden + flag)'},
   {'id': 'aud-plaza', 'kind': 'plaza', 'pts': rnd([z03(470, 640), z03(745, 625), z03(765, 705), z03(470, 725)]), 'src': 'by-eye'},
@@ -307,6 +307,11 @@ terrain = {'note': 'Elevation in metres above the campus lake (lake = 0). Rows r
            'origin': {'lat': O[0], 'lon': O[1]}, 'step': step, 'minX': -half, 'minY': -half, 'cols': len(grid[0]), 'rows': len(grid),
            'lakeLevelAMSL': lake_level, 'heights': [[round(h - lake_level, 1) for h in row] for row in grid]}
 
+# 14 Nov: generic "Campus building"-type names cluttered the 3D labels. Draw them, but no label / search / hit-test.
+for b in buildings:
+    if b['id'] in ('east-cluster', 'block-501', 'block-503', 'east-residence', 'court-kiosk', 'block-962', 'block-488', 'service-east'):
+        b['unnamed'] = True; b['labelPriority'] = 3
+    if b['id'] == 'west-cluster': b['labelPriority'] = 3   # name still to confirm
 layout = {'version': 2, 'note': 'Remapped 13 Nov 2026 from Overture footprints, OSM roads/lake/courts, Google pins (names only) and drone photos. See reference/layout/LAYOUT_INVENTORY.md. Parts carry "poly" (true footprint) and "src".',
           'origin': {'lat': O[0], 'lon': O[1]}, 'boundary': rnd(boundary), 'buildings': buildings, 'paths': paths, 'areas': areas,
           'trees': trees, 'entrances': entrances, 'landmarks': landmarks,
