@@ -51,15 +51,17 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 - **Surroundings:** the NAB front road runs along the east side past the NAB lawn; the main road and lake are to the west; a small paved parking strip with cars; the Admin Block below to the south.
 - **Photos:** DJI and I363 (centre top), `yt-drone-19s` (behind Admin), `zoom_G_nab_closeup.png`, `zoom_B_nab_kalam_lake.png`.
 
-## Hostel 1 · D Block
-- **Walls:** white plaster, an older and simpler style.
-- **Roof:** green hipped (in photos; grey-blue on the old satellite).
+## Hostel 1 · D Block (flat roofs: H A, 13 Nov 2026)
+- **Walls:** white plaster, a simpler and older style than F Block.
+- **Roof:** **flat**, with a **thin roof-edge overhang** (a slim white projecting slab) and **rooftop structures**: stair and lift heads, water tanks, small sheds.
+  - **Not hipped.** The earlier note was wrong; `DSC_9111` shows the flat parapet and `mess_from_above.png` shows the flat roofs from above.
 - **Floors:** 4.
-- **Balconies:** many small projecting balconies with **dark metal railings** on the long faces; a **green-railed** walkway and bridge at the entrance level.
-- **Glass and stone:** grey stone retaining walls at the base; little glass.
-- **Entrance:** from the hostel road junction at the south, over a red/pink-tiled terrace.
-- **Surroundings:** several parallel blocks on terraces; the Students' Mess and the Commercial Complex beside it; the football ground just east; the covered walkway runs down from here to the courts.
-- **Photos:** `hostels/DSC_9111.jpg` (white block with balconies and green railings; most likely D Block, to confirm), `hostels/DSC_9119.jpg`, `hostels/DSC_9140.jpg`, `zoom_D_hostels_north.png`, `zoom_C…`.
+- **Balconies:** many small projecting balconies with **black metal railings** on the long faces; tall narrow windows with grey louvred panels.
+- **Stone:** a grey/brown **stone base** and retaining walls where the blocks sit into the slope.
+- **Entrance:** from the hostel road junction at the south, over a red/pink-tiled terrace; a **green-railed** bridge at entrance level.
+- **Covered walkway:** a **brown covered walkway** (pitched roof on a timber/steel frame with a steel railing) runs beside the blocks.
+- **Surroundings:** several parallel long blocks on terraces; the Students' Mess (four octagons) just west; the Commercial Complex below; the football ground just east; the teal covered walkway down to the courts.
+- **Photos:** `hostels/DSC_9111.jpg` (white block, flat roof edge, black railings, green railings), `hostels/DSC_9119.jpg` (balconies and the brown covered walkway), `hostels/DSC_9140.jpg`, `mess_from_above.png` (roofs from above), `zoom_D…`, `zoom_C…`.
 
 ## Hostel 2 · F Block ("New Hostel"), and Hostel 3
 - **Walls:** **cream/peach plaster** with a **brown stone-clad base** (ground floor) and brown stone pillars.

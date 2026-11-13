@@ -67,3 +67,32 @@ Positions and shapes come only from `campus-layout.json` v2 and LOOKS_LIKE.md.
 | #4–6 Hostels 2, 3, 4 | Colour checked against `New-Hostel.jpg`: the photos agree with H A (cream plaster; brown only on the stone base, piers and doors). Two more Gemini tries (`hostel2-fblock_v3`, `_v4`, fresh chat, explicit #EFE3CC) still came out orange and 6–7 floors, so the colour was **fixed in post** with `scripts/recolor-orange.mjs` (saturated orange/brick → cream, shading kept; lower-saturation stone untouched) | `hostel2-fblock_v2-cream`, `hostel3_v1-cream`, `hostel4_v1-cream` | The stone base and soil edge are slightly greyer than real; Hostels 3 and 4 still show 5 floors vs 4 in the data |
 
 Still **to confirm** (waiting for H A's photos in `reference/photos/campus_new/`, folder not created yet): #8 Kalam Centre, #9 Mess (walls), #10 Commercial Complex.
+
+**Review 2 (H A, 13 Nov 2026):**
+- **#3 Hostel 1 · D Block redone with flat roofs.** Fresh chat with DSC_9111 and DSC_9119: two white 4-storey blocks, flat roofs with a thin roof-edge overhang, rooftop heads and tanks, black-railed balconies, stone base, the brown covered walkway and the pink terrace. Chosen: `hostel1-dblock_v2`. v1 (hipped) is kept only in the comparison sheet.
+- **Approved:** #1 Admin, #2 NAB v3, #3 D Block v2 (pending H A's look), #4–6 Hostels 2–4 (cream-corrected), #7 Cafe Cloud, #9 Mess v2 (walls to confirm), #11 Octagonal Hall, #12 Main gate, #13 statue garden.
+- **Still to confirm until H A's photos arrive in `reference/photos/campus_new/`:** #8 Dr. Kalam Centre and #10 Commercial Complex.
+
+### How the 3D build uses these assets
+The 3D engine (Phase 3) takes **colours and forms from `reference/generated/LOOKS_LIKE.md`** and the footprints and heights from `public/data/campus-layout.json`. The renders in `public/campus-art/tycoon/landmark-*.webp` are **visual targets** for modelling and material tuning, and they double as place-card thumbnails. They are never used as geometry or positions. Mood frame v2 is a style reference only (see above).
+
+### Seamless textures (`public/campus-art/tycoon/tex-*.webp`, 1024 px, tileable)
+- **Gemini:** texture 1 was generated (`raw/tycoon/tex_facade-cream-plaster.png`, style + New-Hostel + stone crop + NAB crop attached). Its rows are unevenly spaced, so it does not tile vertically, and it carries a watermark. Then **Gemini's daily image limit was reached** ("Limit reached. Resets at 8:24 am") before textures 2–9.
+- **Fallback (spec section 3b):** all nine are built **procedurally** by `scripts/make-textures.mjs`. They are periodic by construction, so seams are exact, and the colours are sampled from the photos and Gemini texture 1. The check sheet is `compare/_textures_tiled_2x2.jpg`.
+
+| Texture | Look | Used for |
+|---|---|---|
+| `tex-facade-cream-plaster` | Cream plaster (#F2DFC4), 4×4 bays of blue-glass windows with white frames and sills (same look as Gemini texture 1) | Hostels 2–4 and other cream walls |
+| `tex-facade-white-tealglass` | White plaster (#F4F2EA), 4×4 bays of teal glass windows | Admin, NAB, D Block, Kalam Centre |
+| `tex-stone-cladding` | Brown/tan/grey split-face stone courses with light mortar (from the DSC_9144 crop) | Hostel bases and piers, NAB stone panels, Octagonal Hall band, retaining walls |
+| `tex-roof-green-metal` | Ribbed green (#3E8A4E) metal roofing with sheet laps | Every green roof |
+| `tex-roof-slate-grey` | Ribbed dark grey (#4B525A) metal roofing | Students' Mess octagon roofs |
+| `tex-plaza-red-brick` | Pink/terracotta paver running bond | Admin forecourt, Octagonal Hall plaza, Mess forecourt |
+| `tex-asphalt` | Dark warm grey with fine speckle | Roads (markings are added by the road shader) |
+| `tex-lawn-grass` | Warm green with mowing stripes | Lawns, forecourt circle, terraces |
+| `tex-pine-forest-floor` | Dark green-brown needle litter with moss | Ground under pine groves |
+
+Gemini can regenerate the organic ones (stone, lawn, forest floor) after the limit resets, if wanted. `scripts/process-asset.mjs texture` has the seam fix for those.
+
+### Icons (`public/campus-art/tycoon/icons/*.svg`, code-drawn by `scripts/make-icons.mjs`)
+Rounded game badges (category colour, soft highlight, white round-stroke glyph): venue, food, hostel, sports, atm, medical, help-desk, parking, gate, statue, lake, bus, plus the `on-air` pill. Preview: `compare/_icons.png`. Tiny-life props (cars, bus, people, flag) are built in code as instanced meshes in Phase 3, not drawn here.
