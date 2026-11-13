@@ -21,12 +21,13 @@ function car(B: Buckets, x: number, y: number, ang: number, h: number, col: RGB,
   B.box(K, x, y, 4.2, 1.8, ang, h + 0.25, h + 1.0, col); B.box(K, x - Math.cos(ang) * 0.2, y - Math.sin(ang) * 0.2, 2.3, 1.62, ang, h + 1.0, h + 1.55, GLASS, col);
 }
 
-export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
+/** `skip(x, y)`: ground covered by a building sprite, where nothing is placed. */
+export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt, skip: (x: number, y: number) => boolean = () => false) {
   const lm = (id: string) => world.landmarks.find(l => l.id === id)?.at;
 
   // ---- flag mast with the tricolour ----
   const flag = lm('flag');
-  if (flag) {
+  if (flag && !skip(flag[0], flag[1])) {
     const [x, y] = flag, g = h(x, y);
     B.prism(K, ngon(x, y, 1.6, 8), g, g + 0.5, CONCRETE); B.prism(K, ngon(x, y, 0.16, 6), g + 0.5, g + 19, WHITE);
     ([['#FF9933', 18.0], ['#FFFFFF', 17.2], ['#138808', 16.4]] as [string, number][]).forEach(([c, z]) => B.box(K, x + 2.0, y, 3.6, 0.1, 0, g + z, g + z + 0.8, rgb(c)));
@@ -78,7 +79,7 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
       if (q.s >= nextLamp) {
         nextLamp = q.s + 38; side = -side;
         const x = q.p[0] + q.n[0] * side * (half + 1.7), y = q.p[1] + q.n[1] * side * (half + 1.7), c = maskAt(world, x, y);
-        if (c !== G.BUILDING && c !== G.WATER && c !== G.ROAD && c !== G.SERVICE) {
+        if (c !== G.BUILDING && c !== G.WATER && c !== G.ROAD && c !== G.SERVICE && !skip(x, y)) {
           const g = h(x, y); B.box(K, x, y, 0.16, 0.16, 0, g - 0.5, g + 6.2, STEEL);
           B.box(K, x - q.n[0] * side * 0.7, y - q.n[1] * side * 0.7, 1.5, 0.14, nAng, g + 6.1, g + 6.25, STEEL);
           B.box(K, x - q.n[0] * side * 1.3, y - q.n[1] * side * 1.3, 0.7, 0.36, nAng, g + 5.86, g + 6.1, LAMP);
@@ -88,7 +89,7 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
         nextCar = q.s + 26 + hash2(i, seed, 81) * 60;
         if (hash2(i, seed, 82) < 0.4) {
           const s2 = hash2(i, seed, 83) < 0.5 ? 1 : -1, x = q.p[0] + q.n[0] * s2 * (half - 0.9), y = q.p[1] + q.n[1] * s2 * (half - 0.9);
-          car(B, x, y, dir + (s2 > 0 ? Math.PI : 0), h(x, y) + 0.2, CAR_COLS[Math.floor(hash2(i, seed, 84) * CAR_COLS.length)]);
+          if (!skip(x, y)) car(B, x, y, dir + (s2 > 0 ? Math.PI : 0), h(x, y) + 0.2, CAR_COLS[Math.floor(hash2(i, seed, 84) * CAR_COLS.length)]);
         }
       }
     });

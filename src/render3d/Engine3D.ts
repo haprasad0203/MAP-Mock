@@ -22,24 +22,26 @@ import { Labels, type LabelItem } from './labels';
 import { Markers, type UserFix } from './markers';
 import { partFootprint } from './terrain';
 import { createMaterial, loadTextures } from './materials';
+import { loadSprites, placeSprite, spriteLayout, type LoadedSprite, type PlacedSprite } from './sprites';
 import { isPhone, lower, webgl2Available, type Quality } from '../render/quality';
 
 export type { Quality };
 export { webgl2Available };
 export interface Surroundings { houses: { p: XY[]; f: number }[]; attribution?: string }
-export interface Assets { terrain: TerrainData; surroundings: Surroundings | null; tex: Record<string, THREE.Texture> }
+export interface Assets { terrain: TerrainData; surroundings: Surroundings | null; tex: Record<string, THREE.Texture>; sprites: LoadedSprite[] }
 
 const K_MIN = LEVELS[0], K_MAX = LEVELS[LEVELS.length - 1] * 1.25;
 const FOREST_BUDGET = 28000;
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 async function loadAssets(): Promise<Assets> {
-  const [terrain, surroundings, tex] = await Promise.all([
+  const [terrain, surroundings, tex, sprites] = await Promise.all([
     fetch('/data/terrain.json').then(r => r.json()),
     fetch('/data/surroundings.json').then(r => (r.ok ? r.json() : null)).catch(() => null),
     loadTextures(),
+    loadSprites(),
   ]);
-  return { terrain, surroundings, tex };
+  return { terrain, surroundings, tex, sprites };
 }
 /** `auto`: let the engine step the quality down by itself when frames are slow. */
 export async function createEngine3D(canvas: HTMLCanvasElement, world: WorldModel, view: View | null, opts: EngineOptions = {}, quality: Quality = isPhone() ? 'medium' : 'high', auto = false): Promise<Engine3D> {
@@ -67,6 +69,7 @@ export class Engine3D implements IMapEngine {
   private surfaceAt: SurfaceAt = () => 0;
   private lighting: Lighting; private post: Post | null = null; private labels: Labels; private markers: Markers;
   private water: Water[] = []; private forest: TreeSet | null = null; private campusTrees: TreeSet | null = null;
+  private sprites = new Map<string, PlacedSprite>(); private cleared: { c: XY; r: number }[] = [];
   private onAir = new Set<string>(); private pulseT0 = -1; private idle = 0; private probe = 0;
   quality: Quality;
   private fpsEl: HTMLDivElement | null = null; private lastT = 0;
@@ -76,6 +79,7 @@ export class Engine3D implements IMapEngine {
   constructor(private canvas: HTMLCanvasElement, public world: WorldModel, private assets: Assets, view: View | null, private opts: EngineOptions = {}, quality: Quality = 'high', private auto = false) {
     const t0 = performance.now();
     this.view = view ?? { cx: world.centre[0], cy: world.centre[1], level: 1, rot: 0 };
+    this.view.rot = 0; // the view is fixed to the building pictures' angle (Phase 3S); rotation is off
     this.k = this.view.k ?? LEVELS[Math.max(0, Math.min(LEVELS.length - 1, this.view.level))]; this.rotF = this.view.rot;
     canvas.style.imageRendering = 'auto';
     this.quality = quality;
@@ -87,7 +91,9 @@ export class Engine3D implements IMapEngine {
     installMist(world.centre, 820, 1380);
     this.scene.background = new THREE.Color(MIST); this.scene.fog = new THREE.Fog(MIST, 1e5, 2e5); // the mist ring does the work; no camera-distance fog
 
-    this.terrain = new Terrain(assets.terrain, { buildings: world.buildings, areas: world.areas, paths: world.paths, bounds: world.bounds });
+    // ground under each building picture: levelled like a terrace of its building, and kept clear of trees and props
+    const pads = assets.sprites.flatMap(s => { const b = world.buildings.find(x => x.id === s.def.buildingId); if (!b) return []; const L = spriteLayout(s, b); this.cleared.push(L.clear); return [{ id: `sprite-${s.id}`, kind: 'plaza' as const, pts: L.pad }]; });
+    this.terrain = new Terrain(assets.terrain, { buildings: world.buildings, areas: [...world.areas, ...pads], paths: world.paths, bounds: world.bounds });
     this.lighting = new Lighting(this.scene);
     this.buildGround(); this.buildBuildings(); this.buildHouses(); this.buildRoadsAndProps(); this.buildTrees();
     this.markers = new Markers(this.scene, this.surfaceAt);
@@ -125,20 +131,31 @@ export class Engine3D implements IMapEngine {
     const b = this.world.bounds, near = (x: number, y: number) => x > b.minX - 120 && x < b.maxX + 120 && y > b.minY - 120 && y < b.maxY + 120;
     const R = new Buckets(); addRoads(R, this.world.paths, this.surfaceAt, near);
     for (const m of R.meshes(k => this.mat(k))) { m.name = 'roads'; m.receiveShadow = true; this.scene.add(m); }
-    const P = new Buckets(); addProps(P, this.world, this.surfaceAt);
+    const P = new Buckets(); addProps(P, this.world, this.surfaceAt, (x, y) => this.isCleared(x, y));
     const g = new THREE.Group(); g.name = 'props';
     for (const m of P.meshes(k => this.mat(k))) { m.castShadow = m.receiveShadow = true; g.add(m); }
     this.scene.add(g);
   }
+  private isCleared(x: number, y: number) { return this.cleared.some(c => Math.hypot(x - c.c[0], y - c.c[1]) < c.r); }
   private buildTrees() {
-    this.campusTrees = buildTrees(this.world.campusTrees, this.surfaceAt, 0.62, 'campus-trees');
-    this.forest = buildTrees(forestSpots(this.world, this.assets.surroundings?.houses ?? [], FOREST_BUDGET), this.surfaceAt, 0.86, 'forest');
+    const open = (t: { x: number; y: number }) => !this.isCleared(t.x, t.y);
+    this.campusTrees = buildTrees(this.world.campusTrees.filter(open), this.surfaceAt, 0.62, 'campus-trees');
+    this.forest = buildTrees(forestSpots(this.world, this.assets.surroundings?.houses ?? [], FOREST_BUDGET).filter(open), this.surfaceAt, 0.86, 'forest');
     this.scene.add(this.campusTrees.group, this.forest.group);
   }
   private buildBuildings() {
     const entrances = this.world.src.getEntrances(), ctx = { entrances, landmarks: this.world.landmarks, areas: this.world.areas, forecourt: false }, plain = new Buckets(), root = new THREE.Group(); root.name = 'buildings';
+    const pick = new THREE.MeshBasicMaterial({ visible: false });
     for (const b of this.world.buildings) {
       if (b.unnamed) { addBuilding(plain, b, entrances); continue; }
+      const sp = this.assets.sprites.find(s => s.def.buildingId === b.id);
+      if (sp) { // the approved render stands in for the model; an unseen block on the footprint still takes taps
+        const placed = placeSprite(sp, b), P = new Buckets(); for (const p of b.parts) P.prism('pick', partFootprint(p), b.groundElev ?? 0, (b.groundElev ?? 0) + p.floors * 3.4, [1, 1, 1]);
+        for (const m of P.meshes(() => pick)) { m.userData.buildingId = b.id; root.add(m); this.pickables.push(m); }
+        root.add(placed.group); this.sprites.set(b.id, placed);
+        this.buildings.set(b.id, { top: placed.top, centre: placed.centre, id: b.id, category: b.category, meshes: [] });
+        continue;
+      }
       const B = new Buckets(), info = addBuilding(B, b, entrances, ctx), g = new THREE.Group(); g.name = b.id;
       const meshes = B.meshes(k => this.mat(k)); for (const m of meshes) { m.userData.buildingId = b.id; m.castShadow = m.receiveShadow = true; g.add(m); this.pickables.push(m); }
       root.add(g); this.buildings.set(b.id, { ...info, id: b.id, category: b.category, meshes });
@@ -178,11 +195,26 @@ export class Engine3D implements IMapEngine {
     this.renderer.shadowMap.needsUpdate = true; this.frameMs = []; this.probe = 0;
     this.resize();
   }
+  /** Dev (?sprite-edit=<id>): re-place a building picture with new numbers and return them. */
+  editSprite(id: string, change: { east?: number; north?: number; scale?: number; anchorX?: number; anchorY?: number }) {
+    const s = this.assets.sprites.find(x => x.id === id), b = s && this.world.buildings.find(x => x.id === s.def.buildingId); if (!s || !b) return null;
+    const d = s.def, off = d.offset ?? [0, 0];
+    d.offset = [Math.round((off[0] + (change.east ?? 0)) * 10) / 10, Math.round((off[1] + (change.north ?? 0)) * 10) / 10];
+    d.metresPerPx = Math.round(d.metresPerPx! * (change.scale ?? 1) * 1e5) / 1e5;
+    d.anchorPx = [d.anchorPx![0] + (change.anchorX ?? 0), d.anchorPx![1] + (change.anchorY ?? 0)];
+    const old = this.sprites.get(b.id); if (old) old.group.removeFromParent();
+    const placed = placeSprite(s, b); this.scene.getObjectByName('buildings')?.add(placed.group); this.sprites.set(b.id, placed);
+    const info = this.buildings.get(b.id); if (info) { info.top = placed.top; info.centre = placed.centre; }
+    this.invalidate();
+    return { id, anchorPx: d.anchorPx, metresPerPx: d.metresPerPx, offset: d.offset };
+  }
   // ---- hooks for later phases (live location, directions, ON AIR); shown with ?demo=hooks ----
   setRoute(pts: XY[] | null) { this.markers.setRoute(pts); this.invalidate(); }
   setUser(u: UserFix | null) { this.markers.setUser(u); this.invalidate(); }
   setOnAir(buildingIds: string[]) { this.onAir = new Set(buildingIds); this.invalidate(); }
+  /** Rotation is locked while the building pictures are in use: they are drawn for one view only. */
   rotate(dir: 1 | -1 = 1) {
+    if (this.sprites.size) return;
     const from = this.rotF, to = Math.round(from) + dir, t0 = performance.now();
     this.view.rot = (((to % 4) + 4) % 4) as Rot; this.vel = [0, 0];
     this.anim = t => { const u = Math.min(1, (t - t0) / 600), e = u < 0.5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2; this.rotF = from + (to - from) * e; if (u >= 1) { this.rotF = this.view.rot; this.persist(); return false; } return true; };
@@ -217,7 +249,9 @@ export class Engine3D implements IMapEngine {
   hitTest(px: number, py: number): Hit | null {
     const tag = this.layers.labels ? this.labels.hit(px, py) : null;
     if (tag) return { buildingId: tag, at: this.buildings.get(tag)?.centre ?? this.pins.find(p => p.id === tag)?.at ?? this.screenToWorld(px, py) };
-    this.sync(); const { o, d } = screenRay(this.camera, px, py, this.W, this.H);
+    this.sync();
+    for (const sp of this.sprites.values()) if (sp.hit(px, py, (x, y, h) => worldToScreen(this.camera, x, y, h, this.W, this.H))) return { buildingId: sp.buildingId, at: sp.centre };
+    const { o, d } = screenRay(this.camera, px, py, this.W, this.H);
     this.ray.set(o, d); this.ray.far = this.dist * 4;
     const hit = this.ray.intersectObjects(this.pickables, false)[0];
     if (hit) { const b = this.buildings.get(hit.object.userData.buildingId)!; return { buildingId: b.id, at: b.centre }; }
@@ -254,6 +288,7 @@ export class Engine3D implements IMapEngine {
   private restyle() {
     for (const b of this.buildings.values()) {
       const mode = b.id === this.selected ? 'hi' : this.filter !== 'all' && b.category !== this.filter ? 'dim' : null;
+      this.sprites.get(b.id)?.setState(mode);
       for (const m of b.meshes) m.material = mode ? this.variant(m.name, mode) : this.mat(m.name);
     }
     for (const m of this.unnamed) m.material = this.filter !== 'all' ? this.variant(m.name, 'dim') : this.mat(m.name);
@@ -308,6 +343,7 @@ export class Engine3D implements IMapEngine {
     const time = this.animated() ? t / 1000 : 0;
     for (const w of this.water) w.time.value = time;
     if (this.forest) this.forest.time.value = time; if (this.campusTrees) this.campusTrees.time.value = time;
+    if (this.k >= 0.85) for (const sp of this.sprites.values()) sp.useBig();
     if (this.post) { this.post.setTilt(!this.selected, this.tier, this.H > this.W); this.post.render(); } else this.renderer.render(this.scene, this.camera);
     if (this.layers.labels) this.labels.update(this.labelItems(), (x, y, h) => worldToScreen(this.camera, x, y, h, this.W, this.H), this.W, this.H); else this.labels.clear();
   }

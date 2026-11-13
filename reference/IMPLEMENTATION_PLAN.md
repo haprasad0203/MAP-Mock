@@ -30,6 +30,21 @@ Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layo
 
 ---
 
+# Phase 3S: the approved renders as the buildings (14 Nov 2026, H A's decision)
+
+Spec: `reference/style/LANDMARK_SPRITES.md` (replaces every earlier landmark instruction). Scene look: `reference/style/SCENE_LOOK.md`, done after H A's OK on the first two sprites. The phase-3 commit before this work is tagged `phase3-before-sprites`.
+
+- **Stopped:** the Phase 3R hero-modelling rounds (`REFINE_LANDMARKS.md`). The round-1 Admin and NAB modules stay in `src/render3d/landmarks/` only as the fallback drawn when a sprite fails to load. `?model=` and `scripts/compare-model.mjs` remain as dev tools.
+- **Cut-outs:** `scripts/make-sprites.mjs` (sharp), driven by `public/data/sprites.json`: backdrop flood-fill, a keep-polygon per image for the diorama cleanup, a feathered edge, optional gain; WebP with alpha at 1× and 2× in `public/campus-art/tycoon/sprites/`, plus `manifest.json`. Sheet: `reference/style/compare/sprites_cutouts.png`. No repainting.
+- **Camera:** pitch changed from 52° to 32° to match the renders (measured from the flag lawn's ring in `admin_v1.png`, about 30°; classic isometric is 35°). Yaw is the south-east view the map already used. The lens stays at 22°.
+- **Rotation is locked in 3D:** the Rotate button is hidden and `rotate()` does nothing while sprites are in use, because each picture is drawn for one view. Rotation was a "Should", not a "Must". Zoom, pan, fly-to and recentre work as before. The 2D map keeps its Rotate button.
+- **Sun:** already from the south-west, which is screen-left in this view, the same side as the light in the renders.
+- **Placement (`src/render3d/sprites.ts`):** an upright quad standing on the ground at the front edge of the picture, stretched by 1/cos(pitch) so it shows undistorted; the picture's `anchorPx` lands on the footprint centre. Alpha-tested with depth. Terrain is levelled under the picture, trees and props are cleared there, a soft contact shadow lies on the ground, the code-built model is not drawn. Selection: a yellow glow round the picture's edge plus the footprint ring; filter dimming darkens the picture; a tap is tested against the picture's alpha and against the footprint. 2× pictures load when zoomed in.
+- **Calibration:** `/campus?sprite-edit=<id>` shows nudge and scale buttons and the numbers; Save posts to the dev server, which writes `public/data/sprites.json`. (Buttons, not dragging.)
+- **Placed so far:** Admin and NAB. The other 11 are cut from their backdrops only; their cleanup masks, anchors and scales come after H A's OK.
+
+---
+
 # Phase 3 fix-up (13 Nov 2026, after H A's review)
 
 - **Data:** `public/data/campus-layout.json` synced from the master working tree (football on grass, generic buildings unnamed, west-cluster at priority 3). `places.json`, `osm.json`, `terrain.json` and `sessions.json` already matched.

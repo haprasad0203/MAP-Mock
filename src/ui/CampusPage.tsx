@@ -45,6 +45,8 @@ export default function CampusPage() {
   const [layers, setLayers] = useState({ labels: true, illustrated: true, trees: true });
   const [tier, setTier] = useState<Tier>('area'); const [rot, setRot] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
+  const spriteEdit = useMemo(() => new URLSearchParams(location.search).get('sprite-edit'), []);
+  const [spriteNums, setSpriteNums] = useState<{ id: string; anchorPx: XY; metresPerPx: number; offset: XY } | null>(null);
 
   // ---- load data + build the world ----
   useEffect(() => {
@@ -92,6 +94,11 @@ export default function CampusPage() {
     const pid = qs.get('place'), room = qs.get('room');
     if (pid) { const p = places.places.find(x => x.id === pid); if (p) setTimeout(() => selectPlace(p), 50); }
     else if (room) { const r = places.rooms.find(x => x.code.toLowerCase() === room.toLowerCase()); if (r) setTimeout(() => selectRoom(r), 50); }
+    if (spriteEdit) setTimeout(() => { // calibration: show the real footprint (yellow ring) under the picture
+      const bid = spriteEdit === 'main-gate' ? 'guard-room' : spriteEdit, b = world.buildings.find(x => x.id === bid);
+      if (b) { e.setSelected(bid); e.flyTo([b.parts[0].cx, b.parts[0].cy], 6, 10); }
+      setSpriteNums(e.editSprite?.(spriteEdit, {}) ?? null);
+    }, 80);
     if (qs.get('demo') === 'hooks') { // sample data for the hooks later phases will drive
       // sample route: the campus road that passes nearest the flag forecourt
       const flag = world.landmarks.find(l => l.id === 'flag')?.at ?? world.centre;
@@ -179,7 +186,7 @@ export default function CampusPage() {
 
       <div className="controls">
         <button className="ctl" aria-label="Locate me" onClick={() => setToast('Live location comes in a later phase.')}><IconLocate /></button>
-        <button className="ctl" aria-label="Rotate the view 90 degrees" onClick={() => engineRef.current?.rotate(1)}><IconRotate /><span className="badge">{['SE', 'NE', 'NW', 'SW'][rot]}</span></button>
+        {!use3d && <button className="ctl" aria-label="Rotate the view 90 degrees" onClick={() => engineRef.current?.rotate(1)}><IconRotate /><span className="badge">{['SE', 'NE', 'NW', 'SW'][rot]}</span></button>}
         <button className="ctl" aria-label="Recentre on the whole campus" onClick={() => { engineRef.current?.recentre(); }}><IconCompass /></button>
         <button className="ctl" aria-label="Map layers" aria-pressed={layersOpen} onClick={() => setLayersOpen(o => !o)}><IconLayers /></button>
       </div>
@@ -206,6 +213,22 @@ export default function CampusPage() {
           onClose={() => { setSel(null); engineRef.current?.setSelected(null); }}
           onPickPlace={selectPlace} onPickRoom={selectRoom} onToast={setToast} />
       )}
+      {spriteEdit && (() => {
+        // dev: ?sprite-edit=<id>. Nudge the picture over the yellow footprint ring, then Save writes public/data/sprites.json (dev server only).
+        const nudge = (c: Parameters<NonNullable<IMapEngine['editSprite']>>[1]) => setSpriteNums(engineRef.current?.editSprite?.(spriteEdit, c) ?? null);
+        const r = Math.SQRT1_2, btn = (label: string, c: Parameters<typeof nudge>[0]) => <button className="btn" style={{ minHeight: 34, padding: '0 9px' }} onClick={() => nudge(c)}>{label}</button>;
+        return (
+          <div className="layers" role="dialog" aria-label="Sprite calibration" style={{ top: 'auto', bottom: 'calc(var(--tabbar) + var(--credits) + 8px)', right: 12, width: 300, zIndex: 8 }}>
+            <h3>Sprite: {spriteEdit}</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {btn('← 1 m', { east: -r, north: -r })}{btn('→ 1 m', { east: r, north: r })}{btn('↑ 1 m', { east: -r, north: r })}{btn('↓ 1 m', { east: r, north: -r })}
+              {btn('Smaller 2%', { scale: 1 / 1.02 })}{btn('Bigger 2%', { scale: 1.02 })}
+            </div>
+            <pre style={{ font: '11px/1.35 ui-monospace, monospace', margin: '8px 0', whiteSpace: 'pre-wrap' }}>{spriteNums ? JSON.stringify(spriteNums) : 'This building has no placed sprite yet.'}</pre>
+            <button className="btn primary" disabled={!spriteNums} onClick={() => spriteNums && fetch('/__sprites', { method: 'POST', body: JSON.stringify(spriteNums) }).then(x => x.text()).then(t => setToast(t === 'saved' ? 'Saved to sprites.json' : t))}>Save</button>
+          </div>
+        );
+      })()}
       {toast && <div className="toast" role="status">{toast}</div>}
     </div>
   );

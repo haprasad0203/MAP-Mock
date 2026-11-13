@@ -60,3 +60,13 @@ Pending H A's look at round 1.
 
 ## Open question for H A
 Both renders show a simpler plan than the data. The spec says footprints stay as in `public/data`, so the models are built on the real footprints and will never match the renders' outline. Rounds 2 and 3 can still close most of the gap in facade, roofs, colour and forecourt.
+
+## 14 Nov 2026: Phase 3R stopped, Phase 3S started
+H A decided to use the approved Phase 2 renders themselves as the buildings (`LANDMARK_SPRITES.md`), so the modelling rounds above end at round 1 and the open question no longer applies. Footprint mismatch between a render and the data is accepted; positions, entrances, routing and hit areas keep using `campus-layout.json`.
+
+### Sprites, first delivery
+- Cut-out sheet: `compare/sprites_cutouts.png`. Admin and NAB have cleanup masks (grass slab, base strip, road and cars removed; Admin keeps the plaza, lawn and flag). The other 11 are backdrop-only so far: floor-shadow patches, diorama bases and the generator's corner mark are still to be masked, and `mess_v2` (white backdrop, picture runs to the edges) is not cut at all yet.
+- On the map: `compare/sprites_admin_nab_1280x800.jpg`, `compare/sprites_admin_nab_390x844.jpg`, `compare/sprites_admin_selected_1280x800.jpg`.
+- Numbers: Admin `anchorPx` [1254, 880], 0.052 m/px; NAB [1376, 790], 0.055 m/px. Both set by eye from screenshots.
+
+The scene scores (SCENE_LOOK.md rows 1–10) start after H A's OK on these two.

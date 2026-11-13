@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import type { XY } from '../geo/grid';
 
 export const FOV = 22;      // degrees, vertical
-export const PITCH = 52;    // degrees down from the horizon
+export const PITCH = 32;    // degrees down from the horizon: the view of the Phase 2 renders, so the building sprites sit true
 const D2R = Math.PI / 180;
 
 /** Screen pixels per ground metre at zoom k: the same scale the 2D engine shows at that k. */

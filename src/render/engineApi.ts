@@ -41,4 +41,6 @@ export interface IMapEngine {
   setRoute?(pts: XY[] | null): void;
   setUser?(u: { at: XY; accuracy: number; heading?: number } | null): void;
   setOnAir?(buildingIds: string[]): void;
+  /** Dev (?sprite-edit=<id>): nudge a building picture; returns its numbers for sprites.json. */
+  editSprite?(id: string, change: { east?: number; north?: number; scale?: number; anchorX?: number; anchorY?: number }): { id: string; anchorPx: XY; metresPerPx: number; offset: XY } | null;
 }

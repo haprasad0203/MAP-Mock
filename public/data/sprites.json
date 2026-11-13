@@ -1,0 +1,243 @@
+{
+ "note": "Phase 3S (reference/style/LANDMARK_SPRITES.md): the approved Phase 2 renders used as the buildings on the map. Pixels are in the ORIGINAL image (reference/generated/raw/tycoon/<file>). mask = keep-polygon for the diorama cleanup; anchorPx = the image point that sits on the ground at the footprint centre; metresPerPx = scale; offset = fine nudge in metres [east, north]; placed = shown on the map. Cut-outs are made by scripts/make-sprites.mjs.",
+ "sprites": {
+  "admin": {
+   "file": "admin_v1.png",
+   "buildingId": "admin",
+   "placed": true,
+   "mask": [
+    [
+     144,
+     648
+    ],
+    [
+     384,
+     528
+    ],
+    [
+     672,
+     432
+    ],
+    [
+     1254,
+     180
+    ],
+    [
+     1800,
+     432
+    ],
+    [
+     2088,
+     576
+    ],
+    [
+     2280,
+     696
+    ],
+    [
+     2280,
+     1170
+    ],
+    [
+     2322,
+     1314
+    ],
+    [
+     1482,
+     1542
+    ],
+    [
+     402,
+     1270
+    ],
+    [
+     204,
+     1098
+    ]
+   ],
+   "anchorPx": [
+    1254,
+    880
+   ],
+   "metresPerPx": 0.052,
+   "offset": [
+    0,
+    0
+   ],
+   "solid": [
+    [
+     228,
+     720
+    ],
+    [
+     396,
+     600
+    ],
+    [
+     720,
+     504
+    ],
+    [
+     1254,
+     240
+    ],
+    [
+     1752,
+     492
+    ],
+    [
+     2064,
+     654
+    ],
+    [
+     2232,
+     744
+    ],
+    [
+     2226,
+     1152
+    ],
+    [
+     1944,
+     1260
+    ],
+    [
+     1482,
+     1512
+    ],
+    [
+     432,
+     1260
+    ],
+    [
+     228,
+     1080
+    ]
+   ],
+   "watermark": false
+  },
+  "nab": {
+   "file": "nab_v3.png",
+   "buildingId": "nab",
+   "placed": true,
+   "mask": [
+    [
+     344,
+     743
+    ],
+    [
+     1087,
+     193
+    ],
+    [
+     2098,
+     234
+    ],
+    [
+     2085,
+     124
+    ],
+    [
+     2229,
+     62
+    ],
+    [
+     2387,
+     131
+    ],
+    [
+     2387,
+     268
+    ],
+    [
+     2360,
+     303
+    ],
+    [
+     2360,
+     736
+    ],
+    [
+     688,
+     1328
+    ],
+    [
+     344,
+     1156
+    ]
+   ],
+   "anchorPx": [
+    1376,
+    790
+   ],
+   "metresPerPx": 0.055,
+   "offset": [
+    0,
+    0
+   ],
+   "watermark": false
+  },
+  "hostel-1": {
+   "file": "hostel1-dblock_v2.png",
+   "buildingId": "hostel-1",
+   "bgTol": 14
+  },
+  "hostel-2": {
+   "file": "hostel2-fblock_v2-cream.png",
+   "buildingId": "hostel-2",
+   "bgTol": 14
+  },
+  "hostel-3": {
+   "file": "hostel3_v1-cream.png",
+   "buildingId": "hostel-3",
+   "bgTol": 14
+  },
+  "hostel-4": {
+   "file": "hostel4_v1-cream.png",
+   "buildingId": "hostel-4",
+   "bgTol": 14
+  },
+  "cafe-cloud": {
+   "file": "cafe-cloud_v1.png",
+   "buildingId": "cafe-cloud",
+   "also": [
+    "amul-cafe"
+   ],
+   "bgTol": 14
+  },
+  "mess": {
+   "file": "mess_v2.png",
+   "buildingId": "mess",
+   "watermark": false
+  },
+  "octagon-hall": {
+   "file": "octagon-hall_v1.png",
+   "buildingId": "octagon-hall",
+   "bgTol": 14
+  },
+  "main-gate": {
+   "file": "main-gate_v1.png",
+   "buildingId": "guard-room",
+   "landmarkId": "main-gate",
+   "bgTol": 14
+  },
+  "kalam-statue-garden": {
+   "file": "kalam-statue-garden_v1.png",
+   "areaId": "terrace-garden",
+   "landmarkId": "kalam-statue",
+   "bgTol": 14
+  },
+  "kalam-centre": {
+   "file": "kalam-centre_v1.png",
+   "buildingId": "kalam-centre",
+   "confirm": "to confirm; use until H A's photos arrive",
+   "bgTol": 14
+  },
+  "commercial": {
+   "file": "commercial-complex_v1.png",
+   "buildingId": "commercial",
+   "confirm": "to confirm; use until H A's photos arrive",
+   "bgTol": 14
+  }
+ }
+}
