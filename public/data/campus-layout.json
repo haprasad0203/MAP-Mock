@@ -902,7 +902,8 @@
    ],
    "short": "Campus blocks",
    "confirm": "Use of these small blocks to confirm.",
-   "groundElev": 7.8
+   "groundElev": 7.8,
+   "unnamed": true
   },
   {
    "id": "block-501",
@@ -942,7 +943,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": 4.8
+   "groundElev": 4.8,
+   "unnamed": true
   },
   {
    "id": "block-503",
@@ -982,7 +984,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": 9.7
+   "groundElev": 9.7,
+   "unnamed": true
   },
   {
    "id": "east-residence",
@@ -1058,7 +1061,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": -2.3
+   "groundElev": -2.3,
+   "unnamed": true
   },
   {
    "id": "octagon-hall",
@@ -1219,7 +1223,8 @@
      "src": "overture 3d4a91cc-60bb-41ad-825d-5e27bb9fdd00 (Google Open Buildings)"
     }
    ],
-   "groundElev": 11.6
+   "groundElev": 11.6,
+   "unnamed": true
   },
   {
    "id": "west-cluster",
@@ -1227,7 +1232,7 @@
    "category": "hostel",
    "wall": "#F1EBDC",
    "roofColor": "#3E8A4E",
-   "labelPriority": 1,
+   "labelPriority": 3,
    "parts": [
     {
      "cx": -294.0,
@@ -2387,7 +2392,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": 18.6
+   "groundElev": 18.6,
+   "unnamed": true
   },
   {
    "id": "block-488",
@@ -2435,7 +2441,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": 16.4
+   "groundElev": 16.4,
+   "unnamed": true
   },
   {
    "id": "type2",
@@ -3210,7 +3217,8 @@
     }
    ],
    "confirm": "Use to confirm.",
-   "groundElev": -11.6
+   "groundElev": -11.6,
+   "unnamed": true
   },
   {
    "id": "guard-room",
@@ -5934,7 +5942,7 @@
   {
    "id": "football",
    "kind": "ground",
-   "surface": "earth",
+   "surface": "grass",
    "name": "Football Ground",
    "pts": [
     [
