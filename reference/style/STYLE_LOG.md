@@ -70,3 +70,10 @@ H A decided to use the approved Phase 2 renders themselves as the buildings (`LA
 - Numbers: Admin `anchorPx` [1254, 880], 0.052 m/px; NAB [1376, 790], 0.055 m/px. Both set by eye from screenshots.
 
 The scene scores (SCENE_LOOK.md rows 1–10) start after H A's OK on these two.
+
+### 14 Nov 2026: NAB turned to face its road (H A: "NAB needs to face the road adjacent to it")
+- The render shows the entrance front on a diagonal; on the map the real front runs almost level across the screen, along the NAB front road (`rd-nab-front`). Mirroring the picture would have made it worse (checked from the on-screen directions), and the picture cannot be rotated.
+- Fix, with no repainting: the picture's own wall-meets-ground line (`groundLine` in `sprites.json`) is laid along the real ground direction of the slab's long side (`groundDir` 53.1 degrees), and the quad is turned to that direction. Verticals stay vertical; the picture is in effect sheared, so the left end block looks a little steeper than in the render.
+- Numbers: 0.053 m/px, offset [5.5, -7.5]. The lawn strip and steps below that line in the picture are cut off.
+- Screenshot: `compare/sprites_nab_facing_road_1280x800.jpg`. Admin is unchanged (it still faces the camera).
+

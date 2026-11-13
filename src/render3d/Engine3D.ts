@@ -201,12 +201,12 @@ export class Engine3D implements IMapEngine {
     const d = s.def, off = d.offset ?? [0, 0];
     d.offset = [Math.round((off[0] + (change.east ?? 0)) * 10) / 10, Math.round((off[1] + (change.north ?? 0)) * 10) / 10];
     d.metresPerPx = Math.round(d.metresPerPx! * (change.scale ?? 1) * 1e5) / 1e5;
-    d.anchorPx = [d.anchorPx![0] + (change.anchorX ?? 0), d.anchorPx![1] + (change.anchorY ?? 0)];
+    if (d.anchorPx) d.anchorPx = [d.anchorPx[0] + (change.anchorX ?? 0), d.anchorPx[1] + (change.anchorY ?? 0)];
     const old = this.sprites.get(b.id); if (old) old.group.removeFromParent();
     const placed = placeSprite(s, b); this.scene.getObjectByName('buildings')?.add(placed.group); this.sprites.set(b.id, placed);
     const info = this.buildings.get(b.id); if (info) { info.top = placed.top; info.centre = placed.centre; }
     this.invalidate();
-    return { id, anchorPx: d.anchorPx, metresPerPx: d.metresPerPx, offset: d.offset };
+    return { id, anchorPx: d.anchorPx ?? [0, 0], metresPerPx: d.metresPerPx, offset: d.offset };
   }
   // ---- hooks for later phases (live location, directions, ON AIR); shown with ?demo=hooks ----
   setRoute(pts: XY[] | null) { this.markers.setRoute(pts); this.invalidate(); }

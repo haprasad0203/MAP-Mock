@@ -69,8 +69,10 @@ async function cut(id, s) {
     for (let c = 0; c < 3; c++) data[o + c] = Math.max(0, Math.min(255, data[o + c] * gain[c]));
     if (a > 8) { const x = q % W, y = (q / W) | 0; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
   }
-  const w = x1 - x0 + 1, h = y1 - y0 + 1;
-  const full = sharp(data, { raw: { width: W, height: H, channels: 4 } }).extract({ left: x0, top: y0, width: w, height: h });
+  const PAD = 3; // transparent border, so a quad that reaches past the picture never smears its edge row
+  const cw = x1 - x0 + 1, ch = y1 - y0 + 1, w = cw + PAD * 2, h = ch + PAD * 2; x0 -= PAD; y0 -= PAD;
+  const cutBuf = await sharp(data, { raw: { width: W, height: H, channels: 4 } }).extract({ left: x0 + PAD, top: y0 + PAD, width: cw, height: ch }).extend({ top: PAD, bottom: PAD, left: PAD, right: PAD, background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+  const full = sharp(cutBuf);
   const b2 = await full.clone().webp({ quality: 86, alphaQuality: 90 }).toBuffer();
   const b1 = await full.clone().resize({ width: Math.min(1024, w) }).webp({ quality: 84, alphaQuality: 90 }).toBuffer();
   fs.writeFileSync(path.join(OUT, `${id}@2x.webp`), b2); fs.writeFileSync(path.join(OUT, `${id}.webp`), b1);

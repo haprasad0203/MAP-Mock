@@ -1,5 +1,5 @@
 {
- "note": "Phase 3S (reference/style/LANDMARK_SPRITES.md): the approved Phase 2 renders used as the buildings on the map. Pixels are in the ORIGINAL image (reference/generated/raw/tycoon/<file>). mask = keep-polygon for the diorama cleanup; anchorPx = the image point that sits on the ground at the footprint centre; metresPerPx = scale; offset = fine nudge in metres [east, north]; placed = shown on the map. Cut-outs are made by scripts/make-sprites.mjs.",
+ "note": "Phase 3S (reference/style/LANDMARK_SPRITES.md): the approved Phase 2 renders used as the buildings on the map. Pixels are in the ORIGINAL image (reference/generated/raw/tycoon/<file>). mask = keep-polygon for the diorama cleanup; anchorPx = the image point that sits on the ground at the footprint centre; metresPerPx = scale; offset = fine nudge in metres [east, north]; placed = shown on the map. Cut-outs are made by scripts/make-sprites.mjs. groundLine + groundDir (optional, instead of anchorPx): the picture's wall-meets-ground line (two image points, left then right) is laid along the real ground direction groundDir (degrees from east, counter-clockwise) through the footprint centre + offset, so the building's front runs along its real line.",
  "sprites": {
   "admin": {
    "file": "admin_v1.png",
@@ -166,16 +166,23 @@
      1156
     ]
    ],
-   "anchorPx": [
-    1376,
-    790
-   ],
-   "metresPerPx": 0.055,
+   "metresPerPx": 0.053,
    "offset": [
-    0,
-    0
+    5.5,
+    -7.5
    ],
-   "watermark": false
+   "watermark": false,
+   "groundLine": [
+    [
+     688,
+     1300
+    ],
+    [
+     2346,
+     716
+    ]
+   ],
+   "groundDir": 53.1
   },
   "hostel-1": {
    "file": "hostel1-dblock_v2.png",
