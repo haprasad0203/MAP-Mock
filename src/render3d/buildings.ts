@@ -8,6 +8,7 @@ import { partFootprint } from './terrain';
 import { Buckets, area2, ccw, centroid, mul, offset, rgb, scaled, type RGB, WHITE } from './mesh';
 import { flatRoof, frameOf, gableRoof, hipRoof, insetRoof, pyramidRoof, roofMat, EAVE } from './roofs';
 import { styleOf } from './buildingStyles';
+import { LANDMARKS, type LandmarkCtx } from './landmarks';
 
 export const FLOOR = 3.4;   // metres per floor
 const BAY = 3.0;            // metres per window bay (the facade textures hold 4 bays × 4 floors)
@@ -27,8 +28,10 @@ export function facadeMat(hex: string): { key: string; col: RGB } {
 
 export interface BuiltInfo { top: number; centre: XY }
 
-/** Adds one building to `B`. Returns its highest point and label anchor. */
-export function addBuilding(B: Buckets, b: Building, entrances: Entrance[]): BuiltInfo {
+/** Adds one building to `B`. Returns its highest point and label anchor. Hand-modelled landmarks (src/render3d/landmarks) build themselves. */
+export function addBuilding(B: Buckets, b: Building, entrances: Entrance[], ctx?: LandmarkCtx): BuiltInfo {
+  const hero = LANDMARKS[b.id];
+  if (hero) return hero(B, b, ctx ?? { entrances, landmarks: [], areas: [], forecourt: false });
   const st = styleOf(b.id), g = b.groundElev ?? 0;
   const ent = entrances.find(e => e.buildingId === b.id && e.main) ?? entrances.find(e => e.buildingId === b.id);
   let top = g, sx = 0, sy = 0, sw = 0;

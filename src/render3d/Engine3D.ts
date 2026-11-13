@@ -21,6 +21,7 @@ import { Post } from './post';
 import { Labels, type LabelItem } from './labels';
 import { Markers, type UserFix } from './markers';
 import { partFootprint } from './terrain';
+import { createMaterial, loadTextures } from './materials';
 import { isPhone, lower, webgl2Available, type Quality } from '../render/quality';
 
 export type { Quality };
@@ -28,41 +29,21 @@ export { webgl2Available };
 export interface Surroundings { houses: { p: XY[]; f: number }[]; attribution?: string }
 export interface Assets { terrain: TerrainData; surroundings: Surroundings | null; tex: Record<string, THREE.Texture> }
 
-const TEX = {
-  facadeCream: 'tex-facade-cream-plaster', facadeWhite: 'tex-facade-white-tealglass', stone: 'tex-stone-cladding',
-  roofGreen: 'tex-roof-green-metal', roofSlate: 'tex-roof-slate-grey',
-  road: 'tex-asphalt', lawn: 'tex-lawn-grass', forestFloor: 'tex-pine-forest-floor', brick: 'tex-plaza-red-brick',
-} as const;
 const K_MIN = LEVELS[0], K_MAX = LEVELS[LEVELS.length - 1] * 1.25;
 const FOREST_BUDGET = 28000;
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 async function loadAssets(): Promise<Assets> {
-  const loader = new THREE.TextureLoader();
-  const tex: Record<string, THREE.Texture> = {};
-  const [terrain, surroundings] = await Promise.all([
+  const [terrain, surroundings, tex] = await Promise.all([
     fetch('/data/terrain.json').then(r => r.json()),
     fetch('/data/surroundings.json').then(r => (r.ok ? r.json() : null)).catch(() => null),
-    ...Object.entries(TEX).map(async ([key, file]) => {
-      const t = await loader.loadAsync(`/campus-art/tycoon/${file}.webp`);
-      t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; tex[key] = t;
-    }),
+    loadTextures(),
   ]);
   return { terrain, surroundings, tex };
 }
 /** `auto`: let the engine step the quality down by itself when frames are slow. */
 export async function createEngine3D(canvas: HTMLCanvasElement, world: WorldModel, view: View | null, opts: EngineOptions = {}, quality: Quality = isPhone() ? 'medium' : 'high', auto = false): Promise<Engine3D> {
   return new Engine3D(canvas, world, await loadAssets(), view, opts, quality, auto);
-}
-
-/** Teal curtain-wall glass with pale mullions. */
-function glassTexture(): THREE.Texture {
-  const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d')!;
-  const grad = g.createLinearGradient(0, 0, 0, 64); grad.addColorStop(0, '#4FB7BE'); grad.addColorStop(1, '#2C8C9C');
-  g.fillStyle = grad; g.fillRect(0, 0, 64, 64); g.fillStyle = 'rgba(255,255,255,0.22)'; g.fillRect(6, 6, 20, 52);
-  g.strokeStyle = '#E6F1EE'; g.lineWidth = 5; g.strokeRect(0, 0, 64, 64);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4;
-  return t;
 }
 
 interface BuiltBuilding extends BuiltInfo { id: string; category: Category; meshes: THREE.Mesh[] }
@@ -122,18 +103,8 @@ export class Engine3D implements IMapEngine {
 
   // ---------- scene ----------
   private mat(key: string): THREE.Material {
-    let m = this.mats.get(key); if (m) return m;
-    const map = this.assets.tex[key];
-    if (key === 'glass') m = new THREE.MeshStandardMaterial({ map: glassTexture(), roughness: 0.25, metalness: 0.15, emissive: '#123a40', emissiveIntensity: 0.35 });
-    else if (key === 'house') m = new THREE.MeshLambertMaterial({ vertexColors: true });
-    else if (key === 'road') m = new THREE.MeshStandardMaterial({ map: map ?? null, vertexColors: true, roughness: 0.95, metalness: 0, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
-    else {
-      m = new THREE.MeshStandardMaterial({ map: map ?? null, vertexColors: true, roughness: key.startsWith('roof') ? 0.88 : 0.9, metalness: 0 });
-      // the roof textures are tinted: green to a muted sage, slate to a lighter grey so it never reads black in shade
-      if (key === 'roofGreen') (m as THREE.MeshStandardMaterial).color.setRGB(1.9, 1.02, 1.3);
-      if (key === 'roofSlate') (m as THREE.MeshStandardMaterial).color.setRGB(1.75, 1.72, 1.7);
-    }
-    this.mats.set(key, m); return m;
+    let m = this.mats.get(key); if (!m) { m = createMaterial(key, this.assets.tex); this.mats.set(key, m); }
+    return m;
   }
   /** The material of a building in its highlighted (selected) or dimmed (filtered out) form. */
   private variant(key: string, mode: 'hi' | 'dim'): THREE.Material {
@@ -165,10 +136,10 @@ export class Engine3D implements IMapEngine {
     this.scene.add(this.campusTrees.group, this.forest.group);
   }
   private buildBuildings() {
-    const entrances = this.world.src.getEntrances(), plain = new Buckets(), root = new THREE.Group(); root.name = 'buildings';
+    const entrances = this.world.src.getEntrances(), ctx = { entrances, landmarks: this.world.landmarks, areas: this.world.areas, forecourt: false }, plain = new Buckets(), root = new THREE.Group(); root.name = 'buildings';
     for (const b of this.world.buildings) {
       if (b.unnamed) { addBuilding(plain, b, entrances); continue; }
-      const B = new Buckets(), info = addBuilding(B, b, entrances), g = new THREE.Group(); g.name = b.id;
+      const B = new Buckets(), info = addBuilding(B, b, entrances, ctx), g = new THREE.Group(); g.name = b.id;
       const meshes = B.meshes(k => this.mat(k)); for (const m of meshes) { m.userData.buildingId = b.id; m.castShadow = m.receiveShadow = true; g.add(m); this.pickables.push(m); }
       root.add(g); this.buildings.set(b.id, { ...info, id: b.id, category: b.category, meshes });
     }
