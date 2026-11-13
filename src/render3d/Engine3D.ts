@@ -8,7 +8,8 @@ import type { EngineOptions, Hit, IMapEngine, Layers, Pin, View } from '../rende
 import type { WorldModel } from '../render/world';
 import { Terrain, type TerrainData } from './terrain';
 import { applyPose, distanceFor, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
-import { bakeGroundTexture, buildTerrainGeometry, type SurfaceAt } from './ground';
+import { bakeGroundTexture, bakeGroundWeights, buildTerrainGeometry, groundMaterial, type SurfaceAt } from './ground';
+import { iconFor } from '../ui/mapIcons';
 import { Buckets } from './mesh';
 import { addBuilding, addHouses, type BuiltInfo } from './buildings';
 import { addRoads } from './roads';
@@ -30,6 +31,7 @@ export interface Assets { terrain: TerrainData; surroundings: Surroundings | nul
 const TEX = {
   facadeCream: 'tex-facade-cream-plaster', facadeWhite: 'tex-facade-white-tealglass', stone: 'tex-stone-cladding',
   roofGreen: 'tex-roof-green-metal', roofSlate: 'tex-roof-slate-grey',
+  road: 'tex-asphalt', lawn: 'tex-lawn-grass', forestFloor: 'tex-pine-forest-floor', brick: 'tex-plaza-red-brick',
 } as const;
 const K_MIN = LEVELS[0], K_MAX = LEVELS[LEVELS.length - 1] * 1.25;
 const FOREST_BUDGET = 28000;
@@ -124,8 +126,13 @@ export class Engine3D implements IMapEngine {
     const map = this.assets.tex[key];
     if (key === 'glass') m = new THREE.MeshStandardMaterial({ map: glassTexture(), roughness: 0.25, metalness: 0.15, emissive: '#123a40', emissiveIntensity: 0.35 });
     else if (key === 'house') m = new THREE.MeshLambertMaterial({ vertexColors: true });
-    else if (key === 'road') m = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
-    else m = new THREE.MeshStandardMaterial({ map: map ?? null, vertexColors: true, roughness: key.startsWith('roof') ? 0.6 : 0.9, metalness: key.startsWith('roof') ? 0.1 : 0 });
+    else if (key === 'road') m = new THREE.MeshStandardMaterial({ map: map ?? null, vertexColors: true, roughness: 0.95, metalness: 0, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
+    else {
+      m = new THREE.MeshStandardMaterial({ map: map ?? null, vertexColors: true, roughness: key.startsWith('roof') ? 0.88 : 0.9, metalness: 0 });
+      // the roof textures are tinted: green to a muted sage, slate to a lighter grey so it never reads black in shade
+      if (key === 'roofGreen') (m as THREE.MeshStandardMaterial).color.setRGB(1.9, 1.02, 1.3);
+      if (key === 'roofSlate') (m as THREE.MeshStandardMaterial).color.setRGB(1.75, 1.72, 1.7);
+    }
     this.mats.set(key, m); return m;
   }
   /** The material of a building in its highlighted (selected) or dimmed (filtered out) form. */
@@ -133,13 +140,13 @@ export class Engine3D implements IMapEngine {
     const id = `${key}:${mode}`; let m = this.mats.get(id); if (m) return m;
     const c = this.mat(key).clone() as THREE.MeshStandardMaterial;
     if (mode === 'hi') { c.emissive = new THREE.Color('#FFD23F'); c.emissiveIntensity = 0.13; }
-    else c.color = new THREE.Color(0.24, 0.27, 0.29);
+    else c.color.multiply(new THREE.Color(0.42, 0.45, 0.47)); // relative to the material's own tint, so dark roofs stay readable
     this.mats.set(id, c); return c;
   }
   private buildGround() {
     const tex = bakeGroundTexture(this.world, this.quality === 'high' ? 2600 : 1300); tex.anisotropy = this.quality === 'low' ? 1 : 8;
     const { geometry, surfaceAt } = buildTerrainGeometry(this.terrain, this.quality === 'low' ? 8 : 4); this.surfaceAt = surfaceAt;
-    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0 }));
+    const mesh = new THREE.Mesh(geometry, groundMaterial(tex, bakeGroundWeights(this.world), this.assets.tex));
     mesh.name = 'terrain'; mesh.receiveShadow = true; this.scene.add(mesh);
     for (const a of this.world.areas.filter(a => a.kind === 'water' && a.pts.length >= 3)) { const w = buildWater(a.pts); this.water.push(w); this.scene.add(w.mesh); }
   }
@@ -286,12 +293,12 @@ export class Engine3D implements IMapEngine {
       if (b.unnamed) continue; const sel = this.selected === b.id, info = this.buildings.get(b.id); if (!info) continue;
       if (b.labelPriority > maxP && !sel) continue;
       if (this.filter !== 'all' && b.category !== this.filter && !sel) continue;
-      out.push({ id: b.id, text: tier === 'campus' ? (b.short ?? b.name) : (b.short && b.name.length > 26 ? b.short : b.name), at: info.centre, h: info.top + 1.5, pri: b.labelPriority, cat: b.category, sel, onAir: this.onAir.has(b.id) });
+      out.push({ id: b.id, text: tier === 'campus' ? (b.short ?? b.name) : (b.short && b.name.length > 26 ? b.short : b.name), at: info.centre, h: info.top + 1.5, pri: b.labelPriority, cat: b.category, sel, onAir: this.onAir.has(b.id), icon: iconFor(b.id, b.category) });
     }
     for (const pin of this.pins) {
       const sel = this.selected === pin.id;
       if (pin.priority > maxP && !sel) continue; if (this.filter !== 'all' && pin.category !== this.filter && !sel) continue;
-      out.push({ id: pin.id, text: pin.label, at: pin.at, h: this.surfaceAt(pin.at[0], pin.at[1]) + 4, pri: pin.priority, cat: pin.category, sel });
+      out.push({ id: pin.id, text: pin.label, at: pin.at, h: this.surfaceAt(pin.at[0], pin.at[1]) + 4, pri: pin.priority, cat: pin.category, sel, icon: iconFor(pin.id, pin.category) });
     }
     return out;
   }
@@ -330,7 +337,7 @@ export class Engine3D implements IMapEngine {
     const time = this.animated() ? t / 1000 : 0;
     for (const w of this.water) w.time.value = time;
     if (this.forest) this.forest.time.value = time; if (this.campusTrees) this.campusTrees.time.value = time;
-    if (this.post) { this.post.setTilt(!this.selected, this.tier); this.post.render(); } else this.renderer.render(this.scene, this.camera);
+    if (this.post) { this.post.setTilt(!this.selected, this.tier, this.H > this.W); this.post.render(); } else this.renderer.render(this.scene, this.camera);
     if (this.layers.labels) this.labels.update(this.labelItems(), (x, y, h) => worldToScreen(this.camera, x, y, h, this.W, this.H), this.W, this.H); else this.labels.clear();
   }
   private avgFrame() { return this.frameMs.length ? Math.round((this.frameMs.reduce((s, v) => s + v, 0) / this.frameMs.length) * 10) / 10 : 0; }
@@ -369,7 +376,7 @@ export class Engine3D implements IMapEngine {
       if (!pts.has(e.pointerId)) return; const p = local(e); pts.set(e.pointerId, p);
       if (pts.size === 2) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinchD > 0) this.zoomAround(d / pinchD, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]); pinchD = d; return; }
       const dx = p[0] - last[0], dy = p[1] - last[1], now = performance.now(); moved += Math.abs(dx) + Math.abs(dy);
-      this.panBy(dx, dy); this.vel = [dx / Math.max(1, now - lastT), dy / Math.max(1, now - lastT)]; last = p; lastT = now; this.kick();
+      this.panBy(dx, dy); { const dt = Math.max(8, now - lastT), sp = Math.hypot(dx, dy) / dt, cap = sp > 2.5 ? 2.5 / sp : 1; this.vel = [(dx / dt) * cap, (dy / dt) * cap]; } // a flick glides, but never flies off the campus last = p; lastT = now; this.kick();
     }, o);
     const up = (e: PointerEvent) => {
       if (!pts.has(e.pointerId)) return; const p = local(e); pts.delete(e.pointerId);

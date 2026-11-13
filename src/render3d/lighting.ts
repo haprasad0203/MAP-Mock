@@ -4,8 +4,8 @@ import * as THREE from 'three';
 import type { XY } from '../geo/grid';
 import { screenToPlane } from './camera';
 
-export const MIST = '#CBD9D6';
-const ELEV = (28 * Math.PI) / 180;
+export const MIST = '#E3D3B0';
+const ELEV = (26 * Math.PI) / 180;
 /** Unit vector towards the sun, in Three.js space (sun in the south-west). */
 export const SUN_DIR = new THREE.Vector3(-Math.cos(ELEV) * Math.SQRT1_2, Math.sin(ELEV), Math.cos(ELEV) * Math.SQRT1_2);
 
@@ -33,8 +33,8 @@ export function installMist(centre: XY, r0: number, r1: number) {
 }
 
 export class Lighting {
-  readonly sun = new THREE.DirectionalLight('#FFD9A3', 5.8);
-  readonly fill = new THREE.HemisphereLight('#BFD9F2', '#6E5E40', 1.55);
+  readonly sun = new THREE.DirectionalLight('#FFD9A3', 8.2);
+  readonly fill = new THREE.HemisphereLight('#B4CDE4', '#A07A45', 2.0);
   private key = '';
   constructor(scene: THREE.Scene) {
     scene.add(this.sun, this.sun.target, this.fill);

@@ -7,16 +7,16 @@ import type { Terrain } from './terrain';
 const hex = (h: string): [number, number, number] => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
 // [colour, noise strength]. Wild ground is split into campus meadow and forest floor below.
 const CLASS: Record<number, [[number, number, number], number]> = {
-  [G.LAWN]: [hex('#6DB24F'), 0.1], [G.GARDEN]: [hex('#78BA57'), 0.1], [G.GROUND]: [hex('#6DB24F'), 0.1],
+  [G.LAWN]: [hex('#4F7F3D'), 0.1], [G.GARDEN]: [hex('#5A8742'), 0.1], [G.GROUND]: [hex('#4F7F3D'), 0.1],
   // roads and paths are drawn as crisp ribbons (roads.ts); the raster under them is only a soft verge
   [G.ROAD]: [hex('#8E9474'), 0.05], [G.ROAD_LINE]: [hex('#8E9474'), 0.05], [G.ROAD_DASH]: [hex('#8E9474'), 0.05],
   [G.SERVICE]: [hex('#8E9474'), 0.05], [G.ROAD_EDGE]: [hex('#95A070'), 0.06], [G.TRACK]: [hex('#A8A174'), 0.06],
   [G.PATH]: [hex('#A9A77E'), 0.05], [G.WATER]: [hex('#2A6F86'), 0.03], [G.COURT]: [hex('#2F8A6A'), 0.02],
   [G.COURT_BLUE]: [hex('#3E6FB8'), 0.02], [G.COURT_RED]: [hex('#B5564A'), 0.03], [G.EARTH]: [hex('#B88D60'), 0.08],
-  [G.PLAZA]: [hex('#D6A892'), 0.05], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
+  [G.PLAZA]: [hex('#C99484'), 0.05], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
   [G.COVERED]: [hex('#A9A77E'), 0.05],
 };
-const MEADOW = hex('#8FBA5A'), FOREST = hex('#55893F');
+const MEADOW = hex('#6A8844'), FOREST = hex('#4A7038');
 
 /** Ground colour for the whole ±1300 m square. `size` = texture pixels per side (2600 = 1 m per pixel). */
 export function bakeGroundTexture(world: WorldModel, size: number): THREE.DataTexture {
@@ -35,6 +35,41 @@ export function bakeGroundTexture(world: WorldModel, size: number): THREE.DataTe
   t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; t.magFilter = THREE.LinearFilter;
   t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.needsUpdate = true;
   return t;
+}
+
+/** Where each Phase 2 ground texture shows: R = lawn grass, G = pine forest floor, B = red-brick paving. Half the raster's resolution. */
+export function bakeGroundWeights(world: WorldModel): THREE.DataTexture {
+  const size = SIZE / 2, data = new Uint8Array(size * size * 4);
+  for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) {
+    const q = (j * 2) * SIZE + i * 2, c = world.mask[q], o = (j * size + i) * 4;
+    if (c === G.LAWN || c === G.GARDEN || c === G.GROUND) data[o] = 255;
+    else if (c === G.WILD) { if (world.inCampus[q]) data[o] = 150; else data[o + 1] = 255; }
+    else if (c === G.PLAZA) data[o + 2] = 255;
+    data[o + 3] = 255;
+  }
+  const t = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+  t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; t.magFilter = THREE.LinearFilter; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.needsUpdate = true;
+  return t;
+}
+
+/** Terrain material: the baked colour, with the lawn, forest-floor and brick textures laid over it where they belong. */
+export function groundMaterial(colour: THREE.Texture, weights: THREE.Texture, tex: Record<string, THREE.Texture>): THREE.MeshStandardMaterial {
+  const m = new THREE.MeshStandardMaterial({ map: colour, roughness: 1, metalness: 0 });
+  if (!tex.lawn || !tex.forestFloor || !tex.brick) return m;
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uWeights = { value: weights }; sh.uniforms.uLawn = { value: tex.lawn }; sh.uniforms.uFloor = { value: tex.forestFloor }; sh.uniforms.uBrick = { value: tex.brick };
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform sampler2D uWeights; uniform sampler2D uLawn; uniform sampler2D uFloor; uniform sampler2D uBrick;')
+      .replace('#include <map_fragment>', `#include <map_fragment>
+      vec4 gw = texture2D(uWeights, vMapUv);
+      vec2 wuv = vMapUv * ${SIZE.toFixed(1)};                                   // metres
+      vec3 lawn = texture2D(uLawn, wuv / 18.0).rgb * vec3(0.72, 0.58, 0.48);   // deeper and warmer than the lime original
+      vec3 floorC = texture2D(uFloor, wuv / 24.0).rgb * vec3(1.7, 1.9, 1.3);
+      vec3 brick = texture2D(uBrick, wuv / 6.0).rgb * vec3(0.90, 0.80, 0.78);
+      diffuseColor.rgb = mix(diffuseColor.rgb, lawn, gw.r * 0.72);
+      diffuseColor.rgb = mix(diffuseColor.rgb, floorC, gw.g * 0.6);
+      diffuseColor.rgb = mix(diffuseColor.rgb, brick, gw.b * 0.9);`);
+  };
+  return m;
 }
 
 const OUTER = 40;    // outer grid step (m)

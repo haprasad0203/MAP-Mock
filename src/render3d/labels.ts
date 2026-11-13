@@ -3,7 +3,7 @@
 import type { XY } from '../geo/grid';
 import type { Category } from '../geo/types';
 
-export interface LabelItem { id: string; text: string; at: XY; h: number; pri: number; cat: Category; sel: boolean; onAir?: boolean }
+export interface LabelItem { id: string; text: string; at: XY; h: number; pri: number; cat: Category; sel: boolean; onAir?: boolean; icon?: string | null }
 const CAT_COLOR: Record<string, string> = { venue: '#0F4D32', food: '#FF8A3D', hostel: '#3E6FB8', sports: '#2F8A6A', service: '#5E6872', help: '#B5463A', landmark: '#8A6A2F', staff: '#7A6F8A' };
 interface Tag { el: HTMLDivElement; text: string; w: number; h: number; shown: boolean; sel: boolean; onAir: boolean }
 
@@ -19,8 +19,8 @@ export class Labels {
     let t = this.tags.get(it.id);
     if (!t) {
       const el = document.createElement('div'); el.className = 'map-label'; el.style.visibility = 'hidden';
-      el.innerHTML = '<span class="dot"></span><span class="txt"></span>';
-      (el.firstChild as HTMLElement).style.background = CAT_COLOR[it.cat] ?? '#0F4D32';
+      if (it.icon) { el.innerHTML = '<img class="ico" alt=""><span class="txt"></span>'; (el.firstChild as HTMLImageElement).src = it.icon; el.classList.add('has-ico'); }
+      else { el.innerHTML = '<span class="dot"></span><span class="txt"></span>'; (el.firstChild as HTMLElement).style.background = CAT_COLOR[it.cat] ?? '#0F4D32'; }
       this.root.appendChild(el); t = { el, text: '', w: 0, h: 0, shown: false, sel: false, onAir: false }; this.tags.set(it.id, t);
     }
     const onAir = !!it.onAir;

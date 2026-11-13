@@ -42,10 +42,10 @@ function slope(B: Buckets, key: string, o0: P3, o1: P3, i1: P3, i0: P3, col: RGB
   B.quad(key, o0, o1, i1, i0, col, uv(o0), uv(o1), uv(i1), uv(i0));
 }
 
-export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string) {
+export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, maxRise = MAX_RISE) {
   const f = frameOf(part), a = f.a + EAVE, b = f.b + EAVE, m = roofMat(roofHex);
   B.prism('plain', [at(f, -a, -b, 0), at(f, a, -b, 0), at(f, a, b, 0), at(f, -a, b, 0)].map(p => [p[0], p[1]] as XY), top, top + SLAB, FASCIA, false);
-  const inset = Math.min(b, MAX_RISE / PITCH_TAN), h0 = top + SLAB, h1 = h0 + inset * PITCH_TAN, ia = a - inset, ib = b - inset;
+  const inset = Math.min(b, maxRise / PITCH_TAN), h0 = top + SLAB, h1 = h0 + inset * PITCH_TAN, ia = a - inset, ib = b - inset;
   const o = [at(f, -a, -b, h0), at(f, a, -b, h0), at(f, a, b, h0), at(f, -a, b, h0)], i = [at(f, -ia, -ib, h1), at(f, ia, -ib, h1), at(f, ia, ib, h1), at(f, -ia, ib, h1)];
   for (let k = 0; k < 4; k++) slope(B, m.key, o[k], o[(k + 1) % 4], i[(k + 1) % 4], i[k], m.col);
   if (ib > 0.05) B.cap(m.key, i.map(p => [p[0], p[1]] as XY), h1, m.col, TILE);

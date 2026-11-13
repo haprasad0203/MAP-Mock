@@ -30,6 +30,21 @@ Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layo
 
 ---
 
+# Phase 3 fix-up (13 Nov 2026, after H A's review)
+
+- **Data:** `public/data/campus-layout.json` synced from the master working tree (football on grass, generic buildings unnamed, west-cluster at priority 3). `places.json`, `osm.json`, `terrain.json` and `sessions.json` already matched.
+- **Light and grade:** sun #FFD9A3 at 26° from the south-west, stronger against a cooler fill, so shadows are long and clear; an orange/teal split tone after ACES (`WarmGrade` in `post.ts`); warm mist.
+- **Colours:** deeper warm grass, darker pines with wider variation, sage roofs with no gloss.
+- **Phase 2 assets:** all nine textures and the SVG icons are now used (see `reference/generated/GENERATED.md`).
+- **Fixes:** Mess roofs lighter slate, dimming is relative to each material; the Admin main wing has a low hip with a raised centre pavilion; the tilt-shift band is wider, and wider still on portrait screens; the credits have their own strip between the sheet and the tab bar (two lines on phones); flick speed is capped.
+- **Tested through the UI:** chip click, rotate button, wheel zoom, drag with glide, pinch (two-pointer events), saved view after reload, `?demo=hooks` route on screen. High tier ran at 16.7 ms per frame in the visible preview at 1280×800.
+- **Dev switch added:** `?view=cx,cy,level,rot`.
+- Screenshots next to the style target: `reference/style/compare/phase3_fix_*.jpg`.
+
+**Order changed by H A:** the 3B features (blue dot, directions, ON AIR, event pins, room changes, list view) come next, because of the 27 Nov deadline. Hardscape and street furniture (entrance patios, plazas, retaining walls, lamps, benches) move to Phase 4.
+
+---
+
 # Phase 3 result (13 Nov 2026)
 
 Built as planned below, with these differences:

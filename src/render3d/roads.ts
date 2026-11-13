@@ -7,10 +7,15 @@ import { Buckets, rgb, type RGB } from './mesh';
 import type { SurfaceAt } from './ground';
 
 export const ROAD_HALF: Record<PathLine['kind'], number> = { road: 3.9, service: 2.2, track: 1.8, footpath: 1.1, covered: 1.4 };
+// The road material carries the asphalt texture (tex-asphalt), so each colour is stored as a multiple of the
+// texture's average: the asphalt itself is about 1, the kerb, lines and paths are lighter tints of the same grain.
+const AVG: RGB = [0.08, 0.091, 0.107];
+const over = (hex: string): RGB => { const c = rgb(hex); return [c[0] / AVG[0], c[1] / AVG[1], c[2] / AVG[2]]; };
 const COL = {
-  kerb: rgb('#B4B0A2'), line: rgb('#F1ECDD'), asphalt: rgb('#4E535B'), service: rgb('#63676D'),
-  track: rgb('#C9B48C'), path: rgb('#E0D5BC'),
+  kerb: over('#B5AD9C'), line: over('#F1ECDD'), asphalt: over('#54575C'), service: over('#676766'),
+  track: over('#C2A982'), path: over('#DCCFB2'),
 };
+const UV = 7; // metres per repeat of the asphalt texture
 const LINE_W = 0.5;
 
 export interface Sample { p: XY; n: XY; s: number } // point, left normal (mitred), distance along
@@ -49,7 +54,8 @@ function strip(B: Buckets, sm: Sample[], half: number, lift: number, col: RGB, h
   for (let i = 0; i + 1 < sm.length; i++) {
     if (keep && !keep(i)) continue;
     const a = sm[i], b = sm[i + 1], ra = at(a, -half), ca = at(a, 0), la = at(a, half), rb = at(b, -half), cb = at(b, 0), lb = at(b, half);
-    B.quad('road', ra, rb, cb, ca, col); B.quad('road', ca, cb, lb, la, col);
+    const uv = (p: [number, number, number]): [number, number] => [p[0] / UV, p[1] / UV];
+    B.quad('road', ra, rb, cb, ca, col, uv(ra), uv(rb), uv(cb), uv(ca)); B.quad('road', ca, cb, lb, la, col, uv(ca), uv(cb), uv(lb), uv(la));
   }
 }
 

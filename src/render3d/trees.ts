@@ -31,7 +31,7 @@ function finish(g: Geo): THREE.BufferGeometry {
   return b;
 }
 function variants(): THREE.BufferGeometry[] {
-  const bark = C('#6B4A32'), d = C('#2B6E3E'), m = C('#3F8F4C'), l = C('#62AE5E'), bl = C('#7DBB55'), bd = C('#4F9443');
+  const bark = C('#6B4A32'), d = C('#1E4C35'), m = C('#29633F'), l = C('#3E7B48'), bl = C('#567F42'), bd = C('#3F6A38');
   const tall: Geo = { pos: [], nor: [], col: [] }; trunk(tall, 0.4, 6, bark);
   cone(tall, 3.3, 4, 10.5, 6, d, m); cone(tall, 2.5, 8.2, 14, 6, d, m, 0.5); cone(tall, 1.6, 12, 17.5, 5, m, l, 0.2);
   const mid: Geo = { pos: [], nor: [], col: [] }; trunk(mid, 0.36, 4, bark);
@@ -100,7 +100,7 @@ export function buildTrees(spots: TreeSpot[], heightAt: (x: number, y: number) =
       const r = hash2(Math.round(t.x * 3), Math.round(t.y * 3), 61), w = t.s * (0.88 + r * 0.26);
       q.setFromAxisAngle(up, r * Math.PI * 2);
       m4.compose(new THREE.Vector3(t.x, heightAt(t.x, t.y), -t.y), q, new THREE.Vector3(w, t.s, w)); im.setMatrixAt(i, m4);
-      const k = 0.82 + hash2(Math.round(t.x), Math.round(t.y), 62) * 0.36; col.setRGB(k * (0.94 + r * 0.14), k, k * (0.9 + r * 0.1)); im.setColorAt(i, col);
+      const k = 0.66 + hash2(Math.round(t.x), Math.round(t.y), 62) * 0.5, w2 = hash2(Math.round(t.x), Math.round(t.y), 64); col.setRGB(k * (0.86 + w2 * 0.34), k, k * (1.04 - w2 * 0.3)); // some warmer, some bluer im.setColorAt(i, col);
     });
     im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true;
     im.castShadow = true; im.receiveShadow = true; im.frustumCulled = false; im.userData.full = list.length;

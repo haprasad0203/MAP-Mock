@@ -61,3 +61,5 @@ Props added by the 3D engine (`src/render3d/props.ts`), placed from the layout d
 - On areas: goalposts and one floodlight on `football`; lines, hoops or a net on the three OSM courts.
 - Along `covered-walk`: a teal pitched roof on white posts.
 - Trees: campus trees are the world model's list; the forest outside the boundary is seeded from noise on wild ground and kept off the Overture houses.
+
+Added in the Phase 3 fix-up (13 Nov 2026): `admin` part 2 (the 60 × 44 m main wing, `hip` in the data) is drawn as a low hip over the whole part with a raised centre pavilion under its own hip, to match the Admin render. The footprint, floors and roof colour still come from the data; only the roof's form is a render detail (`pavilionRoof` in `src/render3d/buildingStyles.ts`).

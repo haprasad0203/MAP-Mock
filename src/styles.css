@@ -1,7 +1,7 @@
 :root {
   --pine: #0F4D32; --pine-2: #16382A; --accent: #FFD23F; --paper: #FFFDF5; --ink: #101418; --muted: #4A5560;
   --line: #0F4D32; --sheet: #FFFDF5; --chip: #FFFDF5; --danger: #B5463A; --food: #FF8A3D;
-  --radius: 4px; --shadow: 3px 3px 0 var(--pine); --tabbar: 64px;
+  --radius: 4px; --shadow: 3px 3px 0 var(--pine); --tabbar: 64px; --credits: 16px;
   --font-ui: Inter, system-ui, sans-serif; --font-pixel: 'Pixelify Sans', monospace;
   color-scheme: light;
 }
@@ -46,7 +46,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .layers .soon { color: var(--muted); font-size: 12px; }
 
 /* ---------- bottom sheet ---------- */
-.sheet { position: absolute; left: 0; right: 0; bottom: var(--tabbar); z-index: 5; display: flex; justify-content: center; pointer-events: none; padding: 0 10px 10px; }
+.sheet { position: absolute; left: 0; right: 0; bottom: calc(var(--tabbar) + var(--credits)); z-index: 5; display: flex; justify-content: center; pointer-events: none; padding: 0 10px 6px; }
 .sheet-inner { pointer-events: auto; width: 100%; max-width: 560px; background: var(--sheet); border: 2px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); max-height: 46vh; display: flex; flex-direction: column; transition: max-height .22s steps(6); }
 .sheet-inner.collapsed { max-height: 64px; overflow: hidden; }
 .handle { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px 8px; border: 0; background: none; width: 100%; text-align: left; min-height: 56px; }
@@ -69,7 +69,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .close { width: 44px; height: 44px; border: 2px solid var(--line); border-radius: var(--radius); background: var(--paper); flex: none; }
 .confirm { font-size: 12px; color: #7A5536; background: #FBF1DC; border: 1px dashed #C9A06A; padding: 4px 8px; border-radius: 2px; margin-top: 8px; }
 .toast { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--tabbar) + 90px); z-index: 9; background: var(--pine); color: var(--paper); padding: 10px 14px; border-radius: var(--radius); font-size: 14px; box-shadow: 3px 3px 0 #000; max-width: 90vw; }
-.attrib { position: absolute; left: 6px; bottom: calc(var(--tabbar) + 2px); z-index: 3; font-size: 10px; color: #2A2F35; background: rgba(255,253,245,.75); padding: 1px 4px; border-radius: 2px; pointer-events: none; }
+/* credits: their own strip between the sheet and the tab bar, so nothing ever covers them */
+.attrib { position: absolute; left: 0; right: 0; bottom: var(--tabbar); height: var(--credits); z-index: 6; font-size: 10px; line-height: 13px; color: #2A2F35; background: rgba(255,253,245,.94); padding: 1px 8px; text-align: center; overflow: hidden; pointer-events: none; }
+/* on a phone the full credit needs two lines; it is never cut short */
+@media (max-width: 640px) { :root { --credits: 29px; } }
 .attrib.hide { display: none; }
 
 /* ---------- 3D map: name tags (HTML overlay) and place-card picture ---------- */
@@ -77,6 +80,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .map-label { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px 0 8px; border-radius: 12px; background: #fff; color: #0F4D32; font: 600 12px/1 Inter, system-ui, sans-serif; white-space: nowrap; box-shadow: 0 2px 6px rgba(16, 40, 28, .3), 0 0 0 1px rgba(15, 77, 50, .14); will-change: transform; }
 .map-label::after { content: ''; position: absolute; left: 50%; bottom: -5px; margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: #fff; }
 .map-label .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.map-label .ico { width: 18px; height: 18px; flex: none; display: block; } .map-label.has-ico { padding-left: 4px; }
+.chip .ci { width: 20px; height: 20px; display: block; margin-left: -4px; }
 .map-label.sel { background: #FFD23F; color: #101418; } .map-label.sel::after { border-top-color: #FFD23F; }
 .map-label.onair::before { content: 'ON AIR'; font: 700 9px/1 Inter, system-ui, sans-serif; color: #fff; background: var(--danger); padding: 3px 4px; border-radius: 4px; margin-right: 2px; }
 .thumb { display: block; width: 100%; height: 132px; object-fit: cover; border-radius: 8px; margin-top: 4px; background: #E9EFE9; }
@@ -99,7 +104,7 @@ table.pts { width: 100%; border-collapse: collapse; font-size: 13px; } table.pts
 .meter { height: 10px; border: 2px solid var(--line); background: #fff; } .meter > div { height: 100%; background: var(--accent); }
 
 @media (min-width: 900px) {
-  .sheet { justify-content: flex-start; left: 12px; right: auto; width: 420px; padding: 0 0 12px; }
+  .sheet { justify-content: flex-start; left: 12px; right: auto; width: 420px; padding: 0 0 8px; }
   .sheet-inner { max-height: 60vh; }
   .top { right: auto; width: 560px; }
 }

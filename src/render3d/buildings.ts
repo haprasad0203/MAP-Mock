@@ -52,6 +52,7 @@ export function addBuilding(B: Buckets, b: Building, entrances: Entrance[]): Bui
     const fill = Math.abs(area2(poly)) / Math.max(1, p.w * p.d);
     if (p.roof === 'flat') h = flatRoof(B, poly, wt, { roofHex, wall, angle: p.angle, seed, eaveSlab: st.eaveSlab });
     else if (p.roof === 'octagon') h = pyramidRoof(B, poly, wt, roofHex, st.lantern === 'all' || (Array.isArray(st.lantern) && st.lantern.includes(idx)));
+    else if (p.roof === 'hip' && st.pavilionRoof === idx) h = pavilionHip(B, p, wt, wall, roofHex);
     else if (fill < 0.75 || fill > 1.2) h = insetRoof(B, poly, wt, roofHex);
     else if (p.roof === 'hip') h = hipRoof(B, p, wt, roofHex);
     else h = gableRoof(B, p, wt, roofHex, wall);
@@ -113,6 +114,14 @@ function atrium(B: Buckets, p: Part, g: number, wt: number, entrance: XY | undef
 function rectPts(c: XY, t: XY, n: XY, w: number, d: number): XY[] {
   const pts: XY[] = [move(move(c, t, -w / 2), n, -d / 2), move(move(c, t, w / 2), n, -d / 2), move(move(c, t, w / 2), n, d / 2), move(move(c, t, -w / 2), n, d / 2)];
   return ccw(pts);
+}
+
+/** A wide wing as in the Admin render: a low hip over the whole part, and a raised centre block with its own hip. */
+function pavilionHip(B: Buckets, p: Part, wt: number, wall: RGB, roofHex: string): number {
+  const f = frameOf(p), ang = Math.atan2(f.lx[1], f.lx[0]), deg = (ang * 180) / Math.PI, cw = f.a * 2 * 0.44, cd = f.b * 2 * 0.7, lift = 4.4;
+  hipRoof(B, p, wt, roofHex, 2.6);
+  B.box('plain', f.c[0], f.c[1], cw, cd, ang, wt, wt + lift, wall);
+  return hipRoof(B, { cx: f.c[0], cy: f.c[1], w: cw, d: cd, angle: deg }, wt + lift, roofHex, 4.6);
 }
 
 /** Small rooftop pavilion with a green cap (NAB end towers). */

@@ -10,17 +10,23 @@ import { autoQuality, currentChoice, saveChoice, webgl2Available, type QualityCh
 import { fixturePlaces, fixtureSchedule, sanitize, search, type Hit, type Place, type PlacesData, type Room, type ScheduleData } from '../data/places';
 import { IconClose, IconCompass, IconLayers, IconLocate, IconRotate, IconSearch } from './icons';
 import { BottomSheet, type Selection } from './BottomSheet';
+import { iconUrl } from './mapIcons';
 
-const CHIPS: { id: Category | 'all'; label: string; color?: string }[] = [
-  { id: 'all', label: 'All' }, { id: 'venue', label: 'Venues', color: '#0F4D32' }, { id: 'food', label: 'Food', color: '#FF8A3D' },
-  { id: 'hostel', label: 'Hostels', color: '#3E6FB8' }, { id: 'sports', label: 'Sports', color: '#2F8A6A' },
-  { id: 'service', label: 'Services', color: '#5E6872' }, { id: 'help', label: 'Help', color: '#B5463A' },
+const CHIPS: { id: Category | 'all'; label: string; color?: string; icon?: string }[] = [
+  { id: 'all', label: 'All' }, { id: 'venue', label: 'Venues', icon: 'venue' }, { id: 'food', label: 'Food', icon: 'food' },
+  { id: 'hostel', label: 'Hostels', icon: 'hostel' }, { id: 'sports', label: 'Sports', icon: 'sports' },
+  { id: 'service', label: 'Services', color: '#5E6872' }, { id: 'help', label: 'Help', icon: 'help-desk' },
 ];
 
 // The 3D tycoon map is the default; the 2D pixel map is the fallback (no WebGL2, a 3D error, or "2D map" in Layers).
 // URL switches: ?q=high|medium|low|2d, ?fps=1 (frame-time box), ?demo=hooks (route, blue dot and ON AIR samples).
 const QUALITY_LABEL: Record<QualityChoice, string> = { auto: 'Automatic', high: 'High', medium: 'Medium', low: 'Low', '2d': '2D map' };
 
+/** Dev switch: ?view=cx,cy,level,rot opens the map on an exact view (used for the review screenshots). */
+function urlView(): View | null {
+  const v = new URLSearchParams(location.search).get('view')?.split(',').map(Number);
+  return v && v.length >= 3 && v.every(Number.isFinite) ? { cx: v[0], cy: v[1], level: v[2], rot: ((v[3] ?? 0) & 3) as View['rot'] } : null;
+}
 function savedView(): View | null { try { const v = JSON.parse(sessionStorage.getItem('campus.view') ?? 'null'); return v && typeof v.cx === 'number' ? v : null; } catch { return null; } }
 
 export default function CampusPage() {
@@ -62,7 +68,7 @@ export default function CampusPage() {
   // ---- engine ----
   useEffect(() => {
     if (!world || !canvasRef.current || !places) return;
-    const first = savedView() ?? { cx: world.centre[0] + 20, cy: world.centre[1], level: window.innerWidth < 700 ? 2 : 3, rot: 0 as const };
+    const first = urlView() ?? savedView() ?? { cx: world.centre[0] + 20, cy: world.centre[1], level: window.innerWidth < 700 ? 2 : 3, rot: 0 as const };
     const opts = {
       onSelect: (hit: { buildingId?: string; at: XY } | null) => {
         const e = engineRef.current; if (!e) return;
@@ -87,8 +93,10 @@ export default function CampusPage() {
     if (pid) { const p = places.places.find(x => x.id === pid); if (p) setTimeout(() => selectPlace(p), 50); }
     else if (room) { const r = places.rooms.find(x => x.code.toLowerCase() === room.toLowerCase()); if (r) setTimeout(() => selectRoom(r), 50); }
     if (qs.get('demo') === 'hooks') { // sample data for the hooks later phases will drive
-      const road = world.paths.filter(p => p.kind === 'road' && p.src !== undefined).sort((a, b) => b.pts.length - a.pts.length)[0] ?? world.paths[0];
+      // sample route: the campus road that passes nearest the flag forecourt
       const flag = world.landmarks.find(l => l.id === 'flag')?.at ?? world.centre;
+      const near = (p: { pts: XY[] }) => Math.min(...p.pts.map(q => Math.hypot(q[0] - flag[0], q[1] - flag[1])));
+      const road = world.paths.filter(p => p.kind === 'road' || p.kind === 'service').sort((a, b) => near(a) - near(b))[0] ?? world.paths[0];
       e.setRoute?.(road.pts); e.setUser?.({ at: [flag[0] + 14, flag[1] - 10], accuracy: 12, heading: 330 }); e.setOnAir?.(['nab']);
     }
     };
@@ -162,7 +170,7 @@ export default function CampusPage() {
           <div className="chips" role="toolbar" aria-label="Filter places">
             {CHIPS.map(c => (
               <button key={c.id} className="chip" aria-pressed={filter === c.id} onClick={() => setFilter(c.id)}>
-                {c.color && <span className="sw" style={{ background: c.color }} />}{c.label}
+                {c.icon ? <img className="ci" src={iconUrl(c.icon)} alt="" /> : c.color && <span className="sw" style={{ background: c.color }} />}{c.label}
               </button>
             ))}
           </div>

@@ -77,9 +77,11 @@ Still **to confirm** (waiting for H A's photos in `reference/photos/campus_new/`
 The 3D engine (Phase 3) takes **colours and forms from `reference/generated/LOOKS_LIKE.md`** and the footprints and heights from `public/data/campus-layout.json`. The renders in `public/campus-art/tycoon/landmark-*.webp` are **visual targets** for modelling and material tuning, and they double as place-card thumbnails. They are never used as geometry or positions. Mood frame v2 is a style reference only (see above).
 
 **What the Phase 3 engine actually loads (13 Nov 2026):**
-- Used as materials: `tex-facade-cream-plaster`, `tex-facade-white-tealglass`, `tex-stone-cladding`, `tex-roof-green-metal`, `tex-roof-slate-grey`.
-- Used as place-card pictures (`src/ui/BottomSheet.tsx`): the 13 `landmark-*.webp` renders.
-- Not used yet: `tex-asphalt` (roads are flat-coloured ribbons), `tex-lawn-grass`, `tex-pine-forest-floor`, `tex-plaza-red-brick` (the ground is one baked colour texture) and the `icons/*.svg` set (name tags use a category dot). These are for the Phase 4 polish.
+- Building materials: `tex-facade-cream-plaster` and `tex-facade-white-tealglass` (one window row per floor), `tex-stone-cladding` (stone bases, the Octagonal Hall band, NAB panels), `tex-roof-green-metal` (tinted to a muted sage), `tex-roof-slate-grey` (lightened so it never reads black).
+- Roads: `tex-asphalt` on every road, lane and path ribbon; kerbs, lines and paths are lighter tints of the same grain.
+- Ground (`groundMaterial` in `src/render3d/ground.ts`): `tex-lawn-grass` on lawns, gardens, grass pitches and campus meadow (tinted deeper and warmer), `tex-pine-forest-floor` under the forest, `tex-plaza-red-brick` on plazas and the paved strip round each building.
+- Icons (`src/ui/mapIcons.ts`): `venue`, `food`, `hostel`, `sports`, `help-desk` in the filter chips and name tags; `lake`, `gate`, `statue`, `atm`, `medical` on those places' tags. "Services" has no icon in the set and keeps a dot. `bus`, `parking` and `on-air` are not used yet.
+- Place-card pictures (`src/ui/BottomSheet.tsx`): the 13 `landmark-*.webp` renders.
 
 ### Seamless textures (`public/campus-art/tycoon/tex-*.webp`, 1024 px, tileable)
 - **Gemini:** texture 1 was generated (`raw/tycoon/tex_facade-cream-plaster.png`, style + New-Hostel + stone crop + NAB crop attached). Its rows are unevenly spaced, so it does not tile vertically, and it carries a watermark. Then **Gemini's daily image limit was reached** ("Limit reached. Resets at 8:24 am") before textures 2–9.
