@@ -32,3 +32,7 @@ None. `campus-layout.json` v2, `places.json`, `osm.json` and `terrain.json` are 
   - `service` is narrower, about 4.4 m, with no markings.
   - The public `road` lines outside campus get the same asphalt look.
 - All 13 data tests pass on the updated data. No layout changes made.
+
+## Hostel roads (13 Nov 2026, data update)
+- `rd-fblock` is now the asphalt hostel road (`kind: road`): Hostel 1 junction → past Hostel 4 and Hostel 2 → Hostel 3. `rd-north` is the short Hostel 3 upper access (`service`). `rd-hostel2-lower` was removed.
+- No code or place referred to the removed road. All 13 data tests pass, so every entrance is still on the main network. No layout changes made.

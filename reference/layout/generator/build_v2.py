@@ -173,13 +173,14 @@ areas = [
 # ---------------- Roads & paths ----------------
 osm_roads = [LineString([L(y, x) for x, y in f['geometry']['coordinates']]) for f in load_osm('roads_paths')]
 paths = []
-paths.append({'id': 'rd-fblock', 'kind': 'service', 'name': 'F Block access road', 'src': 'by-eye (satellite + drone)',
-              'pts': rnd([z02(*p) for p in [(622, 628), (520, 648), (400, 655), (300, 640), (245, 585), (235, 520), (275, 480), (350, 470), (410, 445), (420, 395), (390, 340), (330, 330), (250, 330)]])})
-paths.append({'id': 'rd-north', 'kind': 'service', 'name': 'North hostel road', 'src': 'by-eye',
-              'pts': rnd([z02(*p) for p in [(410, 445), (455, 350), (470, 300), (455, 240)]])})
+# Hostel road, re-traced 13 Nov on H A's high-res satellite screenshot of the hostels (georeferenced to shot 02 from 2 pins + 2 buildings, ~2 m fit):
+# asphalt, from the junction east of Hostel 1 (D Block) past Hostel 2 (F Block), round the loop, up to Hostel 3.
+paths.append({'id': 'rd-fblock', 'kind': 'road', 'surface': 'asphalt', 'name': 'Hostel road (Hostel 1 junction to Hostel 2 and Hostel 3)', 'src': 'traced on H A screenshot (13 Nov)',
+              'pts': rnd([I02(*p) for p in [(803.3, 282.4), (784.4, 267.9), (764.1, 254.1), (755.4, 242.6), (753.0, 218.5), (748.1, 203.7), (737.9, 198.9), (723.5, 201.1), (706.1, 209.5), (688.8, 224.3), (675.9, 241.9), (660.0, 255.1), (642.7, 262.3), (626.8, 261.9), (616.6, 251.9), (614.5, 233.9), (616.5, 218.6), (626.6, 208.8), (645.4, 203.0), (661.3, 198.9), (671.4, 189.1), (673.6, 178.3), (668.4, 170.2), (653.9, 169.1), (636.6, 172.3), (625.0, 177.1)]])})
+paths.append({'id': 'rd-north', 'kind': 'service', 'name': 'Hostel 3 upper access', 'src': 'traced on H A screenshot (13 Nov)',
+              'pts': rnd([I02(*p) for p in [(662.6, 163.9), (663.4, 153.3), (668.3, 147.2), (675.8, 143.6)]])})
 # Roads seen on the satellite screenshots that neither OSM nor Overture has (by eye, 13 Nov)
-paths.append({'id': 'rd-hostel2-lower', 'kind': 'service', 'name': 'Hostel 2 lower road', 'src': 'by-eye (satellite shot 02)',
-              'pts': rnd([I02(*p) for p in [(680, 217), (710, 213), (746, 210), (756, 222), (756, 246), (752, 260)]])})
+# (rd-hostel2-lower removed 13 Nov: the traced hostel road covers it)
 paths.append({'id': 'rd-east', 'kind': 'service', 'name': 'East road (Kalam junction to the east hill)', 'src': 'by-eye (satellite shots 01-03)',
               'pts': rnd([I03(*p) for p in [(783, 110), (830, 119), (873, 110), (960, 87)]])})
 # NAB roads (by eye on satellite shot 03, 13 Nov; H A: "road in front of NAB is not marked")
@@ -191,11 +192,11 @@ paths.append({'id': 'rd-nab-west', 'kind': 'service', 'name': 'NAB west lane (be
 paths.append({'id': 'rd-nab-front', 'kind': 'road', 'surface': 'asphalt', 'name': 'NAB front road', 'src': 'traced by H A on zoom_G (13 Nov)',
               'pts': rnd([I03(*p) for p in [(843.6, 221.2), (861.8, 238.3), (874.5, 249.3), (889.0, 263.8), (903.5, 272.9), (909.0, 283.8), (907.2, 302.0), (896.3, 320.2), (879.9, 338.4), (867.2, 353.0), (854.5, 367.5), (843.6, 376.6)]])})
 from shapely.ops import unary_union as _uu
-_net = _uu(osm_roads + [LineString(p['pts']) for p in paths if p['kind'] == 'service'])
+_net = _uu(osm_roads + [LineString(p['pts']) for p in paths if p['kind'] in ('service', 'road')])
 for p in paths:
-    if p['id'] in ('rd-hostel2-lower', 'rd-east', 'rd-nab-north', 'rd-nab-west', 'rd-nab-front'):
-        others = _uu(osm_roads + [LineString(q['pts']) for q in paths if q['kind'] == 'service' and q['id'] != p['id']])
-        for end in (0, -1):
+    if p['id'] in ('rd-fblock', 'rd-north', 'rd-hostel2-lower', 'rd-east', 'rd-nab-north', 'rd-nab-west', 'rd-nab-front'):
+        others = _uu(osm_roads + [LineString(q['pts']) for q in paths if q['kind'] in ('service', 'road') and q['id'] != p['id']])
+        for end in ((0,) if p['id'] == 'rd-north' else (0, -1)):
             pt = Point(p['pts'][end]); q = nearest_points(others, pt)[0]
             if 0.5 < pt.distance(q) < 30:
                 (p['pts'].insert(0, [r1(q.x), r1(q.y)]) if end == 0 else p['pts'].append([r1(q.x), r1(q.y)]))
@@ -219,7 +220,7 @@ trail = list(lake.buffer(7, resolution=4).simplify(2).exterior.coords)
 paths.append({'id': 'lake-trail', 'kind': 'footpath', 'name': 'Lake walking trail', 'src': 'OSM lake outline + 7 m', 'pts': rnd(trail)})
 
 # Entrances + connector footpaths: from each named building to the nearest road
-all_roads = osm_roads + [LineString(p['pts']) for p in paths if p['kind'] in ('service',)]
+all_roads = osm_roads + [LineString(p['pts']) for p in paths if p['kind'] in ('service', 'road')]
 entrances = []
 named = [b for b in buildings if b['category'] != 'staff' or b['id'] in ('type2', 'type3')]
 for b in named:
