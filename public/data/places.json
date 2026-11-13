@@ -1,5 +1,5 @@
 {
-  "note": "Mock place data. Names from the kit README; reconcile with WMC app venue data. 'confirm' marks items needing organiser confirmation. | v2 (13 Nov 2026): coordinates match campus-layout.json v2.",
+  "note": "Mock place data. Names from the kit README; reconcile with WMC app venue data. 'confirm' marks items needing organiser confirmation. | v2 (13 Nov 2026): coordinates match campus-layout.json v2. | v2 (13 Nov 2026): coordinates match campus-layout.json v2.",
   "places": [
     {
       "id": "admin",

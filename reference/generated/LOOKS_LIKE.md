@@ -36,7 +36,9 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 - **Walls:** white plaster.
 - **Roof:** flat, with a parapet. Small green-capped stair and lift heads and grey rooftop units.
 - **Floors:** 4, with towers one floor higher.
-- **Towers:** two square stair towers at the ends, clad in **tan/brown stone**, each topped with a **green cap slab**. A tall tan-stone panel in the middle carries the round green IIM emblem.
+- **Towers:** two tall square **white** stair towers at the ends, each topped with a small rooftop pavilion with a **green cap roof**.
+- **Stone:** **large tan/brown stone-clad wall panels** on both sides of the central atrium. The left one carries the round green IIM emblem.
+- **Correction (drone crops `crops/nab_*.png`):** the towers are white, not stone. The stone is on the big panels.
 - **Glass and stone:** a full-height **teal glass curtain-wall atrium** at the centre and on the end blocks, plus vertical teal glass strips.
 - **Balconies:** none; plain window rows with white frames.
 - **Entrance:** under the glass atrium, with a flat canopy.

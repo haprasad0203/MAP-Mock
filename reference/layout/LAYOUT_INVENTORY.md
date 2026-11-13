@@ -11,6 +11,8 @@
 - The "Admin Block Parking" area was wrong and has been removed (no parking area for now).
 - NAB front road (`rd-nab-front`) traced by H A: it runs round the east side of NAB past the NAB lawn. Also added by eye: the approach road from the Kalam side (`rd-nab-north`) and the west lane beside the main road (`rd-nab-west`).
 - The lawn east of NAB (`nab-lawn`) marked by H A.
+- Students' Mess = the cluster of four octagonal halls just west of Hostel 1 (D Block), confirmed by H A. The old 'Residential blocks (west of the Mess)' were part of it and are merged in.
+- Admin Block roof is green (hipped), as in the drone photos; the grey on the satellite is older imagery. Hostel 4 is finished.
 - Hostel road (`rd-fblock`, asphalt): re-traced on H A's high-res satellite screenshot of the hostels, from the junction east of Hostel 1 past Hostel 2, round the loop to Hostel 3. `rd-north` is now the short Hostel 3 upper access; the old by-eye `rd-hostel2-lower` was removed (duplicate).
 - Road types: the NAB front road, the main campus road (gate → Kalam junction, OSM 1050247311) and the campus loop (OSM 1050247312) are `kind: road` (asphalt, full width with markings). OSM tags every campus road as `service`; the rest stay `service` (narrower).
 - Football ground re-traced on the actual field. OSM way 1050247323 ran through the middle of the field; that part is moved to 4 m outside the east edge in `osm.json`. Two stray shapes on the field were dropped.
@@ -57,10 +59,9 @@ Lake = 0 m. Academic core is +5 to +12 m. Courts and the west cluster are +7 to 
 | Court-side kiosk | `court-kiosk` | service | hostel slope | 1 | 1 | gable | 11.6 | overture | Medium |  |
 | Residential cluster (west of the courts) | `west-cluster` | hostel | lake valley | 10 | 3 | hip | 7.5 | overture | Low | Ten small blocks west of the courts. NOT Hostel 1 (H A: D Block is Hostel 1). Name and use to confirm. |
 | Hostel 1 · D Block | `hostel-1` | hostel | hostel slope | 5 | 4 | hip | 17.5 | overture | Medium | Named by H A (Google: "D block"). Whether the two south-west blocks belong to it to confirm. |
-| Students' Mess | `mess` | food | hostel slope | 1 | 2 | gable | 20.0 | overture | High |  |
+| Students' Mess | `mess` | food | hostel slope | 4 | 2 | octagon | 21.3 | octagon measured on H A screenshot, anchored to Overture | High | Four octagonal halls with dark grey octagonal roofs (satellite). Roof colour to confirm from a ground photo. |
 | Commercial Complex | `commercial` | food | hostel slope | 1 | 1 | flat | 20.3 | overture | High | Google labels it "Mithaas" (a shop inside). Confirmed by H A as the Commercial Complex. |
-| Residential blocks (west of the Mess) | `west-blocks` | hostel | hostel slope | 2 | 3 | hip | 21.7 | overture | Low | Two blocks west of the Mess; use to confirm. |
-| Hostel 4 | `hostel-4` | hostel | north ridge | 1 | 4 | hip | 20.8 | by-eye (drone + satellite), survey to confirm | Medium | Named by H A. Blue-roofed block between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners. |
+| Hostel 4 | `hostel-4` | hostel | north ridge | 1 | 4 | hip | 20.8 | by-eye (drone + satellite), survey to confirm | Medium | Named by H A; finished building (H A, 13 Nov). Between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners. |
 | Hostel 2 · F Block | `hostel-2` | hostel | north ridge | 4 | 5 | hip | 33.5 | overture | High |  |
 | Hostel 3 | `hostel-3` | hostel | north ridge | 3 | 4 | hip | 52.0 | overture | High | Named by H A. Highest hostel blocks on the north ridge. |
 | Campus building | `block-962` | service | north ridge | 1 | 2 | hip | 18.6 | overture | Low | Use to confirm. |

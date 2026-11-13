@@ -74,8 +74,8 @@ def B(id, name, category, wall, roof, parts, prio, short=None, confirm=None, **k
 # Google labels this whole complex "IIM Shillong Auditorium"; the WMC app lists Admin Block (Auditorium, Library, L-Shaped Hall).
 # Admin complex = ONE building (confirmed by H A, 13 Nov): Admin offices, the Auditorium and the Library are all inside it.
 # Main block traced by eye on satellite shot 03 (raw px): the big grey pitched roof; west wing = Overture 560/561; east wing = Overture 562.
-main = eye([I03(948, 381), I03(1001, 409), I03(993, 438), I03(937, 423)], 3, 'gable')
-B('admin', 'Admin Block', 'venue', C['WHITE'], C['SLATE'],
+main = eye([I03(948, 381), I03(1001, 409), I03(993, 438), I03(937, 423)], 3, 'hip')
+B('admin', 'Admin Block', 'venue', C['WHITE'], C['GREEN'],   # roof green: confirmed by H A 13 Nov (satellite grey is old imagery)
   [fpart(560, 4, 'hip', glass='atrium'), fpart(561, 4, 'hip'), main, fpart(562, 3, 'hip', glass='stair')], 1, short='Admin',
   confirm='One building holding the Admin offices, the Auditorium and the Library (confirmed). Which wing holds which: to confirm. Google labels it "IIM Shillong Auditorium".')
 front = main
@@ -113,13 +113,21 @@ B('west-cluster', 'Residential cluster (west of the courts)', 'hostel', C['CREAM
 B('hostel-1', 'Hostel 1 · D Block', 'hostel', C['WHITE'], C['GREEN'],
   [fpart(953, 4, 'hip', balconies=True, glass='stair'), fpart(952, 4, 'hip', balconies=True), fpart(956, 4, 'hip'), fpart(955, 4, 'hip', balconies=True), fpart(942, 4, 'hip', balconies=True)], 1,
   short='Hostel 1', confirm='Named by H A (Google: "D block"). Whether the two south-west blocks belong to it to confirm.')
-B('mess', "Students' Mess", 'food', C['CREAM'], C['GREEN'], [fpart(938, 2, 'gable')], 1, short='Mess')
+# Students' Mess = the cluster of four octagonal halls west of Hostel 1 (D Block), confirmed by H A 13 Nov.
+# Centres measured on H A's high-res screenshot (relative to each other), anchored to Overture footprints 975/937/938 (mean shift).
+def octagon(c, dia, floors, **extra):
+    r = dia / 2 / math.cos(math.pi / 8)
+    pts = [(c[0] + r * math.cos(math.pi / 8 + k * math.pi / 4), c[1] + r * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
+    p = part_from_poly(pts, floors, 'octagon', **extra); p['src'] = 'octagon measured on H A screenshot, anchored to Overture'; return p
+USED.update({937, 938, 975})
+B('mess', "Students' Mess", 'food', C['CREAM'], C['SLATE'],
+  [octagon((-297.7, 269.4), 25, 2), octagon((-291.9, 300.9), 23, 1), octagon((-281.4, 279.2), 16, 1), octagon((-269.5, 262.0), 22, 1)], 1, short='Mess',
+  confirm='Four octagonal halls with dark grey octagonal roofs (satellite). Roof colour to confirm from a ground photo.')
 B('commercial', 'Commercial Complex', 'food', '#E9DCC0', C['GREY'], [fpart(939, 1, 'flat')], 2, short='Commercial Complex', confirm='Google labels it "Mithaas" (a shop inside). Confirmed by H A as the Commercial Complex.')
-B('west-blocks', 'Residential blocks (west of the Mess)', 'hostel', C['CREAM'], C['GREEN'], [fpart(937, 3, 'hip'), fpart(975, 3, 'hip')], 3,
-  confirm='Two blocks west of the Mess; use to confirm.')
+
 newh = eye([z02(465, 600), z02(575, 560), z02(600, 620), z02(490, 665)], 4, 'hip', stoneBase=True, glass='stair', balconies=True)
 B('hostel-4', 'Hostel 4', 'hostel', C['PEACH'], C['GREEN'], [newh], 1, short='Hostel 4',
-  confirm='Named by H A. Blue-roofed block between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners.')
+  confirm='Named by H A; finished building (H A, 13 Nov). Between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners.')
 B('hostel-2', 'Hostel 2 · F Block', 'hostel', C['PEACH'], C['GREEN'],
   [fpart(957, 5, 'hip', stoneBase=True, glass='stair', balconies=True), fpart(958, 5, 'hip', stoneBase=True, glass='stair', balconies=True),
    fpart(974, 5, 'hip', stoneBase=True), fpart(973, 5, 'hip', stoneBase=True, glass='stair', balconies=True)], 1, short='Hostel 2')

@@ -23,6 +23,8 @@ md=f"""# Campus layout inventory (v2, 13 Nov 2026)
 - The "Admin Block Parking" area was wrong and has been removed (no parking area for now).
 - NAB front road (`rd-nab-front`) traced by H A: it runs round the east side of NAB past the NAB lawn. Also added by eye: the approach road from the Kalam side (`rd-nab-north`) and the west lane beside the main road (`rd-nab-west`).
 - The lawn east of NAB (`nab-lawn`) marked by H A.
+- Students' Mess = the cluster of four octagonal halls just west of Hostel 1 (D Block), confirmed by H A. The old 'Residential blocks (west of the Mess)' were part of it and are merged in.
+- Admin Block roof is green (hipped), as in the drone photos; the grey on the satellite is older imagery. Hostel 4 is finished.
 - Hostel road (`rd-fblock`, asphalt): re-traced on H A's high-res satellite screenshot of the hostels, from the junction east of Hostel 1 past Hostel 2, round the loop to Hostel 3. `rd-north` is now the short Hostel 3 upper access; the old by-eye `rd-hostel2-lower` was removed (duplicate).
 - Road types: the NAB front road, the main campus road (gate → Kalam junction, OSM 1050247311) and the campus loop (OSM 1050247312) are `kind: road` (asphalt, full width with markings). OSM tags every campus road as `service`; the rest stay `service` (narrower).
 - Football ground re-traced on the actual field. OSM way 1050247323 ran through the middle of the field; that part is moved to 4 m outside the east edge in `osm.json`. Two stray shapes on the field were dropped.
