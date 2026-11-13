@@ -166,10 +166,10 @@
      1156
     ]
    ],
-   "metresPerPx": 0.053,
+   "metresPerPx": 0.044,
    "offset": [
-    5.5,
-    -7.5
+    7.5,
+    -3.2
    ],
    "watermark": false,
    "groundLine": [
