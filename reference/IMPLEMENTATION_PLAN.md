@@ -30,6 +30,120 @@ Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layo
 
 ---
 
+# Phase 3 result (13 Nov 2026)
+
+Built as planned below, with these differences:
+
+| Planned | Built | Why |
+|---|---|---|
+| `sky.ts`: sky dome, distance fog, low mist layer | A mist ring around the campus (`installMist` in `lighting.ts`); no sky dome, no valley mist | The camera looks down at 52° with a 22° lens, so the horizon is never on screen. Camera-distance fog follows the camera; the ring hides the world's edge wherever you pan |
+| `groundTexture.ts` with detail from the grass, forest-floor and brick textures | `ground.ts`: one baked colour texture, no detail textures | Left for the Phase 4 polish |
+| Roads textured with `tex-asphalt`, lines in a shader | Flat-coloured stacked ribbons (kerb, edge line, asphalt, dash) in `roads.ts` | Stacking keeps junctions clean without a shader |
+| PCF soft shadows | Plain PCF | Three.js 0.187 has removed the soft mode |
+| `render3d/quality.ts` | `src/render/quality.ts` | It must load before Three.js does |
+| Benches | Not built | Too small to read at map zoom |
+| Selection: outline glow | Warm glow on the building's own materials plus a yellow ring on its pad that pulses for 1.6 s | No extra render pass; works on every tier |
+| Medium: tilt-shift, flat water | Tilt-shift, the same lake shader without animation | The shader costs nothing extra |
+
+Switches: `/campus?q=high|medium|low|2d`, `?fps=1` (frame-time box), `?demo=hooks` (sample route, blue dot and ON AIR tag). The Layers panel has the same choice as "Map detail"; "Automatic" starts from the device and steps down if moving frames are slow.
+
+Checked in the preview at 1280×800 and 375×812: search card, `?place=`, `?room=`, filter dimming, selection, rotation, the 2D fallback, Survey, `?debug=layout`. `npm test` (21 tests) and `npm run build` pass. Screenshots: `reference/style/compare/phase3_final_*.jpg`.
+
+Not done: a frame-time measurement on a real phone (the preview pane can't give one), and the scored comparison against the style target (Phase 4).
+
+---
+
+# Phase 3 plan (detailed): the 3D tycoon engine (13 Nov 2026)
+
+## Context
+Phases 1 (layout v2 data) and 2 (tycoon assets) are done and committed (`18fdd87`). The Campus page still draws with the 2D pixel engine (`src/render/engine.ts`). Phase 3 of `reference/MASTER_PROMPT.md` replaces it with a Three.js engine that renders the same layout data in the stylised tycoon look of `reference/style/tycoon_style_target.png`, per `reference/style/RESTYLE_TYCOON.md` section 2.
+
+**Scope (decided by H A, 13 Nov):** the 3D engine plus the features that work today: search, filter chips, place cards, deep links (`?place=`, `?room=`), rotate/recentre, Layers, Survey mode, and the 2D engine as fallback. The blue dot, follow mode, directions/reroute, ON AIR signs, event pins, room-change signs and the list view were never built; they are **not** in Phase 3. The engine only gets the hooks they will need (route ribbon, "you" marker, ON AIR sign), shown with a dev flag. UI re-skin, moving cars/people and the scored refinement passes stay in Phase 4.
+
+## Approved by H A (13 Nov 2026) with these changes
+- **Data first:** re-read `public/data`; keep render-side overrides only where the data still differs from LOOKS_LIKE, and list them in `LAYOUT_CHECK.md`.
+- **Checkpoint:** after terrain + buildings + roofs (step 3), stop and show screenshots (whole campus, Admin + NAB, the hostels) before lighting and post-processing.
+- **Surroundings:** the off-campus Overture footprints (outside the boundary, inside the terrain area) are drawn as plain low village houses: no labels, no hit-test, one merged mesh, cheap material. `scripts/build-surroundings.mjs` writes them to `public/data/surroundings.json`, so the app never loads the big GeoJSON.
+- **Phone test:** the dev server runs with `--host`; H A opens the local network URL on a phone on the same Wi-Fi and reports the frame time shown on screen (`?fps=1`).
+
+## Rules carried over
+- Positions, footprints and heights come only from `public/data/campus-layout.json` v2, `osm.json` and `terrain.json`. No layout data is edited.
+- Colours and forms come from `reference/generated/LOOKS_LIKE.md` (photos win over satellite). The `landmark-*.webp` renders and mood frame v2 are visual targets only.
+- The layout data already carries the green Admin roof, the four slate-roofed Mess octagons and the flat-roofed Hostel 1 with a stone base (data update of 13 Nov). Render-side overrides are used only where the data still cannot say what LOOKS_LIKE says, and each one is listed in `reference/layout/LAYOUT_CHECK.md`: the lantern tier on `cafe-cloud`, `octagon-hall` and the big Mess hall; NAB towers white with the stone on panels (`stoneTowers` in the data).
+- Kalam Centre, Commercial Complex and the Mess walls use the plain campus style and stay "to confirm".
+- Vertical scale 1× (real), so GPS and routes line up later.
+
+## Design
+
+**Dependencies:** `three`, `postprocessing`, `n8ao` (AO pass for the High tier), `@types/three`. Three is loaded by dynamic import so the 2D fallback and Survey page don't pay for it.
+
+**Shared engine interface.** New `src/render/engineApi.ts` holds `View`, `Pin`, `Layers`, `EngineOptions` (moved out of `engine.ts`) and `IMapEngine`: `view`, `pins`, `filter`, `selected`, `tier`, `setFilter`, `setSelected`, `setLayers`, `rotate`, `recentre`, `flyTo(at, level, ms, fx, fy)`, `zoomBy`, `screenToWorld`, `worldToScreen`, `hitTest`, `invalidate`, `destroy`. `MapEngine` implements it unchanged. `View` keeps `{cx, cy, level, rot}`; in 3D, `level` indexes the same `LEVELS` table (`src/render/iso.ts`) and is converted to camera distance so one level shows the same ground width as in 2D. Saved views, `fly(at, 6)` calls and `tierOf` keep working as they are.
+
+**Coordinates.** Three x = east, y = up, z = −north. One `heightAt(x, y)` function places everything (buildings, roads, trees, props, labels, markers). `worldToScreen(x, y, z)` treats `z` as height above the ground; `screenToWorld` raycasts the terrain.
+
+**Reused as is:** `buildWorld` / `WorldModel` (`src/render/world.ts`: ground-class mask, `campusTrees`, `partCorners`), `CampusGeometrySource` (`src/geo/source.ts`), `hash2` / `valueNoise` (`src/render/noise.ts`), `LEVELS` / `tierOf`, the textures and icons in `public/campus-art/tycoon/`.
+
+### New files (`src/render3d/`)
+| File | What it does |
+|---|---|
+| `Engine3D.ts` | Renderer, camera, input, render-on-demand loop, public API |
+| `camera.ts` | Perspective camera, FOV 22°, pitch 52°, yaw 45° + 90° × rot. Level ↔ distance, 600 ms eased rotation, fly-to with screen-fraction offset, pan clamp. Pure maths, unit-tested |
+| `terrain.ts` | Loads `terrain.json`, Gaussian smooth (2 cells), bilinear sample, then flattening: building pads to `groundElev` (footprint + 3 m, 8 m blend), courts / football / plazas / lawns to their mean, lake to 0 with a shore blend, road beds levelled across their width. Exports `heightAt`. Mesh: 4 m grid over the campus, 20 m to ±1300 m, then a noise-hill skirt that fades into fog |
+| `groundTexture.ts` | Bakes the ground colour from `world.mask` (lawn, meadow, forest floor, plaza, court, earth, parking) with soft colour noise; detail from `tex-lawn-grass`, `tex-pine-forest-floor`, `tex-plaza-red-brick` |
+| `buildings.ts` | Per part: extrude `poly` to floors × 3.4 m from `groundElev`, with a 3 m skirt below so nothing floats on slopes; rectangle fallback when `poly` is missing. Wall UVs by perimeter and floor so the facade textures show one window row per floor. Stone ground floor where `stoneBase`, teal glass material for `glass` parts, balcony slabs and rails on long faces, retaining-wall edge where a pad cuts the slope |
+| `roofs.ts` | Hip, gable, shed (fitted to `cx, cy, w, d, angle`, 0.5 m eaves, white fascia), flat with parapet and seeded rooftop clutter (follows `poly`), octagon with optional lantern tier. Hip on a footprint that fills under 75% of its rectangle uses an inset-polygon roof instead, so no roof hangs over empty ground |
+| `buildingStyles.ts` | The per-building look table from LOOKS_LIKE.md (the overrides listed above, wall and roof materials, emblem, towers) |
+| `roads.ts` | Ribbon meshes draped on the terrain: road 7.8 m with kerb, edge lines and centre dash in the shader over `tex-asphalt`; service 4.4 m; footpath 2.2 m; track. Covered walkway: teal roof on posts |
+| `water.ts` | Lake shader: depth colour from shore distance, fresnel sky tint, scrolling ripples, shoreline foam. Simple flat teal on Medium/Low |
+| `trees.ts` | Instanced pines, 3 variants. Campus trees from `world.campusTrees`; dense forest outside the boundary from noise on wild ground. Count capped by tier (about 40k / 20k / 8k) |
+| `props.ts` | Static, instanced, seeded: flag mast and flag, lamps along `road` lines, parked cars and a bus at the gate, the gate with its green roof, water tank, Kalam statue on a plinth, goalposts and floodlight, court lines, benches |
+| `sky.ts` | Gradient sky dome, warm distance fog, low mist layer |
+| `lighting.ts` | Sun #FFD9A3 from the south-west at 28°, PCF soft shadows with the shadow camera fitted to the visible ground (updated only when the view changes), hemisphere fill |
+| `post.ts` | Composer: N8AO → tilt-shift (stronger zoomed out, off while a place is selected) → bloom → ACES + saturation + warm balance → vignette |
+| `labels.ts` | HTML overlay over the canvas: rounded pill tags with category dot and tail, shown by `labelPriority` and tier, collision-avoided as in the 2D engine, clickable. Never blurred by tilt-shift |
+| `markers.ts` | Selection (yellow #FFD23F outline glow + footprint pulse) and filter dimming. Hooks for later phases: `setRoute(pts)`, `setUser({at, accuracy, heading})`, `setOnAir(buildingIds)`; shown only with `?demo=hooks` |
+| `quality.ts` | Tier pick: no WebGL2 → 2D engine; otherwise from device memory, cores, phone/desktop and a 30-frame probe that steps down if slow. `?q=high|medium|low|2d` and a Layers control override it; the choice is saved |
+
+Each named building is one group (merged geometry per material) so it can be selected and dimmed alone; the 42 unnamed buildings merge into one mesh and are skipped by labels and hit-tests.
+
+**Quality tiers**
+| Tier | On |
+|---|---|
+| High | Shadows 2048, AO, tilt-shift, bloom, animated water and tree sway (30 fps idle loop), DPR ≤ 2 |
+| Medium (phone default) | Shadows 1024, tilt-shift, flat water, render on demand only, DPR ≤ 1.5 |
+| Low | No shadows or post; ACES only |
+| Fallback | The existing 2D `MapEngine` |
+
+### Changed files
+- `src/ui/CampusPage.tsx`: create the engine through a small factory (3D by tier, else 2D); the canvas is keyed by engine kind because a canvas can't switch from 2D to WebGL. Layers panel: quality selector; "Illustrated landmarks" shown only in 2D. Updated canvas `aria-label`. Attribution line unchanged.
+- `src/ui/BottomSheet.tsx`: place-card thumbnail from `landmark-<id>.webp` where one exists.
+- `src/render/engine.ts`: import the shared types, `implements IMapEngine`. No behaviour change.
+- `src/styles.css`: label pill and thumbnail styles only (the full re-skin is Phase 4).
+- `package.json`: the new dependencies.
+- `reference/IMPLEMENTATION_PLAN.md`, `reference/layout/LAYOUT_CHECK.md` (render overrides), `reference/generated/GENERATED.md` (which textures the engine uses).
+
+## Order of work
+1. Plan into `reference/IMPLEMENTATION_PLAN.md`; install dependencies; `engineApi.ts`.
+2. Engine shell, camera and input, terrain with the baked ground texture. Check: top-down matches `layout_v2_topdown.png`.
+3. Buildings, roofs and the style table. Check each landmark against its `reference/generated/compare/` sheet.
+4. Roads, covered walkway, lake, trees, props, sky.
+5. Lighting, post-processing, quality tiers.
+6. Labels, selection, filter dimming, hit-test, hooks; swap into `CampusPage`; thumbnails.
+7. Verify, update the docs, commit ("Phase 3: 3D tycoon engine"), then stop for review with screenshots.
+
+## Verification
+- `npm test`: existing 13 data tests plus new ones: `heightAt` equals `groundElev` at every building centre (±0.2 m), the lake is 0, Hostel 3 > Hostel 2 > Hostel 1; roof and footprint builders give valid geometry for all 124 parts; camera `screenToWorld(worldToScreen(p))` round-trips; level ↔ distance matches `LEVELS`.
+- `npm run build` passes (type check included).
+- In the preview (`preview_start` "campus") at 390×844 and 1280×800, no console errors, and each of these works: pan / pinch / wheel / inertia, rotate ×4, recentre, search → fly → place card, room search, all filter chips, tap a building, tap a pin label, `?place=mess`, `?room=AUD`, share link, saved view restored on reload, Layers toggles, `/organizer/survey`, `?debug=layout`.
+- `?q=high`, `?q=medium`, `?q=low`, `?q=2d` each render; the 2D fallback behaves as before.
+- Frame time and draw-call count reported per tier from the preview. A real mid-range phone test is still needed and will be flagged as not done.
+- Screenshots saved to `reference/style/compare/phase3_*.png` and shown for review.
+
+## Not in Phase 3
+GPS blue dot, follow mode, walking graph and directions, ON AIR / event pins / room-change signs, list view, offline; the UI re-skin, moving cars and people, day/dusk mode, and the scored refinement passes (Phase 4).
+
+---
+
 # Previous plan (pixel)
 
 # Campus map: implementation plan (standalone mock in D:\Map Mock)

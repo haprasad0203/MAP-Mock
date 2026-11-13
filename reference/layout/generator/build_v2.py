@@ -110,8 +110,8 @@ B('west-cluster', 'Residential cluster (west of the courts)', 'hostel', C['CREAM
   short='West cluster', confirm='Ten small blocks west of the courts. NOT Hostel 1 (H A: D Block is Hostel 1). Name and use to confirm.')
 
 # ---------------- North: hostels, mess, shops ----------------
-B('hostel-1', 'Hostel 1 · D Block', 'hostel', C['WHITE'], C['GREEN'],
-  [fpart(953, 4, 'hip', balconies=True, glass='stair'), fpart(952, 4, 'hip', balconies=True), fpart(956, 4, 'hip'), fpart(955, 4, 'hip', balconies=True), fpart(942, 4, 'hip', balconies=True)], 1,
+B('hostel-1', 'Hostel 1 · D Block', 'hostel', C['WHITE'], '#D9D6CE',
+  [fpart(953, 4, 'flat', balconies=True, glass='stair', stoneBase=True), fpart(952, 4, 'flat', balconies=True, stoneBase=True), fpart(956, 4, 'flat', stoneBase=True), fpart(955, 4, 'flat', balconies=True, stoneBase=True), fpart(942, 4, 'flat', balconies=True, stoneBase=True)], 1,   # flat roofs: DSC_9111 + satellite (13 Nov)
   short='Hostel 1', confirm='Named by H A (Google: "D block"). Whether the two south-west blocks belong to it to confirm.')
 # Students' Mess = the cluster of four octagonal halls west of Hostel 1 (D Block), confirmed by H A 13 Nov.
 # Centres measured on H A's high-res screenshot (relative to each other), anchored to Overture footprints 975/937/938 (mean shift).

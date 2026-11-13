@@ -1545,7 +1545,7 @@
    "name": "Hostel 1 \u00b7 D Block",
    "category": "hostel",
    "wall": "#F4F2EA",
-   "roofColor": "#3E8A4E",
+   "roofColor": "#D9D6CE",
    "labelPriority": 1,
    "parts": [
     {
@@ -1555,9 +1555,10 @@
      "d": 10.6,
      "angle": 30.7,
      "floors": 4,
-     "roof": "hip",
+     "roof": "flat",
      "balconies": true,
      "glass": "stair",
+     "stoneBase": true,
      "poly": [
       [
        -192.9,
@@ -1585,8 +1586,9 @@
      "d": 11.2,
      "angle": 30.4,
      "floors": 4,
-     "roof": "hip",
+     "roof": "flat",
      "balconies": true,
+     "stoneBase": true,
      "poly": [
       [
        -179.1,
@@ -1614,7 +1616,8 @@
      "d": 12.3,
      "angle": -59.2,
      "floors": 4,
-     "roof": "hip",
+     "roof": "flat",
+     "stoneBase": true,
      "poly": [
       [
        -196.0,
@@ -1642,8 +1645,9 @@
      "d": 15.1,
      "angle": 30.3,
      "floors": 4,
-     "roof": "hip",
+     "roof": "flat",
      "balconies": true,
+     "stoneBase": true,
      "poly": [
       [
        -221.7,
@@ -1687,8 +1691,9 @@
      "d": 10.8,
      "angle": 30.7,
      "floors": 4,
-     "roof": "hip",
+     "roof": "flat",
      "balconies": true,
+     "stoneBase": true,
      "poly": [
       [
        -248.0,

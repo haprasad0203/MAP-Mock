@@ -6,20 +6,16 @@ import { buildingSprite, propSprite, treeSprite, type Sprite } from './sprites';
 import { C } from './palette';
 import type { WorldModel } from './world';
 
-export interface View { cx: number; cy: number; level: number; rot: Rot }
-export interface Pin { id: string; at: XY; label: string; kind: 'place' | 'landmark'; category: Category; priority: 1 | 2 | 3 }
-export interface EngineOptions {
-  onSelect?: (hit: { buildingId?: string; at: XY } | null) => void;
-  onView?: (v: View & { tier: Tier }) => void;
-}
-export interface Layers { labels: boolean; illustrated: boolean; trees: boolean }
+import type { EngineOptions, IMapEngine, Layers, Pin, View } from './engineApi';
+export type { EngineOptions, Layers, Pin, View } from './engineApi';
 
 const CAT_COLOR: Record<string, string> = { venue: '#0F4D32', food: '#FF8A3D', hostel: '#3E6FB8', sports: '#2F8A6A', service: '#5E6872', help: '#B5463A', landmark: '#7A5536', staff: '#77808A' };
 const PIXEL = 2; // CSS px per art pixel
 
 interface Ent { kind: 'b' | 't' | 'p'; d: number; x: number; y: number; b?: Building; size?: number; v?: number; prop?: string }
 
-export class MapEngine {
+export class MapEngine implements IMapEngine {
+  readonly kind = '2d' as const;
   private ctx: CanvasRenderingContext2D;
   private fb = document.createElement('canvas'); private fbg = this.fb.getContext('2d')!;
   private chunks = new Map<string, HTMLCanvasElement>();

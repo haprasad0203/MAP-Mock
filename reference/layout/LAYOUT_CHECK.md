@@ -40,3 +40,24 @@ None. `campus-layout.json` v2, `places.json`, `osm.json` and `terrain.json` are 
 ## Phase 2 photo check (13 Nov 2026)
 - **`admin` roofColor `#4B525A` (slate grey) disagrees with the photos.** DJI_0338, Image_363 and yt-drone-19s all show green hipped roofs on every wing; only the older satellite shows dark grey. Per the Phase 2 rule the photos win, so the renders and 3D materials use green. The layout data is not edited; to change it, set `admin.roofColor` to the campus green. Organiser to confirm.
 - **Hostel roofs:** the satellite shows grey-blue, the ground photos show green. The renders use green.
+
+## Phase 3: 3D render details (13 Nov 2026)
+The layout data was re-read before the 3D build (H A's data update: Hostel 1 is `flat` with `stoneBase`; the Admin roof is green `hip`; the Mess is four slate-roofed octagons). **No layout data was changed.** The 3D engine takes roof type, colours, floors, footprints and `groundElev` from the data. The only things it adds are details the schema has no field for, all from `reference/generated/LOOKS_LIKE.md` and kept in `src/render3d/buildingStyles.ts`:
+
+| Building | Render-side detail | Why it is not in the data |
+|---|---|---|
+| `cafe-cloud`, `octagon-hall`, `mess` (big hall only) | Octagon roof has a raised glazed lantern tier | `roof: octagon` has no "two-tier" option |
+| `octagon-hall` | 1.5 m brown stone band round the base | `stoneBase` means a full stone ground floor |
+| `nab` | The two `stoneTowers` end blocks stay white and carry a rooftop pavilion with a green cap; the stone is on panels beside the glass atrium | LOOKS_LIKE correction: the towers are white, the stone is on the panels |
+| `hostel-1` | Flat roof ends in a thin projecting slab (no parapet); black balcony rails | No field for the roof edge or rail colour |
+
+General rules (not overrides): a flat roof whose `roofColor` is green gets a concrete deck with green-capped stair heads; a `hip` roof on a footprint that fills under 75% of its rectangle (`east-cluster` part, `bldg-966`) uses slopes that follow the outline.
+
+Off-campus scenery: `public/data/surroundings.json` (489 Overture footprints outside the boundary, made by `scripts/build-surroundings.mjs`) is drawn as plain houses with no labels and no hit-test. It is not part of the campus layout.
+
+Props added by the 3D engine (`src/render3d/props.ts`), placed from the layout data only, no new positions:
+- At landmarks: the flag mast (`flag`), the gate portal across the nearest road to `main-gate`, the Kalam statue on a plinth (`kalam-statue`), the water tank (`water-tank`).
+- Seeded along campus roads: street lamps; parked cars on service lanes; one bus 26 m inside the gate.
+- On areas: goalposts and one floodlight on `football`; lines, hoops or a net on the three OSM courts.
+- Along `covered-walk`: a teal pitched roof on white posts.
+- Trees: campus trees are the world model's list; the forest outside the boundary is seeded from noise on wild ground and kept off the Overture houses.

@@ -4,7 +4,9 @@ import type { Category } from '../geo/types';
 import type { XY } from '../geo/grid';
 import { buildWorld, type WorldModel } from '../render/world';
 import { MapEngine, type Pin, type View } from '../render/engine';
+import type { IMapEngine } from '../render/engineApi';
 import { LEVELS, type Tier } from '../render/iso';
+import { autoQuality, currentChoice, saveChoice, webgl2Available, type QualityChoice } from '../render/quality';
 import { fixturePlaces, fixtureSchedule, sanitize, search, type Hit, type Place, type PlacesData, type Room, type ScheduleData } from '../data/places';
 import { IconClose, IconCompass, IconLayers, IconLocate, IconRotate, IconSearch } from './icons';
 import { BottomSheet, type Selection } from './BottomSheet';
@@ -15,11 +17,18 @@ const CHIPS: { id: Category | 'all'; label: string; color?: string }[] = [
   { id: 'service', label: 'Services', color: '#5E6872' }, { id: 'help', label: 'Help', color: '#B5463A' },
 ];
 
+// The 3D tycoon map is the default; the 2D pixel map is the fallback (no WebGL2, a 3D error, or "2D map" in Layers).
+// URL switches: ?q=high|medium|low|2d, ?fps=1 (frame-time box), ?demo=hooks (route, blue dot and ON AIR samples).
+const QUALITY_LABEL: Record<QualityChoice, string> = { auto: 'Automatic', high: 'High', medium: 'Medium', low: 'Low', '2d': '2D map' };
+
 function savedView(): View | null { try { const v = JSON.parse(sessionStorage.getItem('campus.view') ?? 'null'); return v && typeof v.cx === 'number' ? v : null; } catch { return null; } }
 
 export default function CampusPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const engineRef = useRef<MapEngine | null>(null);
+  const engineRef = useRef<IMapEngine | null>(null);
+  const [choice, setChoice] = useState<QualityChoice>(currentChoice);
+  const [failed3d, setFailed3d] = useState(() => !webgl2Available());
+  const use3d = choice !== '2d' && !failed3d;
   const [world, setWorld] = useState<WorldModel | null>(null);
   const [places, setPlaces] = useState<PlacesData | null>(null);
   const [sched, setSched] = useState<ScheduleData | null>(null);
@@ -54,16 +63,20 @@ export default function CampusPage() {
   useEffect(() => {
     if (!world || !canvasRef.current || !places) return;
     const first = savedView() ?? { cx: world.centre[0] + 20, cy: world.centre[1], level: window.innerWidth < 700 ? 2 : 3, rot: 0 as const };
-    const e = new MapEngine(canvasRef.current, world, first, {
-      onSelect: hit => {
+    const opts = {
+      onSelect: (hit: { buildingId?: string; at: XY } | null) => {
+        const e = engineRef.current; if (!e) return;
         if (!hit?.buildingId) { setSel(null); e.setSelected(null); return; }
         const pinPlace = places.places.find(p => p.id === hit.buildingId && !p.buildingId);
         if (pinPlace) { selectPlace(pinPlace, false); return; }
         const pl = places.places.find(p => p.buildingId === hit.buildingId && p.id === hit.buildingId) ?? places.places.find(p => p.buildingId === hit.buildingId);
         setSel({ kind: 'building', buildingId: hit.buildingId, place: pl }); e.setSelected(hit.buildingId);
       },
-      onView: v => { setTier(v.tier); setRot(v.rot); },
-    });
+      onView: (v: View & { tier: Tier }) => { setTier(v.tier); setRot(v.rot); },
+      onQuality: (q: string) => setToast(`Map detail lowered to ${q} to keep it smooth.`),
+    };
+    let dead = false, engine: IMapEngine | null = null;
+    const start = (e: IMapEngine) => {
     // map pins for places that are not buildings (grounds, courts, gate, ATM, lake…)
     const pins: Pin[] = places.places.filter(p => !p.buildingId).map(p => ({ id: p.id, at: placeAt(p)!, label: p.name, kind: 'place' as const, category: p.category, priority: p.category === 'landmark' || p.category === 'sports' ? 2 : 3 as 1 | 2 | 3 })).filter(p => p.at);
     e.pins = pins; e.setLayers(layers);
@@ -73,14 +86,32 @@ export default function CampusPage() {
     const pid = qs.get('place'), room = qs.get('room');
     if (pid) { const p = places.places.find(x => x.id === pid); if (p) setTimeout(() => selectPlace(p), 50); }
     else if (room) { const r = places.rooms.find(x => x.code.toLowerCase() === room.toLowerCase()); if (r) setTimeout(() => selectRoom(r), 50); }
-    return () => e.destroy();
+    if (qs.get('demo') === 'hooks') { // sample data for the hooks later phases will drive
+      const road = world.paths.filter(p => p.kind === 'road' && p.src !== undefined).sort((a, b) => b.pts.length - a.pts.length)[0] ?? world.paths[0];
+      const flag = world.landmarks.find(l => l.id === 'flag')?.at ?? world.centre;
+      e.setRoute?.(road.pts); e.setUser?.({ at: [flag[0] + 14, flag[1] - 10], accuracy: 12, heading: 330 }); e.setOnAir?.(['nab']);
+    }
+    };
+    if (use3d) {
+      // Three.js is loaded only when the 3D map is used; any failure falls back to the 2D map
+      const c = currentChoice(), auto = c === 'auto' || c === '2d';
+      import('../render3d/Engine3D').then(m => m.createEngine3D(canvasRef.current!, world, first, opts, auto ? autoQuality() : c, auto))
+        .then(e => { if (dead) e.destroy(); else { engine = e; start(e); } })
+        .catch(err => { console.warn('3D map unavailable, using the 2D map:', err); if (!dead) setFailed3d(true); });
+    } else { engine = new MapEngine(canvasRef.current, world, first, opts); start(engine); }
+    return () => { dead = true; engine?.destroy(); engineRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [world, places]);
+  }, [world, places, use3d]);
 
   useEffect(() => { engineRef.current?.setFilter(filter); }, [filter]);
   useEffect(() => { engineRef.current?.setLayers(layers); }, [layers]);
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 2600); return () => clearTimeout(t); }, [toast]);
 
+  function pickQuality(c: QualityChoice) {
+    saveChoice(c); setChoice(c);
+    // between 3D tiers the running engine just switches; to or from the 2D map the canvas is rebuilt (use3d changes)
+    if (c !== '2d' && engineRef.current?.kind === '3d') engineRef.current.setQuality?.(c === 'auto' ? autoQuality() : c);
+  }
   function fly(at: XY, level = 6) {
     const wide = window.innerWidth >= 900; // desktop: sheet on the left; phone: sheet at the bottom
     engineRef.current?.flyTo(at, Math.min(level, LEVELS.length - 1), 650, wide ? 0.62 : 0.5, wide ? 0.5 : 0.3);
@@ -105,7 +136,7 @@ export default function CampusPage() {
 
   return (
     <div className="app">
-      <canvas ref={canvasRef} className="map-canvas" role="img" aria-label="Pixel-art isometric map of the IIM Shillong campus. Use search or the list of places to navigate." />
+      <canvas key={use3d ? '3d' : '2d'} ref={canvasRef} className="map-canvas" role="img" aria-label="3D map of the IIM Shillong campus. Use search to find buildings, rooms and sessions." />
       {!world && <div className="toast" style={{ bottom: '50%' }}>Drawing the campus…</div>}
 
       <div className="top">
@@ -139,7 +170,7 @@ export default function CampusPage() {
       </div>
 
       <div className="controls">
-        <button className="ctl" aria-label="Locate me" onClick={() => setToast('Live location arrives in Phase 3.')}><IconLocate /></button>
+        <button className="ctl" aria-label="Locate me" onClick={() => setToast('Live location comes in a later phase.')}><IconLocate /></button>
         <button className="ctl" aria-label="Rotate the view 90 degrees" onClick={() => engineRef.current?.rotate(1)}><IconRotate /><span className="badge">{['SE', 'NE', 'NW', 'SW'][rot]}</span></button>
         <button className="ctl" aria-label="Recentre on the whole campus" onClick={() => { engineRef.current?.recentre(); }}><IconCompass /></button>
         <button className="ctl" aria-label="Map layers" aria-pressed={layersOpen} onClick={() => setLayersOpen(o => !o)}><IconLayers /></button>
@@ -148,8 +179,14 @@ export default function CampusPage() {
         <div className="layers" role="dialog" aria-label="Map layers">
           <h3>Layers</h3>
           <label><input type="checkbox" checked={layers.labels} onChange={e => setLayers(l => ({ ...l, labels: e.target.checked }))} /> Name boards</label>
-          <label><input type="checkbox" checked={layers.illustrated} onChange={e => setLayers(l => ({ ...l, illustrated: e.target.checked }))} /> Illustrated landmarks</label>
+          {!use3d && <label><input type="checkbox" checked={layers.illustrated} onChange={e => setLayers(l => ({ ...l, illustrated: e.target.checked }))} /> Illustrated landmarks</label>}
           <label><input type="checkbox" checked={layers.trees} onChange={e => setLayers(l => ({ ...l, trees: e.target.checked }))} /> Campus trees</label>
+          <label className="quality">Map detail
+            <select value={failed3d ? '2d' : choice} disabled={failed3d} onChange={e => pickQuality(e.target.value as QualityChoice)} aria-label="Map detail">
+              {(Object.keys(QUALITY_LABEL) as QualityChoice[]).map(c => <option key={c} value={c}>{QUALITY_LABEL[c]}</option>)}
+            </select>
+          </label>
+          {failed3d && <div className="soon">This browser can't draw the 3D map, so the 2D map is shown.</div>}
           <div className="soon">Volunteers, crowd, step-free routes and parking come with the live layer.</div>
         </div>
       )}

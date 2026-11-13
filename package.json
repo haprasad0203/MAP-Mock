@@ -11,8 +11,12 @@
     "sprite": "node scripts/process-sprite.mjs"
   },
   "dependencies": {
+    "@types/three": "^0.187.0",
+    "n8ao": "^2.0.2",
+    "postprocessing": "^6.39.6",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",

@@ -72,6 +72,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .attrib { position: absolute; left: 6px; bottom: calc(var(--tabbar) + 2px); z-index: 3; font-size: 10px; color: #2A2F35; background: rgba(255,253,245,.75); padding: 1px 4px; border-radius: 2px; pointer-events: none; }
 .attrib.hide { display: none; }
 
+/* ---------- 3D map: name tags (HTML overlay) and place-card picture ---------- */
+.map-labels { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
+.map-label { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px 0 8px; border-radius: 12px; background: #fff; color: #0F4D32; font: 600 12px/1 Inter, system-ui, sans-serif; white-space: nowrap; box-shadow: 0 2px 6px rgba(16, 40, 28, .3), 0 0 0 1px rgba(15, 77, 50, .14); will-change: transform; }
+.map-label::after { content: ''; position: absolute; left: 50%; bottom: -5px; margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: #fff; }
+.map-label .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.map-label.sel { background: #FFD23F; color: #101418; } .map-label.sel::after { border-top-color: #FFD23F; }
+.map-label.onair::before { content: 'ON AIR'; font: 700 9px/1 Inter, system-ui, sans-serif; color: #fff; background: var(--danger); padding: 3px 4px; border-radius: 4px; margin-right: 2px; }
+.thumb { display: block; width: 100%; height: 132px; object-fit: cover; border-radius: 8px; margin-top: 4px; background: #E9EFE9; }
+.layers .quality { justify-content: space-between; } .layers .quality select { width: 124px; min-height: 36px; }
+
 /* ---------- app tab bar (mock of the WMC app's) ---------- */
 .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--tabbar); padding-bottom: env(safe-area-inset-bottom); background: var(--pine); display: flex; z-index: 7; border-top: 2px solid var(--pine-2); }
 .tabbar a { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #CFE3D6; text-decoration: none; font-size: 11px; font-weight: 600; min-height: 44px; }

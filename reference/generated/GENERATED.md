@@ -76,6 +76,11 @@ Still **to confirm** (waiting for H A's photos in `reference/photos/campus_new/`
 ### How the 3D build uses these assets
 The 3D engine (Phase 3) takes **colours and forms from `reference/generated/LOOKS_LIKE.md`** and the footprints and heights from `public/data/campus-layout.json`. The renders in `public/campus-art/tycoon/landmark-*.webp` are **visual targets** for modelling and material tuning, and they double as place-card thumbnails. They are never used as geometry or positions. Mood frame v2 is a style reference only (see above).
 
+**What the Phase 3 engine actually loads (13 Nov 2026):**
+- Used as materials: `tex-facade-cream-plaster`, `tex-facade-white-tealglass`, `tex-stone-cladding`, `tex-roof-green-metal`, `tex-roof-slate-grey`.
+- Used as place-card pictures (`src/ui/BottomSheet.tsx`): the 13 `landmark-*.webp` renders.
+- Not used yet: `tex-asphalt` (roads are flat-coloured ribbons), `tex-lawn-grass`, `tex-pine-forest-floor`, `tex-plaza-red-brick` (the ground is one baked colour texture) and the `icons/*.svg` set (name tags use a category dot). These are for the Phase 4 polish.
+
 ### Seamless textures (`public/campus-art/tycoon/tex-*.webp`, 1024 px, tileable)
 - **Gemini:** texture 1 was generated (`raw/tycoon/tex_facade-cream-plaster.png`, style + New-Hostel + stone crop + NAB crop attached). Its rows are unevenly spaced, so it does not tile vertically, and it carries a watermark. Then **Gemini's daily image limit was reached** ("Limit reached. Resets at 8:24 am") before textures 2–9.
 - **Fallback (spec section 3b):** all nine are built **procedurally** by `scripts/make-textures.mjs`. They are periodic by construction, so seams are exact, and the colours are sampled from the photos and Gemini texture 1. The check sheet is `compare/_textures_tiled_2x2.jpg`.

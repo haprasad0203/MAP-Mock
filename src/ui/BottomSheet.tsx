@@ -3,6 +3,12 @@ import type { Tier } from '../render/iso';
 import { floorName, fmtDay, fmtTime, now, sessionsIn, type Place, type PlacesData, type Room, type ScheduleData, type Session } from '../data/places';
 import { IconClose, IconPhone, IconShare, IconWalk } from './icons';
 
+// Place-card pictures: the tycoon-style landmark renders (public/campus-art/tycoon), by place or building id.
+const THUMB: Record<string, string> = {
+  admin: 'admin', nab: 'nab', 'cafe-cloud': 'cafe-cloud', commercial: 'commercial-complex', 'hostel-1': 'hostel1-dblock', 'hostel-2': 'hostel2-fblock',
+  'hostel-3': 'hostel3', 'hostel-4': 'hostel4', 'kalam-centre': 'kalam-centre', 'kalam-statue': 'kalam-statue-garden', 'main-gate': 'main-gate', mess: 'mess', 'octagon-hall': 'octagon-hall',
+};
+
 export interface Selection { kind: 'building'; buildingId: string; place?: Place; room?: Room; session?: Session }
 
 interface Props {
@@ -45,6 +51,7 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
   const { running, next } = bid && sched ? sessionsIn(bid, sched, places.rooms, t) : { running: [], next: [] };
   const roomsHere = places.rooms.filter(r => r.buildingId === bid);
   const menu = p?.menu && sched ? sched.mess[t.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })] : undefined;
+  const thumb = sel.room ? undefined : THUMB[p?.id ?? ''] ?? (p && p.buildingId !== p.id ? undefined : THUMB[bid]);
   const share = async () => {
     const url = `${location.origin}/campus?${sel.room ? 'room=' + encodeURIComponent(sel.room.code) : 'place=' + encodeURIComponent(p?.id ?? bid)}`;
     try { if (navigator.share) await navigator.share({ title, url }); else { await navigator.clipboard.writeText(url); onToast('Link copied'); } } catch { /* cancelled */ }
@@ -59,6 +66,7 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
         <button className="close" style={{ margin: '8px 8px 0 0' }} aria-label="Close place card" onClick={onClose}><IconClose /></button>
       </div>
       <div className="sheet-body">
+        {thumb && <img className="thumb" src={`/campus-art/tycoon/landmark-${thumb}.webp`} alt="" loading="lazy" />}
         {sel.session && <div className="sec"><h4>Your session</h4><div className="row"><span className="time">{fmtTime(sel.session.start)}</span><span>{sel.session.title}</span></div></div>}
         {sel.room && <div className="sec"><div className="row"><span>Room <b>{sel.room.code}</b> is on the <b>{floorName(sel.room.floor)}</b> of {nameOf(sel.room.buildingId)}.</span></div></div>}
         {(running.length > 0 || next.length > 0) && (
@@ -73,7 +81,7 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
         {menu && <div className="sec"><h4>Today's menu</h4><div style={{ fontSize: 14 }}><b>Breakfast</b> {menu.breakfast}<br /><b>Lunch</b> {menu.lunch}<br /><b>Dinner</b> {menu.dinner}</div></div>}
         {p?.confirm && <div className="confirm">To confirm with organisers: {p.confirm}</div>}
         <div className="btns">
-          <button className="btn primary" onClick={() => onToast('Walking directions arrive in Phase 3.')}><IconWalk /> Directions</button>
+          <button className="btn primary" onClick={() => onToast('Walking directions come in a later phase.')}><IconWalk /> Directions</button>
           {p?.phone && <a className="btn" href={`tel:${p.phone}`}><IconPhone /> Call</a>}
           <button className="btn" onClick={share}><IconShare /> Share</button>
         </div>
