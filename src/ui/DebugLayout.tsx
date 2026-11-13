@@ -11,7 +11,7 @@ export default function DebugLayout() {
   const [src, setSrc] = useState<CampusGeometrySource | null>(null);
   const view = useRef({ cx: 0, cy: 0, s: 1 }); // world centre + px per metre
   const [opts, setOpts] = useState({ ids: false, unnamed: true });
-  const [, force] = useState(0);
+  const [tick, force] = useState(0);
 
   useEffect(() => { loadGeometry().then(s => {
     const b = s.getBounds(); view.current = { cx: (b.minX + b.maxX) / 2, cy: (b.minY + b.maxY) / 2, s: Math.min(innerWidth / (b.maxX - b.minX), innerHeight / (b.maxY - b.minY)) * 0.92 };
@@ -51,7 +51,7 @@ export default function DebugLayout() {
       const n = b.parts.length; label(b.short ?? b.name, [b.parts.reduce((a, q) => a + q.cx, 0) / n, b.parts.reduce((a, q) => a + q.cy, 0) / n]);
     }
     if (opts.ids) { c.font = '10px monospace'; for (const p of paths) label(p.id, p.pts[Math.floor(p.pts.length / 2)], '#7A3B12'); }
-  }, [src, opts, force]);
+  }, [src, opts, tick]);
 
   useEffect(() => {
     const cv = ref.current; if (!cv) return; let drag: XY | null = null;
