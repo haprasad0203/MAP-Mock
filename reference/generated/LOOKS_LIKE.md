@@ -9,6 +9,11 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 - **Satellite screenshots:** `reference/IIM_Shillong_Campus_Map_Pack/01_satellite_screenshots/`. These are older: the football ground and the north hostels are still under construction.
 - **Check images:** `reference/layout/check_*.png` and `zoom_*.png`.
 
+**Confirmed by H A (13 Nov 2026):**
+- The Admin Block roof is green and hipped on every wing.
+- Hostel 4 is finished.
+- The Students' Mess is the cluster of four octagonal halls west of D Block.
+
 **Where photos and other sources disagree, the photos win:**
 - **Admin Block roof.** The satellite (`03_south…`, `check_admin_zoom.png`) shows one large dark slate-grey roof. Every drone photo (DJI, I363, yt-drone-19s) shows **green hipped roofs** on all wings, so the satellite predates the green roofing. `campus-layout.json` has `roofColor #4B525A` (grey) for `admin`. That's wrong against the photos, so the render uses green. The data is left as it is and the mismatch is logged in `reference/layout/LAYOUT_CHECK.md`.
 - **Auditorium.** BUILDING_NOTES and RESTYLE describe a separate cream hall with a slate roof and a red-brick plaza. It's inside the Admin Block (confirmed by H A), so there's no separate building to render.
@@ -34,6 +39,7 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 
 ## New Academic Block (NAB)
 - **Walls:** white plaster.
+- **Plan:** **long and narrow** (about 4–5 times as long as it is deep), not a deep box (H A).
 - **Roof:** flat, with a parapet. Small green-capped stair and lift heads and grey rooftop units.
 - **Floors:** 4, with towers one floor higher.
 - **Towers:** two tall square **white** stair towers at the ends, each topped with a small rooftop pavilion with a **green cap roof**.
@@ -68,6 +74,7 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
   - **Hostel 3:** the highest blocks on the north ridge (about +50 m). Same new-hostel style as F Block, to confirm.
   - **Both:** pine trees and cut earth slopes.
 - **Photos:** `hostels/New-Hostel.jpg`, `hostels/new-hostel-entrance_DSC_9144.jpg`, `hostels/new-hostel-courtyard_hostel22.jpg`, `zoom_D…`, satellite `02_north…` (labelled "F BLOCK NEW HOSTEL").
+- **Colour check (13 Nov 2026), the photos agree with H A:** on `New-Hostel.jpg` the walls are pale cream/peach plaster over most of the façade. Brown appears only in the stone ground floor, the stone piers and the small wooden doors inside the balcony recesses, and the recess walls are cream too. The first renders for Hostels 2–4 were dominated by orange-brick balcony bays, which is wrong; redone cream-dominant.
 
 ## Hostel 4
 - **Status: finished.** The satellite and `zoom_D` show a complete roofed block with a turning circle, and no photo shows scaffolding there. (The unfinished pink frame building on the hill in DJI/I363 is east of NAB, not Hostel 4.)
@@ -76,6 +83,7 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 - **Floors:** 4.
 - **Footprint:** one large rectangular block, between D Block and F Block on the hostel road.
 - **Photos:** none at ground level; satellite only (`zoom_D_hostels_north.png`).
+- **Renders:** must be **cream/peach plaster dominant**, never orange or brick (see the hostel colour check under Hostel 2).
 
 ## Cafe Cloud Campus (octagonal pavilion)
 - **Walls:** white, mostly **large glass windows** all round.
@@ -86,19 +94,27 @@ Rule: shapes, roofs, colours, materials, floors and arrangement come from the re
 - **Photos:** DJI and I363 (left), `yt-drone-19s` (left), `check_admin_zoom.png`.
 
 ## Dr. Kalam Centre
+- **Status: to confirm.** This will be redone from H A's own photos in `reference/photos/campus_new/` when they arrive.
 - **No exterior photo.**
 - **Satellite:** a mid-sized block beside the road junction north-east of the lake, with a lawn (`kalam-lawn`) around it; the roof reads grey.
 - **Render:** the campus style: white walls, green hipped roof, 3 floors, with a small entrance porch. Everything to confirm on campus.
 - **Photos:** satellite `03_south…` and `02_north…` (label pin), `zoom_B_nab_kalam_lake.png`.
 
-## Students' Mess
-- **No exterior photo.**
+## Students' Mess (confirmed by H A: the four-octagon cluster)
+- **Plan:** a cluster of **four octagonal halls** just west of Hostel 1 (D Block):
+  - **one big hall** (about 25 m across, 2 floors);
+  - **three smaller halls** (about 16–23 m, 1 floor) grouped round it.
+
+  Each stands on its own light-grey **octagonal paved podium/terrace**, and the podiums are joined by paved courtyards and a big terracotta/brown-paved forecourt inside a retaining wall.
+- **Roofs:** **dark grey octagonal roofs** (pyramidal, faceted into eight). The big hall has a **two-tier roof**: a raised inner octagon over the outer ring.
+- **Walls:** not visible from above. Rendered as cream/white plaster with tall windows, to confirm with a ground photo.
 - **Inside:** grey granite-clad round columns and red/black tables (`04_mess_cafeteria/*`).
-- **Satellite:** a compact block right beside D Block on the hostel slope.
-- **Render:** cream plaster, green gable roof, 2 floors, a wide glass entrance, with stone column bases echoing the interior. To confirm.
-- **Photos:** interiors only (not used for the shape); `zoom_C…` and `zoom_D…`.
+- **Surroundings:** the teal-roofed covered walkway passes along the south edge; D Block's long blocks are just east; scrub slope to the west.
+- **The old "west-blocks" building** was part of this cluster and has been removed from the data.
+- **Reference:** `reference/photos/mess_from_above.png` (a satellite screenshot: looked at only, not uploaded to Gemini). **To confirm** walls and entrances with H A's photos in `reference/photos/campus_new/`.
 
 ## Commercial Complex (Mithaas and other shops)
+- **Status: to confirm.** This will be redone from H A's own photos in `reference/photos/campus_new/` when they arrive.
 - **No exterior photo.**
 - **Satellite:** an irregular low block just below D Block, above the gym, by the road.
 - **Render:** a single-storey row of shopfronts with awnings, cream walls and a flat roof. To confirm.

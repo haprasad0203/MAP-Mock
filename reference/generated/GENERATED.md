@@ -25,7 +25,7 @@ Legacy pixel sprites moved to `public/campus-art/pixel/` (2D fallback only). The
 | Mood frame v1 | The real arrangement from LOOKS_LIKE.md: the lake in a valley; main road from the gate past Cafe Cloud, the Admin Block (green hipped roofs, flag forecourt, terraces) and NAB (stone towers, teal atrium); the octagonal hall, courts, walkway and football ground in the middle; hostels climbing north; pines and mist; golden hour; 9:16; no text. Image 1 for style only. | `style/tycoon_style_target.png`, `photos/aerial/DJI_0338-0000-01.jpg`, `layout/layout_v2_topdown.png` | `reference/style/gemini_campus_mood_preview.png` (572×1024 **preview capture**; the full-size download was blocked, see note) | Colour and composition target for the 3D map |
 
 Gemini chat: "IIM Shillong Campus Tycoon Map" (gemini.google.com/app/bb8daa136142e137). **The full-size download was blocked by Chrome** ("Downloading full size…" never reached Downloads), so the preview was captured from the page at 1:1 (572×1024) and kept only as a mood reference.
-| Mood frame v2 (**chosen**) | Follow-up in the same chat: one octagonal hall on the NW lake shore with its 2 ponds (remove the second by NAB → lawn + parking); long curved lake; smaller flag lawn; stronger tilt-shift | same as v1 | `reference/style/gemini_campus_mood.png` (1536×2752, full size); v1 full size in `raw/tycoon/mood-frame_v1.png` | Colour and composition target |
+| Mood frame v2 (**accepted as a STYLE reference only**: H A, 13 Nov 2026) | Follow-up in the same chat: one octagonal hall on the NW lake shore with its 2 ponds (remove the second by NAB → lawn + parking); long curved lake; smaller flag lawn; stronger tilt-shift | same as v1 | `reference/style/gemini_campus_mood.png` (1536×2752, full size); v1 full size in `raw/tycoon/mood-frame_v1.png` | Colour and composition target |
 
 ### Landmark renders (Prompt A adapted: the real building from LOOKS_LIKE.md; image 1 = style only)
 Each was a separate Gemini chat, attaching `style/tycoon_style_target.png` plus the listed real photos. Photos of people (e.g. `au4.jpg`) and Google satellite/Maps images were **not** uploaded. Raw files are in `reference/generated/raw/tycoon/`; cut-outs (512 px WebP, alpha) in `public/campus-art/tycoon/landmark-<id>.webp`, made with `scripts/process-asset.mjs render`. Side-by-sides are in `reference/generated/compare/<id>_real_vs_render.jpg`. Use: the 3D modelling and material target, and place-card thumbnails.
@@ -45,3 +45,25 @@ Each was a separate Gemini chat, attaching `style/tycoon_style_target.png` plus 
 | Dr. Kalam Centre | DJI_0338 (campus style only) | 1 | v1 | **No exterior photo exists**: shape assumed; shows 4 floors vs 3 assumed |
 | Students' Mess | DJI_0338 (campus style only) | 1 | v1 | **No exterior photo exists**: granite columns from the interior photos |
 | Commercial Complex | DJI_0338 (campus style only) | 1 | v1 | **No exterior photo exists**: shape assumed |
+
+**Mood frame v2 is a style reference only** (H A, 13 Nov 2026). Use it for light, colour grade, tilt-shift and the chunky game look, never for positions or shapes. Known errors in it:
+- NAB is drawn as a square block (it's long and narrow).
+- The football ground is drawn as grass (it's bare earth).
+- The tennis court, the parking lot by NAB and the orange earth cuttings don't exist.
+
+Positions and shapes come only from `campus-layout.json` v2 and LOOKS_LIKE.md.
+
+**Review 1 (H A, 13 Nov 2026):**
+- **Approved as they are:** #1 Admin Block, #7 Cafe Cloud + Amul Cafe, #11 Octagonal Hall, #12 Main gate, #13 Kalam statue garden.
+- **To redo:** #2 NAB (long and narrow), #9 Mess (four-octagon cluster), #4–6 Hostels 2–4 (cream plaster, not orange brick).
+- **To confirm until H A's photos arrive in `reference/photos/campus_new/`:** #8 Kalam Centre, #9 Mess, #10 Commercial Complex.
+
+**Review 1 fixes (13 Nov 2026):**
+
+| Landmark | What was done | Chosen | Remaining |
+|---|---|---|---|
+| #2 NAB | Follow-up in the old chat returned the same deep box; the one retry was a **fresh chat** (crops nab_dji, nab_19s) asking for a slab about 70 × 14 m | `nab_v3` | Long and narrow now; towers, stone panels, atrium and emblem kept |
+| #9 Students' Mess | Redone as the **four-octagon cluster** (H A). Attached: style + interior `04_mess_cafeteria/DSC_9103.jpg` (materials). `mess_from_above.png` is a satellite screenshot, so it was **described in text, not uploaded** | `mess_v2` | Walls and entrances not visible from above: **to confirm** from H A's photos |
+| #4–6 Hostels 2, 3, 4 | Colour checked against `New-Hostel.jpg`: the photos agree with H A (cream plaster; brown only on the stone base, piers and doors). Two more Gemini tries (`hostel2-fblock_v3`, `_v4`, fresh chat, explicit #EFE3CC) still came out orange and 6–7 floors, so the colour was **fixed in post** with `scripts/recolor-orange.mjs` (saturated orange/brick → cream, shading kept; lower-saturation stone untouched) | `hostel2-fblock_v2-cream`, `hostel3_v1-cream`, `hostel4_v1-cream` | The stone base and soil edge are slightly greyer than real; Hostels 3 and 4 still show 5 floors vs 4 in the data |
+
+Still **to confirm** (waiting for H A's photos in `reference/photos/campus_new/`, folder not created yet): #8 Kalam Centre, #9 Mess (walls), #10 Commercial Complex.
