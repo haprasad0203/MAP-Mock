@@ -36,3 +36,7 @@ None. `campus-layout.json` v2, `places.json`, `osm.json` and `terrain.json` are 
 ## Hostel roads (13 Nov 2026, data update)
 - `rd-fblock` is now the asphalt hostel road (`kind: road`): Hostel 1 junction → past Hostel 4 and Hostel 2 → Hostel 3. `rd-north` is the short Hostel 3 upper access (`service`). `rd-hostel2-lower` was removed.
 - No code or place referred to the removed road. All 13 data tests pass, so every entrance is still on the main network. No layout changes made.
+
+## Phase 2 photo check (13 Nov 2026)
+- **`admin` roofColor `#4B525A` (slate grey) disagrees with the photos.** DJI_0338, Image_363 and yt-drone-19s all show green hipped roofs on every wing; only the older satellite shows dark grey. Per the Phase 2 rule the photos win, so the renders and 3D materials use green. The layout data is not edited; to change it, set `admin.roofColor` to the campus green. Organiser to confirm.
+- **Hostel roofs:** the satellite shows grey-blue, the ground photos show green. The renders use green.

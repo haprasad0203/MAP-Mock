@@ -152,7 +152,7 @@ const imgCache = new Map<string, HTMLImageElement | null>();
 export function loadArt(slug: string, onload: () => void): HTMLImageElement | null {
   if (imgCache.has(slug)) return imgCache.get(slug)!;
   imgCache.set(slug, null);
-  const im = new Image(); im.onload = () => { imgCache.set(slug, im); onload(); }; im.src = `/campus-art/${slug}.png`;
+  const im = new Image(); im.onload = () => { imgCache.set(slug, im); onload(); }; im.src = `/campus-art/pixel/${slug}.png`; // legacy pixel sprites, 2D fallback only
   return null;
 }
 
