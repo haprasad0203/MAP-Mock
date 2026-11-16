@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import type { XY } from '../geo/grid';
 
 export const FOV = 22;      // degrees, vertical
-export const PITCH = 52;    // degrees down from the horizon
+export const PITCH = 40;    // degrees down from the horizon (SCENE_LOOK row 1: low, oblique, like the reference)
 const D2R = Math.PI / 180;
 
 /** Screen pixels per ground metre at zoom k: the same scale the 2D engine shows at that k. */

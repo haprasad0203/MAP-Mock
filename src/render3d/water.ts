@@ -40,6 +40,8 @@ export function buildWater(poly: XY[]): Water {
       wcol = mix(wcol, vec3(0.62, 0.78, 0.86), graze * 0.5);
       float foam = smoothstep(0.035, 0.0, sd + sin(wp.x * 0.9 + wp.y * 0.7 + uTime * 1.2) * 0.008);
       wcol = mix(wcol, vec3(0.93, 0.97, 0.95), foam * 0.75);
+      float glint = pow(max(0.0, r1 * 0.6 + r2 * 0.4), 6.0) * smoothstep(0.2, 0.6, sd);   // SCENE_LOOK row 10: sun glints on open water
+      wcol += vec3(1.0, 0.92, 0.75) * glint * 0.9;
       diffuseColor.rgb = wcol;`);
   };
   const mesh = B.meshes(() => mat)[0]; mesh.name = 'lake'; mesh.receiveShadow = true;

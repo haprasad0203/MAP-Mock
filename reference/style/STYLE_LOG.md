@@ -254,3 +254,39 @@ Sheets: `real_<id>_v1–3.png`; map views `m3v2_landmarks_north/courts/gate.png`
 - **Forest:** the dense forest beside Admin is outside the campus boundary, and DJI_0338 shows pine forest there too, so it is unchanged. The open grass and scattered pines inside the campus are left for the SCENE_LOOK pass.
 - **Checks:** aerial_match_v3.png (DJI_0338, Image_363) and m3v2_campus_default_rot0/rot2.png (the default view in 2 rotations).
 - **Still owed:** H A's campus_new photos (they override every earlier source); the Octagonal Hall position and size (LAYOUT_CHECK 6); Amul Cafe, the Commercial Complex and the Kalam Building (no photos).
+
+
+## SCENE_LOOK passes (17 Nov), against tycoon_style_target.png (look only)
+Sheets: reference/style/compare/scene_v0.png (before) to scene_v3.png; target | phone 390×844 | desktop 1280×800 (scripts/scene-compare.mjs).
+
+- **Pass 1:**
+  - map pitch 52° → 40°;
+  - hero view centred on the Admin–NAB–lake axis;
+  - warmer split tone, saturation +0.16, a stronger vignette;
+  - a warm haze toward the top of the screen;
+  - grass #638A3E and pines #22452A–#46743A instead of lime;
+  - a narrow tilt-shift band;
+  - fixed a bug where the per-tree tint was commented out, so every tree was one colour.
+- **Pass 2:**
+  - campus groves denser (noise threshold 0.62 → 0.5), with gaps kept;
+  - tilt band widened again (pass 1 blurred Admin on desktop);
+  - parked cars in the hardscape parking bays and people on the plazas (addLife, Medium and High only).
+- **Pass 3:**
+  - hero view one step closer (phone level 4, desktop level 5);
+  - sun glints on the open lake water.
+
+| # | Row | Pass 0 | Pass 3 | Note |
+|---|---|---|---|---|
+| 1 | Close, low, oblique camera | 3 | 8 | Buildings fill the frame; Recentre still shows the whole campus |
+| 2 | Dense, no empty ground | 4 | 6 | Groves fill the slopes; the real campus does have open lawns (kept: east of Admin, NAB lawn, football) |
+| 3 | Golden-hour light | 6 | 8 | Low warm sun, long shadows (unchanged light, stronger grade) |
+| 4 | Rich warm grade | 4 | 7 | Greens are warm, not lime; could go a touch more orange in the highlights |
+| 5 | Strong tilt-shift | 4 | 8 | Sharp middle, heavy blur top and bottom; labels stay sharp |
+| 6 | Varied, shaded trees | 4 | 7 | Per-tree tint now works; still 3 shapes, no cherry or shrub layer |
+| 7 | Life everywhere | 2 | 5 | Parked cars, people on plazas, a bus at the gate; no moving cars yet |
+| 8 | Finished hardscape | 5 | 7 | Kerbs, pavements, plazas, walls, railings (Phase 3M v2 hardscape) |
+| 9 | Atmospheric depth | 5 | 7 | Warm haze at the top; the far hills fade |
+| 10 | Water with sparkle | 5 | 6 | Glints and foam edge; no jetty or bench yet |
+| | **Total** | **42** | **69** | Below the 80 target after the 3 passes the spec asks for |
+
+To reach 80 (later, if wanted): moving cars on the main road, a shrub and flower-bed layer in the groves, a cherry/broadleaf variant, a jetty and benches on the lake trail, and a little more orange in the highlights.

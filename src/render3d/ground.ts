@@ -16,7 +16,7 @@ const CLASS: Record<number, [[number, number, number], number]> = {
   [G.PLAZA]: [hex('#C99484'), 0.05], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
   [G.COVERED]: [hex('#A9A77E'), 0.05],
 };
-const MEADOW = hex('#6A8844'), FOREST = hex('#4A7038');
+const MEADOW = hex('#638A3E'), FOREST = hex('#46692F'); // SCENE_LOOK row 4: warm grass, not lime
 
 /** Ground colour for the whole ±1300 m square. `size` = texture pixels per side (2600 = 1 m per pixel). */
 export function bakeGroundTexture(world: WorldModel, size: number): THREE.DataTexture {

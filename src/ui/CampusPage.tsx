@@ -68,7 +68,8 @@ export default function CampusPage() {
   // ---- engine ----
   useEffect(() => {
     if (!world || !canvasRef.current || !places) return;
-    const first = urlView() ?? savedView() ?? { cx: world.centre[0] + 20, cy: world.centre[1], level: window.innerWidth < 700 ? 2 : 3, rot: 0 as const };
+    // the hero view (SCENE_LOOK row 1): close on the Admin–NAB–lake axis; Recentre still shows the whole campus
+    const first = urlView() ?? savedView() ?? { cx: 125, cy: -150, level: window.innerWidth < 700 ? 4 : 5, rot: 0 as const };
     const opts = {
       onSelect: (hit: { buildingId?: string; at: XY } | null) => {
         const e = engineRef.current; if (!e) return;

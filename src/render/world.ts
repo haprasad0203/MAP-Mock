@@ -164,7 +164,7 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   for (let y = Math.floor(b.minY); y < b.maxY; y += 9) for (let x = Math.floor(b.minX); x < b.maxX; x += 9) {
     const jx = x + hash2(x, y, 21) * 8, jy = y + hash2(x, y, 22) * 8;
     if (!campusAt({ inCampus } as WorldModel, jx, jy)) continue;
-    if (valueNoise(jx / 70, jy / 70, 5) < 0.62) continue;
+    if (valueNoise(jx / 70, jy / 70, 5) < 0.5) continue; // SCENE_LOOK row 2: groves fill the open slopes, gaps between them
     if (free(jx, jy, 5)) campusTrees.push({ x: jx, y: jy, s: 0.8 + hash2(x, y, 23) * 0.5, v: hash2(x, y, 24) });
   }
 

@@ -21,6 +21,28 @@ function car(B: Buckets, x: number, y: number, ang: number, h: number, col: RGB,
   B.box(K, x, y, 4.2, 1.8, ang, h + 0.25, h + 1.0, col); B.box(K, x - Math.cos(ang) * 0.2, y - Math.sin(ang) * 0.2, 2.3, 1.62, ang, h + 1.0, h + 1.55, GLASS, col);
 }
 
+/** Life on the hardscape (SCENE_LOOK row 7): parked cars in the parking bays, a few people on the plazas. Seeded, so they never move. */
+export function addLife(B: Buckets, items: { id: string; type: string; poly?: XY[]; bays?: unknown }[], h: SurfaceAt) {
+  const PEOPLE = ['#C0392B', '#2E86C1', '#F4D03F', '#ECF0F1', '#1F2D3A', '#E67E22', '#7D3C98'].map(rgb);
+  for (const it of items) {
+    if (!it.poly || it.poly.length < 3) continue;
+    const xs = it.poly.map(p => p[0]), ys = it.poly.map(p => p[1]), x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys), seed = it.id.length * 31 + Math.round(x0);
+    const inPoly = (x: number, y: number) => { let c = false; for (let i = 0, j = it.poly!.length - 1; i < it.poly!.length; j = i++) { const [xi, yi] = it.poly![i], [xj, yj] = it.poly![j]; if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } return c; };
+    if (it.type === 'parking') {
+      const e = it.poly, ang = Math.atan2(e[1][1] - e[0][1], e[1][0] - e[0][0]), n = Math.round(Number(it.bays ?? 6) * 0.7);
+      for (let k = 0; k < n; k++) { const t = (k + 0.5) / n, x = e[0][0] + (e[1][0] - e[0][0]) * t + (e[3][0] - e[0][0]) * 0.35, y = e[0][1] + (e[1][1] - e[0][1]) * t + (e[3][1] - e[0][1]) * 0.35;
+        if (hash2(k, seed, 91) < 0.8) car(B, x, y, ang + Math.PI / 2, h(x, y) + 0.2, CAR_COLS[Math.floor(hash2(k, seed, 92) * CAR_COLS.length)]); }
+    } else if (it.type === 'plaza' || it.type === 'courtyard') {
+      const n = Math.min(14, Math.round(((x1 - x0) * (y1 - y0)) / 160));
+      for (let k = 0, put = 0; k < n * 4 && put < n; k++) {
+        const x = x0 + hash2(k, seed, 93) * (x1 - x0), y = y0 + hash2(k, seed, 94) * (y1 - y0); if (!inPoly(x, y)) continue; put++;
+        const g = h(x, y), c = PEOPLE[Math.floor(hash2(k, seed, 95) * PEOPLE.length)];
+        B.box('plain', x, y, 0.42, 0.3, hash2(k, seed, 96) * 6, g + 0.1, g + 0.95, rgb('#2B3440')); B.box('plain', x, y, 0.48, 0.34, hash2(k, seed, 96) * 6, g + 0.95, g + 1.5, c); B.box('plain', x, y, 0.24, 0.24, 0, g + 1.5, g + 1.78, rgb('#C68E62'));
+      }
+    }
+  }
+}
+
 export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
   const lm = (id: string) => world.landmarks.find(l => l.id === id)?.at;
 

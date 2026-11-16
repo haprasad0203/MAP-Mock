@@ -10,7 +10,8 @@ class WarmGrade extends BaseEffect {
   constructor() {
     super('WarmGrade', `void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
       vec3 c = inputColor.rgb; float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
-      c *= mix(vec3(0.90, 1.0, 1.08), vec3(1.16, 1.02, 0.80), smoothstep(0.03, 0.5, l));
+      c *= mix(vec3(0.90, 0.99, 1.06), vec3(1.2, 1.03, 0.76), smoothstep(0.03, 0.5, l));
+      c = mix(c, vec3(0.93, 0.80, 0.60), smoothstep(0.62, 1.0, uv.y) * 0.38);   // warm haze toward the top of the screen (row 9)
       c = mix(c, c * c * (3.0 - 2.0 * c), 0.08);
       outputColor = vec4(c, inputColor.a);
     }`);
@@ -34,8 +35,8 @@ export class Post {
       ...(high ? [new BloomEffect({ luminanceThreshold: 0.86, luminanceSmoothing: 0.12, mipmapBlur: true, intensity: 0.45, radius: 0.7 })] : []),
       new ToneMappingEffect({ mode: ToneMappingMode.ACES_FILMIC }),
       new WarmGrade(),
-      new HueSaturationEffect({ saturation: 0.1 }),
-      new VignetteEffect({ offset: 0.3, darkness: 0.22 }),
+      new HueSaturationEffect({ saturation: 0.16 }),
+      new VignetteEffect({ offset: 0.28, darkness: 0.34 }),
     ];
     this.tilt = new TiltShiftEffect({ focusArea: 0.56, feather: 0.36, kernelSize: KernelSize.SMALL, resolutionScale: 0.5 });
     this.withTilt = new EffectPass(camera, this.tilt, ...grade());
@@ -46,8 +47,8 @@ export class Post {
   setTilt(on: boolean, tier: Tier, portrait = false) {
     this.withTilt.enabled = this.withTilt.renderToScreen = on; this.plain.enabled = this.plain.renderToScreen = !on; // exactly one of the two draws to the screen
     // a tall phone screen shows far more ground above and below the band, so the band is wider there
-    this.tilt.focusArea = (tier === 'campus' ? 0.66 : tier === 'area' ? 0.7 : 0.78) + (portrait ? 0.16 : 0);
-    this.tilt.blurPass.kernelSize = tier === 'campus' ? KernelSize.MEDIUM : tier === 'area' ? KernelSize.SMALL : KernelSize.VERY_SMALL;
+    this.tilt.focusArea = (tier === 'campus' ? 0.56 : tier === 'area' ? 0.64 : 0.74) + (portrait ? 0.04 : 0); // row 5: a sharp middle band, heavy blur at the edges
+    this.tilt.blurPass.kernelSize = tier === 'building' ? KernelSize.SMALL : KernelSize.MEDIUM;
   }
   setSize(w: number, h: number) { this.composer.setSize(w, h, false); }
   render() { this.composer.render(); }

@@ -17,7 +17,7 @@ import { addRoads } from './roads';
 import { addHardscape } from './hardscape3d';
 import { buildWater, type Water } from './water';
 import { buildTrees, forestSpots, type TreeSet } from './trees';
-import { addProps } from './props';
+import { addLife, addProps } from './props';
 import { installMist, Lighting, MIST } from './lighting';
 import { Post } from './post';
 import { Labels, type LabelItem } from './labels';
@@ -127,7 +127,7 @@ export class Engine3D implements IMapEngine {
     const b = this.world.bounds, near = (x: number, y: number) => x > b.minX - 120 && x < b.maxX + 120 && y > b.minY - 120 && y < b.maxY + 120;
     const R = new Buckets(); addRoads(R, this.world.paths, this.surfaceAt, near);
     for (const m of R.meshes(k => this.mat(k))) { m.name = 'roads'; m.receiveShadow = true; this.scene.add(m); }
-    const P = new Buckets(); addProps(P, this.world, this.surfaceAt); addHardscape(P, this.world.src.getHardscape?.() ?? [], this.surfaceAt);
+    const P = new Buckets(); addProps(P, this.world, this.surfaceAt); addHardscape(P, this.world.src.getHardscape?.() ?? [], this.surfaceAt); if (this.quality !== 'low') addLife(P, this.world.src.getHardscape?.() ?? [], this.surfaceAt);
     const g = new THREE.Group(); g.name = 'props';
     for (const m of P.meshes(k => this.mat(k))) { m.castShadow = m.receiveShadow = true; g.add(m); }
     this.scene.add(g);
