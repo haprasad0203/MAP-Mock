@@ -147,3 +147,27 @@ Sheets: `compare/model_admin_v1.png`, `model_nab_v1.png` (render | model at the 
 
   32 tight spots, where a wider road would come within 1 m of a footprint, are narrowed locally; they are listed in `hardscape.json → tightSpots`. Buildings never move.
 - **Scholar's Path:** 780 m from the main gate along the east side of the main road, then the data's zig-zag past the courts to D Block. Teal roof, 3 m wide. It is drawn on the map as a teal-roofed walkway along its full run; the posts and railings get modelled later.
+
+## Phase 3M v2: Admin + NAB, modelled from the real buildings
+Sheets: `reference/style/compare/real_<id>_v<N>.png` (real photo | model at a matched camera; the cameras are in `scripts/compare-model.mjs → REAL`).
+Models: `src/render3d/landmarks/admin.ts` and `nab.ts`, rebuilt from `reference/real/<id>.md`, with the real-campus kit pieces in `kit.ts` (sandstone, mullioned glass, punched windows, the Admin corridor gallery, the real emblem colours, a `glassReal` material tinted to the photos' dark teal).
+
+### Round 1 (16 Nov)
+**Admin, 6.5/10 against the real building**
+| Item | Difference from the photos |
+|---|---|
+| Footprint, floors, heights | Right: end blocks and centre block 4 floors, wings 3 (3.7 m floors, 0.6 m plinth); centre block the tallest hip |
+| Roof | Hip roofs, deep white eaves and fascias; the green is a little light |
+| Wings | Corridor galleries with sandstone piers, rails and teal canopies read as the real ones. **Wrong:** the east wing runs in front of the east block; in the photos the end blocks stand ahead of the wings |
+| Centre block | Glass bands between white slabs over a columned portico: right |
+| End blocks | Glass strip by the wing, sandstone ground floor, small punched windows on the sides, emblem with letters on the east block: right |
+| Forecourt | A rectangle of pavers; the real one is a horseshoe drive round the oval lawn |
+| Camera | The aerial needs to be closer, and the close view comes from the SW (fixed in the sheet) |
+
+**NAB, 7/10**
+| Item | Difference from the photos |
+|---|---|
+| Front rhythm | Tower · stone panel (glass bay inner side, emblem on the SW one) · white block (canopy, two windows, stair head) · faceted atrium under the big pyramid · mirror: right, after laying the front on the photo's rhythm (stone 4 m ahead of the white centre) instead of the data parts' steps. The data's SW annex (part 3) is clipped at the stone line |
+| Heights | 3 storeys at the lawn front (about 11.7 m), towers about 18 m plus the box storey and caps: matches the straight-on still |
+| Glass | Darker after the `glassReal` material; still a touch bright |
+| Missing | Front plaza and lawn in the viewer; the back (NW) face is unknown (photo list) |

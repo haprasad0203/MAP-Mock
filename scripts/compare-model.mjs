@@ -23,6 +23,19 @@ export const MODELS = {
   'guard-room': { render: 'main-gate_v1.png', az: -45 },
 };
 const MAP_PITCH = 52, ROT_NAMES = ['SE', 'NE', 'NW', 'SW']; // src/render3d/camera.ts: azimuth(rot) = -45 - 90 * rot
+// Phase 3M v2 (--real): the real photos each model is judged against, with the viewer camera matched to each by eye
+// (az = direction from the building to the camera, degrees from east counter-clockwise; pitch down; fov; part = frame one part).
+// The cameras are also recorded in reference/real/<id>.md.
+export const REAL = {
+  admin: [
+    { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg', label: 'aerial: south front (homepage video @0:04.5)', az: -100, pitch: 17, fov: 34, zoom: 1.45 },
+    { photo: 'reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg', label: 'low: east block and east wing (iimshillong 2024/10/7)', az: -128, pitch: 9, fov: 50, part: 3 },
+  ],
+  nab: [
+    { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg', label: 'straight on: SE front (homepage video @0:05.5)', az: -38, pitch: 7, fov: 26, crop: [100, 470, 1720, 520] },
+    { photo: 'reference/photos/video_frames/admin-nab/7JbrpxrsLSw-00.15.8_nab-front-sunlit.jpg', label: 'ground: SE front from the lawn (Mechenzi @0:15.8)', az: -50, pitch: 3, fov: 62 },
+  ],
+};
 
 const [id, round = '1', ...rest] = process.argv.slice(2);
 const opt = Object.fromEntries(rest.filter(a => a.startsWith('--')).map(a => { const [k, v = 'true'] = a.slice(2).split('='); return [k, v]; }));
@@ -54,6 +67,23 @@ async function sheetOf(html, w, h, out) {
   await page.waitForTimeout(200); await page.screenshot({ path: out }); await page.close();
 }
 try {
+  if (opt.real) { // real photo | model at a matched camera, one row per viewpoint → reference/style/compare/real_<id>_v<round>.png
+    const sharp = (await import('sharp')).default, views = REAL[id], rows = [], RH = 560;
+    for (const v of views) {
+      let ph = sharp(v.photo); if (v.crop) ph = ph.extract({ left: v.crop[0], top: v.crop[1], width: v.crop[2], height: v.crop[3] });
+      const meta = await ph.clone().metadata(), pw = v.crop ? v.crop[2] : meta.width, phh = v.crop ? v.crop[3] : meta.height, W2 = Math.round((RH * pw) / phh);
+      const photo = await ph.resize(W2, RH).png().toBuffer();
+      const m = await shot(`az=${v.az}&pitch=${v.pitch}&fov=${v.fov}${v.part !== undefined ? `&part=${v.part}` : ''}${v.zoom ? `&zoom=${v.zoom}` : ''}`, W2, RH);
+      rows.push({ v, photo, model: m.buf, W2, info: m.info });
+    }
+    const W = Math.max(...rows.map(r => r.W2)) * 2 + 36;
+    const html = rows.map(r => `<div style="display:flex;gap:12px;padding:10px 12px 0"><div style="width:${r.W2}px;color:#FFD23F">REAL · ${r.v.label}</div><div>MODEL · ${id} v${round} · az ${r.v.az}° pitch ${r.v.pitch}° fov ${r.v.fov}°</div></div>
+      <div style="display:flex;gap:12px;padding:6px 12px 8px"><img src="${img(r.photo)}" width="${r.W2}" height="${RH}"><img src="${img(r.model)}" width="${r.W2}" height="${RH}"></div>`).join('');
+    const outPath = path.join(outDir, `real_${id}_v${round}.png`);
+    await sheetOf(html, W, rows.length * (RH + 50) + 10, outPath);
+    console.log(JSON.stringify({ sheet: outPath, ...rows[0].info, errors: [...new Set(errors)] }));
+    await browser.close(); process.exit(0);
+  }
   const out = { id, round: Number(round) };
   // render | model at the render's camera
   const m = await shot(`az=${az}&pitch=${pitch}`, W, H);

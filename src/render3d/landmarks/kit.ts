@@ -166,17 +166,66 @@ export function roofOf(A: Atlas | null, fallback: string, sample = 'roof'): stri
   return hex ? sampledRoof(hex) : fallback;
 }
 
-/** Round emblem on a wall: a green ring with a pale centre. */
-export function emblem(B: Buckets, f: Face, s: number, out: number, h: number, r: number) {
-  const disc = (rad: number, o: number, col: RGB) => {
-    const c = fp(f, s, o), N = 24;
+/** The IIM Shillong emblem as seen on Admin and NAB (reference/real/*.md): a green sunburst ring on white, a centre disc
+ *  blue above and yellow below; with `letters`, a green "IIM SHILLONG" block under it. */
+export function emblem(B: Buckets, f: Face, s: number, out: number, h: number, r: number, letters = false) {
+  const disc = (rad: number, o: number, col: RGB, a0 = 0, a1 = Math.PI * 2, N = 28) => {
+    const c = fp(f, s, o);
     for (let k = 0; k < N; k++) {
-      const a0 = (k / N) * Math.PI * 2, a1 = ((k + 1) / N) * Math.PI * 2;
+      const t0 = a0 + ((a1 - a0) * k) / N, t1 = a0 + ((a1 - a0) * (k + 1)) / N;
       const p = (a: number): P3 => [c[0] + f.u[0] * Math.cos(a) * rad, c[1] + f.u[1] * Math.cos(a) * rad, h + Math.sin(a) * rad];
-      B.tri('plain', [c[0], c[1], h], p(a1), p(a0), col); B.tri('plain', [c[0], c[1], h], p(a0), p(a1), col);
+      B.tri('plain', [c[0], c[1], h], p(t1), p(t0), col); B.tri('plain', [c[0], c[1], h], p(t0), p(t1), col);
     }
   };
-  disc(r, out, rgb('#2E7D46')); disc(r * 0.78, out + 0.05, rgb('#E4EDD9')); disc(r * 0.5, out + 0.1, rgb('#3B8E52')); disc(r * 0.2, out + 0.15, rgb('#E4EDD9'));
+  disc(r, out, rgb('#F4F6F1')); disc(r * 0.96, out + 0.03, rgb('#2F8A47')); disc(r * 0.5, out + 0.06, rgb('#F4F6F1'));
+  disc(r * 0.4, out + 0.09, rgb('#3F8FCB'), 0, Math.PI); disc(r * 0.4, out + 0.09, rgb('#F2C22E'), Math.PI, Math.PI * 2);
+  if (letters) { panel(B, 'plain', f, s - r * 0.55, s + r * 0.55, out + 0.05, h - r - 1.3, h - r - 0.45, rgb('#2F8A47')); panel(B, 'plain', f, s - r * 0.8, s + r * 0.8, out + 0.05, h - r - 1.85, h - r - 1.5, rgb('#2F8A47')); }
+}
+
+// ---------- real-campus pieces (Phase 3M v2, reference/real/<id>.md): colours sampled from the photos ----------
+export const SANDSTONE = rgb('#B8936A'), WALL = rgb('#EDEAE3'), GLASS_TEAL = rgb('#24494A'), CANOPY_TEAL = rgb('#4AA0B6'), RAIL = rgb('#9BA3A4');
+/** Multiplier on the glass texture: the real glass reads dark teal, not the texture's bright cyan. */
+export const GLASS_TINT: RGB = [0.5, 0.62, 0.68];
+export const REAL_ROOF = '#287565';
+/** Plain wall in a flat colour (no texture), `out` metres proud of the face. */
+export function flat(B: Buckets, f: Face, s0: number, s1: number, h0: number, h1: number, col: RGB = WALL, out = 0) { B.wall('plain', fp(f, s0, out), fp(f, s1, out), h0, h1, col); }
+/** Sandstone cladding (the tan stone of Admin and NAB), as a slab `out` proud. */
+export const sandstone = (B: Buckets, f: Face, s0: number, s1: number, h0: number, h1: number, out = 0.06) => panel(B, 'stone', f, s0, s1, out, h0, h1, ONE, 2.6, SANDSTONE);
+/** Glass with a white mullion grid (cols × rows panes), `out` proud, in a white frame. */
+export function glassGrid(B: Buckets, f: Face, s0: number, s1: number, h0: number, h1: number, out: number, cols: number, rows: number, frame = 0.18, mull: RGB = WALL) {
+  panel(B, 'plain', f, s0 - frame, s1 + frame, out, h0 - frame, h1 + frame, mull);
+  panel(B, 'glassReal', f, s0, s1, out + 0.03, h0, h1, GLASS_TINT, Math.max(1.2, (s1 - s0) / cols), GLASS_TEAL);
+  for (let i = 1; i < cols; i++) { const s = s0 + ((s1 - s0) * i) / cols; panel(B, 'plain', f, s - 0.05, s + 0.05, out + 0.07, h0, h1, mull); }
+  for (let j = 1; j < rows; j++) { const z = h0 + ((h1 - h0) * j) / rows; panel(B, 'plain', f, s0, s1, out + 0.07, z - 0.05, z + 0.05, mull); }
+}
+/** One row of punched windows per floor: `per` windows of ww × wh per floor, evenly spaced, white surrounds. */
+export function punched(B: Buckets, f: Face, s0: number, s1: number, h0: number, floors: number, fh: number, per: number, ww: number, wh: number, sill = 0.9, from = 0) {
+  for (let fl = from; fl < floors; fl++) for (let i = 0; i < per; i++) {
+    const c = s0 + ((i + 0.5) * (s1 - s0)) / per, z = h0 + fl * fh + sill;
+    panel(B, 'plain', f, c - ww / 2 - 0.14, c + ww / 2 + 0.14, 0.05, z - 0.14, z + wh + 0.14, rgb('#FFFFFF'));
+    panel(B, 'glassReal', f, c - ww / 2, c + ww / 2, 0.08, z, z + wh, GLASS_TINT, ww, GLASS_TEAL);
+  }
+}
+/** Admin's linking-wing front: open corridor galleries behind white slab edges, sandstone piers between the bays and a
+ *  teal sloped canopy over each upper corridor (reference/real/admin.md, "Linking wings"). */
+export function gallery(B: Buckets, f: Face, s0: number, s1: number, h0: number, floors: number, fh: number, bay = 4.3) {
+  const n = Math.max(1, Math.round((s1 - s0) / bay)), w = (s1 - s0) / n, top = h0 + floors * fh;
+  B.wall('plain', fp(f, s0, -1.6), fp(f, s1, -1.6), h0, top, rgb('#D8D3CA'));                      // the room fronts, set back
+  for (let fl = 0; fl < floors; fl++) {
+    const z = h0 + fl * fh;
+    for (let i = 0; i < n; i++) { const c = s0 + (i + 0.5) * w; panel(B, 'glassReal', f, c - w * 0.28, c + w * 0.28, -1.55, z + 0.9, z + fh - 0.6, GLASS_TINT, 1.2, GLASS_TEAL, -1.6); }
+    if (fl > 0) {                                                                                   // floor slab edge and rail
+      panel(B, 'plain', f, s0, s1, 0.15, z - 0.3, z + 0.15, WALL, 0, WALL, -1.6);
+      panel(B, 'plain', f, s0, s1, 0.1, z + 1.0, z + 1.08, RAIL, 0, RAIL, 0);
+      for (let i = 0; i <= n * 3; i++) { const s = s0 + (i * (s1 - s0)) / (n * 3); panel(B, 'plain', f, s - 0.03, s + 0.03, 0.1, z + 0.15, z + 1.0, RAIL); }
+    }
+    if (fl < floors - 1) {                                                                          // teal sloped canopy under the next slab
+      const a = fp(f, s0, 0.1), b = fp(f, s1, 0.1), c = fp(f, s1, 1.35), d = fp(f, s0, 1.35), zt = z + fh - 0.35, zb = zt - 0.55;
+      B.quad('plain', [a[0], a[1], zt], [b[0], b[1], zt], [c[0], c[1], zb], [d[0], d[1], zb], CANOPY_TEAL); B.quad('plain', [d[0], d[1], zb], [c[0], c[1], zb], [b[0], b[1], zt], [a[0], a[1], zt], CANOPY_TEAL);
+    }
+  }
+  for (let i = 0; i <= n; i++) { const s = s0 + i * w; sandstone(B, f, Math.max(s0, s - 0.45), Math.min(s1, s + 0.45), h0, top, 0.2); }
+  panel(B, 'plain', f, s0, s1, 0.25, top - 0.35, top + 0.1, WALL);                                   // eave beam
 }
 
 // ---------- roofs ----------

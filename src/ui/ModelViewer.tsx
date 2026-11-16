@@ -1,7 +1,8 @@
 // Dev route ?model=<buildingId>: one building (with its own forecourt) alone on a plain cream ground, seen as the
 // approved renders are: a 3/4 view about 32° down through a narrow lens, warm sun from the left.
 // Options: &az=<degrees> (compass direction from the building to the camera, from east, counter-clockwise; default -45 = south-east),
-// &pitch=<degrees>, &outline=1 (the data footprint in yellow). scripts/compare-model.mjs screenshots this page next to the render.
+// &pitch=<degrees>, &fov=<degrees> (default 14), &part=<index> (frame on that data part only, for close views),
+// &outline=1 (the data footprint in yellow). scripts/compare-model.mjs screenshots this page next to the real photos.
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { loadLayout } from '../geo/source';
@@ -46,11 +47,12 @@ export default function ModelViewer({ id }: { id: string }) {
       const sc = sun.shadow.camera; sc.left = sc.bottom = -radius * 1.6; sc.right = sc.top = radius * 1.6; sc.near = 1; sc.far = radius * 9; sc.updateProjectionMatrix();
       scene.add(sun, sun.target, new THREE.HemisphereLight('#C9DBEC', '#B79C74', 2.2));
 
-      const cv = ref.current, W = cv.clientWidth, H = cv.clientHeight, fov = 14;
+      const cv = ref.current, W = cv.clientWidth, H = cv.clientHeight, fov = Number(qs.get('fov') ?? 14), focus = qs.get('part') !== null ? b.parts[Number(qs.get('part'))] : null;
       const cam = new THREE.PerspectiveCamera(fov, W / H, 1, 1);
       // back off until the whole model just fills the frame, as the renders do
       let dist = radius / Math.sin((fov * D2R) / 2);
-      for (let pass = 0; pass < 4; pass++) {
+      if (focus) { centre.set(focus.cx, g + 8, -focus.cy); dist = (Math.hypot(focus.w, focus.d) / 2 + 8) / Math.sin((fov * D2R) / 2); }
+      for (let pass = 0; pass < (focus ? 0 : 4); pass++) {
         cam.position.set(centre.x + dist * Math.cos(pitch) * Math.cos(az), centre.y + dist * Math.sin(pitch), centre.z - dist * Math.cos(pitch) * Math.sin(az));
         cam.near = dist * 0.2; cam.far = dist * 3; cam.lookAt(centre); cam.updateProjectionMatrix(); cam.updateMatrixWorld(true);
         let m = 0; const v = new THREE.Vector3();
@@ -60,8 +62,9 @@ export default function ModelViewer({ id }: { id: string }) {
         }
         dist *= m / 0.88;
       }
+      dist /= Number(qs.get('zoom') ?? 1); // &zoom=: closer than the fitted framing
       cam.position.set(centre.x + dist * Math.cos(pitch) * Math.cos(az), centre.y + dist * Math.sin(pitch), centre.z - dist * Math.cos(pitch) * Math.sin(az));
-      cam.near = dist * 0.2; cam.far = dist * 3; cam.lookAt(centre); cam.updateProjectionMatrix();
+      cam.near = dist * 0.1; cam.far = dist * 4; cam.lookAt(centre); cam.updateProjectionMatrix();
       renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, preserveDrawingBuffer: true });
       renderer.setPixelRatio(Math.min(2, devicePixelRatio)); renderer.setSize(W, H, false);
       renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;

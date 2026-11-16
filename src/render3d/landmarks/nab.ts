@@ -1,97 +1,126 @@
-// New Academic Block (Phase 3M, reference/style/BUILD_LANDMARKS_3D.md): built on the data footprint and painted with pieces
-// cut from the approved render (reference/generated/raw/tycoon/nab_v3.png → public/campus-art/tycoon/facades/nab.webp).
-// Part 1 is the long slab: its lawn-side face carries the teal glass atrium between two tan stone panels.
-// Parts 0 and 2 are the end blocks, each with one tall white tower under a green-capped pavilion. Part 3 is a plain annex.
-// Floors come from the data (slab 4, end blocks 5); each tower is one floor higher than its block.
-// With no atlas (tests, a failed load) every wall falls back to the procedural textures.
+// New Academic Block, modelled from the REAL building (Phase 3M v2, reference/real/nab.md; photos win over the renders).
+// The SE (lawn) front is symmetric and laid out along the whole building by the fractions measured on the straight-on
+// homepage-video still (t = 0 at the SW end, 1 at the NE end):
+//   tower 0–.083 · stone panel .083–.26 (glass bay at its inner side, emblem on the SW one) · white block .26–.45 (flat
+//   canopy over a side entrance, two stacked windows) · faceted glass atrium .45–.538 under the big green pyramid ·
+//   mirror image to the NE tower.
+// 3 storeys at the lawn front (about 11 m to the parapet; data says 4: proposal in LAYOUT_CHECK), flat roof with a parapet,
+// two tall white stair heads; sandstone towers about 18 m with a white box storey and green caps.
 import type { XY } from '../../geo/grid';
 import { partFootprint } from '../terrain';
 import { ccw, rgb } from '../mesh';
-import { flatRoof, hipRoof } from '../roofs';
+import { flatRoof, hipRoof, sampledRoof } from '../roofs';
 import {
-  atlasOf, bevelCorners, blankWall, centroidOf, emblem, faceToward, facesOf, FH, fp, glassPanel, panel, piece, PLINTH, ROOF_OPTS, roofOf, stonePanel, stripWall,
-  tiled, visibleSpan, WHITE, windowWall, type Face, type LandmarkBuilder,
+  behind, bevelCorners, centroidOf, emblem, faceOf, facesOf, flat, fp, glassGrid, ONE, panel, punched, REAL_ROOF, SANDSTONE, sandstone, WALL, type Face, type LandmarkBuilder,
 } from './kit';
 
-const SLAB = 1;
+const FHR = 3.7, PL = 0.6;
 const DECK = '#CFCAC2';
+const ROOF_OPTS = { fascia: 0.45, ridge: true };
 
 export const buildNab: LandmarkBuilder = (B, b, ctx) => {
-  const g = b.groundElev ?? 0, A = atlasOf('nab'), capHex = roofOf(A, b.roofColor, 'cap');
-  const slab = b.parts[SLAB], H = g + slab.floors * FH, poly = ccw(partFootprint(slab)), fs = facesOf(poly);
-  const lawn = ctx.areas.find(a => a.id === 'nab-lawn'), toward: XY = lawn ? centroidOf(lawn.pts) : [slab.cx + 60, slab.cy - 30];
-  const front = faceToward(fs, toward), L = front.len;
-  // the end blocks stand forward of the slab, so the entrance front is laid out on the stretch between them
-  const [v0, v1] = visibleSpan(front, b.parts.filter((_, i) => i !== SLAB).map(p => ccw(partFootprint(p)))), Lv = v1 - v0, mid = (v0 + v1) / 2;
-  let top = H;
+  const g = b.groundElev ?? 0, g0 = g + PL, Hm = g0 + 3 * FHR, roof = sampledRoof(REAL_ROOF);
+  const polys = b.parts.map(p => ccw(partFootprint(p)));
+  const lawn = ctx.areas.find(a => a.id === 'nab-lawn'), toward: XY = lawn ? centroidOf(lawn.pts) : [b.parts[1].cx + 60, b.parts[1].cy - 30];
+  // the building's long axis (the slab's) and the extent of all parts along it
+  const ang = (b.parts[1].angle * Math.PI) / 180, U: XY = [Math.cos(ang), Math.sin(ang)], along = (q: XY) => q[0] * U[0] + q[1] * U[1];
+  const all = polys.flat(), A0 = Math.min(...all.map(along)), A1 = Math.max(...all.map(along)), Lb = A1 - A0;
+  // V: across the building toward the lawn. The front is drawn as a skin at the most-forward point of the footprints over
+  // each bay, so the photo's continuous front reads even where the data parts step (the end blocks stand ahead of the slab).
+  const c = centroidOf(all), V: XY = (() => { const v: XY = [-U[1], U[0]]; return (toward[0] - c[0]) * v[0] + (toward[1] - c[1]) * v[1] > 0 ? v : [-v[0], -v[1]]; })();
+  const across = (q: XY) => q[0] * V[0] + q[1] * V[1];
+  const P = (a: number, d: number): XY => [U[0] * a + V[0] * d, U[1] * a + V[1] * d];
+  // the photo's rhythm: the white centre at the slab's front line, the stone panels and towers 4 m forward of it; every
+  // footprint is clipped at the stone line (the data's SW annex, part 3, would otherwise stand 10 m out from the front)
+  const Dw = Math.max(...polys[1].map(across)), Ds = Dw + 4;
+  const clip = (() => { let f = faceOf(P(A0 - 20, Ds), P(A1 + 20, Ds)); if (f.n[0] * V[0] + f.n[1] * V[1] < 0) f = faceOf(P(A1 + 20, Ds), P(A0 - 20, Ds)); return f; })();
+  const parts = polys.map(pp => behind(pp, clip, 0)).filter(pp => pp.length >= 3);
+  /** Draw fn on a front plane at depth d (across, toward the lawn) between fractions t0 and t1; back = d minus the slab front. */
+  const on = (t0: number, t1: number, fn: (f: Face, s0: number, s1: number, back: number) => void, d = Dw) => {
+    const a = P(A0 + t0 * Lb, d), b2 = P(A0 + t1 * Lb, d);
+    let f = faceOf(a, b2); if (f.n[0] * V[0] + f.n[1] * V[1] < 0) f = faceOf(b2, a);
+    fn(f, 0, f.len, d - Dw);
+  };
+  let top = Hm;
 
-  const plaster = (f: Face, s0: number, s1: number, h0: number, h1: number, out = 0) => tiled(B, A, 'plaster', f, s0, s1, h0, h1, out) || blankWall(B, f, s0, s1, h0, h1, WHITE, out);
-  const windows = (f: Face, s0: number, s1: number, h1: number) => stripWall(B, A, 'end', f, s0, s1, g + 0.4, h1) || windowWall(B, f, s0, s1, g, Math.round((h1 - g) / FH), WHITE, 4.4);
-  const deck = (pts: XY[], h: number, angle: number, seed: number) => flatRoof(B, pts, h, { roofHex: DECK, wall: WHITE, angle, seed, clutter: false });
-  const walls = (faces: Face[], h1: number, skip?: Face) => { for (const f of faces) { B.wall('plain', f.a, f.b, g - 4, g + 0.4, PLINTH); if (f !== skip) windows(f, 0, f.len, h1); } };
-
-  // ---------- the slab ----------
-  walls(fs, H, front); deck(poly, H, slab.angle, 7); bevelCorners(B, poly, g + 0.4, H, WHITE);
-  const aw = Math.min(10, Lv * 0.24), sw = Math.min(9.5, Lv * 0.2), gap = 0.8;                                   // atrium width, stone panel width
-  const a0 = mid - aw / 2, a1 = mid + aw / 2, e0 = a0 - gap - sw - 2.6, e1 = a1 + gap + sw + 2.6;
-  windows(front, 0, e0, H); windows(front, e1, L, H);
-  plaster(front, e0, e1, g, H);
-  // teal glass atrium, 0.6 m proud with its frame, under a flat white roof slab; a door canopy on two posts
-  if (!tiled(B, A, 'atrium', front, a0, a1, g + 0.3, H + 0.9, 0.6, true)) glassPanel(B, front, a0, a1, 0.6, g + 0.3, H + 0.9, 2.2);
-  for (const s of [a0, a1]) panel(B, 'plain', front, s - 0.18, s + 0.18, 0.75, g + 0.3, H + 0.9, WHITE);         // side frames
-  panel(B, 'plain', front, a0 - 1.2, a1 + 1.2, 1.9, H + 0.9, H + 1.4, WHITE);
-  panel(B, 'plain', front, a0 + 1.5, a1 - 1.5, 3.6, g + 3.3, g + 3.7, WHITE);                                  // door canopy
-  for (const s of [a0 + 1.9, a1 - 1.9]) panel(B, 'plain', front, s - 0.25, s + 0.25, 3.4, g, g + 3.3, WHITE, 0, WHITE, 2.9);
-  // tan stone panels both sides (0.15 m proud), the left one with the emblem; a teal strip outside each
-  const stone = (s0: number, s1: number) => tiled(B, A, 'stone', front, s0, s1, g, H + 0.5, 0.15, false, rgb('#B08A5E')) || stonePanel(B, front, s0, s1, 0.5, g, H + 0.5);
-  stone(a0 - gap - sw, a0 - gap); stone(a1 + gap, a1 + gap + sw);
-  const es = a0 - gap - sw / 2, eh = g + 2.85 * FH;
-  if (!piece(B, A, 'emblem', front, es - 1.55, es + 1.55, eh - 1.8, eh + 1.8, 0.2)) emblem(B, front, es, 0.56, eh, 2.2);
-  for (const [s0, s1] of [[a0 - gap - sw - 2.3, a0 - gap - sw - 0.3], [a1 + gap + sw + 0.3, a1 + gap + sw + 2.3]]) {
-    if (!piece(B, A, 'glass-strip', front, s0, s1, g + 0.6, H - 0.4, 0.3)) glassPanel(B, front, s0, s1, 0.3, g + 0.6, H - 0.4, 1.9);
-  }
-  // side entrances with flat white canopies
-  if (Lv > 46) for (const s of [v0 + Lv * 0.1, v1 - Lv * 0.1]) { panel(B, 'plain', front, s - 3.4, s + 3.4, 3.6, g + 3.2, g + 3.6, WHITE); for (const k of [-3, 3]) panel(B, 'plain', front, s + k - 0.22, s + k + 0.22, 3.4, g, g + 3.2, WHITE, 0, WHITE, 2.96); }
-  // a few small grey rooftop units
-  const ang = Math.atan2(front.u[1], front.u[0]);
-  for (const s of [L * 0.3, L * 0.68]) { const q = fp(front, s, -slab.d * 0.55); B.box('plain', q[0], q[1], 3.4, 2.4, ang, H, H + 0.35, rgb('#8F9396')); B.box('plain', q[0], q[1], 3.0, 2.0, ang, H + 0.35, H + 1.7, rgb('#A9ADAE'), rgb('#8F9396')); }
-
-  // ---------- end blocks, annex and the two towers ----------
-  b.parts.forEach((p, idx) => {
-    if (idx === SLAB) return;
-    const pp = ccw(partFootprint(p)), Hp = g + p.floors * FH;
-    walls(facesOf(pp), Hp); deck(pp, Hp, p.angle, idx * 13); bevelCorners(B, pp, g + 0.4, Hp, WHITE);
-    top = Math.max(top, Hp);
-    if (!p.stoneTowers) return;
-    // the tower stands at the block's outer front corner: furthest along the slab, on the lawn side
-    const c = centroidOf(pp), side = (c[0] - fp(front, mid)[0]) * front.u[0] + (c[1] - fp(front, mid)[1]) * front.u[1] > 0 ? 1 : -1;
-    let best = pp[0], sc = -Infinity;
-    for (const q of pp) { const v = side * (q[0] * front.u[0] + q[1] * front.u[1]) + 0.7 * (q[0] * front.n[0] + q[1] * front.n[1]); if (v > sc) { sc = v; best = q; } }
-    const d = Math.hypot(c[0] - best[0], c[1] - best[1]) || 1, T = 6.4, tc: XY = [best[0] + ((c[0] - best[0]) / d) * (T * 0.72), best[1] + ((c[1] - best[1]) / d) * (T * 0.72)];
-    top = Math.max(top, tower(tc, T, p.floors + 1));
-  });
-  return { top, centre: centroidOf(poly) };
-
-  /** White stair tower one floor higher than its block, with a teal strip, a green skirt roof and an open pavilion under a green cap. */
-  function tower(c: XY, T: number, floors: number): number {
-    const Ht = g + floors * FH + 0.6, deg = (ang * 180) / Math.PI, sq = (half: number): XY[] => [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([x, y]) => [c[0] + front.u[0] * x * half - front.n[0] * y * half, c[1] + front.u[1] * x * half - front.n[1] * y * half] as XY);
-    const tf = facesOf(sq(T / 2)), show = faceToward(tf, [c[0] + front.n[0] * 50, c[1] + front.n[1] * 50]);
-    for (const f of tf) {
-      B.wall('plain', f.a, f.b, g - 4, g + 0.4, PLINTH);
-      if (f === show) {
-        plaster(f, 0, f.len, g + 0.4, Ht);
-        if (!piece(B, A, 'tower-strip', f, T / 2 - 0.6, T / 2 + 0.6, g + 2.2, Ht - 2.2, 0.14)) glassPanel(B, f, T / 2 - 0.7, T / 2 + 0.7, 0.14, g + 2.2, Ht - 2.2, 1.4);
-      } else if (!stripWall(B, A, 'tower-side', f, 0, f.len, g + 0.4, Ht)) {
-        blankWall(B, f, 0, f.len, g + 0.4, Ht, WHITE);
-        for (let fl = 1; fl < floors; fl++) panel(B, 'plain', f, T / 2 - 0.55, T / 2 + 0.55, 0.06, g + fl * FH + 0.9, g + fl * FH + 2.2, rgb('#2F464E'));
-      }
+  // ---------- the block: white walls, windows on the sides and back, flat roof ----------
+  parts.forEach((pp, i) => {
+    for (const f of facesOf(pp)) {
+      B.wall('plain', f.a, f.b, g - 4, g0, rgb('#C9C3B6'));
+      flat(B, f, 0, f.len, g0, Hm);
+      if (Math.abs(f.n[0] * V[0] + f.n[1] * V[1]) < 0.9 || f.n[0] * V[0] + f.n[1] * V[1] < 0) if (f.len > 6) punched(B, f, 0.8, f.len - 0.8, g0, 3, FHR, Math.max(1, Math.round(f.len / 4.2)), 1.5, 1.5, 1.0);
     }
-    bevelCorners(B, sq(T / 2), g + 0.4, Ht, WHITE);
-    const skirt = hipRoof(B, { cx: c[0], cy: c[1], w: T, d: T, angle: deg }, Ht, capHex, 0.9, 1.0, ROOF_OPTS);    // green skirt roof
-    const p0 = skirt - 0.1, p1 = p0 + 2.7, in4 = sq(T / 2 - 1.1);
-    B.prism('plain', sq(T / 2 - 0.6), p0 - 0.6, p0 + 0.25, WHITE);
-    for (const q of in4) B.box('plain', q[0], q[1], 0.55, 0.55, ang, p0, p1, WHITE);                             // pavilion posts
-    B.prism('plain', sq(T / 2 - 0.5), p1, p1 + 0.35, WHITE);
-    return hipRoof(B, { cx: c[0], cy: c[1], w: T - 1.0, d: T - 1.0, angle: deg }, p1 + 0.35, capHex, 2.2, 0.9, ROOF_OPTS);
+    flatRoof(B, pp, Hm, { roofHex: DECK, wall: WALL, angle: b.parts[1].angle, seed: i * 11 + 3, clutter: i === 1 });
+    bevelCorners(B, pp, g0, Hm, WALL, 0.12);
+  });
+
+  // ---------- the SE front, bay by bay ----------
+  for (const [t0, t1, inner] of [[0.083, 0.26, 0.206], [0.73, 0.91, 0.736]] as [number, number, number][]) {
+    on(t0, t1, (f, s0, s1, back) => panel(B, 'stone', f, s0, s1, 0, g0, Hm + 0.9, ONE, 2.6, SANDSTONE, -back), Ds); // stone panel to the parapet top
+    const left = inner < 0.5;
+    on(left ? inner : inner, left ? t1 - 0.004 : inner + 0.049, (f, s0, s1) => glassGrid(B, f, s0, s1, g0 + 0.4, Hm - 0.8, 0.25, 3, 6), Ds); // glass bay
+  }
+  on(0.14, 0.17, (f, s0, s1) => emblem(B, f, (s0 + s1) / 2, 0.15, g0 + 7.4, 1.75, true), Ds);                  // emblem on the SW panel
+  for (const [t0, t1, c0, c1, w] of [[0.26, 0.45, 0.317, 0.397, 0.363], [0.538, 0.73, 0.6, 0.68, 0.69]] as number[][]) {
+    on(t0, t1, (f, s0, s1, back) => panel(B, 'plain', f, s0, s1, 0.02, g0, Hm, WALL, 0, WALL, -back));      // white block front skin
+    on(c0, c1, (f, s0, s1) => {                                                                            // flat canopy on two posts
+      panel(B, 'plain', f, s0, s1, 2.2, g0 + 3.2, g0 + 3.6, WALL);
+      for (const s of [s0 + 0.5, s1 - 0.5]) panel(B, 'plain', f, s - 0.2, s + 0.2, 2.0, g0, g0 + 3.2, WALL, 0, WALL, 1.6);
+      glassGrid(B, f, s0 + 0.8, s1 - 0.8, g0 + 0.1, g0 + 2.9, 0.08, 4, 1, 0.1);
+      for (let k = 0; k < 4; k++) panel(B, 'plain', f, s0 - 0.5, s1 + 0.5, 2.6 - k * 0.5, g + k * 0.15, g + (k + 1) * 0.15, rgb('#C7C1B4'), 0, rgb('#B9B2A4'), 2.6 - (k + 1) * 0.5);
+    });
+    on(w - 0.012, w + 0.012, (f, s0, s1) => { const c = (s0 + s1) / 2; for (const z of [g0 + FHR + 1.0, g0 + 2 * FHR + 1.0]) glassGrid(B, f, c - 1.1, c + 1.1, z, z + 1.7, 0.06, 2, 1, 0.14); });
+    on(t0 + 0.02, c0 - 0.005, (f, s0, s1) => panel(B, 'plain', f, s0, s1, 0.06, g0 + 2.4, g0 + 2.9, rgb('#33393B')));    // dark louvre strip
+  }
+  // the faceted glass atrium, 1 m proud, up into the white pavilion under the green pyramid
+  let atriumTop = Hm;
+  on(0.45, 0.538, (f, s0, s1, back) => {
+    const w = s1 - s0, k = w * 0.18, ht = g0 + 15.6, z0 = g0 + 0.1;
+    panel(B, 'plain', f, s0 - 0.5, s0, 1.0, g0, ht, WALL, 0, WALL, -back); panel(B, 'plain', f, s1, s1 + 0.5, 1.0, g0, ht, WALL, 0, WALL, -back); // white piers
+    glassGrid(B, f, s0 + k, s1 - k, z0, ht, 1.0, 4, 7, 0.12);                                                         // front facet
+    const facet = (a: XY, c: XY) => { const ff = faceOf(a, c); glassGrid(B, ff, 0.05, ff.len - 0.05, z0, ht, 0.02, 1, 7, 0.08); };
+    facet(fp(f, s0, 0.02), fp(f, s0 + k, 1.0)); facet(fp(f, s1 - k, 1.0), fp(f, s1, 0.02));
+    // pavilion: a white box with a dark clerestory band, then the largest green pyramid
+    const c = fp(f, (s0 + s1) / 2, -2.6), d = 7.2, deg = (Math.atan2(f.u[1], f.u[0]) * 180) / Math.PI;
+    B.box('plain', c[0], c[1], w + 1.0, d, Math.atan2(f.u[1], f.u[0]), Hm, ht + 1.6, WALL);
+    B.box('plain', c[0] + f.n[0] * 0.05, c[1] + f.n[1] * 0.05, w + 1.05, d + 0.05, Math.atan2(f.u[1], f.u[0]), ht + 0.3, ht + 1.1, rgb('#2F464E'));
+    atriumTop = hipRoof(B, { cx: c[0], cy: c[1], w: w + 1.0, d, angle: deg }, ht + 1.6, roof, 3.2, 1.3, ROOF_OPTS);
+  });
+  top = Math.max(top, atriumTop);
+  // two tall white stair heads behind the white blocks, with vertical slots
+  for (const [t0, t1] of [[0.31, 0.38], [0.62, 0.68]]) on(t0, t1, (f, s0, s1) => {
+    const c = fp(f, (s0 + s1) / 2, -2.8), a = Math.atan2(f.u[1], f.u[0]);
+    B.box('plain', c[0], c[1], s1 - s0, 5.2, a, Hm, g + 19.5, WALL);
+    for (const k of [-0.6, 0.6]) { const q = fp(f, (s0 + s1) / 2 + k, -0.15); B.box('plain', q[0], q[1], 0.35, 0.1, a, g + 16.3, g + 18.6, rgb('#5C6466')); }
+    top = Math.max(top, g + 19.5);
+  });
+  // small green-hipped rooftop pavilions behind the stone panels
+  for (const t of [0.2, 0.8]) on(t - 0.02, t + 0.02, (f, s0, s1) => {
+    const c = fp(f, (s0 + s1) / 2, -6), a = Math.atan2(f.u[1], f.u[0]);
+    B.box('plain', c[0], c[1], 5, 5, a, Hm, Hm + 2.6, WALL); B.box('plain', c[0], c[1], 5.05, 5.05, a, Hm + 1.2, Hm + 2.0, rgb('#2F464E'));
+    hipRoof(B, { cx: c[0], cy: c[1], w: 5, d: 5, angle: (a * 180) / Math.PI }, Hm + 2.6, roof, 1.6, 0.8, ROOF_OPTS);
+  });
+  // the two end towers: sandstone shafts with a white-framed glass strip, a green flared band, a white box, a green cap
+  for (const [t0, t1] of [[0, 0.083], [0.917, 1]]) on(t0, t1, (f, s0, s1) => { top = Math.max(top, tower(f, s0, s1)); }, Ds + 0.3);
+  return { top, centre: centroidOf(polys[1]) };
+
+  function tower(f: Face, s0: number, s1: number): number {
+    const w = s1 - s0, d = w, Ht = g + 17.8, a = Math.atan2(f.u[1], f.u[0]), deg = (a * 180) / Math.PI;
+    const sq: XY[] = [fp(f, s0, 0.4), fp(f, s1, 0.4), fp(f, s1, 0.4 - d), fp(f, s0, 0.4 - d)];
+    for (const tf of facesOf(sq)) {
+      B.wall('plain', tf.a, tf.b, g - 4, g0, rgb('#C9C3B6'));
+      sandstone(B, tf, 0, tf.len, g0, Ht, 0.02);
+      const m = tf.len / 2;
+      panel(B, 'plain', tf, m - 1.15, m + 1.15, 0.08, g0 + 0.3, Ht - 0.6, WALL);                       // white frame
+      glassGrid(B, tf, m - 0.7, m + 0.7, g0 + 0.8, Ht - 1.0, 0.12, 1, 8, 0.06);                        // glass strip
+    }
+    bevelCorners(B, sq, g0, Ht, rgb('#B8936A'), 0.1);
+    const c = centroidOf(sq);
+    panel(B, 'plain', faceOf(sq[0], sq[1]), -0.3, w + 0.3, 0.35, Ht - 0.6, Ht, WALL);                      // cornice
+    const band = hipRoof(B, { cx: c[0], cy: c[1], w, d, angle: deg }, Ht, roof, 0.9, 1.0, ROOF_OPTS);    // green flared band
+    const bx = band - 0.4;
+    B.box('plain', c[0], c[1], w - 1.2, d - 1.2, a, bx, bx + 3.0, WALL);                                 // white box storey
+    B.box('plain', c[0], c[1], w - 1.15, d - 1.15, a, bx + 1.0, bx + 1.9, rgb('#2F464E'));               // its window band
+    return hipRoof(B, { cx: c[0], cy: c[1], w: w - 1.2, d: d - 1.2, angle: deg }, bx + 3.0, roof, 1.4, 0.9, ROOF_OPTS);
   }
 };

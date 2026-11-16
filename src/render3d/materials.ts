@@ -73,6 +73,8 @@ export function createMaterial(key: string, tex: Record<string, THREE.Texture>):
   }
   switch (key) {
     case 'glass': return new THREE.MeshStandardMaterial({ map: glassTexture(), roughness: 0.22, metalness: 0.1, emissive: '#0E3A40', emissiveIntensity: 0.3 });
+    // the real campus glass (Phase 3M v2): the same panes, tinted per vertex to the dark teal of the photos
+    case 'glassReal': return new THREE.MeshStandardMaterial({ map: glassTexture(), vertexColors: true, roughness: 0.25, metalness: 0.15, emissive: '#06262B', emissiveIntensity: 0.25 });
     case 'house': return new THREE.MeshLambertMaterial({ vertexColors: true });
     case 'road': return std({ map, roughness: 0.95, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
     case 'heroWall': return std({ map: heroWallTexture(), roughness: 0.82 });
