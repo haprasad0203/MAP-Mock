@@ -1,0 +1,147 @@
+{
+ "id": "nab",
+ "title": "New Academic Block, NAB (real)",
+ "views": [
+  {
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "label": "SE (front) face, straight on, from the NAB lawn",
+   "source": "iimshillong.ac.in homepage video @0:05.5"
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.06.5_nab-front-wider.jpg",
+   "label": "SE face, wider: ends, plaza, lawn, Scholar's Path left",
+   "source": "iimshillong.ac.in homepage video @0:06.5"
+  },
+  {
+   "file": "reference/generated/crops/nab_dji.png",
+   "label": "SE face from the S, over Admin (sun)",
+   "source": "crop of DJI_0338 (iimshillong.ac.in/campus-tour)"
+  },
+  {
+   "file": "reference/generated/crops/nab_i363.png",
+   "label": "SE face from the S, wider",
+   "source": "crop of Image_363 (iimshillong.ac.in)"
+  },
+  {
+   "file": "reference/generated/crops/nab_19s.png",
+   "label": "SE face and roof pavilions, behind Admin",
+   "source": "crop of YouTube 9QBtbam1G5Q @0:19"
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/9QBtbam1G5Q-00.16.5_admin-sw-aerial-nab-behind.jpg",
+   "crop": [
+    380,
+    190,
+    380,
+    110
+   ],
+   "label": "From the SW: SW end tower, roof units, north side earthworks",
+   "source": "YouTube 9QBtbam1G5Q @0:16.5"
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.01.5_entrance-emblem-stone-glass.jpg",
+   "label": "Entrance with emblem, stone pier, glass (NAB atrium? to confirm)",
+   "source": "iimshillong.ac.in homepage video @0:01.5"
+  },
+  {
+   "file": "reference/photos/from_above/nab_front_road_marked_by_HA.png",
+   "label": "Top view marked by H A: NAB, front road (white), lawn",
+   "source": "H A, Google Maps screenshot over our layout (study only)"
+  },
+  {
+   "file": "reference/photos/from_above/google_sat_hires_HA_2026-11-13_0423.png",
+   "crop": [
+    880,
+    160,
+    320,
+    260
+   ],
+   "label": "From above (hi-res): NAB roofs, front road, lawn",
+   "source": "H A, Google Maps satellite 13 Nov (study only)"
+  },
+  {
+   "file": "reference/layout/zoom_G_nab_closeup.png",
+   "label": "Our layout check over satellite (Phase 1)",
+   "source": "reference/layout (our tracing check)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "stone cladding (sandstone, lit)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    300,
+    760,
+    150,
+    120
+   ]
+  },
+  {
+   "name": "stone cladding (tower)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    1720,
+    640,
+    25,
+    220
+   ]
+  },
+  {
+   "name": "wall white",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    720,
+    650,
+    90,
+    170
+   ]
+  },
+  {
+   "name": "glass (atrium)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    880,
+    700,
+    100,
+    150
+   ]
+  },
+  {
+   "name": "roof green (atrium pavilion)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    835,
+    598,
+    190,
+    8
+   ]
+  },
+  {
+   "name": "front plaza paving",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    560,
+    926,
+    300,
+    22
+   ]
+  },
+  {
+   "name": "lawn",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg",
+   "rect": [
+    800,
+    1000,
+    300,
+    50
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0423",
+   "03"
+  ],
+  "padM": 25
+ }
+}
