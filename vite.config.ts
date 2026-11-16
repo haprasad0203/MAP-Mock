@@ -40,4 +40,23 @@ const facadeTools = (): Plugin => ({
   },
 });
 
-export default defineConfig({ plugins: [react(), facadeTools()], server: { port: 5173 }, test: { environment: 'node' } } as any);
+/** Dev only, for the real-source study (Phase 3M v2): POST /__frames?id=<videoId> with a frame bundle (see
+ *  scripts/unpack-frames.mjs) sent from a video page in the browser; written to .cache/frames/<id>.bin. Chrome blocks
+ *  repeated downloads from a page, so the stills come here instead. Answers CORS and private-network preflights. */
+const frameInbox = (): Plugin => ({
+  name: 'frame-inbox',
+  configureServer(server) {
+    server.middlewares.use('/__frames', (req, res) => {
+      res.setHeader('Access-Control-Allow-Origin', req.headers.origin ?? '*');
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS'); res.setHeader('Access-Control-Allow-Headers', '*');
+      res.setHeader('Access-Control-Allow-Private-Network', 'true');
+      if (req.method === 'OPTIONS') { res.statusCode = 204; res.end(); return; }
+      const id = new URL(req.url ?? '/', 'http://x').searchParams.get('id') ?? '';
+      if (req.method !== 'POST' || !/^[\w-]{1,40}$/.test(id)) { res.statusCode = 400; res.end('bad request'); return; }
+      const chunks: Buffer[] = []; req.on('data', c => chunks.push(c));
+      req.on('end', () => { fs.mkdirSync('.cache/frames', { recursive: true }); const buf = Buffer.concat(chunks); fs.writeFileSync(`.cache/frames/${id}.bin`, buf); res.end(String(buf.length)); });
+    });
+  },
+});
+
+export default defineConfig({ plugins: [react(), facadeTools(), frameInbox()], server: { port: 5173 }, test: { environment: 'node' } } as any);
