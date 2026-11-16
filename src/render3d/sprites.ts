@@ -1,7 +1,8 @@
 // Phase 3S: the approved Phase 2 renders, used as the buildings on the map (reference/style/LANDMARK_SPRITES.md).
-// Each sprite is an upright quad that stands on the ground at the front edge of its picture and faces the fixed camera,
-// stretched in height so that it shows undistorted from the map's pitch. The picture's anchor point lands exactly on
-// the building's footprint centre. Positions, entrances and hit areas still come from campus-layout.json.
+// Each sprite is folded at its anchor row: the part of the picture below the anchor (forecourt, plaza, lawn) lies flat on
+// the ground in front of the footprint centre, and the part above stands upright at the centre, facing the fixed camera.
+// From the map's pitch this shows the picture undistorted, and because the building stands at its real depth it keeps its
+// size and stays under its label anywhere on the screen. Positions, entrances and hit areas still come from campus-layout.json.
 import * as THREE from 'three';
 import type { XY } from '../geo/grid';
 import type { Building } from '../geo/types';
@@ -45,14 +46,17 @@ export interface PlacedSprite {
   /** Ground the picture covers: trees and props are cleared inside this circle, and the terrain is levelled under `pad`. */
   clear: { c: XY; r: number }; pad: XY[];
   setState(mode: 'hi' | 'dim' | null): void;
-  /** Is the picture opaque under this point? `project` maps a world point (x, y, absolute height) to CSS pixels. */
-  hit(px: number, py: number, project: (x: number, y: number, h: number) => XY): boolean;
+  /** Is the picture opaque where this ray (from a screen point) meets it? */
+  hit(ray: THREE.Raycaster): boolean;
   useBig(): void;
 }
 
-/** Geometry of a sprite on the ground, for the camera's fixed direction (rot 0): the two ground corners of its quad,
- *  its height, and the picture coordinates (uv) of the four corners.
- *  - Default: the quad faces the camera and stands at the front edge of the picture; `anchorPx` lands on the footprint centre.
+/** A row across the picture: its left and right ends on the map, its height, and the picture's v at each end. */
+export interface SpriteRow { l: XY; r: XY; h: number; vl: number; vr: number }
+/** Geometry of a sprite on the ground, for the camera's fixed direction (rot 0): rows across the picture from its bottom
+ *  edge up (the mesh joins consecutive rows).
+ *  - Default: three rows. The bottom edge lies on the ground `front` metres in front of the anchor; the anchor row lies on
+ *    the ground through the footprint centre (`anchorPx` lands there); the top edge stands straight above the anchor row.
  *  - With `groundLine` + `groundDir`: the picture's own wall-meets-ground line (two image points) is laid along the real
  *    ground direction `groundDir` (degrees from east, counter-clockwise), through the footprint centre + offset. The quad is
  *    turned to that direction, so the building's front runs along its real line (and the road beside it) while every vertical
@@ -68,18 +72,22 @@ export function spriteLayout(s: { def: SpriteDef; size: SpriteSize }, b: Buildin
     const at = (x: number, out = 0): XY => [centre[0] + d[0] * (x - xm) * mpp + n[0] * out, centre[1] + d[1] * (x - xm) * mpp + n[1] * out];
     const Hpx = Math.max(yl(0), yl(w)) + 2, H = (Hpx * mpp) / Math.cos(p);
     const uv: XY[] = [[0, 1 - yl(0) / h], [1, 1 - yl(w) / h], [1, 1 - (yl(w) - Hpx) / h], [0, 1 - (yl(0) - Hpx) / h]];
-    const len = w * mpp;
-    return { g, cam, right, centre: foot, bl: at(0), br: at(w), H, uv, top: g + (yl(xm) * mpp) / Math.cos(p) * 0.92,
+    const len = w * mpp, rows: SpriteRow[] = [{ l: at(0), r: at(w), h: g, vl: uv[0][1], vr: uv[1][1] }, { l: at(0), r: at(w), h: g + H, vl: uv[3][1], vr: uv[2][1] }];
+    return { g, cam, right, centre: foot, rows, top: g + (yl(xm) * mpp) / Math.cos(p) * 0.92,
       pad: [at(0, 4), at(w, 4), at(w, -30), at(0, -30)], clear: { c: at(xm, -12), r: len * 0.5 + 5 }, shadow: { c: at(xm, 3), sw: len * 0.5, sd: 16 } };
   }
   const ax = def.anchorPx![0] - trim[0], ay = def.anchorPx![1] - trim[1], W = w * mpp;
   const front = ((h - ay) * mpp) / Math.sin(p);                                           // the picture's bottom edge meets the ground this far in front of the anchor
   const base: XY = [centre[0] + cam[0] * front + right[0] * (w / 2 - ax) * mpp, centre[1] + cam[1] * front + right[1] * (w / 2 - ax) * mpp];
-  const H = (h * mpp) / Math.cos(p);                                                      // stretched, so it reads true from the map's pitch
+  const Hup = (ay * mpp) / Math.cos(p);                                                   // the upright part, stretched so it reads true from the map's pitch
   const back = Math.min(60, (ay * mpp) / Math.sin(p) * 0.35);
   const corner = (r: number, f: number): XY => [base[0] + right[0] * r - cam[0] * f, base[1] + right[1] * r - cam[1] * f];
-  const uv: XY[] = [[0, 0], [1, 0], [1, 1], [0, 1]];
-  return { g, cam, right, centre, bl: corner(-W / 2, 0), br: corner(W / 2, 0), H, uv, top: g + (ay * mpp) / Math.cos(p),
+  const va = 1 - ay / h, rows: SpriteRow[] = [
+    { l: corner(-W / 2, 0), r: corner(W / 2, 0), h: g, vl: 0, vr: 0 },
+    { l: corner(-W / 2, front), r: corner(W / 2, front), h: g, vl: va, vr: va },
+    { l: corner(-W / 2, front), r: corner(W / 2, front), h: g + Hup, vl: 1, vr: 1 },
+  ];
+  return { g, cam, right, centre, rows, top: g + Hup,
     pad: [corner(-W / 2, -2), corner(W / 2, -2), corner(W / 2, front + back), corner(-W / 2, front + back)],
     clear: { c: corner(0, front / 2), r: Math.max(W * 0.5, front * 0.6) + 4 },
     shadow: { c: [centre[0] + right[0] * 4 + cam[0] * front * 0.5, centre[1] + right[1] * 4 + cam[1] * front * 0.5] as XY, sw: W * 0.5, sd: front * 0.7 + 8 } };
@@ -95,41 +103,55 @@ let shadowTex: THREE.Texture | null = null;
 
 export function placeSprite(s: LoadedSprite, b: Building): PlacedSprite {
   const L = spriteLayout(s, b), group = new THREE.Group(); group.name = `sprite:${s.id}`;
-  /** The picture's quad; `out` metres further from the camera, `grow` scaled about its middle. */
-  const quad = (out: number, grow: number) => {
-    const mx = (L.bl[0] + L.br[0]) / 2 - L.cam[0] * out, my = (L.bl[1] + L.br[1]) / 2 - L.cam[1] * out, hx = ((L.br[0] - L.bl[0]) / 2) * grow, hy = ((L.br[1] - L.bl[1]) / 2) * grow;
-    const h0 = L.g - (grow - 1) * L.H * 0.5, h1 = L.g + L.H * (1 + (grow - 1) * 0.5), geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute([mx - hx, h0, -(my - hy), mx + hx, h0, -(my + hy), mx + hx, h1, -(my + hy), mx - hx, h1, -(my - hy)], 3));
-    geo.setAttribute('uv', new THREE.Float32BufferAttribute(L.uv.flat(), 2)); geo.setIndex([0, 1, 2, 0, 2, 3]);
+  const p = PITCH * D2R, view = [-L.cam[0] * Math.cos(p), -Math.sin(p), L.cam[1] * Math.cos(p)];   // the camera's view direction (three.js axes)
+  const pivot = [L.centre[0], L.g, -L.centre[1]];
+  /** The picture's mesh; `out` metres further along the view, `grow` scaled about the anchor point on the ground.
+   *  The whole sheet is lifted 1.2 m so its flat forecourt draws over the terrain and any road ribbon under it
+   *  (roads sit up to about 0.5 m above the ground); from the map's height the lift doesn't show. */
+  const sheet = (out: number, grow: number) => {
+    const pos: number[] = [], uv: number[] = [], idx: number[] = [];
+    L.rows.forEach((row, i) => {
+      const lift = 1.2;
+      for (const [q, v, u] of [[row.l, row.vl, 0], [row.r, row.vr, 1]] as [XY, number, number][]) {
+        const P = [q[0], row.h + lift, -q[1]];
+        for (let k = 0; k < 3; k++) pos.push(pivot[k] + (P[k] - pivot[k]) * grow + view[k] * out);
+        uv.push(u, v);
+      }
+      if (i) { const a = 2 * (i - 1); idx.push(a, a + 1, a + 3, a, a + 3, a + 2); }
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); geo.setIndex(idx);
     return geo;
   };
   const tint = s.def.tint ?? 1;
   // unlit: the picture carries its own light and shade. It goes through the scene's tone mapping and grade like everything else.
-  const mat = new THREE.MeshBasicMaterial({ map: s.tex, alphaTest: 0.5, side: THREE.DoubleSide }); mat.color.setScalar(tint);
-  const mesh = new THREE.Mesh(quad(0, 1), mat); mesh.name = 'sprite'; mesh.renderOrder = 2;
+  // depth offset a step stronger than the roads' (materials.ts, -3), which otherwise pull in front of the flat forecourt when zoomed out
+  const mat = new THREE.MeshBasicMaterial({ map: s.tex, alphaTest: 0.5, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }); mat.color.setScalar(tint);
+  const mesh = new THREE.Mesh(sheet(0, 1), mat); mesh.name = 'sprite'; mesh.renderOrder = 2;
   // selection: a yellow copy just behind and slightly larger shows as a glow round the picture's edge
-  const glowMat = new THREE.MeshBasicMaterial({ map: s.tex, alphaTest: 0.5, color: new THREE.Color('#FFD23F').multiplyScalar(2.2), side: THREE.DoubleSide });
+  const glowMat = new THREE.MeshBasicMaterial({ map: s.tex, alphaTest: 0.5, color: new THREE.Color('#FFD23F').multiplyScalar(2.2), side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -3.5, polygonOffsetUnits: -3.5 });
   glowMat.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n diffuseColor.rgb = diffuse;'); }; // flat colour, picture's alpha
-  const glow = new THREE.Mesh(quad(0.6, 1.035), glowMat); glow.visible = false; glow.renderOrder = 1;
+  const glow = new THREE.Mesh(sheet(0.6, 1.035), glowMat); glow.visible = false; glow.renderOrder = 1;
   // soft contact shadow on the ground beside the picture (the sun is on the camera's left)
   shadowTex ??= shadowTexture();
   const { c, sw, sd } = L.shadow, sg = new THREE.BufferGeometry(), S = (r: number, f: number) => [c[0] + L.right[0] * r + L.cam[0] * f, L.g + 0.22, -(c[1] + L.right[1] * r + L.cam[1] * f)];
   sg.setAttribute('position', new THREE.Float32BufferAttribute([...S(-sw, sd / 2), ...S(sw, sd / 2), ...S(sw, -sd / 2), ...S(-sw, -sd / 2)], 3));
   sg.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2)); sg.setIndex([0, 1, 2, 0, 2, 3]);
-  const shadow = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.4, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 }));
+  const shadow = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.4, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 })); // under the picture and the roads, over the grass
   shadow.renderOrder = 1;
   group.add(shadow, glow, mesh);
   let big = false;
   return {
     id: s.id, buildingId: b.id, group, top: L.top, centre: L.centre, clear: L.clear, pad: L.pad,
     setState(mode) { glow.visible = mode === 'hi'; mat.color.setScalar(mode === 'dim' ? tint * 0.42 : tint); },
-    hit(px, py, project) {
-      const o = project(L.bl[0], L.bl[1], L.g), r = project(L.br[0], L.br[1], L.g), t = project(L.bl[0], L.bl[1], L.g + L.H);
-      const ux = r[0] - o[0], uy = r[1] - o[1], vx = t[0] - o[0], vy = t[1] - o[1], det = ux * vy - uy * vx; if (Math.abs(det) < 1e-6) return false;
-      const dx = px - o[0], dy = py - o[1], a = (dx * vy - dy * vx) / det, k = (ux * dy - uy * dx) / det;
-      if (a < 0 || a > 1 || k < 0 || k > 1) return false;
-      const v = L.uv[0][1] + a * (L.uv[1][1] - L.uv[0][1]) + k * (L.uv[3][1] - L.uv[0][1]); if (v < 0 || v > 1) return false;
-      const al = s.alpha; return al.data[Math.min(al.h - 1, Math.floor((1 - v) * al.h)) * al.w + Math.min(al.w - 1, Math.floor(a * al.w))] > 128;
+    hit(ray) {
+      const al = s.alpha;
+      for (const x of ray.intersectObject(mesh, false)) {
+        if (!x.uv) continue;
+        const u = Math.min(al.w - 1, Math.floor(x.uv.x * al.w)), v = Math.min(al.h - 1, Math.floor((1 - x.uv.y) * al.h));
+        if (u >= 0 && v >= 0 && al.data[v * al.w + u] > 128) return true;
+      }
+      return false;
     },
     useBig() { // full-size picture when zoomed in
       if (big) return; big = true;

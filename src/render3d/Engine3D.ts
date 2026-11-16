@@ -250,9 +250,9 @@ export class Engine3D implements IMapEngine {
     const tag = this.layers.labels ? this.labels.hit(px, py) : null;
     if (tag) return { buildingId: tag, at: this.buildings.get(tag)?.centre ?? this.pins.find(p => p.id === tag)?.at ?? this.screenToWorld(px, py) };
     this.sync();
-    for (const sp of this.sprites.values()) if (sp.hit(px, py, (x, y, h) => worldToScreen(this.camera, x, y, h, this.W, this.H))) return { buildingId: sp.buildingId, at: sp.centre };
     const { o, d } = screenRay(this.camera, px, py, this.W, this.H);
     this.ray.set(o, d); this.ray.far = this.dist * 4;
+    for (const sp of this.sprites.values()) if (sp.hit(this.ray)) return { buildingId: sp.buildingId, at: sp.centre };
     const hit = this.ray.intersectObjects(this.pickables, false)[0];
     if (hit) { const b = this.buildings.get(hit.object.userData.buildingId)!; return { buildingId: b.id, at: b.centre }; }
     return { at: this.screenToWorld(px, py) };

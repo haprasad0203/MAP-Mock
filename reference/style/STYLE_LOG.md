@@ -84,3 +84,12 @@ The scene scores (SCENE_LOOK.md rows 1–10) start after H A's OK on these two.
   - Try 2 (3.1 Pro, asking for the original look): the prompt was returned to the box unsent, twice. No image.
 - The map still uses the approved `nab_v3` cut-out, stood along its real facade line.
 
+### 16 Nov 2026: Admin + NAB checkpoint
+- Found while reading back: in the close-up `sprites_nab_facing_road_1280x800.jpg` the Admin label sat over empty lawn, and the Admin picture was drawn too big and too low. Cause: the picture stood upright at its front edge, about 65 m in front of the building, so in perspective it was drawn as if 65 m closer. Centred on the screen it lined up; near the bottom it did not.
+- Fix (no change to the picture or the numbers): the picture is folded at its anchor row. The forecourt part lies flat on the ground, and the building part stands upright at the real footprint centre. From the map's angle it looks the same, but the building now scales with its true distance. At 1280×800, level 6, the label is 6 px above the roof (it was 14 px above the picture's top and well clear of the roof), and the building part is 503 px wide (was about 600).
+- Two follow-on fixes: the sheet is lifted 1.2 m and given a depth offset a step stronger than the roads', because at wider zooms the roads' own offset pulled a footpath across the Admin flag lawn. The contact shadow's offset was lowered so it stays under the picture.
+- Taps now cast a ray against the picture and read its alpha at the hit point (tested: roof and plaza select Admin, the sky above does not).
+- Selection glow works on the folded picture.
+- Screenshots: `compare/sprites_v2_admin_nab_1280x800.jpg` (close-up), `compare/sprites_v2_admin_selected_1280x800.jpg` (`?place=admin`), `compare/sprites_v2_admin_nab_390x844.jpg` (phone, level 5, Medium), `compare/sprites_v2_area_390x844.jpg` (phone, level 4).
+- Numbers unchanged: Admin `anchorPx` [1254, 880], 0.052 m/px; NAB 0.044 m/px, offset [7.5, -3.2], laid along its facade line.
+- Still waiting for H A's OK on these two. The scene scores start after that.
