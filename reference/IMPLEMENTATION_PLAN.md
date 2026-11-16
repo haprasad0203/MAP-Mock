@@ -30,6 +30,24 @@ Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layo
 
 ---
 
+# Phase 3M: code-built 3D landmarks painted with the approved renders (16 Nov 2026, H A's final decision)
+
+Spec: `reference/style/BUILD_LANDMARKS_3D.md` (supersedes LANDMARK_SPRITES.md and REFINE_LANDMARKS.md sections 1–2; REFINE_LANDMARKS sections 3–4 and SCENE_LOOK.md still apply).
+- The sprite attempt (Phase 3S) is kept at tag `phase3-sprites-attempt`; the branch was reset to `phase3-before-sprites` (300542a).
+- Brought back from the tag: the full-size cut-outs (`reference/generated/cutouts/`, masks only) and their script (`scripts/make-cutouts.mjs`), and SCENE_LOOK.md. Not brought back: the sprite rendering, `sprites.json`, the sprite-edit view, the 32° map camera and the rotation lock.
+- Rotation is unlocked again (4 directions, 600 ms eased).
+- Facade pixels come from the original PNG renders in `reference/generated/raw/tycoon/`; the cut-outs are only masks.
+- Stop 1: Admin + NAB facade atlases and round-1 models, then H A's review.
+
+## Later stage: landmarks v2
+1. **H A's videos:** they go in `D:\Map Mockeference\photos\campus_new\<building-id>\`. Extract frames (ffmpeg), rectify real walls the same way, and replace or extend the facade strips, especially the back walls.
+2. **The guessed buildings:** redo the Kalam Centre, Commercial Complex and Mess walls from H A's footage.
+3. **Higher-resolution facades** for the closest zoom.
+4. **Optional dusk mode** with lit windows.
+5. **Known mismatches to revisit then:** where a render's outline or door position doesn't match the real footprint and `entrances` (the data wins), and the light painted into the renders that the extraction evens out.
+
+---
+
 # Phase 3 fix-up (13 Nov 2026, after H A's review)
 
 - **Data:** `public/data/campus-layout.json` synced from the master working tree (football on grass, generic buildings unnamed, west-cluster at priority 3). `places.json`, `osm.json`, `terrain.json` and `sessions.json` already matched.

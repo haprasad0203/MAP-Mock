@@ -1,0 +1,171 @@
+{
+ "admin": {
+  "w": 2149,
+  "h": 1342,
+  "trim": [
+   144,
+   203
+  ],
+  "source": [
+   2400,
+   1792
+  ],
+  "masked": true
+ },
+ "nab": {
+  "w": 2035,
+  "h": 1254,
+  "trim": [
+   341,
+   77
+  ],
+  "source": [
+   2752,
+   1536
+  ],
+  "masked": true
+ },
+ "hostel-1": {
+  "w": 2362,
+  "h": 1485,
+  "trim": [
+   169,
+   115
+  ],
+  "source": [
+   2528,
+   1684
+  ],
+  "masked": false
+ },
+ "hostel-2": {
+  "w": 2496,
+  "h": 1400,
+  "trim": [
+   -3,
+   231
+  ],
+  "source": [
+   2528,
+   1696
+  ],
+  "masked": false
+ },
+ "hostel-3": {
+  "w": 2486,
+  "h": 1461,
+  "trim": [
+   -3,
+   135
+  ],
+  "source": [
+   2528,
+   1696
+  ],
+  "masked": false
+ },
+ "hostel-4": {
+  "w": 2479,
+  "h": 1499,
+  "trim": [
+   -3,
+   120
+  ],
+  "source": [
+   2528,
+   1696
+  ],
+  "masked": false
+ },
+ "cafe-cloud": {
+  "w": 2360,
+  "h": 1329,
+  "trim": [
+   395,
+   17
+  ],
+  "source": [
+   2752,
+   1536
+  ],
+  "masked": false
+ },
+ "mess": {
+  "w": 1798,
+  "h": 2406,
+  "trim": [
+   -3,
+   -3
+  ],
+  "source": [
+   1792,
+   2400
+  ],
+  "masked": false
+ },
+ "octagon-hall": {
+  "w": 1734,
+  "h": 1659,
+  "trim": [
+   61,
+   449
+  ],
+  "source": [
+   1792,
+   2400
+  ],
+  "masked": false
+ },
+ "main-gate": {
+  "w": 2550,
+  "h": 1499,
+  "trim": [
+   205,
+   40
+  ],
+  "source": [
+   2752,
+   1536
+  ],
+  "masked": false
+ },
+ "kalam-statue-garden": {
+  "w": 2274,
+  "h": 1710,
+  "trim": [
+   129,
+   27
+  ],
+  "source": [
+   2400,
+   1792
+  ],
+  "masked": false
+ },
+ "kalam-centre": {
+  "w": 2306,
+  "h": 1638,
+  "trim": [
+   97,
+   77
+  ],
+  "source": [
+   2400,
+   1792
+  ],
+  "masked": false
+ },
+ "commercial": {
+  "w": 2307,
+  "h": 1502,
+  "trim": [
+   96,
+   214
+  ],
+  "source": [
+   2400,
+   1792
+  ],
+  "masked": false
+ }
+}

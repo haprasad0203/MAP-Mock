@@ -60,3 +60,6 @@ Pending H A's look at round 1.
 
 ## Open question for H A
 Both renders show a simpler plan than the data. The spec says footprints stay as in `public/data`, so the models are built on the real footprints and will never match the renders' outline. Rounds 2 and 3 can still close most of the gap in facade, roofs, colour and forecourt.
+
+## 16 Nov 2026: Phase 3M started (BUILD_LANDMARKS_3D.md)
+The Phase 3S sprite attempt (the renders standing on the map as pictures) is kept at tag `phase3-sprites-attempt`, with its log and screenshots. The branch went back to `phase3-before-sprites`; the landmarks are now built in 3D on the real footprints and painted with pieces cut from the renders.

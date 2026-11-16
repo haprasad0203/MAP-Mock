@@ -1,0 +1,203 @@
+{
+ "note": "Masks for the background-free cut-outs of the approved renders. Dev only: used as MASKS for the facade extraction, never as a colour source (the pixels always come from the PNG in reference/generated/raw/tycoon/<file>). Polygons are in the original image pixels. bgTol/shadeTol = backdrop flood tolerances; solid = polygon the flood may not enter; mask = keep-polygon; erase = rectangles to drop; watermark=false keeps the bottom-right corner. Made by scripts/make-cutouts.mjs; manifest.json holds each cut-out size and its trim offset into the original.",
+ "cutouts": {
+  "admin": {
+   "file": "admin_v1.png",
+   "mask": [
+    [
+     144,
+     648
+    ],
+    [
+     384,
+     528
+    ],
+    [
+     672,
+     432
+    ],
+    [
+     1254,
+     180
+    ],
+    [
+     1800,
+     432
+    ],
+    [
+     2088,
+     576
+    ],
+    [
+     2280,
+     696
+    ],
+    [
+     2280,
+     1170
+    ],
+    [
+     2322,
+     1314
+    ],
+    [
+     1482,
+     1542
+    ],
+    [
+     402,
+     1270
+    ],
+    [
+     204,
+     1098
+    ]
+   ],
+   "solid": [
+    [
+     228,
+     720
+    ],
+    [
+     396,
+     600
+    ],
+    [
+     720,
+     504
+    ],
+    [
+     1254,
+     240
+    ],
+    [
+     1752,
+     492
+    ],
+    [
+     2064,
+     654
+    ],
+    [
+     2232,
+     744
+    ],
+    [
+     2226,
+     1152
+    ],
+    [
+     1944,
+     1260
+    ],
+    [
+     1482,
+     1512
+    ],
+    [
+     432,
+     1260
+    ],
+    [
+     228,
+     1080
+    ]
+   ],
+   "watermark": false
+  },
+  "nab": {
+   "file": "nab_v3.png",
+   "mask": [
+    [
+     344,
+     743
+    ],
+    [
+     1087,
+     193
+    ],
+    [
+     2098,
+     234
+    ],
+    [
+     2085,
+     124
+    ],
+    [
+     2229,
+     62
+    ],
+    [
+     2387,
+     131
+    ],
+    [
+     2387,
+     268
+    ],
+    [
+     2360,
+     303
+    ],
+    [
+     2360,
+     736
+    ],
+    [
+     688,
+     1328
+    ],
+    [
+     344,
+     1156
+    ]
+   ],
+   "watermark": false
+  },
+  "hostel-1": {
+   "file": "hostel1-dblock_v2.png",
+   "bgTol": 14
+  },
+  "hostel-2": {
+   "file": "hostel2-fblock_v2-cream.png",
+   "bgTol": 14
+  },
+  "hostel-3": {
+   "file": "hostel3_v1-cream.png",
+   "bgTol": 14
+  },
+  "hostel-4": {
+   "file": "hostel4_v1-cream.png",
+   "bgTol": 14
+  },
+  "cafe-cloud": {
+   "file": "cafe-cloud_v1.png",
+   "bgTol": 14
+  },
+  "mess": {
+   "file": "mess_v2.png",
+   "watermark": false
+  },
+  "octagon-hall": {
+   "file": "octagon-hall_v1.png",
+   "bgTol": 14
+  },
+  "main-gate": {
+   "file": "main-gate_v1.png",
+   "bgTol": 14
+  },
+  "kalam-statue-garden": {
+   "file": "kalam-statue-garden_v1.png",
+   "bgTol": 14
+  },
+  "kalam-centre": {
+   "file": "kalam-centre_v1.png",
+   "bgTol": 14
+  },
+  "commercial": {
+   "file": "commercial-complex_v1.png",
+   "bgTol": 14
+  }
+ }
+}
