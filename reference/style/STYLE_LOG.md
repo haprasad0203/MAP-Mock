@@ -225,13 +225,13 @@ Other sheets:
 
 ## Phase 3M v2: the other landmarks, rounds 1–3 (16 Nov)
 Modules:
-- : Cafe Cloud, Octagonal Hall, Mess;
-- : D Block, and the F Block design shared by Hostels 2–4;
-- : Gym, the gate and guard room, Dr. Kalam Centre.
+- `src/render3d/landmarks/octagons.ts`: Cafe Cloud, Octagonal Hall, Mess;
+- `hostels.ts`: D Block, and the F Block design shared by Hostels 2–4;
+- `smaller.ts`: Gym, the gate and guard room, Dr. Kalam Centre.
 
-The kit gained octagon helpers (,  with ridge caps, ). The gate portal moved out of  into the guard-room landmark.
+The kit gained octagon helpers (`octagonIn`, `octRoof` with ridge caps, `octWalls`). The gate portal moved out of `props.ts` into the guard-room landmark.
 
-Sheets: ; map views .
+Sheets: `real_<id>_v1–3.png`; map views `m3v2_landmarks_north/courts/gate.png`.
 
 | Landmark | Score vs real | Main remaining differences |
 |---|---|---|
