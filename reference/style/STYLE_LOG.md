@@ -139,7 +139,7 @@ Sheets: `compare/model_admin_v1.png`, `model_nab_v1.png` (render | model at the 
 
   | Road | Measured | Now (hardscape.json) | Before (renderer) |
   |---|---|---|---|
-  | Main campus road | asphalt 9 ± 1 m at the lake and at the gate; about 8 m between edge lines plus kerbs by Cafe Cloud | **10.5 m** kerb to kerb, plus a 2 m pavement on the east (Admin) side and a 1 m verge on the west | 7.8 m plus kerbs |
+  | Main campus road | asphalt 9 ± 1 m at the lake and at the gate; plus about 8 m between edge lines on the loop road by the Octagonal Hall (first logged as "by Cafe Cloud": that drone still shows the Octagonal Hall) | **10.5 m** kerb to kerb, plus a 2 m pavement on the east (Admin) side and a 1 m verge on the west | 7.8 m plus kerbs |
   | Hostel hairpin (`rd-fblock`) | asphalt 7 ± 1 m | **7.5 m**, plus a 1.2 m strip | 7.8 m |
   | Campus loop road | not measured | 9 m (by eye) | 7.8 m |
   | Service roads | not measured | 6.5 m | 4.4 m |

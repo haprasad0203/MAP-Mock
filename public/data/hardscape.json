@@ -53,8 +53,7 @@
    ],
    "measured": [
     "asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)",
-    "asphalt 9 ± 1 m near the gate (0423 at 1170,735)",
-    "about 8 m between the white edge lines, concrete kerb and drain about 1 m, red hex-paver pavement about 2.5 m on the east side, by Cafe Cloud (drone still 9QBtbam1G5Q @0:05.5)"
+    "asphalt 9 ± 1 m near the gate (0423 at 1170,735)"
    ],
    "confidence": "measured",
    "note": "Main campus road (gate → Admin → lake → Kalam Centre). Pavement on the Admin/east side (red hex pavers), a kerb-and-drain verge on the west."
@@ -62,57 +61,47 @@
   {
    "id": "osm-1050247312",
    "kind": "road",
-   "width": 9,
+   "width": 9.5,
    "kerb": 0.5,
-   "pavementL": 1.5,
-   "pavementR": 1.5,
+   "pavementL": 2.5,
+   "pavementR": 0,
    "narrow": [
     {
-     "s0": 60.2,
-     "s1": 74.2,
-     "width": 7.7,
-     "reason": "within 6.4 m of type3"
-    },
-    {
-     "s0": 138.1,
-     "s1": 162.2,
-     "width": 6.6,
-     "reason": "within 5.8 m of type2"
-    },
-    {
-     "s0": 166.2,
-     "s1": 186.3,
-     "width": 6,
+     "s0": 168.2,
+     "s1": 176.3,
+     "width": 7.5,
      "reason": "within 4.8 m of type2"
     },
     {
-     "s0": 717.9,
-     "s1": 729.4,
-     "width": 6,
+     "s0": 721.7,
+     "s1": 727.5,
+     "width": 8.4,
      "reason": "within 5.2 m of bldg-948"
     },
     {
-     "s0": 785.6,
-     "s1": 799,
+     "s0": 783.5,
+     "s1": 800.6,
      "width": 6,
      "reason": "within 4.4 m of road-block"
     },
     {
-     "s0": 1201.5,
-     "s1": 1226.8,
-     "width": 6,
+     "s0": 1203.3,
+     "s1": 1216.6,
+     "width": 6.9,
      "reason": "within 4.4 m of bldg-960"
     },
     {
-     "s0": 1308.4,
+     "s0": 1306.3,
      "s1": 1310.4,
      "width": 6,
      "reason": "within 4.5 m of mess"
     }
    ],
-   "measured": [],
-   "confidence": "by-eye",
-   "note": "Campus loop road to the courts, hostels and quarters"
+   "measured": [
+    "about 8 m between the white edge lines plus a 1 m kerb-and-drain verge, a red paver pavement about 2.5 m on one side, by the Octagonal Hall (drone stills 9QBtbam1G5Q @0:05.5 and @0:07.5)"
+   ],
+   "confidence": "measured",
+   "note": "Campus loop road to the courts, hostels and quarters; red paver pavement on one side by the Octagonal Hall"
   },
   {
    "id": "osm-1050247319",
@@ -1603,51 +1592,37 @@
   },
   {
    "road": "osm-1050247312",
-   "at": [-427.6, 267.7],
-   "width": 7.7,
-   "from": 9,
-   "building": "type3"
-  },
-  {
-   "road": "osm-1050247312",
-   "at": [-473.9, 205.4],
-   "width": 6.6,
-   "from": 9,
+   "at": [-490.4, 180.1],
+   "width": 7.5,
+   "from": 9.5,
    "building": "type2"
   },
   {
    "road": "osm-1050247312",
-   "at": [-489.3, 181.8],
-   "width": 6,
-   "from": 9,
-   "building": "type2"
-  },
-  {
-   "road": "osm-1050247312",
-   "at": [-159.4, 47.3],
-   "width": 6,
-   "from": 9,
+   "at": [-156.4, 44.8],
+   "width": 8.4,
+   "from": 9.5,
    "building": "bldg-948"
   },
   {
    "road": "osm-1050247312",
-   "at": [-95.6, 33.4],
+   "at": [-97.7, 33.4],
    "width": 6,
-   "from": 9,
+   "from": 9.5,
    "building": "road-block"
   },
   {
    "road": "osm-1050247312",
-   "at": [-160.1, 320.3],
-   "width": 6,
-   "from": 9,
+   "at": [-162, 320.3],
+   "width": 6.9,
+   "from": 9.5,
    "building": "bldg-960"
   },
   {
    "road": "osm-1050247312",
-   "at": [-252.3, 267.9],
+   "at": [-250.6, 269.1],
    "width": 6,
-   "from": 9,
+   "from": 9.5,
    "building": "mess"
   },
   {
@@ -2638,40 +2613,76 @@
   {
    "id": "cafe-cloud-plaza",
    "type": "plaza",
+   "material": "pale pavers",
+   "colour": "#D3C7B4",
+   "poly": [
+    [77.4, -208.9],
+    [76.8, -204],
+    [74.9, -199.4],
+    [71.8, -195.5],
+    [67.9, -192.4],
+    [63.3, -190.5],
+    [58.4, -189.9],
+    [53.5, -190.5],
+    [48.9, -192.4],
+    [45, -195.5],
+    [41.9, -199.4],
+    [40, -204],
+    [39.4, -208.9],
+    [40, -213.8],
+    [41.9, -218.4],
+    [45, -222.3],
+    [48.9, -225.4],
+    [53.5, -227.3],
+    [58.4, -227.9],
+    [63.3, -227.3],
+    [67.9, -225.4],
+    [71.8, -222.3],
+    [74.9, -218.4],
+    [76.8, -213.8]
+   ],
+   "source": [
+    "crops cafe_dji, cafe_i363, cafe_19s"
+   ],
+   "confidence": "by-eye",
+   "note": "apron round the octagon, porch on the road side"
+  },
+  {
+   "id": "octagon-hall-plaza",
+   "type": "plaza",
    "material": "red hexagonal pavers",
    "colour": "#C4887A",
    "poly": [
-    [80.4, -208.9],
-    [79.7, -203.2],
-    [77.5, -197.9],
-    [74, -193.3],
-    [69.4, -189.8],
-    [64.1, -187.6],
-    [58.4, -186.9],
-    [52.7, -187.6],
-    [47.4, -189.8],
-    [42.8, -193.3],
-    [39.3, -197.9],
-    [37.1, -203.2],
-    [36.4, -208.9],
-    [37.1, -214.6],
-    [39.3, -219.9],
-    [42.8, -224.5],
-    [47.4, -228],
-    [52.7, -230.2],
-    [58.4, -230.9],
-    [64.1, -230.2],
-    [69.4, -228],
-    [74, -224.5],
-    [77.5, -219.9],
-    [79.7, -214.6]
+    [-178.1, 24.4],
+    [-178.8, 29.6],
+    [-180.8, 34.4],
+    [-184, 38.5],
+    [-188.1, 41.7],
+    [-192.9, 43.7],
+    [-198.1, 44.4],
+    [-203.3, 43.7],
+    [-208.1, 41.7],
+    [-212.2, 38.5],
+    [-215.4, 34.4],
+    [-217.4, 29.6],
+    [-218.1, 24.4],
+    [-217.4, 19.2],
+    [-215.4, 14.4],
+    [-212.2, 10.3],
+    [-208.1, 7.1],
+    [-203.3, 5.1],
+    [-198.1, 4.4],
+    [-192.9, 5.1],
+    [-188.1, 7.1],
+    [-184, 10.3],
+    [-180.8, 14.4],
+    [-178.8, 19.2]
    ],
    "source": [
-    "drone 9QBtbam1G5Q @0:05.5",
-    "drone 9QBtbam1G5Q @0:00.5–0:08.5"
+    "drone 9QBtbam1G5Q @0:00.5, 0:07.5, 0:49.5"
    ],
    "confidence": "seen",
-   "note": "the octagon sits in a paved apron that reaches the main road kerb; a railing on its lower edge"
+   "note": "paver apron from the hall to the loop-road kerb, steps and planters at its door"
   },
   {
    "id": "courts-fence",

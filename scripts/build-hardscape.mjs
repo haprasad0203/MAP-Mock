@@ -60,14 +60,15 @@ const len = pts => pts.reduce((s, q, i) => (i ? s + Math.hypot(q[0] - pts[i - 1]
 // Measured on H A's hi-res satellite screenshots (scale bars: 0423 = 2.0 px/m, 0405 = 2.45 px/m) with
 // scripts/grid-crop.mjs, and checked against the drone stills (cars about 4.3 m, lane markings):
 const MEASURED = {
-  'osm-1050247311': ['asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)', 'asphalt 9 ± 1 m near the gate (0423 at 1170,735)', 'about 8 m between the white edge lines, concrete kerb and drain about 1 m, red hex-paver pavement about 2.5 m on the east side, by Cafe Cloud (drone still 9QBtbam1G5Q @0:05.5)'],
+  'osm-1050247311': ['asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)', 'asphalt 9 ± 1 m near the gate (0423 at 1170,735)', ],
+  'osm-1050247312': ['about 8 m between the white edge lines plus a 1 m kerb-and-drain verge, a red paver pavement about 2.5 m on one side, by the Octagonal Hall (drone stills 9QBtbam1G5Q @0:05.5 and @0:07.5)'],
   'rd-fblock': ['asphalt 7 ± 1 m on the hostel hairpin (0405 grid crop at 770,250)'],
 };
 const SPEC = { road: { width: 10, kerb: 0.5 }, service: { width: 6.5, kerb: 0.4 }, footpath: { width: 2.6, kerb: 0 }, track: { width: 3.6, kerb: 0 }, covered: { width: 3, kerb: 0 } };
 // per-road choices (L/R = left/right of the polyline's direction of travel)
 const ROADS = {
   'osm-1050247311': { width: 10.5, pavementL: 2.0, pavementR: 1.0, note: 'Main campus road (gate → Admin → lake → Kalam Centre). Pavement on the Admin/east side (red hex pavers), a kerb-and-drain verge on the west.', confidence: 'measured' },
-  'osm-1050247312': { width: 9, pavementL: 1.5, pavementR: 1.5, note: 'Campus loop road to the courts, hostels and quarters', confidence: 'by-eye' },
+  'osm-1050247312': { width: 9.5, pavementL: 2.5, pavementR: 0, note: 'Campus loop road to the courts, hostels and quarters; red paver pavement on one side by the Octagonal Hall', confidence: 'measured' },
   'rd-fblock': { width: 7.5, pavementL: 1.2, pavementR: 0, note: 'Hostel hairpin road (F Block); a light footpath strip on the inside of the bends in the 0405 screenshot', confidence: 'measured' },
   'rd-nab-front': { width: 7, pavementL: 1.5, pavementR: 0, note: 'NAB front road along the SE face, past the NAB lawn (H A marked view)', confidence: 'by-eye' },
   'osm-1050216150': { width: 8, pavementL: 0, pavementR: 0, note: 'Public road along the south (ATM); outside the campus', confidence: 'by-eye' },
@@ -125,7 +126,7 @@ const items = [];
 const add = (o) => items.push(o);
 const SRC = {
   sat: "H A's hi-res satellite 0423/0405 (looked at, not traced)", home04: 'homepage video @0:04.5', home05: 'homepage video @0:05.5', home08: 'homepage video @0:08.5',
-  q05: 'drone 9QBtbam1G5Q @0:05.5', q16: 'drone 9QBtbam1G5Q @0:16.5', q22: 'drone 9QBtbam1G5Q @0:22.5', q38: 'drone 9QBtbam1G5Q @0:38.5', q54: 'drone 54s / 9QBtbam1G5Q @0:52.5',
+  q05: 'drone 9QBtbam1G5Q @0:05.5 (Octagonal Hall)', q16: 'drone 9QBtbam1G5Q @0:16.5', q22: 'drone 9QBtbam1G5Q @0:22.5', q38: 'drone 9QBtbam1G5Q @0:38.5', q54: 'drone 54s / 9QBtbam1G5Q @0:52.5',
   dji: 'DJI_0338', i363: 'Image_363', marked: "H A's marked top views (from_above)", s9159: 'DSC_9159 (courts and pavilion)', s677: '677.jpg (football ground)', s9119: 'DSC_9119 (hostel walkway)',
 };
 
@@ -166,7 +167,9 @@ add({ id: 'admin-road-retaining-wall', type: 'retaining-wall', material: 'random
 
 // Cafe Cloud plaza (red hex pavers between the cafe and the main road)
 { const c = bld('cafe-cloud').parts[0];
-  add({ id: 'cafe-cloud-plaza', type: 'plaza', material: 'red hexagonal pavers', colour: '#C4887A', poly: circle([c.cx, c.cy], 22, 24), source: [SRC.q05, 'drone 9QBtbam1G5Q @0:00.5–0:08.5'], confidence: 'seen', note: 'the octagon sits in a paved apron that reaches the main road kerb; a railing on its lower edge' }); }
+  add({ id: 'cafe-cloud-plaza', type: 'plaza', material: 'pale pavers', colour: '#D3C7B4', poly: circle([c.cx, c.cy], 19, 24), source: ['crops cafe_dji, cafe_i363, cafe_19s'], confidence: 'by-eye', note: 'apron round the octagon, porch on the road side' }); }
+{ const o = bld('octagon-hall').parts[0];
+  add({ id: 'octagon-hall-plaza', type: 'plaza', material: 'red hexagonal pavers', colour: '#C4887A', poly: circle([o.cx, o.cy], 20, 24), source: ['drone 9QBtbam1G5Q @0:00.5, 0:07.5, 0:49.5'], confidence: 'seen', note: 'paver apron from the hall to the loop-road kerb, steps and planters at its door' }); }
 
 // sports: court fences, football fence and floodlights, pavilion forecourt
 { const cs = area('courts-surround').pts;

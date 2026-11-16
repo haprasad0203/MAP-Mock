@@ -12,15 +12,15 @@ Videos stepped through for stills (no video file saved): YouTube 9QBtbam1G5Q (Ro
 | nab | 7 |  |  |  |  | 2 | 1 |  | 10 | N, E, W |
 | main-gate | 9 |  |  |  | 1 |  |  |  | 10 | N |
 | hostel-1 |  |  |  |  |  | 1 | 6 |  | 7 | S, N, E, W, aerial |
-| scholars-path |  |  |  |  | 3 |  | 4 |  | 7 |  |
 | hostel-2 |  |  |  |  |  |  | 7 |  | 7 | N, E, W, aerial |
+| octagon-hall |  |  |  |  | 1 | 6 |  |  | 7 | ground |
 | courts |  |  |  |  | 5 | 1 |  |  | 6 |  |
 | mess |  |  |  |  |  | 6 |  |  | 6 | S, N, E, W, ground |
 | football |  |  |  |  | 4 |  | 2 |  | 6 |  |
-| cafe-cloud |  |  |  |  | 3 | 2 |  |  | 5 | ground |
+| scholars-path |  |  |  |  | 3 |  | 2 |  | 5 |  |
 | hostels |  |  |  |  |  | 3 |  |  | 3 |  |
 | lake |  |  |  |  |  | 1 | 2 |  | 3 |  |
-| octagon-hall |  |  |  |  | 1 | 2 |  |  | 3 | ground |
+| cafe-cloud |  |  |  |  | 3 |  |  |  | 3 | ground |
 | hostel (to confirm) |  |  |  |  |  |  | 2 |  | 2 |  |
 | gym |  |  |  |  |  |  | 2 |  | 2 | aerial |
 | gate |  |  |  |  |  | 1 |  |  | 1 |  |
@@ -174,8 +174,6 @@ Sides: S/N/E/W are the faces a view shows (SE etc. count under their first lette
 | reference/photos/video_frames/admin-nab/KsoecH-2kWg-00.43.0_admin-front-wide-iims.jpg | admin | S | front, wide | ★★ |
 | reference/photos/video_frames/admin-nab/KsoecH-2kWg-00.47.0_admin-east-block-corner-iims.jpg | admin | SW | east block corner | ★★ |
 | reference/photos/video_frames/admin-nab/KsoecH-2kWg-00.49.0_entrance-stone-glass-steps.jpg | admin | S | entrance stone, glass, steps (building to confirm) | ★★ |
-| reference/photos/video_frames/cafe-cloud/9QBtbam1G5Q-00.00.5_cafe-cloud-roof-topdown.jpg | cafe-cloud | top / aerial | octagon roof and road | ★★★ |
-| reference/photos/video_frames/cafe-cloud/9QBtbam1G5Q-00.08.5_cafe-cloud-and-road.jpg | cafe-cloud | top / aerial | octagon roof and road | ★★★ |
 | reference/photos/video_frames/gate/4_4vErlU-P4-00.37.0_road-to-gate-ground.jpg | main-gate | S / ground | gate portal, name board, road | ★★ |
 | reference/photos/video_frames/gate/4_4vErlU-P4-00.39.0_gate-from-inside-ground.jpg | main-gate | S / ground | gate portal, name board, road | ★★ |
 | reference/photos/video_frames/gate/7JbrpxrsLSw-00.03.8_main-gate-front.jpg | main-gate | S / ground | gate portal, name board, road | ★★ |
@@ -185,6 +183,11 @@ Sides: S/N/E/W are the faces a view shows (SE etc. count under their first lette
 | reference/photos/video_frames/kalam-centre/iimshomepage-00.43.5_kalam-centre-entrance.jpg | kalam-centre | S | entrance | ★★ |
 | reference/photos/video_frames/lake/iimshomepage-00.15.5_lake-and-road.jpg | lake | ground / aerial | lake, banks, road | ★★ |
 | reference/photos/video_frames/lake/likCwsy-z7M-00.11.0_lake-and-bank-ground.jpg | lake | ground / aerial | lake, banks, road | ★★ |
+| reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.00.5_octagon-hall-roof-and-plaza-topdown.jpg | octagon-hall | top / aerial | octagonal hall, plaza, ponds, service block, loop road | ★★★ |
+| reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.05.5_road-and-pavement-by-octagon-hall.jpg | octagon-hall | top / aerial | octagonal hall, plaza, ponds, service block, loop road | ★★★ |
+| reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.07.5_octagon-hall-plaza-road-courts.jpg | octagon-hall | top / aerial | octagonal hall, plaza, ponds, service block, loop road | ★★★ |
+| reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.08.5_octagon-hall-service-block-courts.jpg | octagon-hall | top / aerial | octagonal hall, plaza, ponds, service block, loop road | ★★★ |
+| reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.49.5_octagon-hall-ponds-topdown.jpg | octagon-hall | top / aerial | octagonal hall, plaza, ponds, service block, loop road | ★★★ |
 | reference/photos/video_frames/overview/7JbrpxrsLSw-00.14.3_admin-roofs-sunset-aerial.jpg | campus | aerial | campus overview | ★★ |
 | reference/photos/video_frames/overview/9QBtbam1G5Q-00.28.5_courts-lake-campus.jpg | campus | aerial | campus overview | ★★ |
 | reference/photos/video_frames/overview/9QBtbam1G5Q-00.34.5_type2-quarters-road.jpg | campus | aerial | campus overview | ★★ |
@@ -194,12 +197,9 @@ Sides: S/N/E/W are the faces a view shows (SE etc. count under their first lette
 | reference/photos/video_frames/overview/iimshomepage-00.58.5_whole-campus-aerial.jpg | campus | aerial | campus overview | ★★ |
 | reference/photos/video_frames/overview/KsoecH-2kWg-00.15.0_campus-from-south-far.jpg | campus | aerial | campus overview | ★★ |
 | reference/photos/video_frames/overview/KsoecH-2kWg-00.19.0_campus-panorama-south.jpg | campus | aerial | campus overview | ★★ |
-| reference/photos/video_frames/scholars-path/9QBtbam1G5Q-00.05.5_road-level-pavement-walkway.jpg | scholars-path | ground / aerial | covered walkway and roadside | ★★★ |
-| reference/photos/video_frames/scholars-path/9QBtbam1G5Q-00.07.5_road-level-walkway-start.jpg | scholars-path | ground / aerial | covered walkway and roadside | ★★★ |
 | reference/photos/video_frames/scholars-path/9QBtbam1G5Q-00.52.5_zigzag-past-courts.jpg | scholars-path | ground / aerial | covered walkway and roadside | ★★★ |
 | reference/photos/video_frames/scholars-path/iimshomepage-00.08.5_roadside-walkway-east-of-main-road.jpg | scholars-path | ground / aerial | covered walkway and roadside | ★★★ |
 | reference/photos/video_frames/sports/9QBtbam1G5Q-00.38.5_football-ground-fence.jpg | football / courts | aerial / ground | football ground, fence, floodlights | ★★ |
-| reference/photos/video_frames/sports/9QBtbam1G5Q-00.49.5_octagon-hall-ponds-topdown.jpg | octagon-hall | top | octagonal hall and ponds | ★★★ |
 | reference/photos/video_frames/sports/iimshomepage-00.39.5_football-ground-night.jpg | football / courts | aerial / ground | football ground, fence, floodlights | ★★ |
 | reference/photos/video_frames/sports/likCwsy-z7M-00.19.0_football-floodlights-ground.jpg | football / courts | aerial / ground | football ground, fence, floodlights | ★★ |
 | reference/photos/web/admin/admin-centre-and-east-block-close_highlandpost.jpg | admin | S / SW / SE | web photos (see SOURCES.md) | ★★★ |
