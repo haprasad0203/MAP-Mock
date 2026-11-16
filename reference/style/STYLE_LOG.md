@@ -119,3 +119,10 @@ Sheets: `compare/model_admin_v1.png`, `model_nab_v1.png` (render | model at the 
 - In the browser: 4 rotations (SE → NE → NW → SW → SE, badge follows); tapping Admin and NAB selects them; search "NAB" opens its card; `?place=admin` opens Admin's card; the Hostels chip filters. The pane was hidden, so the rotation animation was stepped by hand.
 - Performance: High 51 draw calls / 1.16 M triangles at the default view; Medium 81 calls / 1.49 M triangles at a closer view (budget 150 / 1.5 M: triangles are at the limit, mostly forest). Facade atlases 56 kB so far. Real frame times still need a phone (`?fps=1`).
 - Known: opened with `?view=…,<rot>`, the Rotate badge shows SE until the first press (the 3D view itself is right).
+
+---
+
+## Phase 3M v2: real campus (16 Nov 2026)
+- **H A's verdict on round 1:** "very different" from the real buildings, because it was built from the Gemini renders. The render-based round is kept at tag `phase3m-render-round1` (9259dbd).
+- New spec: `reference/style/REAL_CAMPUS_MODELS.md`. From now on every score is against **real** photos and drone frames, target 8–9/10.
+- The render-based facade atlases for Admin and NAB were removed (`public/data/facades.json` is empty, the WebPs deleted), so Admin and NAB are on their procedural walls until real-photo strips replace them. A test now refuses any facade sourced from a Gemini render.

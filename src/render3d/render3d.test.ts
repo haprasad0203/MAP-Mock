@@ -111,6 +111,9 @@ describe('facade atlases (Phase 3M)', () => {
       for (const p of f.pieces ?? []) for (const r of [p.u, p.v]) { expect(r[0]).toBeGreaterThanOrEqual(0); expect(r[1]).toBeLessThanOrEqual(1); expect(r[1]).toBeGreaterThan(r[0]); }
     }
   });
+  it('no wall is painted from a Gemini render (REAL_CAMPUS_MODELS.md: real photos only)', () => {
+    for (const [id, F] of Object.entries<any>(cfg.facades)) expect(String(F.file ?? F.source ?? ''), id).not.toMatch(/generated\/raw|tycoon/);
+  });
   it('every atlas region lies inside its atlas, and the atlas file exists', () => {
     for (const [id, F] of Object.entries<any>(cfg.facades)) {
       if (!F.atlas) continue;

@@ -30,7 +30,23 @@ Note: `scripts/build-layout.mjs` (the v1 generator) was moved to `reference/layo
 
 ---
 
-# Phase 3M: code-built 3D landmarks painted with the approved renders (16 Nov 2026, H A's final decision)
+# Phase 3M v2: model the REAL campus (16 Nov 2026, H A, final)
+
+Spec: `reference/style/REAL_CAMPUS_MODELS.md`. **It replaces the render-based approach**: the render-as-base parts of BUILD_LANDMARKS_3D.md and REFINE_LANDMARKS.md, and LANDMARK_SPRITES.md. Round 1 (built from the Gemini renders) was "very different" from the real buildings; it is kept at tag `phase3m-render-round1` (9259dbd).
+- **Base:** real photos, drone frames, satellite screenshots (study and check only, never traced), map data and our tracings. The Gemini renders are only a guide to the tycoon finish. Target 8–9/10 likeness to the real buildings, judged against real photos.
+- **No Gemini pixels on walls:** the render-based Admin and NAB facade atlases were removed. Walls come from rectified real photos (with the tycoon finish), or procedurally from measured bay layouts in real colours.
+- **H A's own photos and videos** arrive on 17 Nov in `reference/photos/campus_new/<building>/` and override every earlier source: the real-building sheets and hardscape.json are updated from them. Stills come from `scripts/video-stills.mjs` (headless Edge, no ffmpeg).
+- **Order of work:**
+  1. Study every real source → `reference/real/SOURCES_INVENTORY.md`, the real-building sheets (`reference/real/<id>.md|jpg`), `public/data/hardscape.json` (with real road widths and the full Scholar's Path) and its check image → **stop point 1**.
+  2. Admin + NAB, at least 3 rounds against real photos (aerial and ground viewpoints) → **stop point 2** (real-vs-model sheets, aerial match, 4 rotations).
+  3. The other landmarks: Hostel 1 (D Block), Hostel 2 (F Block), Hostel 3, Hostel 4, Students' Mess, Cafe Cloud + Amul Cafe, Octagonal Hall, Dr. Kalam Centre, Kalam Building, Commercial Complex, Sports Pavilion & Gym, main gate and guard room. At least 8/10 each.
+  4. The rest of the built campus: quarters, small buildings, courts and grounds, walkways, lake and gardens, everything in hardscape.json → **stop point 3** (whole-campus aerial match, default view in 2 rotations).
+  5. SCENE_LOOK.md passes. 6. Phase 3B. 7. Phase 4.
+- **Later stage (not now):** phone speed, LOD, performance budgets and low-end tuning. Performance stays as it is until then.
+
+---
+
+# Phase 3M: code-built 3D landmarks painted with the approved renders (16 Nov 2026, H A's final decision; superseded by Phase 3M v2 above)
 
 Spec: `reference/style/BUILD_LANDMARKS_3D.md` (supersedes LANDMARK_SPRITES.md and REFINE_LANDMARKS.md sections 1–2; REFINE_LANDMARKS sections 3–4 and SCENE_LOOK.md still apply).
 - The sprite attempt (Phase 3S) is kept at tag `phase3-sprites-attempt`; the branch was reset to `phase3-before-sprites` (300542a).
