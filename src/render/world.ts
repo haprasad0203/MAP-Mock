@@ -93,8 +93,9 @@ export function partCorners(p: { cx: number; cy: number; w: number; d: number; a
   return ([[-p.w / 2, -p.d / 2], [p.w / 2, -p.d / 2], [p.w / 2, p.d / 2], [-p.w / 2, p.d / 2]] as XY[]).map(([x, y]) => [p.cx + x * c - y * s, p.cy + x * s + y * c]);
 }
 
-// Half-widths in metres. 'road' = full-width asphalt (~8 m with edge lines); 'service' = narrower campus lane (~4.4 m).
-const ROAD_W: Record<PathLine['kind'], number> = { road: 3.9, service: 2.2, track: 1.8, footpath: 1.1, covered: 1.4 };
+// Half-widths in metres when hardscape.json has no width for a path (Phase 3M v2: real roads are about 9 m of asphalt plus kerbs).
+const ROAD_W: Record<PathLine['kind'], number> = { road: 4.6, service: 2.9, track: 1.8, footpath: 1.3, covered: 1.5 };
+const halfW = (p: PathLine) => (p.width ? p.width / 2 - (p.kind === 'road' ? 0.4 : 0.3) : ROAD_W[p.kind]);
 const EDGE_LINE = 1.2; // white edge line, inside the road width
 const DASH_ON = 3, DASH_OFF = 3; // centre dash pattern in metres
 const ROAD_C: Record<PathLine['kind'], number> = { road: G.ROAD, service: G.SERVICE, track: G.TRACK, footpath: G.PATH, covered: G.COVERED };
@@ -118,12 +119,12 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   const paved = (c: number) => c === G.ROAD || c === G.ROAD_LINE || c === G.ROAD_DASH || c === G.SERVICE;
   for (const kind of ['track', 'footpath', 'service', 'road', 'covered'] as const)
     for (const p of paths.filter(p => p.kind === kind)) {
-      if (kind === 'road' || kind === 'service') strokeLine(mask, p.pts, ROAD_W[kind] + (kind === 'road' ? 1 : 0.8), G.ROAD_EDGE, c => !paved(c) && c !== G.WATER);
+      if (kind === 'road' || kind === 'service') strokeLine(mask, p.pts, halfW(p) + (kind === 'road' ? 1 : 0.8), G.ROAD_EDGE, c => !paved(c) && c !== G.WATER);
       if (kind === 'road') {
         // edge lines: a ring just inside the road; never over another road's asphalt, so junctions stay clean
-        strokeLine(mask, p.pts, ROAD_W.road, G.ROAD_LINE, c => c !== G.ROAD && c !== G.ROAD_DASH);
-        strokeLine(mask, p.pts, ROAD_W.road - EDGE_LINE, G.ROAD);
-      } else strokeLine(mask, p.pts, ROAD_W[kind], ROAD_C[kind], kind === 'footpath' ? notWater : kind === 'service' ? (c => c !== G.ROAD && c !== G.ROAD_LINE && c !== G.ROAD_DASH) : undefined);
+        strokeLine(mask, p.pts, halfW(p), G.ROAD_LINE, c => c !== G.ROAD && c !== G.ROAD_DASH);
+        strokeLine(mask, p.pts, halfW(p) - EDGE_LINE, G.ROAD);
+      } else strokeLine(mask, p.pts, halfW(p), ROAD_C[kind], kind === 'footpath' ? notWater : kind === 'service' ? (c => c !== G.ROAD && c !== G.ROAD_LINE && c !== G.ROAD_DASH) : undefined);
     }
   // centre dash on asphalt, only where the cell is plain asphalt
   for (const p of paths.filter(p => p.kind === 'road')) dashLine(mask, p.pts, DASH_ON, DASH_OFF, G.ROAD_DASH, c => c === G.ROAD);

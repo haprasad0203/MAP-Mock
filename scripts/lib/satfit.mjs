@@ -22,6 +22,7 @@ export const SHOTS = {
   '02': { file: PACK + '02_north_hostels_sports_closeup.jpg', obs: [['F Block New Hostel', 695, 184], ['D block', 749, 308], ['Football Ground', 797, 373], ['Basketball courts', 749, 454], ['Type 2 Quarters', 427, 383], ['Water Supply Tank', 502, 93], ['Dr Kalam Centre', 873, 520], ['IIM SHILLONG (pin)', 1003, 654]] },
   '03': { file: PACK + '03_south_academic_auditorium_closeup.jpg', obs: [['IIM SHILLONG (pin)', 863, 307], ['Dr Kalam Centre', 733, 175], ['Basketball courts', 610, 107], ['ICICI ATM', 998, 592], ['IIM-Shillong (main listing)', 1005, 549], ['IIM Substation', 1302, 396]] },
   // H A's hi-res screenshots (reference/photos/from_above/), pins read at the marker tips; scale bar 50 m = 100 px
+  hr0405: { file: 'reference/photos/from_above/google_sat_hires_HA_2026-11-13_0405.png', obs: [['F Block New Hostel', 913, 193], ['D block', 1046, 494], ["Students' Mess", 797, 536], ['Faculty Qtrs Type 3', 503, 394], ['Type 2 Quarters', 269, 674], ['Volleyball Court', 919, 729], ['Basketball courts', 1049, 844], ['Football Ground', 1163, 650]] },
   hr0423: { file: 'reference/photos/from_above/google_sat_hires_HA_2026-11-13_0423.png', obs: [['IIM SHILLONG (pin)', 976, 304], ['Dr Kalam Centre', 714, 33], ['Cafe Cloud / Tin Cafe', 913, 531], ['IIM-Shillong (main listing)', 1262, 790], ['ICICI ATM', 1248, 876]] },
 };
 

@@ -15,7 +15,7 @@ Montage: [admin.jpg](admin.jpg) (18 real views, each labelled with its source). 
 | 10 | From the west block: stone, portico, planters | collegebatch.com |
 | 11 | Centre and east block close | highlandpost.com |
 | 12 | West wing and centre from the SW | Wikimedia Commons |
-| 13–14 | Forecourt and flag from the S and W | iimshillong.ac.in, insideiim.com |
+| 13–14 | Forecourt and flag from the S and W | Business India, insideiim.com |
 | 15 | Aerial: terraces and gate road | iimshillong.ac.in uploads 2024/10/3 |
 | 16 | From the flag: west block roof, road, Scholar's Path | homepage video @0:08.5 |
 | 17–18 | From above (H A's marked top view, hi-res satellite) | H A screenshots (study only) |

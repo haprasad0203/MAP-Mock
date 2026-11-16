@@ -18,7 +18,17 @@ export interface Building {
   /** v2: drawn plainly, never labelled, not searchable, not hit-tested. */
   unnamed?: boolean;
 }
-export interface PathLine { id: string; kind: 'road' | 'service' | 'track' | 'footpath' | 'covered'; pts: XY[]; steps?: boolean; name?: string; src?: string; surface?: string }
+export interface PathLine {
+  id: string; kind: 'road' | 'service' | 'track' | 'footpath' | 'covered'; pts: XY[]; steps?: boolean; name?: string; src?: string; surface?: string;
+  /** From public/data/hardscape.json (Phase 3M v2): kerb-to-kerb width, pavements left/right of the direction of travel, local narrowing (s = metres along). */
+  width?: number; pavementL?: number; pavementR?: number; narrow?: { s0: number; s1: number; width: number }[];
+}
+/** public/data/hardscape.json: real road widths, the full Scholar's Path and the paved, walled and planted ground (Phase 3M v2). */
+export interface Hardscape {
+  roads: { id: string; width: number; pavementL: number; pavementR: number; narrow: { s0: number; s1: number; width: number }[] }[];
+  items: { id: string; type: string; pts?: XY[]; poly?: XY[]; at?: XY; width?: number; height?: number; colour?: string; [k: string]: unknown }[];
+  defaults?: Record<string, number>;
+}
 export interface Area { id: string; kind: 'water' | 'court' | 'ground' | 'lawn' | 'plaza' | 'parking' | 'garden'; pts: XY[]; sport?: string; name?: string; surface?: 'earth' | 'grass' }
 export interface TreeCluster { c: XY; r: number; density: number }
 export interface Entrance { id: string; buildingId: string; at: XY; main?: boolean; surveyed?: boolean }

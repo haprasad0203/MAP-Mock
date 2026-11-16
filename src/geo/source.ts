@@ -1,6 +1,6 @@
 import type { XY } from './grid';
 import { toLocal } from './grid';
-import type { Area, Bounds, Building, CampusLayout, Entrance, Landmark, PathLine, Part, TreeCluster } from './types';
+import type { Area, Bounds, Building, CampusLayout, Entrance, Hardscape, Landmark, PathLine, Part, TreeCluster } from './types';
 import { apply, fitAffine, fitSimilarity, IDENTITY, type Transform } from './fit';
 
 /** Rendering, routing and search read campus geometry ONLY through this interface. */
@@ -66,7 +66,7 @@ export class SchematicSurveySource implements CampusGeometrySource {
   private nudges: Record<string, XY> = {};
   private surveyed = new Map<string, XY>();
 
-  constructor(private layout: CampusLayout, private osm?: OsmData, survey: SurveyPoint[] = []) {
+  constructor(private layout: CampusLayout, private osm?: OsmData, survey: SurveyPoint[] = [], private hardscape?: Hardscape) {
     // v2 layouts carry the full credit line (OSM, Overture, Google Open Buildings, Microsoft).
     this.attribution = layout.attribution ?? osm?.attribution;
     if (survey.length) {
@@ -99,7 +99,13 @@ export class SchematicSurveySource implements CampusGeometrySource {
     }));
   }
   // OSM geometry is already in true coordinates; only the hand-authored layer moves with the survey fit.
-  getPaths(): PathLine[] { return [...(this.osm?.roads ?? []), ...this.layout.paths.map(p => ({ ...p, pts: p.pts.map(q => this.tx(q)) }))]; }
+  // hardscape.json adds each road's real width and pavements, and the full run of the Scholar's Path (the layout has only
+  // its middle section as covered-walk). Hardscape geometry is snapped to the OSM roads, so it is in true coordinates too.
+  getPaths(): PathLine[] {
+    const spec = new Map(this.hardscape?.roads.map(r => [r.id, r]) ?? []), sp = this.hardscape?.items.find(i => i.id === 'scholars-path');
+    const own = this.layout.paths.map(p => (p.id === 'covered-walk' && sp?.pts ? { ...p, pts: sp.pts, width: sp.width } : { ...p, pts: p.pts.map(q => this.tx(q)) }));
+    return [...(this.osm?.roads ?? []), ...own].map(p => { const r = spec.get(p.id); return r ? { ...p, width: r.width, pavementL: r.pavementL, pavementR: r.pavementR, narrow: r.narrow } : p; });
+  }
   getAreas(): Area[] {
     const osmAreas = this.osm?.areas ?? [];
     // An authored area named 'lake' is only a fallback for when OSM has no lake; small authored ponds always stay.
@@ -145,14 +151,15 @@ export class QgisGeoJsonSource implements CampusGeometrySource {
   getBounds(): Bounds { return boundsOf(this.getBoundary()); }
 }
 
-export async function loadLayout(): Promise<{ layout: CampusLayout; osm?: OsmData }> {
-  const [layout, osm] = await Promise.all([
+export async function loadLayout(): Promise<{ layout: CampusLayout; osm?: OsmData; hardscape?: Hardscape }> {
+  const [layout, osm, hardscape] = await Promise.all([
     fetch('/data/campus-layout.json').then(r => r.json()),
     fetch('/data/osm.json').then(r => (r.ok ? r.json() : undefined)).catch(() => undefined),
+    fetch('/data/hardscape.json').then(r => (r.ok ? r.json() : undefined)).catch(() => undefined),
   ]);
-  return { layout, osm };
+  return { layout, osm, hardscape };
 }
 export async function loadGeometry(): Promise<CampusGeometrySource> {
-  const { layout, osm } = await loadLayout();
-  return new SchematicSurveySource(layout, osm, loadSurvey());
+  const { layout, osm, hardscape } = await loadLayout();
+  return new SchematicSurveySource(layout, osm, loadSurvey(), hardscape);
 }

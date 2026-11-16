@@ -126,3 +126,24 @@ Sheets: `compare/model_admin_v1.png`, `model_nab_v1.png` (render | model at the 
 - **H A's verdict on round 1:** "very different" from the real buildings, because it was built from the Gemini renders. The render-based round is kept at tag `phase3m-render-round1` (9259dbd).
 - New spec: `reference/style/REAL_CAMPUS_MODELS.md`. From now on every score is against **real** photos and drone frames, target 8–9/10.
 - The render-based facade atlases for Admin and NAB were removed (`public/data/facades.json` is empty, the WebPs deleted), so Admin and NAB are on their procedural walls until real-photo strips replace them. A test now refuses any facade sourced from a Gemini render.
+
+### Stop point 1 study (16 Nov 2026)
+- **Real-building sheets:** `reference/real/admin.md|jpg|_fit.png`, `reference/real/nab.md|jpg|_fit.png`. Footprints fit the hi-res satellite within the pin-fit error (about 5 m).
+- **Real facts that change the models:**
+  - Admin centre and end blocks have 4 floors, the wings 3; data part 3 has 3 (proposal in LAYOUT_CHECK).
+  - The Admin centre is banded glass between white slabs, with no curtain wall.
+  - The stone on both buildings is tan sandstone.
+  - The NAB towers are stone-faced.
+  - The NAB doors are on the SE face.
+- **Road widths** (measured on H A's hi-res screenshots with their scale bars, `scripts/grid-crop.mjs`; checked on drone stills):
+
+  | Road | Measured | Now (hardscape.json) | Before (renderer) |
+  |---|---|---|---|
+  | Main campus road | asphalt 9 ± 1 m at the lake and at the gate; about 8 m between edge lines plus kerbs by Cafe Cloud | **10.5 m** kerb to kerb, plus a 2 m pavement on the east (Admin) side and a 1 m verge on the west | 7.8 m plus kerbs |
+  | Hostel hairpin (`rd-fblock`) | asphalt 7 ± 1 m | **7.5 m**, plus a 1.2 m strip | 7.8 m |
+  | Campus loop road | not measured | 9 m (by eye) | 7.8 m |
+  | Service roads | not measured | 6.5 m | 4.4 m |
+  | Footpaths | not measured | 2.6 m | 2.2 m |
+
+  32 tight spots, where a wider road would come within 1 m of a footprint, are narrowed locally; they are listed in `hardscape.json → tightSpots`. Buildings never move.
+- **Scholar's Path:** 780 m from the main gate along the east side of the main road, then the data's zig-zag past the courts to D Block. Teal roof, 3 m wide. It is drawn on the map as a teal-roofed walkway along its full run; the posts and railings get modelled later.

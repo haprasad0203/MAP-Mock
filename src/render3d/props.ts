@@ -5,7 +5,7 @@ import { G, HALF, SIZE, type WorldModel } from '../render/world';
 import { hash2 } from '../render/noise';
 import { Buckets, rgb, type RGB } from './mesh';
 import { hipRoof } from './roofs';
-import { resample, ROAD_HALF } from './roads';
+import { halfOf, resample } from './roads';
 import type { SurfaceAt } from './ground';
 
 const K = 'plain';
@@ -70,7 +70,7 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
   // ---- along the campus roads: lamps on both kinds, parked cars on the service lanes ----
   for (const p of world.paths) {
     if (p.kind !== 'road' && p.kind !== 'service') continue;
-    const sm = resample(p.pts, () => 4), half = ROAD_HALF[p.kind], seed = Math.round(p.pts[0][0] * 3 + p.pts[0][1] * 7);
+    const sm = resample(p.pts, () => 4), half = halfOf(p) + Math.max(p.pavementL ?? 0, p.pavementR ?? 0) * 0.5, seed = Math.round(p.pts[0][0] * 3 + p.pts[0][1] * 7);
     let nextLamp = 12, nextCar = 30, side = 1;
     sm.forEach((q, i) => {
       if (!inCampus(world, q.p[0], q.p[1])) return;

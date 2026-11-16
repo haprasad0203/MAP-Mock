@@ -125,3 +125,52 @@ describe('facade atlases (Phase 3M)', () => {
     }
   });
 });
+
+describe('hardscape.json (Phase 3M v2)', () => {
+  const H = JSON.parse(fs.readFileSync('public/data/hardscape.json', 'utf8'));
+  const layout: CampusLayout = JSON.parse(fs.readFileSync('public/data/campus-layout.json', 'utf8'));
+  const osm = JSON.parse(fs.readFileSync('public/data/osm.json', 'utf8'));
+  const all: { id: string; pts: XY[] }[] = [...osm.roads, ...layout.paths];
+  const TYPES = new Set(['covered-walkway', 'plaza', 'parking', 'footpath', 'steps', 'hedge', 'flower-bed', 'terrace', 'retaining-wall', 'wall', 'fence', 'floodlight', 'court-surround', 'lake-edge', 'trail', 'gate', 'courtyard', 'tree-line', 'light-row', 'pavement', 'ramp', 'railing']);
+  it('every item has a known type, geometry, a source and a sensible size', () => {
+    for (const it of H.items) {
+      expect(TYPES.has(it.type), it.id).toBe(true);
+      expect(Boolean(it.at) || (it.pts ?? it.poly ?? []).length >= 2, it.id).toBe(true);
+      expect((Array.isArray(it.source) ? it.source : [it.source]).filter(Boolean).length, it.id).toBeGreaterThan(0);
+      if (it.width !== undefined) expect(it.width > 0 && it.width <= 30, it.id).toBe(true);
+      if (it.height !== undefined) expect(it.height > 0 && it.height <= 40, it.id).toBe(true);
+    }
+  });
+  it('every road entry matches a data path; the main road is 10–11 m and campus service roads 6–7 m', () => {
+    const ids = new Set(all.map(p => p.id));
+    for (const r of H.roads) {
+      expect(ids.has(r.id), r.id).toBe(true);
+      for (const z of r.narrow) expect(z.width <= r.width && z.s1 >= z.s0, r.id).toBe(true);
+    }
+    const main = H.roads.find((r: { id: string }) => r.id === 'osm-1050247311');
+    expect(main.width).toBeGreaterThanOrEqual(10); expect(main.width).toBeLessThanOrEqual(11);
+    for (const r of H.roads.filter((r: { kind: string; note: string }) => r.kind === 'service' && r.note !== 'off campus')) expect(r.width >= 6 && r.width <= 7, r.id).toBe(true);
+  });
+  it("the Scholar's Path runs from the main gate to D Block", () => {
+    const sp = H.items.find((i: { id: string }) => i.id === 'scholars-path');
+    const gate = layout.landmarks.find(l => l.id === 'main-gate')!.at, walk = layout.paths.find(p => p.id === 'covered-walk')!.pts;
+    expect(Math.hypot(sp.pts[0][0] - gate[0], sp.pts[0][1] - gate[1])).toBeLessThan(20);
+    const end = sp.pts[sp.pts.length - 1];
+    expect(Math.hypot(end[0] - walk[0][0], end[1] - walk[0][1])).toBeLessThan(1);
+    expect(sp.length).toBeGreaterThan(600);
+  });
+  it('outside its listed tight spots, no campus road centre line runs through a building footprint', () => {
+    const polys = layout.buildings.flatMap(b => b.parts.flatMap(p => (p.poly ? [p.poly] : [])));
+    for (const r of H.roads.filter((r: { note: string }) => r.note !== 'off campus')) {
+      const p = all.find(x => x.id === r.id)!; let s = 0;
+      for (let i = 0; i + 1 < p.pts.length; i++) {
+        const [ax, ay] = p.pts[i], [bx, by] = p.pts[i + 1], L = Math.hypot(bx - ax, by - ay), m = Math.max(1, Math.round(L / 2));
+        for (let t = 0; t < m; t++, s += L / m) {
+          const q: XY = [ax + ((bx - ax) * t) / m, ay + ((by - ay) * t) / m];
+          if (!pointInPoly(q[0], q[1], layout.boundary) || r.narrow.some((z: { s0: number; s1: number }) => s >= z.s0 - 3 && s <= z.s1 + 3)) continue;
+          for (const poly of polys) expect(pointInPoly(q[0], q[1], poly), `${r.id} at ${q.map(Math.round)}`).toBe(false);
+        }
+      }
+    }
+  });
+});

@@ -12,7 +12,8 @@ const FINE = 2;          // fine grid step (m) over the campus
 const MARGIN = 140;      // fine grid reaches this far beyond the campus bounds
 const PAD = 3, PAD_BLEND = 7;      // building pad: flat to PAD m outside the footprint, blended over PAD_BLEND m
 const AREA_BLEND = 6;
-const ROAD_HALF: Partial<Record<PathLine['kind'], number>> = { road: 3.9, service: 2.2 };
+// road beds are levelled across the full road plus its pavements (widths from hardscape.json via PathLine.width)
+const bedHalf = (p: PathLine) => (p.kind === 'road' || p.kind === 'service' ? (p.width ?? (p.kind === 'road' ? 10 : 6.5)) / 2 + Math.max(p.pavementL ?? 0, p.pavementR ?? 0) : 0);
 const ROAD_BLEND = 4;
 
 const smooth = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
@@ -147,7 +148,7 @@ export class Terrain {
     // 3. road beds: level across the width, at the (smoothed) centre-line height
     const T2 = new Float32Array(n), W2 = new Float32Array(n);
     for (const p of input.paths) {
-      const half = ROAD_HALF[p.kind]; if (!half || p.pts.length < 2) continue;
+      const half = bedHalf(p); if (!half || p.pts.length < 2) continue;
       // resample at about 3 m, then smooth heights along the road
       const pts: XY[] = [];
       for (let s = 0; s + 1 < p.pts.length; s++) {

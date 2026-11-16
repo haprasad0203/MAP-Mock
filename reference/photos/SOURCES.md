@@ -44,3 +44,35 @@ Videos: "Harmony in Heights" (Roaming Rotors, youtube.com/watch?v=9QBtbam1G5Q) a
 | ❌ None | Auditorium exterior, Dr. Kalam Centre, Kalam Building, Students' Mess, Commercial Complex, Kalam statue, Water tank, Substation, Faculty Quarters Type 3 |
 
 Best way to fill the ❌ list: take phone photos during the Survey walk, from a corner, with the roof in view.
+
+## Phase 3M v2 additions (16 Nov 2026): study only, never shipped
+Full per-file index with building and side: `reference/real/SOURCES_INVENTORY.md`.
+
+### H A's own screenshots (`from_above/`)
+From the PC's Screenshots folder (13 Nov) and the main folder: hi-res Google satellite views 0405 (north: hostels, Mess, courts, football), 0423 (south: gate, Admin, NAB, lake, Kalam Centre), 0519/0519b (hostels), marked top views (Admin forecourt and statue garden, NAB front road, Admin/library), Google Maps label views, and the drone 54s still of the Scholar's Path. Looked at, measured with the scale bars, never traced. No Commercial Complex top view was found in Screenshots, DW or Downloads.
+
+### Web photos (`web/<topic>/`)
+Exterior views only, saved from their direct URLs; no log-in, nothing behind a block, no people-centred photos.
+| File | Source URL |
+|---|---|
+| admin/admin-east-block-corner_iims-2024-10-7.jpg | https://www.iimshillong.ac.in/wp-content/uploads/2024/10/7-scaled.jpg |
+| admin/admin-south-front-from-lawn_iims-umsawli2.jpg | https://www.iimshillong.ac.in/wp-content/uploads/2022/03/umsawli2.jpg |
+| admin/admin-flag-forecourt_indiatoday-2022-12.jpg | https://akm-img-a-in.tosshub.com/indiatoday/images/story/202212/img_1179_1-sixteen_nine.jpg |
+| aerial/aerial-admin-terraces-gate-road_iims-2024-10-3.jpg | https://www.iimshillong.ac.in/wp-content/uploads/2024/10/3-scaled.jpg |
+| scholars-path/roadside-covered-walk-from-north_reddit.jpg | https://i.redd.it/a1kjhm1mtnbf1.jpg |
+| admin/admin-centre-block-front_insideiim-campus3.png | https://cdn.insideiim.com/wp-content/uploads/2022/01/19202544/Campus-3.png |
+| admin/admin-west-wing-oblique_wikimedia-commons.jpg | https://upload.wikimedia.org/wikipedia/commons/9/96/IIM_Shillong%2C_Umsawli.jpg (Wikimedia Commons) |
+| admin/admin-west-block-and-centre_insideiim.png | https://cdn.insideiim.com/wp-content/uploads/2021/03/11124147/Add-a-subheading-7.png |
+| aerial/aerial-campus-from-south-east_timess3.png | https://timess3spore.s3.amazonaws.com/ndata/media/Counsellor/CollegeImage/5ebf7f5a4b0eea5b2675d5d315aa2f46iim%20shilong%20campus%20122.png |
+| admin/admin-forecourt-oblique-west_insideiim-untitled.png | https://backend.insideiim.com/wp-content/uploads/2021/05/Untitled-design.png |
+| admin/admin-front-oblique-overcast_collegebatch-310632.webp | https://www.collegebatch.com/static/clg-gallery/indian-institute-of-management-shillong-310632.webp |
+| main-gate/main-gate-front-day_jdmagicbox.jpg | https://content.jdmagicbox.com/v2/comp/east_khasi_hills/t2/9999px364.x364.230420091921.d3t2/catalogue/type-2-quarters-iim-shillong-east-khasi-hills-colleges-owgTY2oehz.jpg |
+| admin/admin-flag-forecourt-wide_businessindia.jpg | https://media.assettype.com/businessindia%2F2024-12-05%2Fnaj8r0ls%2FUntitled-1.jpg |
+| aerial/aerial-sunrise-admin-cafe_timess3.png | https://timess3spore.s3.amazonaws.com/ndata/media/Counsellor/CollegeImage/df46097bd655810bee605538fd7b4c1fiim%20shilong%20campus.png |
+| admin/admin-centre-and-east-block-close_highlandpost.jpg | https://highlandpost.com/wp-content/uploads/2024/05/iim.jpg |
+| admin/admin-west-block-entrance-stone_collegebatch-310633.webp | https://www.collegebatch.com/static/clg-gallery/indian-institute-of-management-shillong-310633.webp |
+| main-gate/main-gate-front-night_collegeadmission.jpg | https://www.collegeadmission.in/uploads/college/banner_image/indian-institute-of-management-iims-shillong-1218.jpg |
+| admin/admin-centre-portico_iimking.png | https://iimking.com/wp-content/uploads/2024/08/image-144.png |
+
+### Video stills (`video_frames/<topic>/<video>-<mm.ss.s>_<what>.jpg`)
+Taken with `scripts/video-stills.mjs` (headless Edge draws the paused frame to a canvas; no video file is saved). Videos: the iimshillong.ac.in homepage video (`/wp-content/uploads/2024/11/IIM-Shillong_Home-Page_New.mp4`), YouTube 9QBtbam1G5Q (Roaming Rotors), 7JbrpxrsLSw (Mechenzi), KsoecH-2kWg (IIM Shillong, 15 years), DWOcIFttIZs (Umsawli drone), likCwsy-z7M (Doctoral Diaries), 4_4vErlU-P4 (Alokation). Found by a YouTube search for IIM Shillong Umsawli campus drone and tour videos; shorts were queued too.
