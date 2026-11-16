@@ -31,14 +31,22 @@ export class Labels {
     return t;
   }
   /** Place the tags: selected first, then by priority; a tag that would overlap an earlier one is hidden. */
+  /** Screen boxes of the floating UI (search, chips, controls, sheet), refreshed at most twice a second: tags never hide under them (Phase 4). */
+  private ui: { x: number; y: number; w: number; h: number; id: string }[] = []; private uiAt = 0;
+  private uiBoxes() {
+    const t = performance.now(); if (t - this.uiAt < 500) return this.ui; this.uiAt = t;
+    const r0 = this.root.getBoundingClientRect();
+    this.ui = [...document.querySelectorAll('.search, .chips, .nav, .results, .controls, .sheet-inner, .layers, .sim')].map(el => { const r = el.getBoundingClientRect(); return { x: r.left - r0.left, y: r.top - r0.top, w: r.width, h: r.height, id: 'ui' }; }).filter(b => b.w > 0 && b.h > 0);
+    return this.ui;
+  }
   update(items: LabelItem[], project: (x: number, y: number, h: number) => XY, W: number, H: number) {
-    const placed: typeof this.boxes = [], seen = new Set<string>();
+    const placed: typeof this.boxes = [], seen = new Set<string>(), ui = this.uiBoxes();
     items.sort((a, b) => (b.sel ? 1 : 0) - (a.sel ? 1 : 0) || a.pri - b.pri);
     for (const it of items) {
       const t = this.tag(it), [sx, sy] = project(it.at[0], it.at[1], it.h);
       const x = Math.round(sx - t.w / 2), y = Math.round(sy - t.h - 7);
       if (x > W || y > H || x + t.w < 0 || y + t.h < 0) continue;
-      if (!it.sel && placed.some(p => x < p.x + p.w + 4 && x + t.w + 4 > p.x && y < p.y + p.h + 4 && y + t.h + 4 > p.y)) continue;
+      if (!it.sel && [...placed, ...ui].some(p => x < p.x + p.w + 4 && x + t.w + 4 > p.x && y < p.y + p.h + 4 && y + t.h + 4 > p.y)) continue;
       placed.push({ x, y, w: t.w, h: t.h, id: it.id }); seen.add(it.id);
       t.el.style.transform = `translate(${x}px,${y}px)`;
       if (!t.shown) { t.el.style.visibility = 'visible'; t.shown = true; }

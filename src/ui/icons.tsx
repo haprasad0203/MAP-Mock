@@ -1,18 +1,19 @@
-// Tiny pixel-style icons (crisp 24-unit grids).
-const S = (p: { d: string; title: string }) => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d={p.d} /></svg>
+// Rounded stroke icons for the game UI skin (Phase 4): 24-unit grid, 2 px strokes, round caps and joins.
+import type { ReactNode } from 'react';
+const S = ({ children }: { children: ReactNode }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">{children}</svg>
 );
-export const IconSearch = () => <S title="search" d="M9 3h6v2h2v2h2v6h-2v2h-2v2H9v-2H7v-2H5V7h2V5h2zm0 2v2H7v6h2v2h6v-2h2V7h-2V5zm8 12h2v2h2v2h-2v-2h-2z" />;
-export const IconClose = () => <S title="close" d="M5 5h2v2h2v2h2v2h2V9h2V7h2V5h2v2h-2v2h-2v2h-2v2h2v2h2v2h2v2h-2v-2h-2v-2h-2v-2h-2v2H9v2H7v2H5v-2h2v-2h2v-2h2v-2H9V9H7V7H5z" />;
-export const IconLocate = () => <S title="locate" d="M11 2h2v3h2v2h2v2h2v2h3v2h-3v2h-2v2h-2v2h-2v3h-2v-3H9v-2H7v-2H5v-2H2v-2h3V9h2V7h2V5h2zm-2 5v2H7v6h2v2h6v-2h2V9h-2V7zm2 3h2v4h-2z" />;
-export const IconRotate = () => <S title="rotate" d="M8 3h8v2h2v2h2v4h-2V9h-2V7H8v2H6v6h2v2h6v-2h-2v-2h6v6h-2v-2h-2v2H8v-2H6v-2H4V9h2V7h2z" />;
-export const IconCompass = () => <S title="recentre" d="M11 2h2v2h2v2h2v2h2v2h2v4h-2v2h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5v-2H3v-4h2V8h2V6h2V4h2zm0 4v6h2V6zm0 8v4h2v-4z" />;
-export const IconLayers = () => <S title="layers" d="M11 3h2v2h2v2h2v2h2v2h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5V9h2V7h2V5h2zm0 4v2H9v2h2v2h2v-2h2V9h-2V7zM3 13h2v2h2v2h2v2h6v-2h2v-2h2v-2h2v2h-2v2h-2v2h-2v2H9v-2H7v-2H5v-2H3z" />;
-export const IconWalk = () => <S title="walk" d="M11 2h3v3h-3zM9 6h5v2h2v2h2v2h-2v-2h-2v4h2v2h2v4h-2v-4h-2v-2h-2v2h-2v4H8v-4h2v-4h1V9H9v3H7V8h2z" />;
-export const IconShare = () => <S title="share" d="M16 3h4v4h-4V6h-2v2h-2v2H9v4h3v2h2v2h2v-1h4v4h-4v-1h-2v-2h-2v-2H9v1H5v-6h4v1h3V8h2V6h2z" />;
-export const IconPhone = () => <S title="call" d="M5 3h4v2h1v4H8v2h1v2h1v1h2v1h2v-2h4v1h2v4h-2v2h-3v-1h-3v-1h-2v-1H8v-2H7v-2H5v-2H4V5h1z" />;
-export const IconHome = () => <S title="home" d="M11 3h2v2h2v2h2v2h2v2h2v2h-2v8h-5v-6h-4v6H5v-8H3v-2h2V9h2V7h2V5h2z" />;
-export const IconCal = () => <S title="schedule" d="M6 3h2v2h8V3h2v2h3v16H3V5h3zm-1 6v10h14V9zm2 2h4v4H7z" />;
-export const IconMap = () => <S title="campus" d="M3 5h4v2h4V5h4v2h4V5h2v14h-4v-2h-4v2H9v-2H5v2H3zm2 4v6h4V9zm6 0v6h4V9zm6 0v6h2V9z" />;
-export const IconInfo = () => <S title="guide" d="M9 3h6v2h2v2h2v10h-2v2h-2v2H9v-2H7v-2H5V7h2V5h2zm2 4v2h2V7zm0 4v6h2v-6z" />;
-export const IconUser = () => <S title="me" d="M10 3h4v2h2v6h-2v2h-4v-2H8V5h2zM6 15h12v2h2v4H4v-4h2z" />;
+export const IconSearch = () => <S><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></S>;
+export const IconClose = () => <S><path d="M6 6l12 12M18 6 6 18" /></S>;
+export const IconLocate = () => <S><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" fill="currentColor" /><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5" /></S>;
+export const IconRotate = () => <S><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3" /><path d="M19.5 4.5v4h-4" /></S>;
+export const IconCompass = () => <S><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" fill="currentColor" fillOpacity=".25" /></S>;
+export const IconLayers = () => <S><path d="m12 3.5 8.5 4.5-8.5 4.5L3.5 8z" /><path d="m3.5 12.5 8.5 4.5 8.5-4.5" /><path d="m3.5 16.5 8.5 4.5 8.5-4.5" /></S>;
+export const IconWalk = () => <S><circle cx="13" cy="4.5" r="1.8" fill="currentColor" /><path d="m10 21 2-6-2.5-2.5L11 8l3 2.5 3 1M14 15l2 6M11 8 7.5 10v3" /></S>;
+export const IconShare = () => <S><circle cx="18" cy="5.5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="18.5" r="2.5" /><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1" /></S>;
+export const IconPhone = () => <S><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></S>;
+export const IconHome = () => <S><path d="M4 11 12 4l8 7" /><path d="M6 9.5V20h4.5v-5h3v5H18V9.5" /></S>;
+export const IconCal = () => <S><rect x="3.5" y="5" width="17" height="15.5" rx="3" /><path d="M8 3v4M16 3v4M3.5 10h17" /></S>;
+export const IconMap = () => <S><path d="M3.5 6.5 9 4l6 2.5L20.5 4v13.5L15 20l-6-2.5L3.5 20z" /><path d="M9 4v13.5M15 6.5V20" /></S>;
+export const IconInfo = () => <S><circle cx="12" cy="12" r="9" /><path d="M12 11v6" /><circle cx="12" cy="7.5" r="1" fill="currentColor" /></S>;
+export const IconUser = () => <S><circle cx="12" cy="8" r="3.8" /><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0" /></S>;

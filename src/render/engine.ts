@@ -180,7 +180,7 @@ export class MapEngine implements IMapEngine {
     const tier = this.tier; const maxP = tier === 'campus' ? 1 : tier === 'area' ? 2 : 3;
     c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     const placed: { x: number; y: number; w: number; h: number; id: string }[] = [];
-    const fs = tier === 'building' ? 13 : 12; c.font = `600 ${fs}px "Pixelify Sans", monospace`; c.textBaseline = 'middle';
+    const fs = tier === 'building' ? 13 : 12; c.font = `600 ${fs}px Inter, system-ui, sans-serif`; c.textBaseline = 'middle';
     const items: { id: string; text: string; at: XY; z: number; pri: number; cat: string; sel: boolean }[] = [];
     for (const b of this.world.buildings) {
       if (b.unnamed) continue; // v2: unnamed footprints are scenery only

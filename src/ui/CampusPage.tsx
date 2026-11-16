@@ -245,8 +245,8 @@ export default function CampusPage() {
   const hits = useMemo(() => (places && q ? search(q, places, sched, nameOf) : []), [q, places, sched, world]);
 
   return (
-    <div className="app">
-      <canvas key={use3d ? '3d' : '2d'} ref={canvasRef} className="map-canvas" role="img" aria-label="3D map of the IIM Shillong campus. Use search to find buildings, rooms and sessions." />
+    <div className={'app' + (nav || offCampus ? ' has-nav' : '')}>
+      <canvas key={use3d ? '3d' : '2d'} ref={canvasRef} className={use3d ? 'map-canvas' : 'map-canvas pixel'} role="img" aria-label="3D map of the IIM Shillong campus. Use search to find buildings, rooms and sessions." />
       {!world && <div className="toast" style={{ bottom: '50%' }}>Drawing the campus…</div>}
 
       <div className="top">

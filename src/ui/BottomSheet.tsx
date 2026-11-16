@@ -3,10 +3,11 @@ import type { Tier } from '../render/iso';
 import { floorName, fmtDay, fmtTime, now, sessionsIn, type Place, type PlacesData, type Room, type ScheduleData, type Session } from '../data/places';
 import { IconClose, IconPhone, IconShare, IconWalk } from './icons';
 
-// Place-card pictures: the tycoon-style landmark renders (public/campus-art/tycoon), by place or building id.
+// Place-card pictures (Phase 4): our own real-campus 3D models (public/campus-art/model, made by scripts/thumbs.mjs), by place
+// or building id. The Gemini renders are no longer shown.
 const THUMB: Record<string, string> = {
-  admin: 'admin', nab: 'nab', 'cafe-cloud': 'cafe-cloud', commercial: 'commercial-complex', 'hostel-1': 'hostel1-dblock', 'hostel-2': 'hostel2-fblock',
-  'hostel-3': 'hostel3', 'hostel-4': 'hostel4', 'kalam-centre': 'kalam-centre', 'kalam-statue': 'kalam-statue-garden', 'main-gate': 'main-gate', mess: 'mess', 'octagon-hall': 'octagon-hall',
+  admin: 'admin', nab: 'nab', 'cafe-cloud': 'cafe-cloud', 'hostel-1': 'hostel-1', 'hostel-2': 'hostel-2', 'hostel-3': 'hostel-3', 'hostel-4': 'hostel-4',
+  'kalam-centre': 'kalam-centre', 'main-gate': 'guard-room', mess: 'mess', 'octagon-hall': 'octagon-hall', gym: 'gym', type2: 'type2', type3: 'type3',
 };
 
 export interface Selection { kind: 'building'; buildingId: string; place?: Place; room?: Room; session?: Session; note?: string }
@@ -71,7 +72,7 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
         <button className="close" style={{ margin: '8px 8px 0 0' }} aria-label="Close place card" onClick={onClose}><IconClose /></button>
       </div>
       <div className="sheet-body">
-        {thumb && <img className="thumb" src={`/campus-art/tycoon/landmark-${thumb}.webp`} alt="" loading="lazy" />}
+        {thumb && <img className="thumb" src={`/campus-art/model/${thumb}.webp`} alt="" loading="lazy" />}
         {sel.note && <div className="confirm" role="status">{sel.note}</div>}
         {sel.session && (sel.session as Session & { movedFrom?: string }).movedFrom && <div className="confirm" role="status"><b>Room changed:</b> {(sel.session as Session & { movedFrom?: string }).movedFrom} → {sel.session.room}</div>}
         {sel.session && <div className="sec"><h4>Your session</h4><div className="row"><span className="time">{fmtTime(sel.session.start)}</span><span>{sel.session.title}</span></div></div>}

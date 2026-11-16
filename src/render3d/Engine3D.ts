@@ -112,7 +112,7 @@ export class Engine3D implements IMapEngine {
   private variant(key: string, mode: 'hi' | 'dim'): THREE.Material {
     const id = `${key}:${mode}`; let m = this.mats.get(id); if (m) return m;
     const c = this.mat(key).clone() as THREE.MeshStandardMaterial;
-    if (mode === 'hi') { c.emissive = new THREE.Color('#FFD23F'); c.emissiveIntensity = 0.13; }
+    if (mode === 'hi') { c.emissive = new THREE.Color('#FFD23F'); c.emissiveIntensity = 0.06; } // a light lift; the yellow ring does the pointing
     else c.color.multiply(new THREE.Color(0.42, 0.45, 0.47)); // relative to the material's own tint, so dark roofs stay readable
     this.mats.set(id, c); return c;
   }

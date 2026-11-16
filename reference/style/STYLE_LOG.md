@@ -290,3 +290,39 @@ Sheets: reference/style/compare/scene_v0.png (before) to scene_v3.png; target | 
 | | **Total** | **42** | **69** | Below the 80 target after the 3 passes the spec asks for |
 
 To reach 80 (later, if wanted): moving cars on the main road, a shrub and flower-bed layer in the groves, a cherry/broadleaf variant, a jetty and benches on the lake trail, and a little more orange in the highlights.
+
+
+## Phase 4: UI skin and refinement (17 Nov)
+Sheets: ui_v1–v2.png (idle) and ui_card_v1–v2.png (a place card open at 27 Nov 10:00), target | 390×844 | 1280×800; directions, arrival, list and 2D fallback in p3b_1–4.png and p4_2d_fallback.png.
+
+- **Pass 1 (skin):**
+  - the pixel font is retired; Inter is used everywhere;
+  - frosted-glass panels (backdrop blur) with 14–20 px corners and soft layered shadows;
+  - a pill search bar and chips;
+  - round 50 px control buttons;
+  - tactile pressed states (scale and inset shadow);
+  - yellow primary buttons with a 3 px key edge;
+  - a rounded stroke icon set;
+  - an animated ON AIR pill;
+  - the directions banner with a yellow (or, on arrival, green) edge;
+  - the list view in white rounded groups.
+
+  The 2D fallback keeps its pixel canvas.
+- **Pass 2:**
+  - place-card pictures are now renders of our own real-campus 3D models (scripts/thumbs.mjs → public/campus-art/model/); the Gemini renders are no longer shown anywhere;
+  - map labels never sit under the floating panels;
+  - a lighter selection tint, so the yellow ring does the pointing;
+  - ON AIR no longer wraps.
+- **Pass 3:** the control stack moves below the directions banner, so Locate stays reachable; the directions, arrival, list and 2D views were re-checked in the new skin.
+
+| Section 4 checklist | Score /10 | Note |
+|---|---|---|
+| Warm golden light, sunlit and shadowed faces | 8 | |
+| Long, soft shadows | 8 | |
+| Tilt-shift band | 8 | |
+| Rich warm greens, teal lake, clean grade | 7 | |
+| Buildings detailed and recognisable from the photos | 8 | Admin and NAB 8; the others 6–8 (Phase 3M v2) |
+| Dense pine groves, mist with no hard edge | 7 | |
+| Roads with markings, props and life when zoomed | 6 | No moving cars yet |
+| Labels crisp on a phone; selection and route clear | 9 | Labels avoid the UI; dashed trail drawn on top; bigger blue dot |
+| 30 fps on a mid-range phone at Medium | not measured | Deferred: phone speed, LOD and budgets are a later stage (REAL_CAMPUS_MODELS.md section 6) |
