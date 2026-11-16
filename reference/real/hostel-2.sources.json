@@ -1,0 +1,75 @@
+{
+ "id": "hostel-2",
+ "title": "Hostel 2, F Block / new hostels (real)",
+ "views": [
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/New-Hostel.jpg",
+   "label": "Peach walls, stone base, glass stair tower with cap, balconies",
+   "source": "iimshillong.ac.in/campus-tour (New-Hostel)"
+  },
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9144.jpg",
+   "label": "Entrance: stone piers, glass stair, gable porch",
+   "source": "iimshillong.ac.in/campus-tour (DSC_9144)"
+  },
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/hostel22.jpg",
+   "label": "Courtyard: brick-red stone piers, glass, green porch roofs",
+   "source": "iimshillong.ac.in/campus-tour (hostel22)"
+  },
+  {
+   "file": "reference/photos/from_above/google_sat_hires_HA_2026-11-13_0405.png",
+   "crop": [
+    800,
+    120,
+    300,
+    260
+   ],
+   "label": "From above (hi-res): F Block",
+   "source": "H A, Google satellite (study only)"
+  },
+  {
+   "file": "reference/photos/web/scholars-path/roadside-covered-walk-from-north_reddit.jpg",
+   "label": "Campus from the hostels (new hostels in front)",
+   "source": "i.redd.it (web)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "wall peach",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/New-Hostel.jpg",
+   "rect": [
+    330,
+    270,
+    40,
+    30
+   ]
+  },
+  {
+   "name": "stone",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9144.jpg",
+   "rect": [
+    112,
+    120,
+    20,
+    60
+   ]
+  },
+  {
+   "name": "roof",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/New-Hostel.jpg",
+   "rect": [
+    280,
+    218,
+    40,
+    6
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0405"
+  ],
+  "padM": 20
+ }
+}

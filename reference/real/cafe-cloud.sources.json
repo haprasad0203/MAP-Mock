@@ -1,0 +1,65 @@
+{
+ "id": "cafe-cloud",
+ "title": "Cafe Cloud Campus (real)",
+ "views": [
+  {
+   "file": "reference/generated/crops/cafe_dji.png",
+   "label": "From the SE (sun): ring, raised clerestory, porch",
+   "source": "crop of DJI_0338 (iimshillong.ac.in)"
+  },
+  {
+   "file": "reference/generated/crops/cafe_i363.png",
+   "label": "From the S",
+   "source": "crop of Image_363 (iimshillong.ac.in)"
+  },
+  {
+   "file": "reference/generated/crops/cafe_19s.png",
+   "label": "From the SW: window band all round",
+   "source": "crop of YouTube 9QBtbam1G5Q @0:19"
+  },
+  {
+   "file": "reference/photos/web/aerial/aerial-sunrise-admin-cafe_timess3.png",
+   "label": "At sunrise with Admin behind",
+   "source": "timess3spore (web aerial)"
+  },
+  {
+   "file": "reference/photos/from_above/google_sat_hires_HA_2026-11-13_0423.png",
+   "crop": [
+    840,
+    470,
+    160,
+    130
+   ],
+   "label": "From above (hi-res)",
+   "source": "H A, Google satellite (study only)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "roof (lit)",
+   "file": "reference/generated/crops/cafe_dji.png",
+   "rect": [
+    470,
+    140,
+    60,
+    20
+   ]
+  },
+  {
+   "name": "fascia white",
+   "file": "reference/generated/crops/cafe_dji.png",
+   "rect": [
+    580,
+    215,
+    40,
+    10
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0423"
+  ],
+  "padM": 20
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "id": "kalam-centre",
+ "title": "Dr. Kalam Centre (real)",
+ "views": [
+  {
+   "file": "reference/photos/video_frames/kalam-centre/iimshomepage-00.43.5_kalam-centre-entrance.jpg",
+   "label": "Entrance: cream panel cladding, tall glass, glass canopy",
+   "source": "iimshillong.ac.in homepage video @0:43.5"
+  },
+  {
+   "file": "reference/photos/from_above/google_sat_hires_HA_2026-11-13_0423.png",
+   "crop": [
+    640,
+    0,
+    220,
+    120
+   ],
+   "label": "From above (hi-res)",
+   "source": "H A, Google satellite (study only)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "cladding cream",
+   "file": "reference/photos/video_frames/kalam-centre/iimshomepage-00.43.5_kalam-centre-entrance.jpg",
+   "rect": [
+    60,
+    560,
+    120,
+    200
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0423"
+  ],
+  "padM": 20
+ }
+}

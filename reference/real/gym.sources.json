@@ -1,0 +1,49 @@
+{
+ "id": "gym",
+ "title": "Sports Pavilion & Gym (real)",
+ "views": [
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9159.jpg",
+   "label": "Teal gable roof, front gable porch, courts",
+   "source": "iimshillong.ac.in/campus-tour (DSC_9159)"
+  },
+  {
+   "file": "reference/photos/video_frames/sports/9QBtbam1G5Q-00.27.5_pavilion-courts-walkway-aerial.jpg",
+   "label": "Aerial: pavilion, tennis and basketball courts",
+   "source": "YouTube 9QBtbam1G5Q @0:27.5"
+  },
+  {
+   "file": "reference/photos/sports/yt-drone-54s_court-strip-walkway.jpg",
+   "label": "Court strip and zig-zag walkway",
+   "source": "YouTube 9QBtbam1G5Q @0:54"
+  }
+ ],
+ "colours": [
+  {
+   "name": "roof teal",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9159.jpg",
+   "rect": [
+    180,
+    55,
+    60,
+    8
+   ]
+  },
+  {
+   "name": "wall",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9159.jpg",
+   "rect": [
+    170,
+    72,
+    40,
+    10
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0405"
+  ],
+  "padM": 25
+ }
+}

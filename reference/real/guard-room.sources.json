@@ -1,0 +1,49 @@
+{
+ "id": "guard-room",
+ "title": "Main gate and guard room (real)",
+ "views": [
+  {
+   "file": "reference/photos/web/main-gate/main-gate-front-day_jdmagicbox.jpg",
+   "label": "Front: portal, name fascia, guard room, sliding gate, name wall",
+   "source": "content.jdmagicbox.com (web)"
+  },
+  {
+   "file": "reference/photos/web/main-gate/main-gate-front-night_collegeadmission.jpg",
+   "label": "Front at night",
+   "source": "collegeadmission.in (web)"
+  },
+  {
+   "file": "reference/photos/video_frames/gate/7JbrpxrsLSw-00.03.8_main-gate-front.jpg",
+   "label": "Front, low",
+   "source": "YouTube 7JbrpxrsLSw @0:03.8"
+  },
+  {
+   "file": "reference/photos/video_frames/gate/9QBtbam1G5Q-00.45.0_main-gate-aerial.jpg",
+   "label": "Aerial: portal over the road, long building beside it",
+   "source": "YouTube 9QBtbam1G5Q @0:45"
+  },
+  {
+   "file": "reference/photos/video_frames/gate/4_4vErlU-P4-00.39.0_gate-from-inside-ground.jpg",
+   "label": "From inside",
+   "source": "YouTube 4_4vErlU-P4 @0:39"
+  }
+ ],
+ "colours": [
+  {
+   "name": "roof",
+   "file": "reference/photos/web/main-gate/main-gate-front-day_jdmagicbox.jpg",
+   "rect": [
+    700,
+    430,
+    300,
+    20
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0423"
+  ],
+  "padM": 25
+ }
+}

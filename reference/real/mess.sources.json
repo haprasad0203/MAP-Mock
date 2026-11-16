@@ -1,0 +1,39 @@
+{
+ "id": "mess",
+ "title": "Students' Mess (real)",
+ "views": [
+  {
+   "file": "reference/photos/mess_from_above.png",
+   "label": "From above: four octagons, slate roofs, the big one two-tier",
+   "source": "Google satellite (study only)"
+  },
+  {
+   "file": "reference/photos/from_above/hostels_mess_dblock_google_hires_by_HA.png",
+   "label": "From above (H A hi-res)",
+   "source": "H A, Google satellite (study only)"
+  },
+  {
+   "file": "reference/photos/mess_cluster_question.png",
+   "label": "Cluster question (Phase 1)",
+   "source": "Google satellite (study only)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "roof slate",
+   "file": "reference/photos/mess_from_above.png",
+   "rect": [
+    340,
+    440,
+    40,
+    30
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0405"
+  ],
+  "padM": 20
+ }
+}

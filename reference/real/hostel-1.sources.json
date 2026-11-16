@@ -1,0 +1,54 @@
+{
+ "id": "hostel-1",
+ "title": "Hostel 1, D Block (real)",
+ "views": [
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9111.jpg",
+   "label": "White 4-storey block: balconies, black rails, grey louvres",
+   "source": "iimshillong.ac.in/campus-tour (DSC_9111)"
+  },
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9119.jpg",
+   "label": "Balconies and the covered walkway",
+   "source": "iimshillong.ac.in/campus-tour (DSC_9119)"
+  },
+  {
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9140.jpg",
+   "label": "Through a window: balconies, flat roof slab, teal court",
+   "source": "iimshillong.ac.in/campus-tour (DSC_9140)"
+  },
+  {
+   "file": "reference/photos/video_frames/hostels/9QBtbam1G5Q-00.38.5_dblock-and-football-aerial.jpg",
+   "label": "Aerial: D Block blocks beside the football ground",
+   "source": "YouTube 9QBtbam1G5Q @0:38.5"
+  },
+  {
+   "file": "reference/photos/from_above/hostels_mess_dblock_google_hires_by_HA.png",
+   "label": "From above (H A hi-res): D Block, Mess",
+   "source": "H A, Google satellite (study only)"
+  },
+  {
+   "file": "reference/photos/mess_from_above.png",
+   "label": "From above: D Block flat roofs beside the Mess",
+   "source": "Google satellite (study only)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "wall white",
+   "file": "IIM_Shillong_Campus_References/02_hostels_residential/DSC_9111.jpg",
+   "rect": [
+    460,
+    180,
+    40,
+    40
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0405"
+  ],
+  "padM": 20
+ }
+}

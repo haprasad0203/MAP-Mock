@@ -76,3 +76,5 @@ Proposals only. `campus-layout.json` is **not** edited. Evidence: `reference/rea
 | 5 | `nab` stone towers | (render detail) | the towers white | The towers' faces are **sandstone** with a white-framed glass strip; only the top box is white | Homepage video @0:05.5; replaces the Phase 3 "towers white" correction above |
 
 The footprints of both buildings fit the satellite within the pin-fit error (about 5 m). No footprint changes are proposed.
+| 6 |  | footprint and position | 18 × 17 m rectangle at (-198, 24), 45 m south of the loop road | a regular **octagon about 27 m across**, standing **on the loop road opposite **, with two octagonal ponds behind | Drone stills 9QBtbam1G5Q @0:00.5, 0:07.5, 0:08.5, 0:49.5 (measured against the 8 m road) |
+| 7 |  | outline | 14-point outline | about 5 m east of the drawn outline (within the fit error; check on the survey walk) | reference/real/cafe-cloud_fit.png |
