@@ -59,4 +59,15 @@ const frameInbox = (): Plugin => ({
   },
 });
 
-export default defineConfig({ plugins: [react(), facadeTools(), frameInbox()], server: { port: 5173 }, test: { environment: 'node' } } as any);
+// `npm run dev:phone` (mode "phone"): HTTPS on the local network so a phone on the same Wi-Fi can open the map with live
+// location (browsers only allow geolocation on HTTPS). Uses the self-signed certificate in .cache/cert (not committed).
+const phoneHttps = (mode: string) => {
+  if (mode !== 'phone' || !fs.existsSync('.cache/cert/key.pem')) return undefined;
+  return { key: fs.readFileSync('.cache/cert/key.pem'), cert: fs.readFileSync('.cache/cert/cert.pem') };
+};
+
+export default defineConfig(({ mode }) => ({
+  plugins: [react(), facadeTools(), frameInbox()],
+  server: mode === 'phone' ? { port: 5174, host: true, https: phoneHttps(mode) } : { port: 5173 },
+  test: { environment: 'node' },
+}) as any);
