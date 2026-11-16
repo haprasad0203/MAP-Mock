@@ -114,6 +114,14 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
       : kind === 'court' ? (a.sport === 'tennis' ? G.COURT_BLUE : G.COURT) : G.WATER;
     fillPoly(mask, a.pts, v);
   }
+  // hardscape.json surfaces (Phase 3M v2): paved plazas and parking, courtyards, garden terraces, court surrounds, paths
+  const hs = src.getHardscape?.() ?? [];
+  const SURF: Record<string, number> = { plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
+  for (const it of hs) {
+    const v = SURF[it.type]; if (v === undefined) continue;
+    if (it.poly) fillPoly(mask, it.poly, v, c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE);
+    else if (it.type === 'terrace' && it.pts) fillPoly(mask, it.pts, v, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
+  }
   const paths = src.getPaths();
   const notWater = (c: number) => c !== G.WATER;
   const paved = (c: number) => c === G.ROAD || c === G.ROAD_LINE || c === G.ROAD_DASH || c === G.SERVICE;
@@ -126,6 +134,7 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
         strokeLine(mask, p.pts, halfW(p) - EDGE_LINE, G.ROAD);
       } else strokeLine(mask, p.pts, halfW(p), ROAD_C[kind], kind === 'footpath' ? notWater : kind === 'service' ? (c => c !== G.ROAD && c !== G.ROAD_LINE && c !== G.ROAD_DASH) : undefined);
     }
+  for (const it of hs) if ((it.type === 'footpath' || it.type === 'trail') && it.pts && it.pts.length > 1) strokeLine(mask, it.pts, (it.width ?? 1.8) / 2, it.type === 'trail' ? G.TRACK : G.PATH, c => c !== G.WATER && c !== G.ROAD && c !== G.ROAD_LINE && c !== G.SERVICE && c !== G.BUILDING);
   // centre dash on asphalt, only where the cell is plain asphalt
   for (const p of paths.filter(p => p.kind === 'road')) dashLine(mask, p.pts, DASH_ON, DASH_OFF, G.ROAD_DASH, c => c === G.ROAD);
   const buildings = src.getBuildings();

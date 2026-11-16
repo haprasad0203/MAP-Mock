@@ -15,6 +15,8 @@ export interface CampusGeometrySource {
   getEntrances(): Entrance[];
   getLandmarks(): Landmark[];
   getBounds(): Bounds;
+  /** public/data/hardscape.json items (paved, walled, fenced and planted ground), when the source has them. */
+  getHardscape?(): Hardscape['items'];
 }
 
 const boundsOf = (pts: XY[]): Bounds => ({
@@ -122,6 +124,7 @@ export class SchematicSurveySource implements CampusGeometrySource {
   }
   getLandmarks(): Landmark[] { return this.layout.landmarks.map(l => ({ ...l, at: this.surveyed.get('landmark:' + l.id) ?? this.tx(l.at) })); }
   getBounds(): Bounds { return boundsOf(this.getBoundary()); }
+  getHardscape(): Hardscape['items'] { return this.hardscape?.items ?? []; }
 }
 
 // ---------- Implementation 3: QGIS GeoJSON (EPSG:4326), later ----------

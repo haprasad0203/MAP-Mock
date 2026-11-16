@@ -245,3 +245,12 @@ Sheets: `real_<id>_v1–3.png`; map views `m3v2_landmarks_north/courts/gate.png`
 | Main gate + guard room | 7.5 | Lettering is a band; the guard room sits beside the portal rather than under it |
 | Dr. Kalam Centre | 6 | One close photo only: the massing, roof and other faces are guesses |
 | Amul Cafe, Commercial Complex, Kalam Building | generic | No usable photos (on H A's list) |
+
+
+## Phase 3M v2: the rest of the campus, stop point 3 (16 Nov)
+- **Hardscape on the map:** the flat items in hardscape.json (plazas, parking, courtyards, garden terraces, court surrounds, footpaths, the lake trail) are painted into the ground texture (src/render/world.ts). The upright items (retaining and terrace walls with railings, hedges, raised flower beds, fences, floodlights, steps, tree lines, lamp rows, the D Block and Mess covered walkways) are 3D props (src/render3d/hardscape3d.ts).
+- **Staff quarters (Type 2 and Type 3):** white 3-storey blocks with light-teal hip roofs and white eaves on stone retaining plinths, from the staff-housing drone still (smaller.ts, buildQuarters). About 7.5/10 from the air.
+- **Other buildings:** the west cluster, substation, service blocks, kiosks and the unnamed buildings stay on the generic builder; there are no photos of them. They read as plain white or cream blocks with green or grey roofs.
+- **Forest:** the dense forest beside Admin is outside the campus boundary, and DJI_0338 shows pine forest there too, so it is unchanged. The open grass and scattered pines inside the campus are left for the SCENE_LOOK pass.
+- **Checks:** aerial_match_v3.png (DJI_0338, Image_363) and m3v2_campus_default_rot0/rot2.png (the default view in 2 rotations).
+- **Still owed:** H A's campus_new photos (they override every earlier source); the Octagonal Hall position and size (LAYOUT_CHECK 6); Amul Cafe, the Commercial Complex and the Kalam Building (no photos).

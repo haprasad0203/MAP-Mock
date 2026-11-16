@@ -83,3 +83,21 @@ export const buildKalamCentre: LandmarkBuilder = (B, b, ctx) => {
   });
   return { top, centre: centroidOf(b.parts.map(p => [p.cx, p.cy] as XY)) };
 };
+
+/** Staff quarters, Type 2 and Type 3 (staff-housing still, yt-mechenzi-145s): white 3-storey blocks with light-teal hip
+ *  roofs and white eaves, small windows, each on a stone retaining plinth where the slope falls. */
+export const buildQuarters: LandmarkBuilder = (B, b) => {
+  const g = b.groundElev ?? 0, g0 = g + 0.5, roof = sampledRoof('#4FA59A'), W = rgb('#F4F4F1');
+  let top = g;
+  for (const p of b.parts) {
+    const pp = ccw(partFootprint(p)), fs = facesOf(pp), H = g0 + p.floors * 3.1;
+    for (const f of fs) {
+      panel(B, 'stone', f, 0, f.len, 0.3, g - 2.5, g0, [0.9, 0.9, 0.92], 2.6, rgb('#9C8F7A'));
+      flat(B, f, 0, f.len, g0, H, W);
+      if (f.len > 5) punched(B, f, 0.7, f.len - 0.7, g0, p.floors, 3.1, Math.max(1, Math.round(f.len / 3.4)), 1.1, 1.3, 1.0);
+    }
+    bevelCorners(B, pp, g0, H, W, 0.08);
+    top = Math.max(top, hipPart(B, p, H, roof, 0.9, 2.6, ROOF_OPTS));
+  }
+  return { top, centre: centroidOf(b.parts.map(p => [p.cx, p.cy] as XY)) };
+};
