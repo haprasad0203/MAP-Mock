@@ -15,8 +15,18 @@ const FASCIA = rgb('#F7F5EE');
 const CONCRETE = '#C9C6BC';
 
 const GREEN_BASE = new THREE.Color('#3E8A4E'), SLATE_BASE = new THREE.Color('#4B525A');
+const SLATE_TINT: RGB = [1.75, 1.72, 1.7]; // roofSlate's material colour (materials.ts)
+
+/** Roof colours sampled from a render (Phase 3M): drawn on the neutral ribbed texture with a vertex colour chosen so that
+ *  texture × material tint × colour = the sampled colour. Registered by colour, so every roof builder picks it up. */
+const SAMPLED = new Map<string, { key: string; col: RGB }>();
+export function sampledRoof(hex: string, albedo = 0.85): string {
+  if (!SAMPLED.has(hex)) { const c = new THREE.Color(hex); SAMPLED.set(hex, { key: 'roofSlate', col: [(c.r * albedo) / (SLATE_BASE.r * SLATE_TINT[0]), (c.g * albedo) / (SLATE_BASE.g * SLATE_TINT[1]), (c.b * albedo) / (SLATE_BASE.b * SLATE_TINT[2])] }); }
+  return hex;
+}
 /** Material key and tint for a sloped roof of the given colour. */
 export function roofMat(hex: string): { key: string; col: RGB } {
+  const s = SAMPLED.get(hex); if (s) return s;
   const c = new THREE.Color(hex), hsl = { h: 0, s: 0, l: 0 }; c.getHSL(hsl);
   const green = hsl.s > 0.18 && hsl.h > 0.2 && hsl.h < 0.52;
   const base = green ? GREEN_BASE : SLATE_BASE, r = (a: number, b: number) => Math.max(0.4, Math.min(3, a / Math.max(0.004, b)));
@@ -42,14 +52,32 @@ function slope(B: Buckets, key: string, o0: P3, o1: P3, i1: P3, i0: P3, col: RGB
   B.quad(key, o0, o1, i1, i0, col, uv(o0), uv(o1), uv(i1), uv(i0));
 }
 
-export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, maxRise = MAX_RISE, eave = EAVE) {
-  const f = frameOf(part), a = f.a + eave, b = f.b + eave, m = roofMat(roofHex);
-  B.prism('plain', [at(f, -a, -b, 0), at(f, a, -b, 0), at(f, a, b, 0), at(f, -a, b, 0)].map(p => [p[0], p[1]] as XY), top, top + SLAB, FASCIA, false);
-  const inset = Math.min(b, maxRise / PITCH_TAN), h0 = top + SLAB, h1 = h0 + inset * PITCH_TAN, ia = a - inset, ib = b - inset;
+/** Options for the landmark roofs: a deeper white fascia band, and raised caps along the hips and the ridge. */
+export interface RoofOpts { fascia?: number; ridge?: boolean }
+
+export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, maxRise = MAX_RISE, eave = EAVE, opts: RoofOpts = {}) {
+  const f = frameOf(part), a = f.a + eave, b = f.b + eave, m = roofMat(roofHex), slab = opts.fascia ?? SLAB;
+  B.prism('plain', [at(f, -a, -b, 0), at(f, a, -b, 0), at(f, a, b, 0), at(f, -a, b, 0)].map(p => [p[0], p[1]] as XY), top, top + slab, FASCIA, false);
+  const inset = Math.min(b, maxRise / PITCH_TAN), h0 = top + slab, h1 = h0 + inset * PITCH_TAN, ia = a - inset, ib = b - inset;
   const o = [at(f, -a, -b, h0), at(f, a, -b, h0), at(f, a, b, h0), at(f, -a, b, h0)], i = [at(f, -ia, -ib, h1), at(f, ia, -ib, h1), at(f, ia, ib, h1), at(f, -ia, ib, h1)];
   for (let k = 0; k < 4; k++) slope(B, m.key, o[k], o[(k + 1) % 4], i[(k + 1) % 4], i[k], m.col);
   if (ib > 0.05) B.cap(m.key, i.map(p => [p[0], p[1]] as XY), h1, m.col, TILE);
+  if (opts.ridge) {
+    const cap = mul(rgb(roofHex), SAMPLED.has(roofHex) ? 0.95 : 1.18);
+    for (let k = 0; k < 4; k++) ridgeCap(B, o[k], i[k], cap);                                  // the four hips
+    if (ib > 0.05) for (let k = 0; k < 4; k++) ridgeCap(B, i[k], i[(k + 1) % 4], cap);           // rise capped: edges of the flat top
+    else ridgeCap(B, i[0], i[1], cap);                                                          // the ridge
+  }
   return h1;
+}
+
+/** A small tent-shaped cap along a hip or ridge line (0.32 m wide, 0.12 m proud), so the line catches the light. */
+function ridgeCap(B: Buckets, p: P3, q: P3, col: RGB) {
+  const dx = q[0] - p[0], dy = q[1] - p[1], l = Math.hypot(dx, dy); if (l < 0.2) return;
+  const nx = (-dy / l) * 0.16, ny = (dx / l) * 0.16, up = 0.12;
+  const pl: P3 = [p[0] + nx, p[1] + ny, p[2] - 0.04], pr: P3 = [p[0] - nx, p[1] - ny, p[2] - 0.04], ql: P3 = [q[0] + nx, q[1] + ny, q[2] - 0.04], qr: P3 = [q[0] - nx, q[1] - ny, q[2] - 0.04];
+  const pt: P3 = [p[0], p[1], p[2] + up], qt: P3 = [q[0], q[1], q[2] + up];
+  for (const [a, b, c, d] of [[pr, qr, qt, pt], [ql, pl, pt, qt]] as P3[][]) { B.quad('plain', a, b, c, d, col); B.quad('plain', d, c, b, a, col); } // both windings
 }
 
 export function gableRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, wall: RGB) {

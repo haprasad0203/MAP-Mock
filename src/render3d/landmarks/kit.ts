@@ -3,9 +3,10 @@
 import type { XY } from '../../geo/grid';
 import type { Area, Building, Entrance, Landmark } from '../../geo/types';
 import { Buckets, ccw, rgb, type P3, type RGB } from '../mesh';
-import { hipRoof } from '../roofs';
+import { hipRoof, sampledRoof, type RoofOpts } from '../roofs';
 import { pointInPoly } from '../terrain';
 import type { BuiltInfo } from '../buildings';
+import { ATLASES, facadeKey, uvOf, type Atlas, type Region } from '../facadeAtlas';
 
 export interface LandmarkCtx {
   entrances: Entrance[]; landmarks: Landmark[]; areas: Area[];
@@ -23,6 +24,11 @@ export interface Face { a: XY; b: XY; u: XY; n: XY; len: number }
 export function facesOf(polyIn: XY[]): Face[] {
   const p = ccw(polyIn);
   return p.map((a, i) => { const b = p[(i + 1) % p.length], len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1e-6, u: XY = [(b[0] - a[0]) / len, (b[1] - a[1]) / len]; return { a, b, u, n: [u[1], -u[0]] as XY, len }; });
+}
+/** A single wall a → b, outside on the right of travel (the same convention as Buckets.wall). */
+export function faceOf(a: XY, b: XY): Face {
+  const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1e-6, u: XY = [(b[0] - a[0]) / len, (b[1] - a[1]) / len];
+  return { a, b, u, n: [u[1], -u[0]], len };
 }
 /** The face that looks most squarely at a point, favouring long faces. */
 export function faceToward(fs: Face[], pt: XY): Face {
@@ -98,6 +104,68 @@ export function corridorFloor(B: Buckets, f: Face, s0: number, s1: number, h: nu
   const n = Math.max(1, Math.round((s1 - s0) / piers));
   for (let i = 0; i <= n; i++) { const s = s0 + ((s1 - s0) * i) / n; panel(B, 'plain', f, Math.max(s0, s - 0.3), Math.min(s1, s + 0.3), 0.55, h + 0.3, h + FH - 0.25, WHITE); }
 }
+// ---------- facades cut from the approved renders (Phase 3M, src/render3d/facadeAtlas.ts) ----------
+// An atlas sub-rectangle can't repeat by texture wrapping, so the geometry repeats instead: one quad per bay per row.
+// Every helper returns false when the atlas or the piece is missing, so the caller can draw its procedural wall.
+export const atlasOf = (id: string): Atlas | null => ATLASES[id] ?? null;
+type UVR = [number, number, number, number];
+/** Glass pieces get the atlas with a slight sheen (materials.ts). */
+const keyOf = (A: Atlas, r: Region) => (r.type === 'glass' ? `${facadeKey(A.id)}#glass` : facadeKey(A.id));
+function tq(B: Buckets, key: string, f: Face, s0: number, s1: number, h0: number, h1: number, out: number, uv: UVR) {
+  const a = fp(f, s0, out), b = fp(f, s1, out);
+  B.quad(key, [a[0], a[1], h0], [b[0], b[1], h0], [b[0], b[1], h1], [a[0], a[1], h1], ONE, [uv[0], uv[1]], [uv[2], uv[1]], [uv[2], uv[3]], [uv[0], uv[3]]);
+}
+/** Wall from a face's strips: `base` at the bottom, `top` under the eave, `typ` rows between; whole window bays fitted
+ *  to the length. `opts.base / opts.top = false` leave those strips out (for a wall that starts above a plinth). */
+export function stripWall(B: Buckets, A: Atlas | null, face: string, f: Face, s0: number, s1: number, h0: number, h1: number, out = 0, opts: { base?: boolean; top?: boolean } = {}): boolean {
+  const R = A?.regions, typ = R?.[`${face}.typ`]; if (!A || !R || !typ) return false;
+  const base = opts.base === false ? undefined : R[`${face}.base`], top = opts.top === false ? undefined : R[`${face}.top`], H = h1 - h0;
+  if (H <= 0.05 || s1 - s0 <= 0.05) return true;
+  let hb = base?.hm ?? 0, ht = top?.hm ?? 0;
+  if (hb + ht > H * 0.85) { const k = (H * 0.85) / Math.max(1e-6, hb + ht); hb *= k; ht *= k; }
+  const n = Math.max(1, Math.round((H - hb - ht) / typ.hm)), hy = (H - hb - ht) / n;
+  const rows: [Region, number][] = [...(base && hb > 0 ? [[base, hb]] : []), ...Array.from({ length: n }, () => [typ, hy]), ...(top && ht > 0 ? [[top, ht]] : [])] as [Region, number][];
+  const bays = Math.max(1, Math.round((s1 - s0) / typ.wm)), bw = (s1 - s0) / bays, key = facadeKey(A.id);
+  let z = h0;
+  for (const [r, h] of rows) { const uv = uvOf(A, r); for (let i = 0; i < bays; i++) tq(B, key, f, s0 + i * bw, s0 + (i + 1) * bw, z, z + h, out, uv); z += h; }
+  return true;
+}
+/** A fixed piece (glass strip, emblem, door, atrium) stretched over s0..s1 × h0..h1, `out` proud with plain returns. */
+export function piece(B: Buckets, A: Atlas | null, name: string, f: Face, s0: number, s1: number, h0: number, h1: number, out = 0.05, side: RGB = WHITE): boolean {
+  const r = A?.regions[name]; if (!A || !r) return false;
+  tq(B, keyOf(A, r), f, s0, s1, h0, h1, out, uvOf(A, r));
+  if (out > 0.03) { const p0 = fp(f, s0, 0), p1 = fp(f, s1, 0), q0 = fp(f, s0, out), q1 = fp(f, s1, out); B.wall('plain', p0, q0, h0, h1, side); B.wall('plain', q1, p1, h0, h1, side); B.cap('plain', [p0, p1, q1, q0], h1, side); }
+  return true;
+}
+/** A piece repeated at its real size across s0..s1 (and up h0..h1 unless `stretchY`), whole tiles fitted to the span. */
+export function tiled(B: Buckets, A: Atlas | null, name: string, f: Face, s0: number, s1: number, h0: number, h1: number, out = 0, stretchY = false, side: RGB = WHITE): boolean {
+  const r = A?.regions[name]; if (!A || !r) return false;
+  const nx = Math.max(1, Math.round((s1 - s0) / r.wm)), ny = stretchY ? 1 : Math.max(1, Math.round((h1 - h0) / r.hm)), w = (s1 - s0) / nx, h = (h1 - h0) / ny, uv = uvOf(A, r), key = keyOf(A, r);
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) tq(B, key, f, s0 + i * w, s0 + (i + 1) * w, h0 + j * h, h0 + (j + 1) * h, out, uv);
+  if (out > 0.03) { const p0 = fp(f, s0, 0), p1 = fp(f, s1, 0), q0 = fp(f, s0, out), q1 = fp(f, s1, out); B.wall('plain', p0, q0, h0, h1, side); B.wall('plain', q1, p1, h0, h1, side); B.cap('plain', [p0, p1, q1, q0], h1, side); }
+  return true;
+}
+/** Bevel every convex wall corner of a footprint: a narrow face across the corner (`r` metres back along each wall),
+ *  so the edge catches the light as in the renders. */
+export function bevelCorners(B: Buckets, polyIn: XY[], h0: number, h1: number, col: RGB, r = 0.13) {
+  const p = ccw(polyIn), n = p.length;
+  for (let i = 0; i < n; i++) {
+    const a = p[(i + n - 1) % n], v = p[i], c = p[(i + 1) % n], e1 = [v[0] - a[0], v[1] - a[1]], e2 = [c[0] - v[0], c[1] - v[1]], l1 = Math.hypot(e1[0], e1[1]), l2 = Math.hypot(e2[0], e2[1]);
+    if (l1 < r * 3 || l2 < r * 3 || e1[0] * e2[1] - e1[1] * e2[0] <= 0.01 * l1 * l2) continue; // reflex or straight
+    const pa: XY = [v[0] - (e1[0] / l1) * r + (e1[1] / l1) * 0.02, v[1] - (e1[1] / l1) * r - (e1[0] / l1) * 0.02], pb: XY = [v[0] + (e2[0] / l2) * r + (e2[1] / l2) * 0.02, v[1] + (e2[1] / l2) * r - (e2[0] / l2) * 0.02];
+    const o: XY = [v[0] + (e1[1] / l1 + e2[1] / l2) * 0.05, v[1] - (e1[0] / l1 + e2[0] / l2) * 0.05]; // a hair outside the corner
+    B.wall('plain', pa, o, h0, h1, col); B.wall('plain', o, pb, h0, h1, col);
+  }
+}
+/** Hipped landmark roof: 0.45 m fascia, ridge caps; colour from the render's roof when the atlas has one. */
+export const ROOF_OPTS = { fascia: 0.45, ridge: true };
+/** Roof colour sampled from the render (roofs.ts sampledRoof: the ribbed texture shows exactly that colour, shaded by the
+ *  scene light); the data's roof colour when there is no atlas. */
+export function roofOf(A: Atlas | null, fallback: string, sample = 'roof'): string {
+  const hex = sample === 'roof' ? A?.roofHex : A?.colours[sample];
+  return hex ? sampledRoof(hex) : fallback;
+}
+
 /** Round emblem on a wall: a green ring with a pale centre. */
 export function emblem(B: Buckets, f: Face, s: number, out: number, h: number, r: number) {
   const disc = (rad: number, o: number, col: RGB) => {
@@ -114,13 +182,13 @@ export function emblem(B: Buckets, f: Face, s: number, out: number, h: number, r
 // ---------- roofs ----------
 export const PITCH22 = Math.tan((22 * Math.PI) / 180);
 /** Hipped roof over a rectangle given in a face's frame: s0..s1 along the face, t0..t1 back from it. Returns the ridge height. */
-export function hipOver(B: Buckets, f: Face, s0: number, s1: number, t0: number, t1: number, top: number, roofHex: string, eave = 0.8, maxRise = 9) {
+export function hipOver(B: Buckets, f: Face, s0: number, s1: number, t0: number, t1: number, top: number, roofHex: string, eave = 0.8, maxRise = 9, opts: RoofOpts = ROOF_OPTS) {
   const c = fp(f, (s0 + s1) / 2, -(t0 + t1) / 2), w = s1 - s0, d = t1 - t0, angle = (Math.atan2(f.u[1], f.u[0]) * 180) / Math.PI;
-  return hipRoof(B, { cx: c[0], cy: c[1], w, d, angle }, top, roofHex, Math.min(maxRise, (Math.min(w, d) / 2 + eave) * PITCH22), eave);
+  return hipRoof(B, { cx: c[0], cy: c[1], w, d, angle }, top, roofHex, Math.min(maxRise, (Math.min(w, d) / 2 + eave) * PITCH22), eave, opts);
 }
 /** Hipped roof over a part's own rectangle at a 22° pitch. */
-export function hipPart(B: Buckets, p: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, eave = 0.8, maxRise = 9) {
-  return hipRoof(B, p, top, roofHex, Math.min(maxRise, (Math.min(p.w, p.d) / 2 + eave) * PITCH22), eave);
+export function hipPart(B: Buckets, p: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, eave = 0.8, maxRise = 9, opts: RoofOpts = ROOF_OPTS) {
+  return hipRoof(B, p, top, roofHex, Math.min(maxRise, (Math.min(p.w, p.d) / 2 + eave) * PITCH22), eave, opts);
 }
 export const ngon = (c: XY, r: number, n: number, turn = 0): XY[] => Array.from({ length: n }, (_, i) => [c[0] + Math.cos(turn + (i / n) * Math.PI * 2) * r, c[1] + Math.sin(turn + (i / n) * Math.PI * 2) * r] as XY);
 /** Flat ring between two radii (paths and kerbs round a circular lawn). */

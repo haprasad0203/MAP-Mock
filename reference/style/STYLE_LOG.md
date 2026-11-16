@@ -63,3 +63,59 @@ Both renders show a simpler plan than the data. The spec says footprints stay as
 
 ## 16 Nov 2026: Phase 3M started (BUILD_LANDMARKS_3D.md)
 The Phase 3S sprite attempt (the renders standing on the map as pictures) is kept at tag `phase3-sprites-attempt`, with its log and screenshots. The branch went back to `phase3-before-sprites`; the landmarks are now built in 3D on the real footprints and painted with pieces cut from the renders.
+
+### Facade atlases (step 1)
+- Marks: `public/data/facades.json` (edit with `/campus?facade-edit=<id>`). Pixels come from the original PNGs; the cut-outs were not needed as masks for these two (every quad lies inside a wall).
+- Contact sheets: `compare/facades_admin.png`, `compare/facades_nab.png`.
+- Admin: the east end block's side face (top window band, blank plaster, base) and front face (teal strip, emblem, glazed door), the linking wing's corridor face, the centre glass curtain, plaster and stone samples. Roof `#85ab64`. Atlas 1024 px, 23 kB.
+- NAB: the end face (framed square windows, 2 bays × 4 floors), tower front (teal strip) and side (small windows), the stone face (stone, emblem, glass strip), the atrium, plaster. Tower cap `#4f8459`. Atlas 1024 px, 33 kB.
+- Left out on purpose: Admin's west side face (a tree stands in front of its stone base), and every face the renders don't show (backs reuse the side strips, as the spec says).
+
+### Round 1 (16 Nov): Admin 5.5/10, NAB 5/10
+Sheets: `compare/model_admin_v1.png`, `model_nab_v1.png` (render | model at the render camera), `*_v1_rot4.png` (map camera, 4 rotations), `*_v1_plan.png` (plan view with the data footprint in yellow). Map views: `compare/m3_admin_rot1_1280x800.jpg`, `compare/m3_nab_rot2_1280x800.jpg`. (These file names were used by Phase 3R round 1 too; those sheets are in git at `phase3-before-sprites`.)
+
+**Sizes against the real footprints** (the models are built on the data parts, so the outline matches by construction; heights from the data floors × 3.6 m):
+
+| Building | Part (data) | Size (m) | Floors | Model eave / deck (m above ground) |
+|---|---|---|---|---|
+| Admin | 2, centre + wings | 59.8 × 44.4 | 3 | wings 10.8, centre 11.6 (0.8 m raised band); roof ridge 19.4 |
+| Admin | 0, west end block | 23.0 × 22.3 | 4 | 14.4 |
+| Admin | 1, west end block | 27.0 × 13.2 | 4 | 14.4 |
+| Admin | 3, east end block (emblem) | 24.3 × 14.4 | 3 | 10.8 |
+| NAB | 1, slab | 59.6 × 18.0 | 4 | 14.4 |
+| NAB | 0 and 2, end blocks | 40.8 × 30.3, 28.4 × 21.5 | 5 | 18.0 |
+| NAB | 3, annex | 12.7 × 10.7 | 4 | 14.4 |
+| NAB | towers (6.4 m square) | — | 6 (block + 1) | 22.2, pavilion cap top 28.6 |
+
+**Admin round 1**
+| Item | Render | Model, round 1 | Next |
+|---|---|---|---|
+| Floor and roof proportions | Centre block 4 floors, wings 3, end blocks 4 | Data floors: centre part 3, east block 3, west blocks 4. The centre reads lower than in the render | **For H A:** the data says 3 floors for the centre part and the east block; the render shows 4. The data wins unless you change it |
+| Roof pitch, eaves, fascia | 22°, deep white fascia | 22°, 0.8 m eaves, 0.45 m white fascia, ridge caps. From the map camera the big data footprint makes a very large roof | Lower the rear range so the front range carries the green |
+| Colours | Warm white, sage roof, teal glass | Roof from the render sample on a neutral ribbed texture; walls white from the atlas | Roof a touch darker |
+| Windows and bays | End blocks nearly blank, a few small high windows | End side faces carry the render's own strip (window band at the top, blank middle) | — |
+| Glass | Tall teal strips, 2-storey curtain bay | Teal strips and the curtain bay cut from the render, 0.5 m proud, with a slight sheen | Curtain tile shows one painted column; crop tighter |
+| Stone | Light grey stone at the base | The render's stone tiled on the plinths and beside the bay, 0.12–0.15 m proud | — |
+| Balconies and corridors | Deep corridors, dark slabs, glass rails | Real-depth corridors on the front; the sides and back use the corridor strip as a flat wall | Recess the side corridors too |
+| Emblem | Round green emblem high on the east block | The render's emblem as a decal on the east block's front | — |
+| Entrance and canopy | Columns over an open porch | Columns and beam; glazed door on the west block from the render | — |
+| Forecourt | Rounded-triangle lawn with a ring, plaza | Round lawn, ring path, flag, lamps, cars (viewer only). On the map the road data still loops across the plaza | Draw that stretch of road as paving on the map |
+
+**NAB round 1**
+| Item | Render | Model, round 1 | Next |
+|---|---|---|---|
+| Floor and roof proportions | One long 4-floor slab, towers at the ends | Data: 4-floor slab between 5-floor end blocks standing forward, so only about 22 m of the slab front shows | Carry the front's pieces across the end blocks' lawn-side faces |
+| Roof | Flat, thin parapet, grey units | Flat decks with parapets, two grey units | — |
+| Colours | White, warm tan stone, teal glass | White from the atlas (shaded end face balanced to white), stone and glass from the render | — |
+| Windows and bays | Square windows in deep white frames, pairs | The render's own window bay on every plain wall (3 m bays, one per floor) | — |
+| Glass | Full-height atrium, glazed strips | Atrium and strips cut from the render, 0.6 m and 0.3 m proud, white side frames | Wider atrium once the front runs across the end blocks |
+| Stone | Two big tan panels | The render's stone, 0.15 m proud, both sides of the atrium | Larger panels with the wider front |
+| Towers | White, one floor higher, open pavilion, green cap | One floor above their 5-floor blocks, teal strip from the render, window strips on the other faces, cap colour from the render | — |
+| Emblem | On the left stone panel | The render's emblem, 3.1 m | — |
+| Entrance and canopy | White canopies | Centre door canopy on two posts (side porches need more than 46 m of front) | Porches on the end blocks' fronts |
+| Podium | Base strip, lawn strip, trees | None | Base strip and lawn strip |
+
+**Checked:**
+- In the browser: 4 rotations (SE → NE → NW → SW → SE, badge follows); tapping Admin and NAB selects them; search "NAB" opens its card; `?place=admin` opens Admin's card; the Hostels chip filters. The pane was hidden, so the rotation animation was stepped by hand.
+- Performance: High 51 draw calls / 1.16 M triangles at the default view; Medium 81 calls / 1.49 M triangles at a closer view (budget 150 / 1.5 M: triangles are at the limit, mostly forest). Facade atlases 56 kB so far. Real frame times still need a phone (`?fps=1`).
+- Known: opened with `?view=…,<rot>`, the Rotate badge shows SE until the first press (the 3D view itself is right).

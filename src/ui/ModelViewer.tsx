@@ -1,13 +1,14 @@
 // Dev route ?model=<buildingId>: one building (with its own forecourt) alone on a plain cream ground, seen as the
 // approved renders are: a 3/4 view about 32° down through a narrow lens, warm sun from the left.
 // Options: &az=<degrees> (compass direction from the building to the camera, from east, counter-clockwise; default -45 = south-east),
-// &pitch=<degrees>. scripts/compare-model.mjs screenshots this page next to the render.
+// &pitch=<degrees>, &outline=1 (the data footprint in yellow). scripts/compare-model.mjs screenshots this page next to the render.
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { loadLayout } from '../geo/source';
 import { Buckets } from '../render3d/mesh';
 import { addBuilding } from '../render3d/buildings';
 import { createMaterial, loadTextures } from '../render3d/materials';
+import { partFootprint } from '../render3d/terrain';
 
 const D2R = Math.PI / 180;
 
@@ -27,6 +28,12 @@ export default function ModelViewer({ id }: { id: string }) {
       const mats = new Map<string, THREE.Material>(), group = new THREE.Group();
       for (const m of B.meshes(k => { let x = mats.get(k); if (!x) { x = createMaterial(k, tex); mats.set(k, x); } return x; })) { m.castShadow = m.receiveShadow = true; group.add(m); }
       scene.add(group);
+      // &outline=1: the data footprint of every part in yellow, drawn over everything (size check against the real footprint)
+      if (qs.get('outline')) for (const p of b.parts) {
+        const pts = partFootprint(p).map(([x, y]) => new THREE.Vector3(x, (b.groundElev ?? 0) + 0.5, -y));
+        const line = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: '#FFD23F', depthTest: false }));
+        line.renderOrder = 10; scene.add(line);
+      }
       const box = new THREE.Box3().setFromObject(group); box.min.y = g; // ignore the skirt below ground
       const centre = box.getCenter(new THREE.Vector3()), radius = box.getSize(new THREE.Vector3()).length() / 2;
       const ground = new THREE.Mesh(new THREE.CircleGeometry(radius * 12, 48), new THREE.MeshStandardMaterial({ color: '#F1EBDD', roughness: 1 }));
@@ -61,7 +68,9 @@ export default function ModelViewer({ id }: { id: string }) {
       renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
       renderer.render(scene, cam); renderer.render(scene, cam);
       setMsg('');
-      (window as unknown as Record<string, unknown>).__modelReady = { id, triangles: renderer.info.render.triangles, calls: renderer.info.render.calls };
+      // sizes for the footprint check: the model's highest point above its ground, and each data part's size and floors
+      const parts = b.parts.map(p => ({ w: +p.w.toFixed(1), d: +p.d.toFixed(1), floors: p.floors }));
+      (window as unknown as Record<string, unknown>).__modelReady = { id, triangles: renderer.info.render.triangles, calls: renderer.info.render.calls, topM: +(box.max.y - g).toFixed(1), parts };
     }).catch(e => setMsg(String(e)));
     return () => { dead = true; renderer?.dispose(); };
   }, [id]);

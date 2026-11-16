@@ -1,64 +1,80 @@
-// Admin Block, modelled after the approved render (reference/generated/raw/tycoon/admin_v1.png) on the data footprint.
+// Admin Block (Phase 3M, reference/style/BUILD_LANDMARKS_3D.md): built on the data footprint and painted with pieces cut
+// from the approved render (reference/generated/raw/tycoon/admin_v1.png → public/campus-art/tycoon/facades/admin.webp).
 // Part 2 (the big block) is the centre: a taller centre block with the largest hip roof and a glass bay over the door,
 // between two lower linking wings with corridor balconies. Parts 0, 1 and 3 are the white end blocks.
+// With no atlas (tests, a failed load) every wall falls back to the procedural textures.
 import type { XY } from '../../geo/grid';
 import { partFootprint } from '../terrain';
 import { ccw, rgb } from '../mesh';
 import { insetRoof } from '../roofs';
-import { behind, blankWall, centroidOf, corridorFloor, depthAt, emblem, faceToward, facesOf, FH, fp, glassPanel, hipOver, hipPart, ngon, ONE, panel, PLINTH, ring, stonePanel, WHITE, windowWall, type LandmarkBuilder } from './kit';
+import {
+  atlasOf, behind, bevelCorners, blankWall, centroidOf, corridorFloor, depthAt, emblem, faceOf, faceToward, facesOf, FH, fp, glassPanel, hipOver, hipPart,
+  ngon, ONE, panel, piece, PLINTH, ring, roofOf, stonePanel, stripWall, tiled, WHITE, windowWall, type LandmarkBuilder,
+} from './kit';
 
 const MAIN = 2; // index of the centre part in the data
 
 export const buildAdmin: LandmarkBuilder = (B, b, ctx) => {
-  const g = b.groundElev ?? 0, roofHex = b.roofColor;
+  const g = b.groundElev ?? 0, A = atlasOf('admin'), roofHex = roofOf(A, b.roofColor);
   const flag = ctx.landmarks.find(l => l.id === 'flag')?.at ?? ctx.entrances.find(e => e.buildingId === b.id)?.at ?? [b.parts[0].cx, b.parts[0].cy - 40];
   let top = g;
+  // atlas-or-procedural wall pieces
+  const plaster = (f: Parameters<typeof blankWall>[1], s0: number, s1: number, h0: number, h1: number, out = 0) => tiled(B, A, 'plaster', f, s0, s1, h0, h1, out) || blankWall(B, f, s0, s1, h0, h1, WHITE, out);
+  const stone = (f: Parameters<typeof blankWall>[1], s0: number, s1: number, out: number, h0: number, h1: number) => tiled(B, A, 'stone', f, s0, s1, h0, h1, out, false, rgb('#B9B2A4')) || stonePanel(B, f, s0, s1, out, h0, h1);
 
   // ---------- centre: part 2 ----------
   const main = b.parts[MAIN], poly = ccw(partFootprint(main)), fs = facesOf(poly), front = faceToward(fs, flag), L = front.len;
-  const Hw = g + 3 * FH, Hc = g + 4 * FH + 1.0;                      // wing eaves, centre-block eaves
+  // floors from the data: part 2 has 3 (the render shows the centre block one floor taller; the data wins), so the centre
+  // block reads as the biggest through its roof and a 0.8 m raised parapet band
+  const Hw = g + main.floors * FH, Hc = Hw + 0.8;                    // wing eaves, centre-block eaves
   const Df = Math.max(12, Math.min(26, Math.min(depthAt(poly, front, 1), depthAt(poly, front, L - 1)) - 4)); // depth of the front range
   const cw = Math.min(27, L * 0.45), s0 = (L - cw) / 2, s1 = s0 + cw;
   for (const f of fs) {
     B.wall('plain', f.a, f.b, g - 4, g + 0.5, PLINTH);
-    if (f !== front) windowWall(B, f, 0, f.len, g + 0.5 - 0.5, 3, WHITE);
+    // sides and back: the render's corridor-wing strips (back walls reuse the side strips until H A's videos arrive)
+    if (f !== front && !stripWall(B, A, 'wing', f, 0, f.len, g + 0.5, Hw)) windowWall(B, f, 0, f.len, g, 3, WHITE);
   }
-  // linking wings: three corridor floors with grey-green rails
+  bevelCorners(B, poly, g + 0.5, Hw, WHITE);
+  // linking wings: three corridor floors with grey-green rails (real depth: recess, slab edge, glass rail, piers)
   for (const [a, c] of [[0, s0], [s1, L]] as [number, number][]) {
     for (let fl = 0; fl < 3; fl++) corridorFloor(B, front, a, c, g + fl * FH + (fl === 0 ? 0.3 : 0));
     hipOver(B, front, a - (a === 0 ? 0 : 0.4), c + (c === L ? 0 : 0.4), 0, Df, Hw, roofHex, 0.8, 3.6);
   }
   // rear range: a low hip over whatever lies behind the front range
   const rear = behind(poly, front, Df); if (rear.length >= 3) insetRoof(B, rear, Hw, roofHex);
-  // centre block: stone and a two-storey glass bay below, two corridor floors above, then the big hip
+  // centre block: stone either side of a two-storey glass curtain bay (0.5 m proud), two corridor floors above, then the big hip
   const gw = cw * 0.6, g0 = s0 + (cw - gw) / 2, g1 = g0 + gw;
-  stonePanel(B, front, s0, g0, 0.3, g, g + 2 * FH); stonePanel(B, front, g1, s1, 0.3, g, g + 2 * FH);
-  glassPanel(B, front, g0, g1, 0.8, g + 0.3, g + 2 * FH - 0.3, 1.9);
+  stone(front, s0, g0, 0.15, g, g + 2 * FH); stone(front, g1, s1, 0.15, g, g + 2 * FH);
+  if (!tiled(B, A, 'curtain', front, g0, g1, g + 0.3, g + 2 * FH - 0.3, 0.5, true)) glassPanel(B, front, g0, g1, 0.8, g + 0.3, g + 2 * FH - 0.3, 1.9);
+  panel(B, 'plain', front, g0 - 0.15, g1 + 0.15, 0.62, g + 2 * FH - 0.3, g + 2 * FH - 0.1, WHITE);                // white frame over the bay
   panel(B, 'plain', front, s0 - 0.3, s1 + 0.3, 1.5, g + 2 * FH - 0.3, g + 2 * FH + 0.3, rgb('#4A4E50'));        // dark band over the glass
   for (let i = 0; i <= 3; i++) { const s = g0 + (gw * i) / 3; panel(B, 'plain', front, s - 0.4, s + 0.4, 2.6, g, g + 2 * FH - 0.3, WHITE, 0, WHITE, 1.8); } // portico columns
   panel(B, 'plain', front, g0 - 0.8, g1 + 0.8, 2.9, g + 2 * FH - 0.9, g + 2 * FH - 0.3, WHITE);                 // portico beam
-  for (let fl = 2; fl < 4; fl++) corridorFloor(B, front, s0, s1, g + fl * FH, cw / 5, rgb('#3E9AA0'));
-  blankWall(B, front, s0, s1, g + 4 * FH, Hc, WHITE, 0.5);
+  for (let fl = 2; fl < main.floors; fl++) corridorFloor(B, front, s0, s1, g + fl * FH, cw / 5, rgb('#3E9AA0'));
+  plaster(front, s0, s1, Hw, Hc, 0.5);
   // sides and back of the centre block where it stands above the wings
-  const cFace = (a: XY, c: XY) => B.wall('heroBlank', a, c, Hw - 0.6, Hc, WHITE, 0, 1, 0, (Hc - Hw + 0.6) / FH);
+  const cFace = (a: XY, c: XY) => { const f = faceOf(a, c); if (!stripWall(B, A, 'wing', f, 0, f.len, Hw - 0.6, Hc, 0, { base: false })) B.wall('heroBlank', a, c, Hw - 0.6, Hc, WHITE, 0, 1, 0, (Hc - Hw + 0.6) / FH); };
   cFace(fp(front, s0, -Df), fp(front, s0, 0.5)); cFace(fp(front, s1, 0.5), fp(front, s1, -Df)); cFace(fp(front, s1, -Df), fp(front, s0, -Df));
-  top = Math.max(top, hipOver(B, front, s0, s1, -0.5, Df, Hc, roofHex, 1.1, 6));
+  // the roof rises at most 35 % of the wall height
+  top = Math.max(top, hipOver(B, front, s0, s1, -0.5, Df, Hc, roofHex, 1.1, 0.35 * (Hc - g)));
 
   // ---------- end blocks: parts 0, 1 and 3 ----------
   b.parts.forEach((p, idx) => {
     if (idx === MAIN) return;
-    const pp = ccw(partFootprint(p)), pf = facesOf(pp), show = faceToward(pf, flag), H = g + 4 * FH;
+    const pp = ccw(partFootprint(p)), pf = facesOf(pp), show = faceToward(pf, flag), H = g + p.floors * FH;
     for (const f of pf) {
       B.wall('plain', f.a, f.b, g - 4, g + 0.4, PLINTH);
-      if (f.len > 3) stonePanel(B, f, 0, f.len, 0.12, g + 0.4, g + 3.3); else B.wall('plain', f.a, f.b, g + 0.4, g + 3.3, WHITE);
+      if (f.len > 3) stone(f, 0, f.len, 0.12, g + 0.4, g + 3.3); else B.wall('plain', f.a, f.b, g + 0.4, g + 3.3, WHITE);
       if (f === show) {
-        blankWall(B, f, 0, f.len, g + 3.3, H, WHITE);
-        const sx = f.len * 0.3; glassPanel(B, f, sx - 1.1, sx + 1.1, 0.14, g + 3.9, H - 1.6, 1.6);            // vertical teal strip
-        if (idx === 3) emblem(B, f, f.len * 0.68, 0.16, H - 3.6, 2.3);                                         // IIM emblem, east block
-        else glassPanel(B, f, f.len * 0.55, f.len * 0.55 + 5, 0.2, g + 0.5, g + 3.1, 1.6);                     // glazed door, west block
-      } else if (f.len > 6) { blankWall(B, f, 0, f.len, g + 3.3, g + FH, WHITE); windowWall(B, f, 0, f.len, g + FH, 3, WHITE, 5.2); }
-      else blankWall(B, f, 0, f.len, g + 3.3, H, WHITE);
+        plaster(f, 0, f.len, g + 3.3, H);
+        const sx = f.len * 0.3;                                                                                       // vertical teal strip
+        if (!piece(B, A, 'teal-strip', f, sx - 0.8, sx + 0.8, g + 3.9, H - 1.6, 0.14)) glassPanel(B, f, sx - 1.1, sx + 1.1, 0.14, g + 3.9, H - 1.6, 1.6);
+        if (idx === 3) { const e = f.len * 0.68, eh = H - 3.6; if (!piece(B, A, 'emblem', f, e - 1.25, e + 1.25, eh - 1.55, eh + 1.55, 0.08)) emblem(B, f, e, 0.16, eh, 2.3); } // IIM emblem, east block
+        else if (!piece(B, A, 'door', f, f.len * 0.55, f.len * 0.55 + 4.6, g + 0.45, g + 3.15, 0.2)) glassPanel(B, f, f.len * 0.55, f.len * 0.55 + 5, 0.2, g + 0.5, g + 3.1, 1.6); // glazed door, west block
+      } else if (f.len > 6) { if (!stripWall(B, A, 'end-side', f, 0, f.len, g + 3.3, H, 0, { base: false })) { blankWall(B, f, 0, f.len, g + 3.3, g + FH, WHITE); windowWall(B, f, 0, f.len, g + FH, 3, WHITE, 5.2); } }
+      else plaster(f, 0, f.len, g + 3.3, H);
     }
+    bevelCorners(B, pp, g + 0.4, H, WHITE);
     top = Math.max(top, hipPart(B, p, H, roofHex, 0.8, 4.4));
   });
 

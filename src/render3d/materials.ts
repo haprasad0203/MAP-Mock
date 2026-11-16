@@ -1,5 +1,6 @@
 // Materials shared by the map engine and the ?model= viewer, one per bucket key.
 import * as THREE from 'three';
+import { ATLASES, facadeKey, type Atlas } from './facadeAtlas';
 
 export const TEX_FILES = {
   facadeCream: 'tex-facade-cream-plaster', facadeWhite: 'tex-facade-white-tealglass', stone: 'tex-stone-cladding',
@@ -9,11 +10,29 @@ export const TEX_FILES = {
 
 export async function loadTextures(): Promise<Record<string, THREE.Texture>> {
   const loader = new THREE.TextureLoader(), tex: Record<string, THREE.Texture> = {};
-  await Promise.all(Object.entries(TEX_FILES).map(async ([key, file]) => {
-    const t = await loader.loadAsync(`/campus-art/tycoon/${file}.webp`);
-    t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; tex[key] = t;
-  }));
+  await Promise.all([
+    ...Object.entries(TEX_FILES).map(async ([key, file]) => {
+      const t = await loader.loadAsync(`/campus-art/tycoon/${file}.webp`);
+      t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; tex[key] = t;
+    }),
+    loadFacadeAtlases(loader, tex),
+  ]);
   return tex;
+}
+
+/** Facade atlases (Phase 3M): one per landmark that has one in facades.json. A missing atlas leaves that building procedural. */
+async function loadFacadeAtlases(loader: THREE.TextureLoader, tex: Record<string, THREE.Texture>) {
+  try {
+    const cfg = await fetch('/data/facades.json').then(r => r.json());
+    await Promise.all(Object.entries<{ atlas?: Omit<Atlas, 'id'> }>(cfg.facades ?? {}).map(async ([id, F]) => {
+      if (!F.atlas) return;
+      try {
+        const t = await loader.loadAsync(F.atlas.file);
+        t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.anisotropy = 8;
+        tex[facadeKey(id)] = t; ATLASES[id] = { ...F.atlas, id };
+      } catch { /* keep the procedural walls */ }
+    }));
+  } catch { /* no facades.json */ }
 }
 
 function canvasTexture(size: number, draw: (g: CanvasRenderingContext2D, s: number) => void): THREE.Texture {
@@ -46,6 +65,12 @@ const heroBlankTexture = () => canvasTexture(64, (g, s) => { g.fillStyle = '#FFF
 
 export function createMaterial(key: string, tex: Record<string, THREE.Texture>): THREE.Material {
   const map = tex[key] ?? null, std = (o: THREE.MeshStandardMaterialParameters) => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, ...o });
+  // facade atlas cut from a render: the painted light is evened out in the atlas, so the scene light shades it.
+  // Glass pieces use the same atlas with a slight sheen ('facade:<id>#glass').
+  if (key.startsWith('facade:')) {
+    const glass = key.endsWith('#glass'), m = tex[glass ? key.slice(0, -6) : key] ?? null;
+    return std(glass ? { map: m, roughness: 0.28, metalness: 0.12 } : { map: m, roughness: 0.84 });
+  }
   switch (key) {
     case 'glass': return new THREE.MeshStandardMaterial({ map: glassTexture(), roughness: 0.22, metalness: 0.1, emissive: '#0E3A40', emissiveIntensity: 0.3 });
     case 'house': return new THREE.MeshLambertMaterial({ vertexColors: true });
