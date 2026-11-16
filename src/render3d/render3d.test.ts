@@ -101,3 +101,24 @@ describe('building geometry', () => {
     expect([...B.map.keys()]).toEqual(['house']); expect(B.map.get('house')!.pos.every(Number.isFinite)).toBe(true);
   });
 });
+
+describe('facade atlases (Phase 3M)', () => {
+  const cfg = JSON.parse(fs.readFileSync('public/data/facades.json', 'utf8'));
+  it('every marked face has 4 corners and a real height, and every piece lies inside its face', () => {
+    for (const [id, F] of Object.entries<any>(cfg.facades)) for (const f of F.faces) {
+      expect(f.quad.length, `${id}/${f.name}`).toBe(4);
+      expect(f.heightM, `${id}/${f.name}`).toBeGreaterThan(0);
+      for (const p of f.pieces ?? []) for (const r of [p.u, p.v]) { expect(r[0]).toBeGreaterThanOrEqual(0); expect(r[1]).toBeLessThanOrEqual(1); expect(r[1]).toBeGreaterThan(r[0]); }
+    }
+  });
+  it('every atlas region lies inside its atlas, and the atlas file exists', () => {
+    for (const [id, F] of Object.entries<any>(cfg.facades)) {
+      if (!F.atlas) continue;
+      expect(fs.existsSync(`public${F.atlas.file}`), id).toBe(true);
+      for (const [name, r] of Object.entries<any>(F.atlas.regions)) {
+        expect(r.x >= 0 && r.y >= 0 && r.x + r.w <= F.atlas.w && r.y + r.h <= F.atlas.h, `${id}/${name}`).toBe(true);
+        expect(r.wm > 0 && r.hm > 0, `${id}/${name}`).toBe(true);
+      }
+    }
+  });
+});

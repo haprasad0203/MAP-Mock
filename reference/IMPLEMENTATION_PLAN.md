@@ -40,7 +40,7 @@ Spec: `reference/style/BUILD_LANDMARKS_3D.md` (supersedes LANDMARK_SPRITES.md an
 - Stop 1: Admin + NAB facade atlases and round-1 models, then H A's review.
 
 ## Later stage: landmarks v2
-1. **H A's videos:** they go in `D:\Map Mockeference\photos\campus_new\<building-id>\`. Extract frames (ffmpeg), rectify real walls the same way, and replace or extend the facade strips, especially the back walls.
+1. **H A's videos:** they go in `D:\Map Mock\reference\photos\campus_new\<building-id>\`. Extract frames (ffmpeg), rectify real walls the same way, and replace or extend the facade strips, especially the back walls.
 2. **The guessed buildings:** redo the Kalam Centre, Commercial Complex and Mess walls from H A's footage.
 3. **Higher-resolution facades** for the closest zoom.
 4. **Optional dusk mode** with lit windows.

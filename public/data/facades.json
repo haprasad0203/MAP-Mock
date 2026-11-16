@@ -1,0 +1,483 @@
+{
+ "note": "Phase 3M (reference/style/BUILD_LANDMARKS_3D.md): wall faces and special pieces marked on the approved renders, for scripts/extract-facades.mjs. Pixel source = the original PNG in reference/generated/raw/tycoon/<file>; quads are in its pixels, corners TL, TR, BR, BL as seen front-on. heightM = the face's real height (walls to the eave); its width comes from the render's camera (pitch). bands = [v0, v1] rows (0 = top) of the base / typical / top strips; bays = window bays across the face. pieces = fixed pieces [u0, u1] x [v0, v1] of the face; samples = axis-aligned rectangles [x0, y0, x1, y1] (roof colour, tileable plaster or stone). 'atlas' is written by the script. Edit with /campus?facade-edit=<id>.",
+ "pitch": 32,
+ "pxPerM": 40,
+ "facades": {
+  "admin": {
+   "file": "admin_v1.png",
+   "white": "#FBFAF6",
+   "faces": [
+    {
+     "name": "end-side",
+     "quad": [[1931, 865], [2227, 750], [2231, 1138], [1931, 1269]],
+     "heightM": 15,
+     "bays": 3,
+     "bands": {
+      "top": [0, 0.24],
+      "typ": [0.3, 0.62],
+      "base": [0.68, 1]
+     },
+     "wb": "self"
+    },
+    {
+     "name": "end-front",
+     "quad": [[1773, 804], [1931, 865], [1931, 1269], [1773, 1208]],
+     "heightM": 15,
+     "pieces": [
+      {
+       "name": "teal-strip",
+       "type": "glass",
+       "u": [0.4, 0.6],
+       "v": [0.03, 0.7]
+      },
+      {
+       "name": "emblem",
+       "type": "emblem",
+       "u": [0.6, 1],
+       "v": [0.06, 0.27]
+      },
+      {
+       "name": "door",
+       "type": "entrance",
+       "u": [0.17, 0.82],
+       "v": [0.79, 0.97]
+      }
+     ],
+     "wb": "self"
+    },
+    {
+     "name": "wing",
+     "quad": [[640, 771], [953, 687], [953, 993], [640, 1076]],
+     "heightM": 10.8,
+     "floors": 3,
+     "bays": 4,
+     "wb": "self"
+    },
+    {
+     "name": "centre-glass",
+     "quad": [[1029, 876], [1216, 931], [1216, 1007], [1029, 973]],
+     "heightM": 6.5,
+     "pieces": [
+      {
+       "name": "curtain",
+       "type": "glass",
+       "u": [0.3, 0.98],
+       "v": [0.02, 0.5]
+      }
+     ],
+     "wb": "building"
+    }
+   ],
+   "samples": [
+    {
+     "name": "roof",
+     "type": "roof",
+     "rect": [1280, 450, 1440, 530]
+    },
+    {
+     "name": "plaster",
+     "type": "tile",
+     "rect": [250, 800, 400, 960]
+    },
+    {
+     "name": "stone",
+     "type": "tile",
+     "rect": [215, 1022, 300, 1092]
+    }
+   ],
+   "atlas": {
+    "file": "/campus-art/tycoon/facades/admin.webp",
+    "w": 1024,
+    "h": 1024,
+    "kb": 23,
+    "roofHex": "#85ab64",
+    "colours": {
+     "roof": "#85ab64"
+    },
+    "faces": {
+     "end-side": {
+      "wm": 12.13,
+      "hm": 15,
+      "bays": 3,
+      "bayM": 4.04
+     },
+     "end-front": {
+      "wm": 6.16,
+      "hm": 15,
+      "bays": 0,
+      "bayM": null
+     },
+     "wing": {
+      "wm": 10.51,
+      "hm": 10.8,
+      "bays": 4,
+      "bayM": 2.63
+     },
+     "centre-glass": {
+      "wm": 13.06,
+      "hm": 6.5,
+      "bays": 0,
+      "bayM": null
+     }
+    },
+    "regions": {
+     "teal-strip": {
+      "x": 8,
+      "y": 8,
+      "w": 49,
+      "h": 402,
+      "wm": 1.23,
+      "hm": 10.05,
+      "kind": "piece",
+      "type": "glass"
+     },
+     "plaster": {
+      "x": 73,
+      "y": 8,
+      "w": 190,
+      "h": 205,
+      "wm": 4.75,
+      "hm": 5.13,
+      "kind": "tile"
+     },
+     "end-side.typ": {
+      "x": 279,
+      "y": 8,
+      "w": 161,
+      "h": 192,
+      "wm": 4.03,
+      "hm": 4.8,
+      "kind": "strip"
+     },
+     "end-side.base": {
+      "x": 456,
+      "y": 8,
+      "w": 161,
+      "h": 192,
+      "wm": 4.03,
+      "hm": 4.8,
+      "kind": "strip"
+     },
+     "end-side.top": {
+      "x": 633,
+      "y": 8,
+      "w": 161,
+      "h": 144,
+      "wm": 4.03,
+      "hm": 3.6,
+      "kind": "strip"
+     },
+     "wing.top": {
+      "x": 810,
+      "y": 8,
+      "w": 105,
+      "h": 144,
+      "wm": 2.63,
+      "hm": 3.6,
+      "kind": "strip"
+     },
+     "wing.typ": {
+      "x": 8,
+      "y": 426,
+      "w": 105,
+      "h": 144,
+      "wm": 2.63,
+      "hm": 3.6,
+      "kind": "strip"
+     },
+     "wing.base": {
+      "x": 129,
+      "y": 426,
+      "w": 105,
+      "h": 144,
+      "wm": 2.63,
+      "hm": 3.6,
+      "kind": "strip"
+     },
+     "emblem": {
+      "x": 250,
+      "y": 426,
+      "w": 98,
+      "h": 126,
+      "wm": 2.45,
+      "hm": 3.15,
+      "kind": "piece",
+      "type": "emblem"
+     },
+     "curtain": {
+      "x": 364,
+      "y": 426,
+      "w": 356,
+      "h": 125,
+      "wm": 8.9,
+      "hm": 3.13,
+      "kind": "piece",
+      "type": "glass"
+     },
+     "door": {
+      "x": 736,
+      "y": 426,
+      "w": 160,
+      "h": 108,
+      "wm": 4,
+      "hm": 2.7,
+      "kind": "piece",
+      "type": "entrance"
+     },
+     "stone": {
+      "x": 8,
+      "y": 586,
+      "w": 110,
+      "h": 88,
+      "wm": 2.75,
+      "hm": 2.2,
+      "kind": "tile"
+     }
+    }
+   }
+  },
+  "nab": {
+   "file": "nab_v3.png",
+   "white": "#FBFAF6",
+   "faces": [
+    {
+     "name": "end",
+     "quad": [[362, 752], [510, 802], [510, 1210], [362, 1140]],
+     "heightM": 15.3,
+     "floors": 4,
+     "bays": 2,
+     "wb": "self"
+    },
+    {
+     "name": "tower-front",
+     "quad": [[718, 782], [806, 756], [806, 1260], [718, 1290]],
+     "heightM": 18.6,
+     "pieces": [
+      {
+       "name": "tower-strip",
+       "type": "glass",
+       "u": [0.2, 0.48],
+       "v": [0.04, 0.9]
+      }
+     ],
+     "wb": "self"
+    },
+    {
+     "name": "tower-side",
+     "quad": [[598, 745], [690, 773], [690, 1282], [598, 1255]],
+     "heightM": 18.6,
+     "bays": 1,
+     "wb": "self",
+     "bands": {
+      "typ": [0.27, 0.54],
+      "base": [0.8, 1]
+     }
+    },
+    {
+     "name": "stone-face",
+     "quad": [[840, 788], [1170, 730], [1170, 1160], [840, 1220]],
+     "heightM": 15.3,
+     "pieces": [
+      {
+       "name": "stone",
+       "type": "stone",
+       "u": [0.24, 0.76],
+       "v": [0.45, 0.93]
+      },
+      {
+       "name": "emblem",
+       "type": "emblem",
+       "u": [0.38, 0.62],
+       "v": [0.18, 0.37]
+      },
+      {
+       "name": "glass-strip",
+       "type": "glass",
+       "u": [0.8, 0.96],
+       "v": [0.02, 0.9]
+      }
+     ]
+    },
+    {
+     "name": "atrium",
+     "quad": [[1491, 647], [1645, 635], [1645, 1025], [1491, 1038]],
+     "heightM": 16.5,
+     "pieces": [
+      {
+       "name": "atrium",
+       "type": "glass",
+       "u": [0, 1],
+       "v": [0, 0.86]
+      }
+     ]
+    }
+   ],
+   "samples": [
+    {
+     "name": "roof",
+     "type": "roof",
+     "rect": [1150, 470, 1350, 560]
+    },
+    {
+     "name": "cap",
+     "type": "roof",
+     "rect": [640, 585, 740, 610]
+    },
+    {
+     "name": "plaster",
+     "type": "tile",
+     "rect": [1370, 700, 1480, 980]
+    }
+   ],
+   "atlas": {
+    "file": "/campus-art/tycoon/facades/nab.webp",
+    "w": 1024,
+    "h": 1024,
+    "kb": 33,
+    "roofHex": "#c8a28b",
+    "colours": {
+     "roof": "#c8a28b",
+     "cap": "#4f8459"
+    },
+    "faces": {
+     "end": {
+      "wm": 6.07,
+      "hm": 15.3,
+      "bays": 2,
+      "bayM": 3.04
+     },
+     "tower-front": {
+      "wm": 3.2,
+      "hm": 18.6,
+      "bays": 0,
+      "bayM": null
+     },
+     "tower-side": {
+      "wm": 3.27,
+      "hm": 18.6,
+      "bays": 1,
+      "bayM": 3.27
+     },
+     "stone-face": {
+      "wm": 10.48,
+      "hm": 15.3,
+      "bays": 0,
+      "bayM": null
+     },
+     "atrium": {
+      "wm": 5.58,
+      "hm": 16.5,
+      "bays": 0,
+      "bayM": null
+     }
+    },
+    "regions": {
+     "tower-strip": {
+      "x": 8,
+      "y": 8,
+      "w": 36,
+      "h": 640,
+      "wm": 0.9,
+      "hm": 16,
+      "kind": "piece",
+      "type": "glass"
+     },
+     "atrium": {
+      "x": 60,
+      "y": 8,
+      "w": 223,
+      "h": 568,
+      "wm": 5.58,
+      "hm": 14.2,
+      "kind": "piece",
+      "type": "glass"
+     },
+     "glass-strip": {
+      "x": 299,
+      "y": 8,
+      "w": 67,
+      "h": 539,
+      "wm": 1.68,
+      "hm": 13.47,
+      "kind": "piece",
+      "type": "glass"
+     },
+     "plaster": {
+      "x": 382,
+      "y": 8,
+      "w": 138,
+      "h": 388,
+      "wm": 3.45,
+      "hm": 9.7,
+      "kind": "tile"
+     },
+     "stone": {
+      "x": 536,
+      "y": 8,
+      "w": 218,
+      "h": 294,
+      "wm": 5.45,
+      "hm": 7.35,
+      "kind": "piece",
+      "type": "stone"
+     },
+     "tower-side.typ": {
+      "x": 770,
+      "y": 8,
+      "w": 131,
+      "h": 201,
+      "wm": 3.27,
+      "hm": 5.02,
+      "kind": "strip"
+     },
+     "end.top": {
+      "x": 8,
+      "y": 664,
+      "w": 121,
+      "h": 153,
+      "wm": 3.02,
+      "hm": 3.83,
+      "kind": "strip"
+     },
+     "end.typ": {
+      "x": 145,
+      "y": 664,
+      "w": 121,
+      "h": 153,
+      "wm": 3.02,
+      "hm": 3.83,
+      "kind": "strip"
+     },
+     "end.base": {
+      "x": 282,
+      "y": 664,
+      "w": 121,
+      "h": 153,
+      "wm": 3.02,
+      "hm": 3.83,
+      "kind": "strip"
+     },
+     "tower-side.base": {
+      "x": 419,
+      "y": 664,
+      "w": 131,
+      "h": 149,
+      "wm": 3.27,
+      "hm": 3.72,
+      "kind": "strip"
+     },
+     "emblem": {
+      "x": 566,
+      "y": 664,
+      "w": 101,
+      "h": 116,
+      "wm": 2.52,
+      "hm": 2.9,
+      "kind": "piece",
+      "type": "emblem"
+     }
+    }
+   }
+  }
+ }
+}

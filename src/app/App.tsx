@@ -5,12 +5,15 @@ import { IconCal, IconHome, IconInfo, IconMap, IconUser } from '../ui/icons';
 const SurveyPage = lazy(() => import('../survey/SurveyPage'));
 const DebugLayout = lazy(() => import('../ui/DebugLayout'));
 const ModelViewer = lazy(() => import('../ui/ModelViewer'));
+const FacadeEditor = lazy(() => import('../ui/FacadeEditor'));
 
 /** Mock of the WMC app shell: only the Campus route is real; the others are stand-ins that deep-link into it. */
 export default function App() {
   if (new URLSearchParams(location.search).get('debug') === 'layout') return <Suspense fallback={null}><DebugLayout /></Suspense>;
   const model = new URLSearchParams(location.search).get('model'); // dev: one building alone, for comparing with its render
   if (model) return <Suspense fallback={null}><ModelViewer id={model} /></Suspense>;
+  const facadeEdit = new URLSearchParams(location.search).get('facade-edit'); // dev: mark wall faces on a render (Phase 3M)
+  if (facadeEdit) return <Suspense fallback={null}><FacadeEditor id={facadeEdit} /></Suspense>;
   const path = location.pathname.replace(/\/+$/, '') || '/campus';
   let page: JSX.Element;
   if (path === '/campus' || path === '') page = <CampusPage />;
