@@ -346,3 +346,18 @@ None: this is a new project. Existing material used: the kit `reference/` docs, 
 - Where are the gate, the statue, the medical room and the help desk?
 - Which room is in which building and on which floor?
 - Where are the event spots?
+
+
+# Phase 3B result (17 Nov 2026)
+- **Walking graph and routing** (src/route/graph.ts): built from every walkable line (roads, service lanes, footpaths, tracks, the Scholar's Path, the hardscape footpaths and lake trail), with junction snapping, T-joins and building entrances. A* to a building's main entrance, or to the nearest point for grounds and landmarks. Every main entrance is reachable from the main gate (test).
+- **Directions:** a banner with the next turn, named after the nearest landmark ("Past Main Gate, then left"), the metres to it, the minutes left and the room and floor. Rerouting happens more than 25 m off the route. On arrival: "You're at X. Room Y is on floor Z", as text only. Without GPS, Pick start lets you tap your position. The route is a wide yellow trail with a dark dashed centre line, drawn on top so it shows under the Scholar's Path roof.
+- **Location** (src/route/location.ts): watchPosition with high accuracy, only after Locate or Directions. Fixes are smoothed, weighted by accuracy. Locate taps cycle centre → follow → off. Off campus shows "Not on campus yet" with a link to the arrival plan.
+- **Simulator** (?simgps=1, dev): Sim: place me, then tap the map; Sim: walk route; Sim: stray 50 m tests the reroute. The headless check walks gate → NAB and reaches the arrival message (scripts/shots-3b.mjs).
+- **Live layer** (src/data/live.ts + public/data/live.json, a LiveSource with polling):
+  - ON AIR tags on buildings with a session running;
+  - event pins for registration, help desk, first aid, the shuttle point, the cultural evening and the gala dinner, plus "Lunch now" at the mess during meals. They sit at existing places, and their exact spots are to confirm.
+  - Room-change signs: search, cards, the list and routes all follow the new room.
+  - Offline, the Layers panel shows when the live data was last updated. ?now= previews any moment of the conference.
+- **List view** (src/ui/ListView.tsx): Layers → Show as a list, or ?list=1. Every place, grouped, with ON AIR, events, a Map button and a Go (directions) button.
+- **Deep links:** ?route=<placeId | room | session:<id>>, alongside the existing ?place= and ?room=.
+- **Not done:** step-free routing (no stair data yet), crowd badges, the automatic switch to the list view on weak devices (Phase 5), and real-phone GPS testing on campus. The NAB route ends at the data's SW-tip entrance (LAYOUT_CHECK 4 proposes the SE face).

@@ -109,3 +109,24 @@ table.pts { width: 100%; border-collapse: collapse; font-size: 13px; } table.pts
   .top { right: auto; width: 560px; }
 }
 @media (prefers-reduced-motion: reduce) { .onair { animation: none; } .sheet-inner { transition: none; } }
+
+/* ---- Phase 3B: directions banner, location states, simulator, list view ---- */
+.nav { margin-top: 8px; background: var(--paper); border: 2px solid var(--pine); border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; box-shadow: 0 3px 0 rgba(15, 77, 50, 0.25); }
+.nav .big { font: 700 16px var(--font-ui); color: var(--ink); }
+.nav .sm { font-size: 13px; color: var(--muted); }
+.nav.arrived { background: #E6F4EA; }
+.nav.warn { background: #FFF4D6; }
+.nav .grow { flex: 1; min-width: 0; }
+.nav .btn { min-height: 36px; padding: 0 10px; }
+.ctl[aria-pressed="true"] { background: var(--accent); }
+.sim { position: absolute; left: 12px; bottom: 150px; z-index: 6; display: flex; gap: 6px; flex-wrap: wrap; max-width: 60%; }
+.sim .btn { min-height: 34px; padding: 0 10px; font-size: 12px; background: #2B2F36; color: #fff; border-color: #2B2F36; }
+.listview { position: absolute; inset: 0 0 64px 0; z-index: 20; background: var(--paper); overflow-y: auto; padding: max(12px, env(safe-area-inset-top)) 14px 24px; }
+.lv-head { display: flex; align-items: center; justify-content: space-between; }
+.lv-head h2 { margin: 0; font: 700 22px var(--font-pixel); color: var(--pine); }
+.lv-group h3 { margin: 16px 0 6px; font: 700 15px var(--font-pixel); color: var(--pine); }
+.lv-group ul { list-style: none; margin: 0; padding: 0; }
+.lv-group li { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; column-gap: 8px; padding: 8px 0; border-bottom: 1px solid #E2DCC8; }
+.lv-name { font-weight: 600; } .lv-group .muted { grid-column: 1; font-size: 13px; }
+.lv-btns { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 6px; align-items: center; }
+.lv-btns .btn { min-height: 36px; padding: 0 10px; }

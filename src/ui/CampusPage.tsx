@@ -2,12 +2,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadGeometry } from '../geo/source';
 import type { Category } from '../geo/types';
 import type { XY } from '../geo/grid';
-import { buildWorld, type WorldModel } from '../render/world';
+import { buildWorld, campusAt, type WorldModel } from '../render/world';
 import { MapEngine, type Pin, type View } from '../render/engine';
 import type { IMapEngine } from '../render/engineApi';
 import { LEVELS, type Tier } from '../render/iso';
 import { autoQuality, currentChoice, saveChoice, webgl2Available, type QualityChoice } from '../render/quality';
-import { fixturePlaces, fixtureSchedule, sanitize, search, type Hit, type Place, type PlacesData, type Room, type ScheduleData } from '../data/places';
+import { fixturePlaces, fixtureSchedule, floorName, sanitize, search, type Hit, type Place, type PlacesData, type Room, type ScheduleData } from '../data/places';
+import { activeEvents, activeRoomChanges, applyRoomChanges, fixtureLive, minutesAgo, onAirBuildings, type LiveData } from '../data/live';
+import { ARRIVE_M, buildGraph, nextStep, offRoute, REROUTE_M, routeTo, routeToPoint, walkable, type Route } from '../route/graph';
+import { LocationSource, type Fix } from '../route/location';
+import { ListView } from './ListView';
 import { IconClose, IconCompass, IconLayers, IconLocate, IconRotate, IconSearch } from './icons';
 import { BottomSheet, type Selection } from './BottomSheet';
 import { iconUrl } from './mapIcons';
@@ -37,7 +41,17 @@ export default function CampusPage() {
   const use3d = choice !== '2d' && !failed3d;
   const [world, setWorld] = useState<WorldModel | null>(null);
   const [places, setPlaces] = useState<PlacesData | null>(null);
-  const [sched, setSched] = useState<ScheduleData | null>(null);
+  const [schedRaw, setSched] = useState<ScheduleData | null>(null);
+  const [live, setLive] = useState<LiveData | null>(null); const [liveErr, setLiveErr] = useState(false);
+  const sched = useMemo(() => (schedRaw ? applyRoomChanges(schedRaw, live) : null), [schedRaw, live]);
+  // ---- Phase 3B: location, directions, list view ----
+  const loc = useRef<LocationSource>(null as unknown as LocationSource); if (!loc.current) loc.current = new LocationSource();
+  const [fix, setFix] = useState<Fix | null>(null); const [follow, setFollow] = useState<'off' | 'centre' | 'follow'>('off');
+  const [nav, setNav] = useState<{ bid?: string; at?: XY; label: string; room?: Room; title?: string } | null>(null);
+  const [route, setRouteS] = useState<Route | null>(null); const [arrived, setArrived] = useState<string | null>(null);
+  const [pickStart, setPickStart] = useState(false); const [simArm, setSimArm] = useState(false);
+  const [list, setList] = useState(() => new URLSearchParams(location.search).get('list') === '1');
+  const [tick, setTick] = useState(0); const [ready, setReady] = useState(0);
   const [q, setQ] = useState(''); const [focus, setFocus] = useState(false);
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [sel, setSel] = useState<Selection | null>(null);
@@ -54,9 +68,13 @@ export default function CampusPage() {
       // let the first paint happen, then raster the world
       setTimeout(() => { const t0 = performance.now(); const w = buildWorld(src); (window as any).__buildMs = Math.round(performance.now() - t0); setWorld(w); }, 0);
     });
-    return () => { alive = false; };
+    const pull = () => fixtureLive.load().then(d => { if (alive) { setLive(d); setLiveErr(false); } }).catch(() => alive && setLiveErr(true));
+    pull(); const iv = setInterval(() => { pull(); setTick(t => t + 1); }, fixtureLive.pollMs ?? 60000);
+    return () => { alive = false; clearInterval(iv); };
   }, []);
 
+  const modeRef = useRef({ pickStart, simArm }); modeRef.current = { pickStart, simArm };
+  const graph = useMemo(() => (world ? buildGraph(walkable(world.paths, world.src.getHardscape?.() ?? []), world.src.getEntrances(), undefined, p => campusAt(world, p[0], p[1]) || Math.hypot(p[0] - world.centre[0], p[1] - world.centre[1]) < 900) : null), [world]);
   const nameOf = (bid: string) => world?.buildings.find(b => b.id === bid)?.name ?? bid;
   const placeAt = (p: Place): XY | null => {
     if (p.at) return p.at;
@@ -73,6 +91,10 @@ export default function CampusPage() {
     const opts = {
       onSelect: (hit: { buildingId?: string; at: XY } | null) => {
         const e = engineRef.current; if (!e) return;
+        // Phase 3B modes: pick a start point (no GPS) or place the simulated delegate (?simgps=1)
+        if (hit && modeRef.current.pickStart) { loc.current.set(hit.at, false); setPickStart(false); return; }
+        if (hit && modeRef.current.simArm) { loc.current.set(hit.at, true); setSimArm(false); return; }
+        if (hit?.buildingId?.startsWith('event:') || hit?.buildingId?.startsWith('change:')) { pickLivePin(hit.buildingId); return; }
         if (!hit?.buildingId) { setSel(null); e.setSelected(null); return; }
         const pinPlace = places.places.find(p => p.id === hit.buildingId && !p.buildingId);
         if (pinPlace) { selectPlace(pinPlace, false); return; }
@@ -86,13 +108,20 @@ export default function CampusPage() {
     const start = (e: IMapEngine) => {
     // map pins for places that are not buildings (grounds, courts, gate, ATM, lake…)
     const pins: Pin[] = places.places.filter(p => !p.buildingId).map(p => ({ id: p.id, at: placeAt(p)!, label: p.name, kind: 'place' as const, category: p.category, priority: p.category === 'landmark' || p.category === 'sports' ? 2 : 3 as 1 | 2 | 3 })).filter(p => p.at);
-    e.pins = pins; e.setLayers(layers);
-    engineRef.current = e; (window as any).__engine = e;
+    e.pins = pins; e.setLayers(layers); basePins.current = pins;
+    engineRef.current = e; (window as any).__engine = e; setReady(r => r + 1);
     // deep links: ?place=<id> | ?room=<code>
     const qs = new URLSearchParams(location.search);
     const pid = qs.get('place'), room = qs.get('room');
     if (pid) { const p = places.places.find(x => x.id === pid); if (p) setTimeout(() => selectPlace(p), 50); }
     else if (room) { const r = places.rooms.find(x => x.code.toLowerCase() === room.toLowerCase()); if (r) setTimeout(() => selectRoom(r), 50); }
+    // ?route=<placeId | room code | session:<id>>: start walking directions there (Phase 3B)
+    const rt = qs.get('route');
+    if (rt) setTimeout(() => {
+      const sess = rt.startsWith('session:') ? sched?.sessions.find(x => x.id === rt.slice(8)) : undefined;
+      const r = places.rooms.find(x => x.code.toLowerCase() === (sess ? sess.room : rt).toLowerCase()), p = places.places.find(x => x.id === rt);
+      if (r) startNav({ bid: r.buildingId, label: nameOf(r.buildingId), room: r, title: sess?.title }); else if (p) startNav(placeTarget(p));
+    }, 80);
     if (qs.get('demo') === 'hooks') { // sample data for the hooks later phases will drive
       // sample route: the campus road that passes nearest the flag forecourt
       const flag = world.landmarks.find(l => l.id === 'flag')?.at ?? world.centre;
@@ -115,6 +144,78 @@ export default function CampusPage() {
   useEffect(() => { engineRef.current?.setFilter(filter); }, [filter]);
   useEffect(() => { engineRef.current?.setLayers(layers); }, [layers]);
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 2600); return () => clearTimeout(t); }, [toast]);
+
+  // ---------- Phase 3B: live layer on the map (ON AIR, event pins, room-change signs), refreshed with the poll ----------
+  const events = useMemo(() => activeEvents(live), [live, tick]);
+  const changes = useMemo(() => activeRoomChanges(live, sched), [live, sched, tick]);
+  const onAir = useMemo(() => onAirBuildings(sched, places), [sched, places, tick]);
+  const basePins = useRef<Pin[] | null>(null);
+  useEffect(() => {
+    const e = engineRef.current; if (!e || !places || !world) return;
+    basePins.current ??= e.pins;
+    const evPins: Pin[] = events.flatMap((ev, i) => { const p = places.places.find(x => x.id === ev.placeId), at = p && placeAt(p); return at ? [{ id: `event:${ev.id}`, at: [at[0] + Math.cos(i * 2.1) * 9, at[1] + Math.sin(i * 2.1) * 9] as XY, label: ev.label, kind: 'place' as const, category: 'help' as Category, priority: 1 as const }] : []; });
+    const chPins: Pin[] = changes.flatMap(c => { const r = places.rooms.find(x => x.code === c.to), b = r && world.buildings.find(x => x.id === r.buildingId); return b ? [{ id: `change:${c.sessionId}`, at: [b.parts[0].cx + 6, b.parts[0].cy - 6] as XY, label: `Room change: ${c.from} → ${c.to}`, kind: 'place' as const, category: 'help' as Category, priority: 1 as const }] : []; });
+    e.pins = [...basePins.current, ...evPins, ...chPins]; e.setOnAir?.(onAir); e.invalidate();
+  }, [events, changes, onAir, ready, places, world]);
+  function pickLivePin(id: string) {
+    if (!places) return;
+    if (id.startsWith('event:')) {
+      const ev = events.find(x => `event:${x.id}` === id), p = ev && places.places.find(x => x.id === ev.placeId); if (!ev || !p) return;
+      setSel({ kind: 'building', buildingId: p.buildingId ?? '', place: p, note: `${ev.label}${ev.confirm ? ` · to confirm: ${ev.confirm}` : ''}` }); engineRef.current?.setSelected(id);
+    } else {
+      const c = changes.find(x => `change:${x.sessionId}` === id), r = c && places.rooms.find(x => x.code === c.to); if (!c || !r) return;
+      selectRoom(r); setSel(s => (s ? { ...s, session: c.session, note: `Room change: ${c.session.title} has moved from Room ${c.from} to Room ${c.to}.` } : s));
+    }
+  }
+
+  // ---------- Phase 3B: location ----------
+  useEffect(() => loc.current.on((f, err) => { setFix(f); if (err) setToast(err); }), []);
+  useEffect(() => () => loc.current.stop(), []);
+  useEffect(() => { engineRef.current?.setUser?.(fix ? { at: fix.at, accuracy: fix.accuracy, heading: fix.heading } : null); }, [fix]);
+  const offCampus = !!(fix && world && !fix.sim && !campusAt(world, fix.at[0], fix.at[1]));
+  useEffect(() => { // first fix after Locate: centre; in follow mode keep the map on the delegate
+    if (!fix || follow === 'off') return;
+    engineRef.current?.flyTo(fix.at, follow === 'follow' ? undefined : 6, follow === 'follow' ? 300 : 650);
+  }, [fix, follow]);
+  function locate() {
+    if (loc.current.sim && !loc.current.fix) { setSimArm(true); setToast('Simulator: tap the map to place yourself.'); return; }
+    loc.current.start();
+    setFollow(f => (f === 'off' ? 'centre' : f === 'centre' ? 'follow' : 'off'));
+  }
+
+  // ---------- Phase 3B: directions ----------
+  function placeTarget(p: Place): { bid?: string; at?: XY; label: string } { return p.buildingId ? { bid: p.buildingId, label: p.name } : { at: placeAt(p) ?? undefined, label: p.name }; }
+  function startNav(t: { bid?: string; at?: XY; label: string; room?: Room; title?: string }) {
+    setNav(t); setRouteS(null); setArrived(null); setList(false);
+    if (!loc.current.fix) {
+      if (loc.current.sim) { setSimArm(true); setToast('Simulator: tap the map to place yourself.'); }
+      else { loc.current.start(); setToast('Finding your location… or pick a start point.'); }
+    }
+  }
+  function stopNav() { setNav(null); setRouteS(null); setArrived(null); setPickStart(false); engineRef.current?.setRoute?.(null); loc.current.stopWalk(); }
+  function directionsFor(s: Selection) {
+    if (s.room) startNav({ bid: s.room.buildingId, label: nameOf(s.room.buildingId), room: s.room, title: s.session?.title });
+    else if (s.place) startNav(placeTarget(s.place));
+    else if (s.buildingId) startNav({ bid: s.buildingId, label: nameOf(s.buildingId) });
+  }
+  // (re)route on every fix: first fix, or more than REROUTE_M off the route; arrival within ARRIVE_M of the end
+  useEffect(() => {
+    if (!nav || !fix || !graph) return;
+    const end = route?.pts[route.pts.length - 1];
+    if (end && Math.hypot(fix.at[0] - end[0], fix.at[1] - end[1]) < ARRIVE_M) {
+      const roomMsg = nav.room ? ` Room ${nav.room.code} is on the ${floorName(nav.room.floor)}.` : '';
+      setArrived(`You're at ${nav.label}.${roomMsg}${nav.title ? ` ${nav.title}.` : ''}`); setRouteS(null); engineRef.current?.setRoute?.(null); loc.current.stopWalk(); return;
+    }
+    if (route && offRoute(fix.at, route.pts).d <= REROUTE_M) return;
+    const r = nav.bid ? routeTo(graph, fix.at, nav.bid) : nav.at ? routeToPoint(graph, fix.at, nav.at, nav.label) : null;
+    if (!r) { setToast(`No walking route to ${nav.label} from here.`); return; }
+    if (route) setToast('Off the route: new directions.');
+    setRouteS(r); engineRef.current?.setRoute?.(r.pts);
+    if (follow === 'off') engineRef.current?.flyTo([(r.pts[0][0] + r.pts[r.pts.length - 1][0]) / 2, (r.pts[0][1] + r.pts[r.pts.length - 1][1]) / 2], 4, 700);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fix, nav, graph]);
+  const named = useMemo(() => (world ? [...world.landmarks.map(l => ({ name: l.name, at: l.at })), ...world.buildings.filter(b => !b.unnamed && b.labelPriority <= 2).map(b => ({ name: b.short ?? b.name, at: [b.parts[0].cx, b.parts[0].cy] as XY }))] : []), [world]);
+  const step = route && fix ? (() => { const o = offRoute(fix.at, route.pts), left = Math.max(0, route.lengthM - o.along); return { ...nextStep(route.pts, o.along, named), minutes: Math.max(1, Math.round(left / 65)) }; })() : null;
 
   function pickQuality(c: QualityChoice) {
     saveChoice(c); setChoice(c);
@@ -167,6 +268,18 @@ export default function CampusPage() {
             ))}
           </div>
         )}
+        {nav && !(focus && q) && (
+          <div className={'nav' + (arrived ? ' arrived' : '')} role="status" aria-live="polite">
+            <div className="grow">
+              {arrived ? <div className="big">{arrived}</div>
+                : step ? <><div className="big">{step.text}{step.inM > 5 ? ` in ${step.inM} m` : ''}</div><div className="sm">{step.minutes} min to {nav.label}{nav.room ? ` · Room ${nav.room.code}, ${floorName(nav.room.floor)}` : ''}</div></>
+                : <><div className="big">Directions to {nav.label}</div><div className="sm">{pickStart ? 'Tap the map where you are.' : 'Waiting for your location…'}</div></>}
+            </div>
+            {!arrived && !route && !pickStart && <button className="btn" onClick={() => setPickStart(true)}>Pick start</button>}
+            <button className="btn" onClick={stopNav} aria-label="End directions">{arrived ? 'Done' : 'End'}</button>
+          </div>
+        )}
+        {offCampus && !nav && <div className="nav warn" role="status"><div className="grow"><div className="big">Not on campus yet</div><div className="sm"><a href="/guide">See the arrival plan</a> to get to Umsawli.</div></div></div>}
         {!(focus && q) && (
           <div className="chips" role="toolbar" aria-label="Filter places">
             {CHIPS.map(c => (
@@ -179,7 +292,7 @@ export default function CampusPage() {
       </div>
 
       <div className="controls">
-        <button className="ctl" aria-label="Locate me" onClick={() => setToast('Live location comes in a later phase.')}><IconLocate /></button>
+        <button className="ctl" aria-label={follow === 'follow' ? 'Following you: tap to stop' : follow === 'centre' ? 'Tap again to follow you' : 'Show my location'} aria-pressed={follow !== 'off'} onClick={locate}><IconLocate />{follow === 'follow' && <span className="badge">ON</span>}</button>
         <button className="ctl" aria-label="Rotate the view 90 degrees" onClick={() => engineRef.current?.rotate(1)}><IconRotate /><span className="badge">{['SE', 'NE', 'NW', 'SW'][rot]}</span></button>
         <button className="ctl" aria-label="Recentre on the whole campus" onClick={() => { engineRef.current?.recentre(); }}><IconCompass /></button>
         <button className="ctl" aria-label="Map layers" aria-pressed={layersOpen} onClick={() => setLayersOpen(o => !o)}><IconLayers /></button>
@@ -196,7 +309,8 @@ export default function CampusPage() {
             </select>
           </label>
           {failed3d && <div className="soon">This browser can't draw the 3D map, so the 2D map is shown.</div>}
-          <div className="soon">Volunteers, crowd, step-free routes and parking come with the live layer.</div>
+          <button className="btn" style={{ marginTop: 8, width: '100%' }} onClick={() => { setList(true); setLayersOpen(false); }}>Show as a list</button>
+          {liveErr && live && <div className="soon">Offline: live data last updated {minutesAgo(live.updated)} min ago.</div>}
         </div>
       )}
 
@@ -205,8 +319,17 @@ export default function CampusPage() {
       {places && (
         <BottomSheet sel={sel} places={places} sched={sched} nameOf={nameOf} tier={tier}
           onClose={() => { setSel(null); engineRef.current?.setSelected(null); }}
-          onPickPlace={selectPlace} onPickRoom={selectRoom} onToast={setToast} />
+          onPickPlace={selectPlace} onPickRoom={selectRoom} onToast={setToast} onDirections={directionsFor}
+          live={{ events, updated: live ? new Date(live.updated).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }) : undefined, stale: liveErr }} />
       )}
+      {loc.current.sim && (
+        <div className="sim" aria-label="GPS simulator (dev)">
+          <button className="btn" aria-pressed={simArm} onClick={() => setSimArm(a => !a)}>{simArm ? 'Tap the map…' : 'Sim: place me'}</button>
+          {route && <button className="btn" onClick={() => loc.current.walk(route.pts, 8)}>Sim: walk route</button>}
+          {route && <button className="btn" onClick={() => { const p = route.pts[Math.floor(route.pts.length / 2)]; loc.current.set([p[0] + 40, p[1] + 30]); }}>Sim: stray 50 m</button>}
+        </div>
+      )}
+      {list && places && <ListView places={places} sched={sched} events={events} onAir={onAir} onClose={() => setList(false)} onShow={p => { setList(false); selectPlace(p); }} onDirections={p => startNav(placeTarget(p))} />}
       {toast && <div className="toast" role="status">{toast}</div>}
     </div>
   );

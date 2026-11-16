@@ -1,0 +1,16 @@
+{
+ "note": "Mock WMC 2026 live layer (Phase 3B). Replace with the app's LiveSource. Event pins sit at existing places (placeId); their exact spots are for the organisers to confirm. Times are IST. 'roomChanges' move a session to a new room: search, cards and routes follow the new room.",
+ "updated": "2026-11-17T09:00:00+05:30",
+ "events": [
+  { "id": "registration", "label": "Registration", "placeId": "admin", "icon": "help-desk", "from": "2026-11-26T14:00:00+05:30", "to": "2026-11-27T13:00:00+05:30", "confirm": "Registration desk spot (Admin forecourt or portico)" },
+  { "id": "help-desk", "label": "Help desk", "placeId": "help-desk", "icon": "help-desk", "from": "2026-11-26T09:00:00+05:30", "to": "2026-11-29T19:00:00+05:30" },
+  { "id": "first-aid", "label": "First aid", "placeId": "medical", "icon": "help-desk", "from": "2026-11-26T09:00:00+05:30", "to": "2026-11-29T22:00:00+05:30", "confirm": "Medical room location (D Block assumed)" },
+  { "id": "shuttle", "label": "Shuttle point", "placeId": "main-gate", "icon": "help-desk", "from": "2026-11-26T07:00:00+05:30", "to": "2026-11-29T22:00:00+05:30", "confirm": "Shuttle stop (main gate assumed)" },
+  { "id": "cultural-evening", "label": "Cultural evening", "placeId": "auditorium", "icon": "venue", "from": "2026-11-27T18:30:00+05:30", "to": "2026-11-27T21:30:00+05:30", "confirm": "Cultural evening venue" },
+  { "id": "gala-dinner", "label": "Gala dinner", "placeId": "mess", "icon": "food", "from": "2026-11-28T19:30:00+05:30", "to": "2026-11-28T22:30:00+05:30", "confirm": "Gala dinner venue (Mess assumed)" }
+ ],
+ "meals": { "placeId": "mess", "breakfast": ["07:30", "09:00"], "lunch": ["12:45", "14:15"], "dinner": ["19:30", "21:30"] },
+ "roomChanges": [
+  { "sessionId": "s3", "from": "104", "to": "105", "note": "Moved to Room 105 (same floor)", "since": "2026-11-26T18:00:00+05:30" }
+ ]
+}

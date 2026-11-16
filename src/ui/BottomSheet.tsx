@@ -9,14 +9,18 @@ const THUMB: Record<string, string> = {
   'hostel-3': 'hostel3', 'hostel-4': 'hostel4', 'kalam-centre': 'kalam-centre', 'kalam-statue': 'kalam-statue-garden', 'main-gate': 'main-gate', mess: 'mess', 'octagon-hall': 'octagon-hall',
 };
 
-export interface Selection { kind: 'building'; buildingId: string; place?: Place; room?: Room; session?: Session }
+export interface Selection { kind: 'building'; buildingId: string; place?: Place; room?: Room; session?: Session; note?: string }
 
 interface Props {
   sel: Selection | null; places: PlacesData; sched: ScheduleData | null; nameOf: (id: string) => string; tier: Tier;
   onClose: () => void; onPickPlace: (p: Place) => void; onPickRoom: (r: Room) => void; onToast: (s: string) => void;
+  /** Phase 3B: walking directions to this selection. */
+  onDirections?: (sel: Selection) => void;
+  /** Phase 3B live layer: events on now, room changes, when the live data was last updated. */
+  live?: { events: { id: string; label: string; placeId: string }[]; updated?: string; stale?: boolean };
 }
 
-export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, onToast }: Props) {
+export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, onToast, onDirections, live }: Props) {
   const [open, setOpen] = useState(false);
   useEffect(() => { setOpen(!!sel); }, [sel]);
   const t = now();
@@ -39,7 +43,8 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
         <div className="sheet-body">
           {running.length > 0 && <div className="sec"><h4>Running now</h4>{running.map(s => <SessionRow key={s.id} s={s} room={roomOf(s)} nameOf={nameOf} onGo={onPickRoom} />)}</div>}
           <div className="sec"><h4>Coming up</h4>{upcoming.map(s => <SessionRow key={s.id} s={s} room={roomOf(s)} nameOf={nameOf} onGo={onPickRoom} />)}</div>
-          <div className="muted" style={{ marginTop: 8 }}>WMC 2026 · 27–29 Nov · IIM Shillong, Umsawli</div>
+          {live && live.events.length > 0 && <div className="sec"><h4>Around campus now</h4><div className="tags">{live.events.map(e => <span className="tag" key={e.id}>{e.label}</span>)}</div></div>}
+          <div className="muted" style={{ marginTop: 8 }}>WMC 2026 · 27–29 Nov · IIM Shillong, Umsawli{live?.updated ? ` · live data updated ${live.updated}` : ''}</div>
         </div>
       </div></div>
     );
@@ -67,11 +72,13 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
       </div>
       <div className="sheet-body">
         {thumb && <img className="thumb" src={`/campus-art/tycoon/landmark-${thumb}.webp`} alt="" loading="lazy" />}
+        {sel.note && <div className="confirm" role="status">{sel.note}</div>}
+        {sel.session && (sel.session as Session & { movedFrom?: string }).movedFrom && <div className="confirm" role="status"><b>Room changed:</b> {(sel.session as Session & { movedFrom?: string }).movedFrom} → {sel.session.room}</div>}
         {sel.session && <div className="sec"><h4>Your session</h4><div className="row"><span className="time">{fmtTime(sel.session.start)}</span><span>{sel.session.title}</span></div></div>}
         {sel.room && <div className="sec"><div className="row"><span>Room <b>{sel.room.code}</b> is on the <b>{floorName(sel.room.floor)}</b> of {nameOf(sel.room.buildingId)}.</span></div></div>}
         {(running.length > 0 || next.length > 0) && (
           <div className="sec"><h4>What's on here</h4>
-            {running.map(s => <div className="row" key={s.id}><span className="onair">ON AIR</span><span>{s.title}<div className="muted">Room {s.room} · until {fmtTime(s.end)}</div></span></div>)}
+            {running.map(s => <div className="row" key={s.id}><span className="onair">ON AIR</span><span>{s.title}<div className="muted">Room {s.room}{(s as Session & { movedFrom?: string }).movedFrom ? ` (moved from ${(s as Session & { movedFrom?: string }).movedFrom})` : ''} · until {fmtTime(s.end)}</div></span></div>)}
             {next.map(s => <div className="row" key={s.id}><span className="time">{fmtTime(s.start)}</span><span>{s.title}<div className="muted">{fmtDay(s.start)} · Room {s.room}</div></span></div>)}
           </div>
         )}
@@ -81,7 +88,7 @@ export function BottomSheet({ sel, places, sched, nameOf, onClose, onPickRoom, o
         {menu && <div className="sec"><h4>Today's menu</h4><div style={{ fontSize: 14 }}><b>Breakfast</b> {menu.breakfast}<br /><b>Lunch</b> {menu.lunch}<br /><b>Dinner</b> {menu.dinner}</div></div>}
         {p?.confirm && <div className="confirm">To confirm with organisers: {p.confirm}</div>}
         <div className="btns">
-          <button className="btn primary" onClick={() => onToast('Walking directions come in a later phase.')}><IconWalk /> Directions</button>
+          <button className="btn primary" onClick={() => (onDirections ? onDirections(sel) : onToast('Directions are not available on this map.'))}><IconWalk /> Directions</button>
           {p?.phone && <a className="btn" href={`tel:${p.phone}`}><IconPhone /> Call</a>}
           <button className="btn" onClick={share}><IconShare /> Share</button>
         </div>
@@ -94,7 +101,7 @@ function SessionRow({ s, room, nameOf, onGo }: { s: Session; room?: Room; nameOf
   return (
     <div className="row">
       <span className="time">{fmtTime(s.start)}</span>
-      <span style={{ flex: 1 }}>{s.title}<div className="muted">{fmtDay(s.start)} · {room ? `${nameOf(room.buildingId)} · ${room.name ?? 'Room ' + room.code}` : s.room}</div></span>
+      <span style={{ flex: 1 }}>{s.title}<div className="muted">{fmtDay(s.start)} · {room ? `${nameOf(room.buildingId)} · ${room.name ?? 'Room ' + room.code}` : s.room}{(s as Session & { movedFrom?: string }).movedFrom ? <b> · room changed</b> : null}</div></span>
       {room && <button className="btn" style={{ minHeight: 36, padding: '0 10px' }} onClick={() => onGo(room)} aria-label={`Show ${s.title} on the map`}>Map</button>}
     </div>
   );
