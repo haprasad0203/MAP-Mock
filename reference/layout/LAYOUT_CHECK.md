@@ -63,3 +63,16 @@ Props added by the 3D engine (`src/render3d/props.ts`), placed from the layout d
 - Trees: campus trees are the world model's list; the forest outside the boundary is seeded from noise on wild ground and kept off the Overture houses.
 
 Added in the Phase 3 fix-up (13 Nov 2026): `admin` part 2 (the 60 × 44 m main wing, `hip` in the data) is drawn as a low hip over the whole part with a raised centre pavilion under its own hip, to match the Admin render. The footprint, floors and roof colour still come from the data; only the roof's form is a render detail (`pavilionRoof` in `src/render3d/buildingStyles.ts`).
+
+## Phase 3M v2: real-building study (16 Nov 2026), proposals for H A
+Proposals only. `campus-layout.json` is **not** edited. Evidence: `reference/real/admin.md`, `reference/real/nab.md`, the fit images `reference/real/*_fit.png`.
+
+| # | Building | Field | Now | Proposed | Evidence |
+|---|---|---|---|---|---|
+| 1 | `admin` part 3 (east end block) | `floors` | 3 | **4** | Ground plus 3 window rows, same as the west block (homepage video @0:04.5, DJI_0338, iimshillong 2024/10/7) |
+| 2 | `admin` part 2 (centre range) | `floors` | 3 | 3 for the linking wings, **4 for the centre block** (a sub-part, or a model-side detail) | The centre block's eaves are level with the 4-storey end blocks; the wings have 3 |
+| 3 | Auditorium | place | separate pin | It is the **rear hall of the Admin Block** (the large dark roof inside `admin` part 2) | Hi-res satellite 0423: the "IIM Shillong Auditorium" pin and dark roof sit on the Admin footprint |
+| 4 | `nab` entrances | `main` | the SW tip | **main = the SE face centre (glass atrium)**, plus two side entrances under the flat canopies about 15 m either side | Homepage video @0:05.5, DJI crop: all doors are on the SE face, toward the NAB lawn and front road |
+| 5 | `nab` stone towers | (render detail) | the towers white | The towers' faces are **sandstone** with a white-framed glass strip; only the top box is white | Homepage video @0:05.5; replaces the Phase 3 "towers white" correction above |
+
+The footprints of both buildings fit the satellite within the pin-fit error (about 5 m). No footprint changes are proposed.

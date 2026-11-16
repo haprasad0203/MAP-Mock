@@ -1,0 +1,233 @@
+{
+ "id": "admin",
+ "title": "Admin Block (real)",
+ "views": [
+  {
+   "file": "reference/photos/aerial/DJI_0338-0000-01.jpg",
+   "label": "Aerial from the SE: south front, east block emblem",
+   "source": "iimshillong.ac.in/campus-tour (DJI_0338), official",
+   "crop": [
+    620,
+    130,
+    800,
+    170
+   ]
+  },
+  {
+   "file": "reference/photos/aerial/Image_363.jpeg",
+   "label": "Aerial from the S, wider: forecourt, terraces, parking",
+   "source": "iimshillong.ac.in (Image_363), official",
+   "crop": [
+    560,
+    75,
+    520,
+    150
+   ]
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "label": "South front, low aerial, good light (colour samples)",
+   "source": "iimshillong.ac.in homepage video @0:04.5"
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/9QBtbam1G5Q-00.16.5_admin-sw-aerial-nab-behind.jpg",
+   "label": "Aerial from the SW: all wings and roofs, NAB behind",
+   "source": "YouTube 9QBtbam1G5Q (Roaming Rotors) @0:16.5"
+  },
+  {
+   "file": "reference/photos/video_frames/admin-nab/9QBtbam1G5Q-00.22.5_admin-south-aerial-terraces.jpg",
+   "label": "Aerial from the S: forecourt circle, terraced garden",
+   "source": "YouTube 9QBtbam1G5Q @0:22.5"
+  },
+  {
+   "file": "reference/photos/academic-admin/yt-drone-19s_admin-nab-pavilion-terraces.jpg",
+   "label": "Aerial from the S (earlier still)",
+   "source": "YouTube 9QBtbam1G5Q @0:19"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg",
+   "label": "East block SW corner, emblem; east wing corridors",
+   "source": "iimshillong.ac.in/wp-content/uploads/2024/10/7-scaled.jpg"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-centre-portico_iimking.png",
+   "label": "Centre block front: glass bands, white frame, portico",
+   "source": "iimking.com/wp-content/uploads/2024/08/image-144.png"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-west-block-and-centre_insideiim.png",
+   "label": "West block corner (stone), centre block, east block",
+   "source": "backend.insideiim.com/wp-content/uploads/2021/05/Untitled-design.png"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-west-block-entrance-stone_collegebatch-310633.webp",
+   "label": "From the west block: stone cladding, portico, planters",
+   "source": "collegebatch.com clg-gallery 310633"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-centre-and-east-block-close_highlandpost.jpg",
+   "label": "Centre block and east block, close",
+   "source": "highlandpost.com/wp-content/uploads/2024/05/iim.jpg"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-west-wing-oblique_wikimedia-commons.jpg",
+   "label": "West wing and centre, oblique from the SW",
+   "source": "upload.wikimedia.org: File:IIM_Shillong,_Umsawli.jpg (Wikimedia Commons)"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-flag-forecourt-wide_iims-untitled14.jpg",
+   "label": "Forecourt and flag from the S",
+   "source": "iimshillong.ac.in/wp-content/uploads/2023/03/Untitled14.jpg"
+  },
+  {
+   "file": "reference/photos/web/admin/admin-forecourt-oblique-west_insideiim-untitled.png",
+   "label": "Forecourt circle from the W, west end",
+   "source": "cdn.insideiim.com/wp-content/uploads/2021/03/11124147/Add-a-subheading-7.png"
+  },
+  {
+   "file": "reference/photos/web/aerial/aerial-admin-terraces-gate-road_iims-2024-10-3.jpg",
+   "label": "Aerial: Admin, terraces, gate road (west side)",
+   "source": "iimshillong.ac.in/wp-content/uploads/2024/10/3-scaled.jpg"
+  },
+  {
+   "file": "reference/photos/video_frames/scholars-path/iimshomepage-00.08.5_roadside-walkway-east-of-main-road.jpg",
+   "label": "From the flag: west block roof, road, Scholar's Path",
+   "source": "iimshillong.ac.in homepage video @0:08.5"
+  },
+  {
+   "file": "reference/photos/from_above/admin_forecourt_statue_garden_marked_by_HA.png",
+   "label": "Top view marked by H A: forecourt, statue garden",
+   "source": "H A, Google Maps screenshot (study only)"
+  },
+  {
+   "file": "reference/photos/from_above/google_sat_hires_HA_2026-11-13_0423.png",
+   "crop": [
+    880,
+    380,
+    420,
+    330
+   ],
+   "label": "From above (hi-res): roofs, forecourt, road",
+   "source": "H A, Google Maps satellite 13 Nov (study only)"
+  }
+ ],
+ "colours": [
+  {
+   "name": "wall white (east block, lit)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    1690,
+    600,
+    60,
+    90
+   ]
+  },
+  {
+   "name": "roof green (centre hip)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    900,
+    512,
+    200,
+    25
+   ]
+  },
+  {
+   "name": "roof green (east wing)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    1230,
+    570,
+    180,
+    15
+   ]
+  },
+  {
+   "name": "corridor canopy teal",
+   "file": "reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg",
+   "rect": [
+    1120,
+    1090,
+    150,
+    20
+   ]
+  },
+  {
+   "name": "glass (centre bands)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    835,
+    568,
+    30,
+    30
+   ]
+  },
+  {
+   "name": "forecourt paving (red brick)",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    600,
+    925,
+    250,
+    40
+   ]
+  },
+  {
+   "name": "lawn",
+   "file": "reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg",
+   "rect": [
+    430,
+    840,
+    150,
+    40
+   ]
+  },
+  {
+   "name": "stone cladding (sandstone)",
+   "file": "reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg",
+   "rect": [
+    1440,
+    1470,
+    45,
+    200
+   ]
+  },
+  {
+   "name": "wall white (shade side)",
+   "file": "reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg",
+   "rect": [
+    2120,
+    400,
+    110,
+    350
+   ]
+  },
+  {
+   "name": "roof green (centre hip, sun, DJI)",
+   "file": "reference/photos/aerial/DJI_0338-0000-01.jpg",
+   "rect": [
+    960,
+    148,
+    180,
+    22
+   ]
+  },
+  {
+   "name": "roof green (east block, sun, DJI)",
+   "file": "reference/photos/aerial/DJI_0338-0000-01.jpg",
+   "rect": [
+    1240,
+    190,
+    100,
+    12
+   ]
+  }
+ ],
+ "fit": {
+  "shots": [
+   "hr0423",
+   "03"
+  ],
+  "padM": 30
+ }
+}
