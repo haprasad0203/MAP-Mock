@@ -81,13 +81,13 @@ describe('building geometry', () => {
     expect(B.triangles).toBeGreaterThan(5000); expect(B.triangles).toBeLessThan(120000);
   });
   it('roofs face up and walls face out', () => {
-    const B = new Buckets(), b = layout.buildings.find(x => x.id === 'hostel-2')!; addBuilding(B, b, layout.entrances);
+    const B = new Buckets(), b = layout.buildings.find(x => x.id === 'block-501')!; addBuilding(B, b, layout.entrances); // a generic (not hand-modelled) cream building
     const roof = B.map.get('roofGreen')!; let up = 0, n = 0;
     for (let i = 1; i < roof.nor.length; i += 3) { n++; if (roof.nor[i] > 0.05) up++; }
     expect(up / n).toBeGreaterThan(0.98);
     // one part on its own, without the stair tower, so every facade triangle belongs to its outline
     const p = { ...b.parts[0], glass: undefined, balconies: false }, B1 = new Buckets(); addBuilding(B1, { ...b, parts: [p] }, []);
-    const wall = B1.map.get('facadeCream')!; let out = 0, m = 0;
+    const wall = [...B1.map.entries()].find(([k]) => k.startsWith('facade'))![1]; let out = 0, m = 0;
     for (let i = 0; i < wall.pos.length; i += 9) { // normal · (triangle − part centre) > 0 for that part's walls
       const dx = wall.pos[i] - p.cx, dz = wall.pos[i + 2] + p.cy; if (Math.hypot(dx, dz) > p.w) continue;
       m++; if (wall.nor[i] * dx + wall.nor[i + 2] * dz > 0) out++;

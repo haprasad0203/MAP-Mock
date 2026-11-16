@@ -221,3 +221,27 @@ Other sheets:
 - `real_admin_v1–3.png`, `real_nab_v1–3.png`;
 - `model_<id>_v3_rot4.png` and `_plan.png`;
 - `m3v2_admin_nab_rot0/rot2.png` (map, 1280×800).
+
+
+## Phase 3M v2: the other landmarks, rounds 1–3 (16 Nov)
+Modules:
+- : Cafe Cloud, Octagonal Hall, Mess;
+- : D Block, and the F Block design shared by Hostels 2–4;
+- : Gym, the gate and guard room, Dr. Kalam Centre.
+
+The kit gained octagon helpers (,  with ridge caps, ). The gate portal moved out of  into the guard-room landmark.
+
+Sheets: ; map views .
+
+| Landmark | Score vs real | Main remaining differences |
+|---|---|---|
+| Cafe Cloud | 7.5 | Real fascia ring is plainer and the window band has more white piers; porch block small |
+| Octagonal Hall | 7.5 (on the data's 18 m footprint) | Real hall is about 27 m across and stands on the loop road (LAYOUT_CHECK 6); walls straight on unknown |
+| Hostel 1, D Block | 7 | Balconies too regular and too teal; real walls show more white; stair heads and the entrance not seen |
+| Hostel 2, F Block | 7.5 | Real peach is lighter; balcony slabs rounder; stair-tower cap pavilion simpler in the model |
+| Hostels 3, 4 | 6.5 (F Block design, no photos of their own) | Need photos |
+| Students' Mess | 7 (from above only) | No ground photo: walls and doors by eye |
+| Sports Pavilion & Gym | 8 | Fence and court furniture belong to the courts stage |
+| Main gate + guard room | 7.5 | Lettering is a band; the guard room sits beside the portal rather than under it |
+| Dr. Kalam Centre | 6 | One close photo only: the massing, roof and other faces are guesses |
+| Amul Cafe, Commercial Complex, Kalam Building | generic | No usable photos (on H A's list) |

@@ -72,7 +72,7 @@ export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d
 }
 
 /** A small tent-shaped cap along a hip or ridge line (0.32 m wide, 0.12 m proud), so the line catches the light. */
-function ridgeCap(B: Buckets, p: P3, q: P3, col: RGB) {
+export function ridgeCap(B: Buckets, p: P3, q: P3, col: RGB) {
   const dx = q[0] - p[0], dy = q[1] - p[1], l = Math.hypot(dx, dy); if (l < 0.2) return;
   const nx = (-dy / l) * 0.16, ny = (dx / l) * 0.16, up = 0.12;
   const pl: P3 = [p[0] + nx, p[1] + ny, p[2] - 0.04], pr: P3 = [p[0] - nx, p[1] - ny, p[2] - 0.04], ql: P3 = [q[0] + nx, q[1] + ny, q[2] - 0.04], qr: P3 = [q[0] - nx, q[1] - ny, q[2] - 0.04];

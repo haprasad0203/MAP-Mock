@@ -3,7 +3,7 @@
 import type { XY } from '../../geo/grid';
 import type { Area, Building, Entrance, Landmark } from '../../geo/types';
 import { Buckets, ccw, rgb, type P3, type RGB } from '../mesh';
-import { hipRoof, sampledRoof, type RoofOpts } from '../roofs';
+import { hipRoof, ridgeCap, roofMat, sampledRoof, type RoofOpts } from '../roofs';
 import { pointInPoly } from '../terrain';
 import type { BuiltInfo } from '../buildings';
 import { ATLASES, facadeKey, uvOf, type Atlas, type Region } from '../facadeAtlas';
@@ -246,3 +246,31 @@ export function ring(B: Buckets, key: string, c: XY, r0: number, r1: number, h: 
   for (let i = 0; i < n; i++) { const j = (i + 1) % n; B.quad(key, [...a[i], h], [...b[i], h], [...b[j], h], [...a[j], h], col, [a[i][0] / 5, a[i][1] / 5], [b[i][0] / 5, b[i][1] / 5], [b[j][0] / 5, b[j][1] / 5], [a[j][0] / 5, a[j][1] / 5]); }
 }
 export const centroidOf = (pts: XY[]): XY => [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length];
+
+// ---------- octagons (Cafe Cloud, the Octagonal Hall, the Mess) ----------
+/** A regular octagon: centre, circumradius, rotation (radians) of its first corner. */
+export const octagon = (c: XY, R: number, turn: number): XY[] => ngon(c, R, 8, turn);
+/** The regular octagon inscribed in a data part's rectangle (flats on the rectangle's sides). */
+export function octagonIn(p: { cx: number; cy: number; w: number; d: number; angle: number }): { c: XY; R: number; turn: number; pts: XY[] } {
+  const R = Math.min(p.w, p.d) / 2 / Math.cos(Math.PI / 8), turn = (p.angle * Math.PI) / 180 + Math.PI / 8, c: XY = [p.cx, p.cy];
+  return { c, R, turn, pts: octagon(c, R, turn) };
+}
+const mulRGB = (c: RGB, k: number): RGB => [c[0] * k, c[1] * k, c[2] * k];
+/** Octagonal pyramid roof: eave ring (R + eave) at h0 with a white fascia, rising `rise` to the apex; ridge caps on the
+ *  eight hips. With `stopAt` (0..1) the slopes stop at that fraction of the radius (a flat ring round a clerestory). */
+export function octRoof(B: Buckets, c: XY, R: number, turn: number, h0: number, rise: number, hex: string, eave = 1.2, stopAt = 0, fascia = 0.45): number {
+  const capCol = mulRGB(rgb(hex), 1.12), m = roofMat(hex), ring = octagon(c, R + eave, turn), hT = h0 + fascia, k = stopAt, inner = octagon(c, (R + eave) * k, turn), h1 = hT + rise * (1 - k);
+  B.prism('plain', ring, h0, hT, FASCIA, false);
+  for (let i = 0; i < 8; i++) {
+    const a = ring[i], b = ring[(i + 1) % 8], ia = inner[i], ib = inner[(i + 1) % 8], l = Math.hypot(b[0] - a[0], b[1] - a[1]), s = Math.hypot(a[0] - c[0], a[1] - c[1]);
+    if (k > 0.01) B.quad(m.key, [a[0], a[1], hT], [b[0], b[1], hT], [ib[0], ib[1], h1], [ia[0], ia[1], h1], m.col, [0, 0], [l / 6, 0], [(l * k) / 6, (s * (1 - k)) / 6], [0, (s * (1 - k)) / 6]);
+    else B.tri(m.key, [a[0], a[1], hT], [b[0], b[1], hT], [c[0], c[1], h1], m.col, [0, 0], [l / 6, 0], [l / 12, s / 6]);
+    ridgeCap(B, [a[0], a[1], hT], k > 0.01 ? [ia[0], ia[1], h1] : [c[0], c[1], h1], capCol);
+  }
+  if (k > 0.01) B.cap('plain', inner, h1 - 0.02, rgb('#BDB8AE'));
+  return h1;
+}
+/** Walls of an octagon from h0 to h1 (outside faces), flat colour. Returns the eight faces. */
+export function octWalls(B: Buckets, pts: XY[], h0: number, h1: number, col: RGB = WALL): Face[] {
+  const fs = facesOf(pts); for (const f of fs) flat(B, f, 0, f.len, h0, h1, col); return fs;
+}

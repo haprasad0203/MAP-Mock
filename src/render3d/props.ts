@@ -32,7 +32,7 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
     ([['#FF9933', 18.0], ['#FFFFFF', 17.2], ['#138808', 16.4]] as [string, number][]).forEach(([c, z]) => B.box(K, x + 2.0, y, 3.6, 0.1, 0, g + z, g + z + 0.8, rgb(c)));
   }
 
-  // ---- main gate: a portal across the road with a long green roof and a smaller raised one ----
+  // ---- main gate: the road point at the gate (for the bus); the portal is built by the guard-room landmark ----
   const gate = lm('main-gate');
   if (gate) {
     let best = Infinity, ang = Math.PI / 2, at: XY = gate;
@@ -42,13 +42,8 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
       if (d < best) { best = d; ang = Math.atan2(dy, dx); at = [qx, qy]; }
     }
     if (best > 40) at = gate;
-    const across = ang + Math.PI / 2, cx = Math.cos(across), cy = Math.sin(across), g = h(at[0], at[1]), W = 15;
-    for (const s of [-1, 1]) for (const o of [5.2, 7.2]) B.box(K, at[0] + cx * s * o, at[1] + cy * s * o, 0.9, 0.9, across, g - 1, g + 5.6, rgb('#9A9FA3'));
-    B.box(K, at[0], at[1], W + 1.5, 2.6, across, g + 5.6, g + 6.3, WHITE);
-    const deg = (across * 180) / Math.PI;
-    hipRoof(B, { cx: at[0], cy: at[1], w: W + 3, d: 5.4, angle: deg }, g + 6.3, '#3E8A4E');
-    B.box(K, at[0], at[1], 7, 2.2, across, g + 7.2, g + 8.6, WHITE);
-    hipRoof(B, { cx: at[0], cy: at[1], w: 8.6, d: 3.8, angle: deg }, g + 8.6, '#3E8A4E');
+    // the portal itself is the guard-room landmark (src/render3d/landmarks/smaller.ts, modelled from the real gate)
+    const across = ang + Math.PI / 2, cx = Math.cos(across), cy = Math.sin(across);
     // a bus waiting just inside the gate, at the side of the road
     const k = inCampus(world, at[0] + Math.cos(ang) * 26, at[1] + Math.sin(ang) * 26) ? 1 : -1;
     const bx = at[0] + Math.cos(ang) * 26 * k - cx * 2.2, by = at[1] + Math.sin(ang) * 26 * k - cy * 2.2;

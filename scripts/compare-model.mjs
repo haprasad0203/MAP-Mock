@@ -31,6 +31,35 @@ export const REAL = {
     { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg', label: 'aerial: south front (homepage video @0:04.5)', az: -100, pitch: 17, fov: 22, zoom: 1.12 },
     { photo: 'reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg', label: 'low: east block and east wing (iimshillong 2024/10/7)', az: -128, pitch: 9, fov: 50, part: 3 },
   ],
+  'cafe-cloud': [
+    { photo: 'reference/generated/crops/cafe_dji.png', label: 'aerial from the SE (crop of DJI_0338)', az: -62, pitch: 24, fov: 20 },
+    { photo: 'reference/generated/crops/cafe_19s.png', label: 'aerial from the S (crop of 9QBtbam1G5Q @0:19)', az: -100, pitch: 18, fov: 20 },
+  ],
+  'octagon-hall': [
+    { photo: 'reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.08.5_octagon-hall-service-block-courts.jpg', label: 'aerial (9QBtbam1G5Q @0:08.5)', az: -60, pitch: 30, fov: 22 },
+    { photo: 'reference/photos/video_frames/octagon-hall/9QBtbam1G5Q-00.49.5_octagon-hall-ponds-topdown.jpg', label: 'from above (9QBtbam1G5Q @0:49.5)', az: -90, pitch: 80, fov: 22 },
+  ],
+  'hostel-1': [
+    { photo: 'D:/Map Mock/IIM_Shillong_Campus_References/02_hostels_residential/DSC_9111.jpg', label: 'ground: balconies, rails, louvres (DSC_9111)', az: -60, pitch: 6, fov: 40, part: 1 },
+    { photo: 'reference/photos/mess_from_above.png', label: 'from above, north up (satellite, study only)', az: -90, pitch: 88, fov: 22 },
+  ],
+  'hostel-2': [
+    { photo: 'D:/Map Mock/IIM_Shillong_Campus_References/02_hostels_residential/New-Hostel.jpg', label: 'ground: peach walls, glass stair tower (New-Hostel)', az: -60, pitch: 6, fov: 42, part: 1 },
+    { photo: 'D:/Map Mock/IIM_Shillong_Campus_References/02_hostels_residential/hostel22.jpg', label: 'courtyard side (hostel22)', az: 120, pitch: 6, fov: 50, part: 0 },
+  ],
+  mess: [
+    { photo: 'reference/photos/mess_from_above.png', label: 'from above, north up (satellite, study only)', az: -90, pitch: 88, fov: 18 },
+  ],
+  gym: [
+    { photo: 'D:/Map Mock/IIM_Shillong_Campus_References/02_hostels_residential/DSC_9159.jpg', label: 'from the courts (DSC_9159)', az: 40, pitch: 4, fov: 30 },
+    { photo: 'reference/photos/video_frames/sports/9QBtbam1G5Q-00.27.5_pavilion-courts-walkway-aerial.jpg', label: 'aerial (9QBtbam1G5Q @0:27.5)', az: -40, pitch: 35, fov: 22 },
+  ],
+  'guard-room': [
+    { photo: 'reference/photos/web/main-gate/main-gate-front-day_jdmagicbox.jpg', label: 'front, from the public road (web)', az: -130, pitch: 3, fov: 45 },
+  ],
+  'kalam-centre': [
+    { photo: 'reference/photos/video_frames/kalam-centre/iimshomepage-00.43.5_kalam-centre-entrance.jpg', label: 'entrance (homepage video @0:43.5)', az: -140, pitch: 4, fov: 40, part: 0 },
+  ],
   nab: [
     { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.05.5_nab-front-straight-on.jpg', label: 'straight on: SE front (homepage video @0:05.5)', az: -38, pitch: 7, fov: 26, crop: [100, 470, 1720, 520] },
     { photo: 'reference/photos/video_frames/admin-nab/7JbrpxrsLSw-00.15.8_nab-front-sunlit.jpg', label: 'ground: SE front from the lawn (Mechenzi @0:15.8)', az: -50, pitch: 3, fov: 62 },
@@ -39,11 +68,11 @@ export const REAL = {
 
 const [id, round = '1', ...rest] = process.argv.slice(2);
 const opt = Object.fromEntries(rest.filter(a => a.startsWith('--')).map(a => { const [k, v = 'true'] = a.slice(2).split('='); return [k, v]; }));
-const cfg = MODELS[id];
+const cfg = MODELS[id] ?? (REAL[id] ? { render: null, az: -45 } : null);
 if (!cfg) { console.error(`Unknown model "${id}". Known: ${Object.keys(MODELS).join(', ')}`); process.exit(1); }
 const base = opt.base ?? 'http://localhost:5173', az = opt.az ?? cfg.az, pitch = opt.pitch ?? 32;
-const renderPath = path.join('reference/generated/raw/tycoon', cfg.render), outDir = 'reference/style/compare';
-const png = fs.readFileSync(renderPath), rw = png.readUInt32BE(16), rh = png.readUInt32BE(20); // IHDR
+const outDir = 'reference/style/compare';
+const png = cfg.render ? fs.readFileSync(path.join('reference/generated/raw/tycoon', cfg.render)) : Buffer.alloc(24, 0), rw = cfg.render ? png.readUInt32BE(16) : 16, rh = cfg.render ? png.readUInt32BE(20) : 9; // IHDR
 const H = 900, W = Math.round((H * rw) / rh);
 const img = (buf) => `data:image/png;base64,${buf.toString('base64')}`;
 
