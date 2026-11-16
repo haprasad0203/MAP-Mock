@@ -28,7 +28,7 @@ const MAP_PITCH = 52, ROT_NAMES = ['SE', 'NE', 'NW', 'SW']; // src/render3d/came
 // The cameras are also recorded in reference/real/<id>.md.
 export const REAL = {
   admin: [
-    { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg', label: 'aerial: south front (homepage video @0:04.5)', az: -100, pitch: 17, fov: 34, zoom: 1.45 },
+    { photo: 'reference/photos/video_frames/admin-nab/iimshomepage-00.04.5_admin-south-front-aerial.jpg', label: 'aerial: south front (homepage video @0:04.5)', az: -100, pitch: 17, fov: 22, zoom: 1.12 },
     { photo: 'reference/photos/web/admin/admin-east-block-corner_iims-2024-10-7.jpg', label: 'low: east block and east wing (iimshillong 2024/10/7)', az: -128, pitch: 9, fov: 50, part: 3 },
   ],
   nab: [

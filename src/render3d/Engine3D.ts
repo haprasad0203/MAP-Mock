@@ -7,6 +7,7 @@ import { LEVELS, tierOf, type Rot, type Tier } from '../render/iso';
 import type { EngineOptions, Hit, IMapEngine, Layers, Pin, View } from '../render/engineApi';
 import type { WorldModel } from '../render/world';
 import { Terrain, type TerrainData } from './terrain';
+const DEV_CAM = typeof location !== 'undefined' ? (new URLSearchParams(location.search).get('cam')?.split(',').map(Number) ?? null) : null;
 import { applyPose, distanceFor, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
 import { bakeGroundTexture, bakeGroundWeights, buildTerrainGeometry, groundMaterial, type SurfaceAt } from './ground';
 import { iconFor } from '../ui/mapIcons';
@@ -241,6 +242,11 @@ export class Engine3D implements IMapEngine {
   }
   private sync() {
     this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: this.k, rot: this.rotF }, this.W, this.H);
+    if (DEV_CAM) { // dev only: ?cam=x,y,az,pitch,dist,fov frees the camera to match a drone photo (aerial match sheets)
+      const [x, y, az, pitch, d, fov] = DEV_CAM, a = (az * Math.PI) / 180, pt = (pitch * Math.PI) / 180, h = this.terrain.baseAt(x, y);
+      this.camera.fov = fov; this.camera.position.set(x + d * Math.cos(pt) * Math.cos(a), h + d * Math.sin(pt), -(y + d * Math.cos(pt) * Math.sin(a)));
+      this.camera.near = 5; this.camera.far = d * 4 + 9000; this.camera.lookAt(x, h, -y); this.camera.updateProjectionMatrix(); this.camera.updateMatrixWorld(true);
+    }
   }
   private emitView() { this.opts.onView?.({ ...this.view, tier: this.tier }); }
   private persist() { try { sessionStorage.setItem('campus.view', JSON.stringify(this.view)); } catch { /* ignore */ } this.emitView(); }

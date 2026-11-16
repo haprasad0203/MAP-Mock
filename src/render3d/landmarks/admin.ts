@@ -9,7 +9,7 @@ import { partFootprint } from '../terrain';
 import { ccw, offset, rgb } from '../mesh';
 import { insetRoof, sampledRoof } from '../roofs';
 import {
-  behind, bevelCorners, visibleSpan, centroidOf, depthAt, emblem, faceOf, faceToward, facesOf, flat, fp, gallery, glassGrid, hipOver, hipPart, ngon, ONE, panel,
+  behind, bevelCorners, centroidOf, depthAt, emblem, faceOf, faceToward, facesOf, flat, fp, gallery, glassGrid, hipOver, hipPart, ngon, ONE, panel,
   punched, REAL_ROOF, ring, sandstone, WALL, type Face, type LandmarkBuilder,
 } from './kit';
 
@@ -26,7 +26,10 @@ export const buildAdmin: LandmarkBuilder = (B, b, ctx) => {
   // ---------- centre range (part 2) ----------
   const main = b.parts[MAIN], poly = ccw(partFootprint(main)), fs = facesOf(poly), front = faceToward(fs, flag), L = front.len;
   // the end blocks stand ahead of the wings (photos): the wings and centre fill only the stretch between them
-  const [v0, v1] = visibleSpan(front, b.parts.filter((_, i) => i !== MAIN).map(p => ccw(partFootprint(p)))), Lv = v1 - v0;
+  const sOf = (q: XY) => (q[0] - front.a[0]) * front.u[0] + (q[1] - front.a[1]) * front.u[1];
+  const ends = b.parts.filter((_, i) => i !== MAIN).map(p => partFootprint(p).map(sOf));
+  const v0 = Math.max(0, ...ends.filter(e => e.reduce((x, y) => x + y, 0) / e.length < L / 2).map(e => Math.max(...e))) - 0.5;
+  const v1 = Math.min(L, ...ends.filter(e => e.reduce((x, y) => x + y, 0) / e.length >= L / 2).map(e => Math.min(...e))) + 0.5, Lv = v1 - v0;
   const c0 = v0 + Lv / 3, c1 = v0 + (2 * Lv) / 3, Dw = 11, Dc = Math.max(14, Math.min(22, depthAt(poly, front, L / 2) - 4));
   for (const f of fs) B.wall('plain', f.a, f.b, g - 4, g0, rgb('#C9C3B6'));                        // plinth
   // rear hall: everything deeper than the wings, at the wings' height, plain white with high windows
@@ -50,7 +53,7 @@ export const buildAdmin: LandmarkBuilder = (B, b, ctx) => {
   // ---------- end blocks: parts 0 + 1 (west) and part 3 (east) ----------
   b.parts.forEach((p, idx) => {
     if (idx === MAIN) return;
-    const pp = ccw(partFootprint(p)), pf = facesOf(pp), show = faceToward(pf, flag), H = Hend;
+    const pp = ccw(partFootprint(p)), pc = centroidOf(pp), pf = facesOf(pp), show = faceToward(pf, [pc[0] + front.n[0] * 200, pc[1] + front.n[1] * 200]), H = Hend; // the face looking the same way as the front
     const toMain = (f: Face) => { const m = centroidOf(poly), d0 = Math.hypot(f.a[0] - m[0], f.a[1] - m[1]), d1 = Math.hypot(f.b[0] - m[0], f.b[1] - m[1]); return d0 < d1 ? 0.18 : 0.82; };
     for (const f of pf) {
       B.wall('plain', f.a, f.b, g - 4, g0, rgb('#C9C3B6'));

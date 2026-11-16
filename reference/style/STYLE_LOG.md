@@ -171,3 +171,53 @@ Models: `src/render3d/landmarks/admin.ts` and `nab.ts`, rebuilt from `reference/
 | Heights | 3 storeys at the lawn front (about 11.7 m), towers about 18 m plus the box storey and caps: matches the straight-on still |
 | Glass | Darker after the `glassReal` material; still a touch bright |
 | Missing | Front plaza and lawn in the viewer; the back (NW) face is unknown (photo list) |
+
+### Round 2 (16 Nov)
+- **Admin:**
+  - The wings now run only between the end blocks, which stand ahead of them as in the photos; the end-block extents are projected on the front.
+  - Each end block's glass strip and entrance sit on its south face, with the small punched windows on the sides.
+  - A horseshoe paver drive runs round the oval lawn.
+  - The roof is a darker green-teal (#287565).
+  - The aerial camera is matched closer (fov 22).
+- **NAB:**
+  - The front plaza and lawn are in the viewer.
+  - Framing ignores ground-level geometry.
+
+### Round 3 (16 Nov), scores against the real buildings
+**Admin, 8/10.**
+- **Good:**
+  - massing and heights (4 / 3 / 4 / 3 / 4 floors across the front);
+  - the hip roofs with deep white eaves;
+  - galleries with sandstone piers and teal canopies;
+  - banded-glass centre over the portico;
+  - glass strips;
+  - the emblem with letters;
+  - sandstone ground floors;
+  - the horseshoe forecourt.
+- **Still off:**
+  - the forecourt hedge, topiary and conifers are missing;
+  - the emblem has no sunburst rays (a plain ring);
+  - the centre block's glass reads as 3 equal bays, but the photo shows about 4 narrower ones;
+  - no portico steps or parking cars at the real spots;
+  - the rear hall and back faces are unknown.
+
+**NAB, 8/10.**
+- **Good:**
+  - the whole SE front, bay by bay, matches the straight-on still: towers, stone panels with glass bays, the emblem, the white blocks with canopies and stair heads, the faceted atrium under the big pyramid;
+  - heights.
+- **Still off:**
+  - the end blocks' stepped data outline still shows as white boxes behind the stone line from the oblique view;
+  - the side and back windows are generic (no photos);
+  - the stone texture is a little too busy for the tycoon finish.
+
+**Aerial match** (`aerial_match_v2.png`, map with the free camera `?cam=` matched to DJI_0338 and Image_363):
+- **Matches:** Cafe Cloud on the left, the main road and the Scholar's Path bending past Admin, NAB behind and left, Admin facing the camera.
+- **Differences (for the whole-campus stage):**
+  - the terraced garden and stone retaining walls between the road and Admin are missing;
+  - the forest is much denser than the real scattered pines and open grass;
+  - the forecourt detail on the map is simpler than in the viewer.
+
+Other sheets:
+- `real_admin_v1–3.png`, `real_nab_v1–3.png`;
+- `model_<id>_v3_rot4.png` and `_plan.png`;
+- `m3v2_admin_nab_rot0/rot2.png` (map, 1280×800).

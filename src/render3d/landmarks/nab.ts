@@ -60,7 +60,7 @@ export const buildNab: LandmarkBuilder = (B, b, ctx) => {
     const left = inner < 0.5;
     on(left ? inner : inner, left ? t1 - 0.004 : inner + 0.049, (f, s0, s1) => glassGrid(B, f, s0, s1, g0 + 0.4, Hm - 0.8, 0.25, 3, 6), Ds); // glass bay
   }
-  on(0.14, 0.17, (f, s0, s1) => emblem(B, f, (s0 + s1) / 2, 0.15, g0 + 7.4, 1.75, true), Ds);                  // emblem on the SW panel
+  on(0.14, 0.17, (f, s0, s1) => emblem(B, f, (s0 + s1) / 2, 0.15, g0 + 8.3, 1.75, true), Ds);                  // emblem on the SW panel
   for (const [t0, t1, c0, c1, w] of [[0.26, 0.45, 0.317, 0.397, 0.363], [0.538, 0.73, 0.6, 0.68, 0.69]] as number[][]) {
     on(t0, t1, (f, s0, s1, back) => panel(B, 'plain', f, s0, s1, 0.02, g0, Hm, WALL, 0, WALL, -back));      // white block front skin
     on(c0, c1, (f, s0, s1) => {                                                                            // flat canopy on two posts
@@ -102,6 +102,14 @@ export const buildNab: LandmarkBuilder = (B, b, ctx) => {
   });
   // the two end towers: sandstone shafts with a white-framed glass strip, a green flared band, a white box, a green cap
   for (const [t0, t1] of [[0, 0.083], [0.917, 1]]) on(t0, t1, (f, s0, s1) => { top = Math.max(top, tower(f, s0, s1)); }, Ds + 0.3);
+  // the front plaza and the NAB lawn (?model= viewer only; on the map the ground and hardscape.json draw them)
+  if (ctx.forecourt) {
+    on(-0.03, 1.03, f => {
+      const h = g + 0.12, pl = [fp(f, 0, 4.5), fp(f, f.len, 4.5), fp(f, f.len, 14), fp(f, 0, 14)], lw = [fp(f, -20, 14), fp(f, f.len + 20, 14), fp(f, f.len + 20, 75), fp(f, -20, 75)];
+      B.cap('lawn', ccw(lw), g + 0.05, ONE, 14); B.prism('plain', ccw(pl), g - 0.02, h, rgb('#B9B4A8'), false); B.cap('plain', ccw(pl), h, rgb('#C98E80'));
+      for (let k = 0; k < 9; k++) { const q = fp(f, (f.len * (k + 0.5)) / 9, 12.5); B.box('plain', q[0], q[1], 0.16, 0.16, 0, h, h + 5.5, rgb('#3A3F45')); }
+    }, Ds);
+  }
   return { top, centre: centroidOf(polys[1]) };
 
   function tower(f: Face, s0: number, s1: number): number {

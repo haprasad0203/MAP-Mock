@@ -185,7 +185,7 @@ export function emblem(B: Buckets, f: Face, s: number, out: number, h: number, r
 // ---------- real-campus pieces (Phase 3M v2, reference/real/<id>.md): colours sampled from the photos ----------
 export const SANDSTONE = rgb('#B8936A'), WALL = rgb('#EDEAE3'), GLASS_TEAL = rgb('#24494A'), CANOPY_TEAL = rgb('#4AA0B6'), RAIL = rgb('#9BA3A4');
 /** Multiplier on the glass texture: the real glass reads dark teal, not the texture's bright cyan. */
-export const GLASS_TINT: RGB = [0.5, 0.62, 0.68];
+export const GLASS_TINT: RGB = [0.42, 0.55, 0.6];
 export const REAL_ROOF = '#287565';
 /** Plain wall in a flat colour (no texture), `out` metres proud of the face. */
 export function flat(B: Buckets, f: Face, s0: number, s1: number, h0: number, h1: number, col: RGB = WALL, out = 0) { B.wall('plain', fp(f, s0, out), fp(f, s1, out), h0, h1, col); }

@@ -58,7 +58,7 @@ export default function ModelViewer({ id }: { id: string }) {
         let m = 0; const v = new THREE.Vector3();
         for (const o of group.children) { // every vertex above the ground, so a building at an angle is framed tightly
           const p = (o as THREE.Mesh).geometry.getAttribute('position');
-          for (let i = 0; i < p.count; i++) { if (p.getY(i) < g - 0.1) continue; v.set(p.getX(i), p.getY(i), p.getZ(i)).project(cam); m = Math.max(m, Math.abs(v.x), Math.abs(v.y)); }
+          for (let i = 0; i < p.count; i++) { if (p.getY(i) < g + 0.6) continue; v.set(p.getX(i), p.getY(i), p.getZ(i)).project(cam); m = Math.max(m, Math.abs(v.x), Math.abs(v.y)); }
         }
         dist *= m / 0.88;
       }
