@@ -1,5 +1,5 @@
 {
-  "note": "Mock place data. Names from the kit README; reconcile with WMC app venue data. 'confirm' marks items needing organiser confirmation. | v2 (13 Nov 2026): coordinates match campus-layout.json v2. | v2 (13 Nov 2026): coordinates match campus-layout.json v2.",
+  "note": "Mock place data. Names from the kit README; reconcile with WMC app venue data. 'confirm' marks items needing organiser confirmation. | v2 (13 Nov 2026): coordinates match campus-layout.json v2. | v2 (13 Nov 2026): coordinates match campus-layout.json v2. | v2 (13 Nov 2026): coordinates match campus-layout.json v2.",
   "places": [
     {
       "id": "admin",
@@ -344,17 +344,20 @@
     },
     {
       "id": "covered-walkway",
-      "name": "Covered walkway",
+      "name": "Scholar's Path",
       "category": "landmark",
       "at": [
         -150,
         170
       ],
       "aliases": [
+        "Scholar's Path",
+        "Scholars Path",
+        "Covered walkway",
         "Walkway",
         "Corridor"
       ],
-      "confirm": "Roof footprints from Overture; the joins between them by eye"
+      "confirm": "H A, 16 Nov: the Scholar's Path is the teal-roofed covered walkway (canopy). It runs beside the main road on the right as you enter by the main gate and up through the middle of campus (zig-zag past the courts to the hostels). Only the middle section is in the layout; the roadside run is to be added in hardscape.json"
     },
     {
       "id": "gym",
