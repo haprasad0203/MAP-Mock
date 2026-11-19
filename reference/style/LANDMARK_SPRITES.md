@@ -91,7 +91,17 @@ Make a checkerboard sheet of all 13 cut-outs, `reference/style/compare/sprites_c
   Build them in code, using the Phase 2 textures. Gemini may be used only to make extra tileable textures for these (no buildings).
 - **Props:** lamps, benches and the flag stay in code.
 
-## 6. Deliver, then stop for H A
+## 6. Deferred to a later stage (H A, 14 Nov): record these in IMPLEMENTATION_PLAN.md
+For now the map uses the 13 approved renders exactly as they are. H A accepts these limits for now and will fix them later with his own videos of every building, filmed from all sides. List them in `reference/IMPLEMENTATION_PLAN.md` under **"Later stage: landmark sprites v2"**, and don't work on them until H A says so:
+1. **Rotation is locked.** The renders show only one angle. Later: four-direction sprites per landmark (13 × 4), drawn over the real 3D massing at the map angle, with H A's video frames as reference and the approved renders as the style master. Then rotation is unlocked.
+2. **Outlines only roughly match the real footprints** (for example, NAB is drawn as one neat slab; the real Admin is longer than its render; Hostels 3 and 4 show 5 floors instead of 4). Later: the four-direction sprites drawn from the real massing fix this.
+3. **The door in a picture may not be where the route ends** (routes use the real entrances in the data). Later: fixed by the same four-direction sprites. For now, check Admin and NAB, and note any building where this looks clearly wrong.
+4. **Light is painted in** (golden hour), so no dusk mode or lit windows on these buildings. Later: optional dusk variants.
+5. **Softness at the closest zoom.** Later: higher-resolution versions if needed.
+6. **Guessed buildings:** Kalam Centre, Commercial Complex and the Mess walls have no ground photos. Later: redo them from H A's videos.
+7. **Video intake:** H A will put videos in `D:\Map Mock\reference\photos\campus_new\<building-id>\`. Later, extract frames with ffmpeg (the 3/4 corner views, entrance, roof), choose the best, and log them in LOOKS_LIKE.md.
+
+## 7. Deliver, then stop for H A
 1. **First:** the cut-out sheet (step 2), and Admin + NAB placed on the map (1280×800 close-up and 390×844). Wait for H A's OK.
 2. **Then:** all 13 placed, plus whole-campus screenshots at 1280×800 and 390×844, next to `tycoon_style_target.png`.
 3. **Finally:** tests and build pass, committed on phase-3, no merge until H A approves. Then Phase 3B (blue dot, directions, ON AIR, event pins, room changes, list view). The conference is 27 Nov.
