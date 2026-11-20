@@ -237,7 +237,7 @@ a954, a949 = long_axis(w954), long_axis(w949)
 a954.sort(key=lambda p: p[0]); a949.sort(key=lambda p: -p[1])
 _p955, _ = nearest_points(Polygon(FP[955]['ring']).exterior, Point(a954[0]))
 covered = [(_p955.x, _p955.y), a954[0], a954[1], a949[0], a949[1], FP[492]['c']]
-paths.append({'id': 'covered-walk', 'kind': 'covered', 'name': 'Covered walkway', 'src': 'Overture 954 + 949 (walkway roofs) joined by eye', 'pts': rnd(covered)})
+paths.append({'id': 'covered-walk', 'kind': 'covered', 'name': "Scholar's Path (covered walkway)", 'src': 'Overture 954 + 949 (walkway roofs) joined by eye', 'pts': rnd(covered)})
 lake = Polygon(ring_local(load_osm('water')[0]))
 trail = list(lake.buffer(7, resolution=4).simplify(2).exterior.coords)
 paths.append({'id': 'lake-trail', 'kind': 'footpath', 'name': 'Lake walking trail', 'src': 'OSM lake outline + 7 m', 'pts': rnd(trail)})

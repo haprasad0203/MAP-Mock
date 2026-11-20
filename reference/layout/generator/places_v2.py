@@ -11,7 +11,9 @@ AT={'football':cen(area['football']['pts']),'basketball':[-210,140],'volleyball'
 for p in pl['places']:
     if p['id'] in AT: p['at']=AT[p['id']]
     if p['id']=='tennis': p['confirm']='OSM tags both west courts as basketball; whether one is used for tennis/badminton to confirm'
-    if p['id']=='covered-walkway': p['confirm']='Roof footprints from Overture; the joins between them by eye'
+    if p['id']=='covered-walkway':
+        p['name']="Scholar's Path"; p['aliases']=list(dict.fromkeys(["Scholar's Path","Scholars Path",'Covered walkway','Walkway','Corridor']))
+        p['confirm']="H A, 16 Nov: the Scholar's Path is the teal-roofed covered walkway (canopy). It runs beside the main road on the right as you enter by the main gate and up through the middle of campus (zig-zag past the courts to the hostels). Only the middle section is in the layout; the roadside run is to be added in hardscape.json"
     if p['id']=='parking': p['confirm']='Paved lot between NAB and the Admin Block (satellite); confirm it is the visitor car park'
     if p['id']=='main-gate': p['confirm']='Placed at the Google listing pin on the south road; survey the gate posts'
     if p['id']=='hostel-3': p['aliases']=sorted(set(p['aliases']+['F Block New Hostel']))
