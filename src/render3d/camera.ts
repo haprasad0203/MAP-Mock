@@ -17,10 +17,10 @@ export const azimuth = (rot: number) => (-45 - 90 * rot) * D2R;
 
 export const toThree = (x: number, y: number, h: number) => new THREE.Vector3(x, h, -y);
 
-export interface Pose { cx: number; cy: number; h: number; k: number; rot: number }
+export interface Pose { cx: number; cy: number; h: number; k: number; rot: number; pitch?: number }
 /** Place `cam` for a view centred on (cx, cy) at ground height h. */
 export function applyPose(cam: THREE.PerspectiveCamera, p: Pose, viewW: number, viewH: number) {
-  const D = distanceFor(p.k, viewH), az = azimuth(p.rot), cp = Math.cos(PITCH * D2R), sp = Math.sin(PITCH * D2R);
+  const pitch = p.pitch ?? PITCH, D = distanceFor(p.k, viewH), az = azimuth(p.rot), cp = Math.cos(pitch * D2R), sp = Math.sin(pitch * D2R);
   cam.fov = FOV; cam.aspect = viewW / Math.max(1, viewH);
   cam.near = Math.max(5, D * 0.15); cam.far = D * 2.5 + 9000;
   cam.position.set(p.cx + D * cp * Math.cos(az), p.h + D * sp, -(p.cy + D * cp * Math.sin(az)));

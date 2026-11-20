@@ -11,6 +11,9 @@ export interface EngineOptions {
   onView?: (v: View & { tier: Tier }) => void;
   /** 3D only: the engine lowered its own quality tier because frames were slow. */
   onQuality?: (q: 'high' | 'medium' | 'low') => void;
+  /** 3D only: open with the sky entrance (camera drops through the clouds and settles). `onIntro(u)` reports progress 0..1. */
+  intro?: boolean;
+  onIntro?: (u: number) => void;
 }
 export interface Layers { labels: boolean; illustrated: boolean; trees: boolean }
 

@@ -15,6 +15,7 @@ import { ListView } from './ListView';
 import { IconClose, IconCompass, IconLayers, IconLocate, IconRotate, IconSearch } from './icons';
 import { BottomSheet, type Selection } from './BottomSheet';
 import { iconUrl } from './mapIcons';
+import SkyIntro, { markIntroPlayed, wantsIntro, type SkyIntroHandle } from './SkyIntro';
 
 const CHIPS: { id: Category | 'all'; label: string; color?: string; icon?: string }[] = [
   { id: 'all', label: 'All' }, { id: 'venue', label: 'Venues', icon: 'venue' }, { id: 'food', label: 'Food', icon: 'food' },
@@ -59,6 +60,9 @@ export default function CampusPage() {
   const [layers, setLayers] = useState({ labels: true, illustrated: true, trees: true });
   const [tier, setTier] = useState<Tier>('area'); const [rot, setRot] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
+  // sky entrance: decided once per open; the clouds cover the loading time, then part as the camera drops
+  const [intro, setIntro] = useState(() => use3d && wantsIntro());
+  const skyRef = useRef<SkyIntroHandle>(null);
 
   // ---- load data + build the world ----
   useEffect(() => {
@@ -103,6 +107,8 @@ export default function CampusPage() {
       },
       onView: (v: View & { tier: Tier }) => { setTier(v.tier); setRot(v.rot); },
       onQuality: (q: string) => setToast(`Map detail lowered to ${q} to keep it smooth.`),
+      intro,
+      onIntro: (u: number) => { skyRef.current?.progress(u); if (u >= 1) { markIntroPlayed(); setIntro(false); } },
     };
     let dead = false, engine: IMapEngine | null = null;
     const start = (e: IMapEngine) => {
@@ -134,9 +140,9 @@ export default function CampusPage() {
       // Three.js is loaded only when the 3D map is used; any failure falls back to the 2D map
       const c = currentChoice(), auto = c === 'auto' || c === '2d';
       import('../render3d/Engine3D').then(m => m.createEngine3D(canvasRef.current!, world, first, opts, auto ? autoQuality() : c, auto))
-        .then(e => { if (dead) e.destroy(); else { engine = e; start(e); } })
-        .catch(err => { console.warn('3D map unavailable, using the 2D map:', err); if (!dead) setFailed3d(true); });
-    } else { engine = new MapEngine(canvasRef.current, world, first, opts); start(engine); }
+        .then(e => { if (dead) e.destroy(); else { engine = e; start(e); if (!e.introActive) setIntro(false); } })
+        .catch(err => { console.warn('3D map unavailable, using the 2D map:', err); if (!dead) { setFailed3d(true); setIntro(false); } });
+    } else { engine = new MapEngine(canvasRef.current, world, first, opts); start(engine); setIntro(false); }
     return () => { dead = true; engine?.destroy(); engineRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [world, places, use3d]);
@@ -245,9 +251,10 @@ export default function CampusPage() {
   const hits = useMemo(() => (places && q ? search(q, places, sched, nameOf) : []), [q, places, sched, world]);
 
   return (
-    <div className={'app' + (nav || offCampus ? ' has-nav' : '')}>
+    <div className={'app' + (nav || offCampus ? ' has-nav' : '') + (intro ? ' intro-on' : '')}>
       <canvas key={use3d ? '3d' : '2d'} ref={canvasRef} className={use3d ? 'map-canvas' : 'map-canvas pixel'} role="img" aria-label="3D map of the IIM Shillong campus. Use search to find buildings, rooms and sessions." />
-      {!world && <div className="toast" style={{ bottom: '50%' }}>Drawing the campus…</div>}
+      {intro && <SkyIntro ref={skyRef} onSkip={() => { const e = engineRef.current as { skipIntro?: () => void } | null; if (e?.skipIntro) e.skipIntro(); else { markIntroPlayed(); setIntro(false); } }} />}
+      {!world && !intro && <div className="toast" style={{ bottom: '50%' }}>Drawing the campus…</div>}
 
       <div className="top">
         <div className="search" role="search">

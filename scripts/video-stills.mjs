@@ -6,7 +6,8 @@
 import { chromium } from 'playwright-core';
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import http from 'node:http';
+let server = null;
 
 const args = process.argv.slice(2), opt = Object.fromEntries(args.filter(a => a.startsWith('--')).map(a => a.slice(2).split('=')));
 const [src, outDir] = args.filter(a => !a.startsWith('--'));
@@ -18,7 +19,18 @@ const browser = await chromium.launch({ channel: 'msedge', headless: true, args:
 try {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   if (isYT) await page.goto(`https://www.youtube.com/watch?v=${src}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  else await page.goto(/^https?:/.test(src) ? src : pathToFileURL(path.resolve(src)).href, { timeout: 120000 }); // the browser's own video page: same origin, so the canvas stays readable
+  else if (/^https?:/.test(src)) await page.goto(src, { timeout: 120000 }); // the browser's own video page: same origin, so the canvas stays readable
+  else { // local files (.mp4, .MOV…, which a file:// tab may download instead): a loopback server with Range support
+    const file = path.resolve(src), size = fs.statSync(file).size;
+    server = http.createServer((req, res) => {
+      if (!req.url.startsWith('/v')) { res.setHeader('Content-Type', 'text/html'); res.end('<body style="margin:0;background:#000"><video src="/v" preload="auto" muted playsinline></video></body>'); return; }
+      const m = /bytes=(\d*)-(\d*)/.exec(req.headers.range ?? ''), a = m?.[1] ? +m[1] : 0, b = m?.[2] ? +m[2] : size - 1;
+      res.writeHead(m ? 206 : 200, { 'Content-Type': 'video/mp4', 'Accept-Ranges': 'bytes', 'Content-Length': b - a + 1, ...(m ? { 'Content-Range': `bytes ${a}-${b}/${size}` } : {}) });
+      fs.createReadStream(file, { start: a, end: b }).pipe(res);
+    });
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
+    await page.goto(`http://127.0.0.1:${server.address().port}/`, { timeout: 120000 });
+  }
   await page.waitForFunction(() => { const v = document.querySelector('video'); return v && v.duration > 0 && v.readyState >= 1; }, null, { timeout: 60000 });
   const info = await page.evaluate(async () => {
     const v = document.querySelector('video'); v.muted = true;
@@ -51,4 +63,4 @@ try {
     fs.writeFileSync(fileOf(t), jpg); n++; w = r.w;
   }
   console.log(JSON.stringify({ name, title: info.title, duration: +info.dur.toFixed(1), frames: n, missed: bad, width: w, outDir }));
-} finally { await browser.close(); }
+} finally { await browser.close(); server?.close(); }

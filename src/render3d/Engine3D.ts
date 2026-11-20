@@ -8,7 +8,7 @@ import type { EngineOptions, Hit, IMapEngine, Layers, Pin, View } from '../rende
 import type { WorldModel } from '../render/world';
 import { Terrain, type TerrainData } from './terrain';
 const DEV_CAM = typeof location !== 'undefined' ? (new URLSearchParams(location.search).get('cam')?.split(',').map(Number) ?? null) : null;
-import { applyPose, distanceFor, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
+import { applyPose, distanceFor, PITCH, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
 import { bakeGroundTexture, bakeGroundWeights, buildTerrainGeometry, groundMaterial, type SurfaceAt } from './ground';
 import { iconFor } from '../ui/mapIcons';
 import { Buckets } from './mesh';
@@ -101,6 +101,30 @@ export class Engine3D implements IMapEngine {
     this.ro = new ResizeObserver(() => this.resize()); this.ro.observe(canvas); this.resize();
     if (new URLSearchParams(location.search).get('fps')) this.showFps();
     this.buildMs = Math.round(performance.now() - t0);
+    if (opts.intro && !reducedMotion() && !DEV_CAM) { this.introMs = 0; this.applyIntro(0); this.kick(); }
+  }
+
+  // ---------- sky entrance (Lovable brief section 4) ----------
+  // The camera drops from high above, nearly straight down, through the clouds (a DOM layer in CampusPage), swings round
+  // to the hero view and settles at the normal pitch; trees, then buildings, rise out of the ground; the labels come last.
+  private introMs = -1; private introLast = 0; // -1: no intro; else the intro's own clock, which advances at most 100 ms a frame so slow first frames (shader compiles) don't skip it
+  private static readonly INTRO_MS = 3400;
+  get introActive() { return this.introMs >= 0; }
+  skipIntro() { if (this.introMs < 0) return; this.introMs = Engine3D.INTRO_MS; this.kick(); }
+  private introPose(u: number) {
+    const sm = (a: number, b: number) => { const x = Math.max(0, Math.min(1, (u - a) / (b - a))); return x * x * (3 - 2 * x); };
+    const drop = 1 - (1 - Math.min(1, u / 0.92)) ** 4; // fast fall, long soft landing
+    const kEnd = this.k, kStart = kEnd / 14;
+    return { k: Math.exp(Math.log(kStart) + (Math.log(kEnd) - Math.log(kStart)) * drop), pitch: 86 - (86 - PITCH) * sm(0.12, 1), rot: this.rotF + 0.55 * (1 - sm(0, 1)), trees: sm(0.3, 0.8), build: sm(0.42, 0.9), labels: u > 0.86 };
+  }
+  private applyIntro(u: number) {
+    const p = this.introPose(u), root = this.scene.getObjectByName('buildings'), props = this.scene.getObjectByName('props');
+    if (root) root.position.y = -30 * (1 - p.build);
+    if (props) props.position.y = -6 * (1 - p.build);
+    for (const t of [this.campusTrees, this.forest]) if (t) t.group.position.y = -16 * (1 - p.trees);
+    this.labels.root.style.opacity = p.labels ? '1' : '0';
+    this.renderer.shadowMap.needsUpdate = true;
+    this.opts.onIntro?.(u);
   }
 
   // ---------- scene ----------
@@ -242,6 +266,11 @@ export class Engine3D implements IMapEngine {
     let lv = 0; LEVELS.forEach((l, i) => { if (Math.abs(Math.log(l / this.k)) < Math.abs(Math.log(LEVELS[lv] / this.k))) lv = i; }); this.view.level = lv;
   }
   private sync() {
+    if (this.introMs >= 0) {
+      const p = this.introPose(Math.min(1, this.introMs / Engine3D.INTRO_MS));
+      this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: p.k, rot: p.rot, pitch: p.pitch }, this.W, this.H);
+      return;
+    }
     this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: this.k, rot: this.rotF }, this.W, this.H);
     if (DEV_CAM) { // dev only: ?cam=x,y,az,pitch,dist,fov frees the camera to match a drone photo (aerial match sheets)
       const [x, y, az, pitch, d, fov] = DEV_CAM, a = (az * Math.PI) / 180, pt = (pitch * Math.PI) / 180, h = this.terrain.baseAt(x, y);
@@ -285,6 +314,11 @@ export class Engine3D implements IMapEngine {
   private frame(t: number) {
     if (this.raf === -1) return; this.raf = 0; let more = false;
     clearTimeout(this.idle); this.idle = 0;
+    if (this.introMs >= 0) {
+      if (this.introLast) this.introMs += Math.min(100, t - this.introLast); this.introLast = t;
+      const u = Math.min(1, this.introMs / Engine3D.INTRO_MS); this.applyIntro(u); this.dirty = true;
+      if (u >= 1) { this.introMs = -1; this.labels.root.style.opacity = ''; } else more = true;
+    }
     if (this.anim) { more = this.anim(t); if (!more) this.anim = null; this.dirty = true; }
     if (this.pulseT0 >= 0) { // selection ring: a soft pulse for 1.6 s, then steady
       const u = Math.min(1, (performance.now() - this.pulseT0) / 1600); this.markers.pulse(u); this.dirty = true;
@@ -346,6 +380,7 @@ export class Engine3D implements IMapEngine {
     let last: XY = [0, 0], lastT = 0, startT = 0, moved = 0, pinchD = 0, wheelT: ReturnType<typeof setTimeout> | undefined;
     const local = (e: PointerEvent | MouseEvent): XY => { const r = el.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
     el.addEventListener('pointerdown', e => {
+      if (this.introActive) { this.skipIntro(); return; } // a tap skips the sky entrance
       try { el.setPointerCapture(e.pointerId); } catch { /* synthetic pointer */ } pts.set(e.pointerId, local(e)); this.anim = null; this.vel = [0, 0];
       if (pts.size === 1) { this.dragging = true; last = local(e); lastT = startT = performance.now(); moved = 0; }
       if (pts.size === 2) { const [a, b] = [...pts.values()]; pinchD = Math.hypot(a[0] - b[0], a[1] - b[1]); moved = 99; }
@@ -367,7 +402,7 @@ export class Engine3D implements IMapEngine {
       }
     };
     el.addEventListener('pointerup', up, o); el.addEventListener('pointercancel', up, o);
-    el.addEventListener('wheel', e => { e.preventDefault(); this.zoomAround(Math.exp(-e.deltaY * 0.0022), local(e)); clearTimeout(wheelT); wheelT = setTimeout(() => this.persist(), 160); }, { passive: false, signal: this.abort.signal });
+    el.addEventListener('wheel', e => { e.preventDefault(); if (this.introActive) { this.skipIntro(); return; } this.zoomAround(Math.exp(-e.deltaY * 0.0022), local(e)); clearTimeout(wheelT); wheelT = setTimeout(() => this.persist(), 160); }, { passive: false, signal: this.abort.signal });
     el.addEventListener('dblclick', e => this.zoomBy(1.9, local(e)), o);
   }
 }
