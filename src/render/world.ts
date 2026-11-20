@@ -88,6 +88,19 @@ function dashLine(buf: Uint8Array, pts: XY[], on: number, off: number, val: numb
   }
 }
 
+/** A polygon pushed out by d metres along its corner bisectors (mitre capped), either winding. */
+function grow(poly: XY[], d: number): XY[] {
+  let a2 = 0; for (let i = 0; i < poly.length; i++) { const q = poly[(i + 1) % poly.length]; a2 += poly[i][0] * q[1] - q[0] * poly[i][1]; }
+  const p = a2 < 0 ? [...poly].reverse() : poly, n = p.length;
+  return p.map((b, i) => {
+    const a = p[(i + n - 1) % n], c = p[(i + 1) % n], l1 = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, l2 = Math.hypot(c[0] - b[0], c[1] - b[1]) || 1;
+    const n1: XY = [(b[1] - a[1]) / l1, -(b[0] - a[0]) / l1], n2: XY = [(c[1] - b[1]) / l2, -(c[0] - b[0]) / l2];
+    let mx = n1[0] + n2[0], my = n1[1] + n2[1]; const ml = Math.hypot(mx, my); if (ml < 1e-3) return [b[0] + n1[0] * d, b[1] + n1[1] * d] as XY;
+    mx /= ml; my /= ml; const k = Math.min(2.5, 1 / Math.max(0.2, mx * n1[0] + my * n1[1]));
+    return [b[0] + mx * d * k, b[1] + my * d * k] as XY;
+  });
+}
+
 export function partCorners(p: { cx: number; cy: number; w: number; d: number; angle: number }): XY[] {
   const a = (p.angle * Math.PI) / 180, c = Math.cos(a), s = Math.sin(a);
   return ([[-p.w / 2, -p.d / 2], [p.w / 2, -p.d / 2], [p.w / 2, p.d / 2], [-p.w / 2, p.d / 2]] as XY[]).map(([x, y]) => [p.cx + x * c - y * s, p.cy + x * s + y * c]);
@@ -141,10 +154,12 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   // centre dash on asphalt, only where the cell is plain asphalt
   for (const p of paths.filter(p => p.kind === 'road')) dashLine(mask, p.pts, DASH_ON, DASH_OFF, G.ROAD_DASH, c => c === G.ROAD);
   const buildings = src.getBuildings();
+  // building pads and footprints: the true outline where the part has one (an irregular footprint's bounding rectangle
+  // would paint building-grey on the ground beside the walls: 20 Nov bug, NAB's forecourt)
   for (const b of buildings) for (const p of b.parts) {
-    const pad = { ...p, w: p.w + 3, d: p.d + 3 };
-    fillPoly(mask, partCorners(pad), G.PLAZA, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
-    fillPoly(mask, partCorners(p), G.BUILDING);
+    const foot = p.poly && p.poly.length >= 3 ? p.poly : partCorners(p);
+    fillPoly(mask, grow(foot, 1.5), G.PLAZA, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
+    fillPoly(mask, foot, G.BUILDING);
   }
 
   // Campus trees: authored clusters plus a light scatter on open lawn, kept off everything built.

@@ -52,29 +52,31 @@ export function resample(pts: XY[], stepAt: (x: number, y: number) => number): S
 }
 
 /** One draped band from offset lo(i) to hi(i) (metres, + = left of travel), `lift` above the terrain. `keep` picks the segments drawn. */
-function band(B: Buckets, sm: Sample[], lo: (i: number) => number, hi: (i: number) => number, lift: number, col: RGB, h: SurfaceAt, keep?: (i: number) => boolean) {
-  const at = (q: Sample, o: number): [number, number, number] => {
+function band(B: Buckets, sm: Sample[], lo: (i: number) => number, hi: (i: number) => number, lift: number, col: RGB, h: SurfaceAt, keep?: (i: number) => boolean, bed?: number[]) {
+  const at = (q: Sample, o: number, i = -1): [number, number, number] => {
     const x = q.p[0] + q.n[0] * o, y = q.p[1] + q.n[1] * o;
-    return [x, y, Math.max(h(x, y), h(x + 1.5, y), h(x - 1.5, y), h(x, y + 1.5), h(x, y - 1.5)) + lift + 0.12];
+    return [x, y, (bed && i >= 0 ? bed[i] : Math.max(h(x, y), h(x + 1.5, y), h(x - 1.5, y), h(x, y + 1.5), h(x, y - 1.5))) + lift + 0.12];
   };
   const uv = (p: [number, number, number]): [number, number] => [p[0] / UV, p[1] / UV];
   for (let i = 0; i + 1 < sm.length; i++) {
     if (keep && !keep(i)) continue;
-    const a = sm[i], b = sm[i + 1], ra = at(a, lo(i)), rb = at(b, lo(i + 1)), la = at(a, hi(i)), lb = at(b, hi(i + 1));
+    const a = sm[i], b = sm[i + 1], ra = at(a, lo(i), i), rb = at(b, lo(i + 1), i + 1), la = at(a, hi(i), i), lb = at(b, hi(i + 1), i + 1);
     B.quad('road', ra, rb, lb, la, col, uv(ra), uv(rb), uv(lb), uv(la));
   }
 }
 /** One draped strip: `half` metres each side of the line, `lift` above the terrain. `keep` picks which segments are drawn. */
-function strip(B: Buckets, sm: Sample[], half: number | ((i: number) => number), lift: number, col: RGB, h: SurfaceAt, keep?: (i: number) => boolean) {
+function strip(B: Buckets, sm: Sample[], half: number | ((i: number) => number), lift: number, col: RGB, h: SurfaceAt, keep?: (i: number) => boolean, bed?: number[]) {
   const hw = typeof half === 'number' ? () => half : half;
-  // sit on the highest ground within reach, so a steep bank never pokes through the ribbon
-  const at = (q: Sample, o: number): [number, number, number] => {
+  // with a road bed: every strip of the road sits at the bed's height at that sample, so the kerb, the lines and the
+  // asphalt stay stacked and never cut through each other on a cross-slope (20 Nov bug: zigzags beside NAB's pad).
+  // Without one: sit on the highest ground within reach, so a steep bank never pokes through the ribbon.
+  const at = (q: Sample, o: number, i: number): [number, number, number] => {
     const x = q.p[0] + q.n[0] * o, y = q.p[1] + q.n[1] * o;
-    return [x, y, Math.max(h(x, y), h(x + 1.5, y), h(x - 1.5, y), h(x, y + 1.5), h(x, y - 1.5)) + lift + 0.12];
+    return [x, y, (bed ? bed[i] : Math.max(h(x, y), h(x + 1.5, y), h(x - 1.5, y), h(x, y + 1.5), h(x, y - 1.5))) + lift + 0.12];
   };
   for (let i = 0; i + 1 < sm.length; i++) {
     if (keep && !keep(i)) continue;
-    const a = sm[i], b = sm[i + 1], ra = at(a, -hw(i)), ca = at(a, 0), la = at(a, hw(i)), rb = at(b, -hw(i + 1)), cb = at(b, 0), lb = at(b, hw(i + 1));
+    const a = sm[i], b = sm[i + 1], ra = at(a, -hw(i), i), ca = at(a, 0, i), la = at(a, hw(i), i), rb = at(b, -hw(i + 1), i + 1), cb = at(b, 0, i + 1), lb = at(b, hw(i + 1), i + 1);
     const uv = (p: [number, number, number]): [number, number] => [p[0] / UV, p[1] / UV];
     B.quad('road', ra, rb, cb, ca, col, uv(ra), uv(rb), uv(cb), uv(ca)); B.quad('road', ca, cb, lb, la, col, uv(ca), uv(cb), uv(lb), uv(la));
   }
@@ -86,24 +88,36 @@ export function addRoads(B: Buckets, paths: PathLine[], h: SurfaceAt, near: (x: 
   for (const p of paths) {
     if (p.pts.length < 2) continue;
     const sm = resample(p.pts, stepAt), isNear = (i: number) => near(sm[i].p[0], sm[i].p[1]), half = (i: number) => halfOf(p, sm[i].s);
+    // the road bed: one height per sample, the highest ground across the whole width (pavements included), lightly
+    // smoothed along the road, so a road is level across like a real one and its strips never interleave
+    const reach = (i: number) => [-half(i) - (p.pavementR ?? 0), -half(i) / 2, 0, half(i) / 2, half(i) + (p.pavementL ?? 0)];
+    const raw = sm.map((q, i) => Math.max(...reach(i).map(o => { const x = q.p[0] + q.n[0] * o, y = q.p[1] + q.n[1] * o; return Math.max(h(x, y), h(x + 1, y), h(x - 1, y), h(x, y + 1), h(x, y - 1)); })));
+    const bed = raw.map((v, i) => Math.max(v, ((raw[i - 1] ?? v) + 2 * v + (raw[i + 1] ?? v)) / 4));
+    // the kerb faces: where the ground falls away beside the road, a face from the road edge down to it
+    for (const side of [-1, 1]) for (let i = 0; i + 1 < sm.length; i++) {
+      const w = (k: number) => (side < 0 ? half(k) + (p.pavementR ?? 0) : half(k) + (p.pavementL ?? 0)) + 0.05, e = (k: number) => [sm[k].p[0] + sm[k].n[0] * side * w(k), sm[k].p[1] + sm[k].n[1] * side * w(k)] as XY;
+      const ea = e(i), eb = e(i + 1), ga = h(ea[0], ea[1]), gb = h(eb[0], eb[1]); if (bed[i] - ga < 0.18 && bed[i + 1] - gb < 0.18) continue;
+      const ta: [number, number, number] = [ea[0], ea[1], bed[i] + 0.26], tb: [number, number, number] = [eb[0], eb[1], bed[i + 1] + 0.26], ba: [number, number, number] = [ea[0], ea[1], ga - 0.3], bb: [number, number, number] = [eb[0], eb[1], gb - 0.3];
+      B.quad('road', ta, tb, bb, ba, COL.kerb); B.quad('road', ba, bb, tb, ta, COL.kerb);
+    }
     // pavements (hardscape.json): red-pink pavers beside the kerb, left and right of the direction of travel
-    if (p.pavementL) band(B, sm, i => half(i), i => half(i) + p.pavementL!, 0.18, COL.pavers, h, isNear);
-    if (p.pavementR) band(B, sm, i => -half(i) - p.pavementR!, i => -half(i), 0.18, COL.pavers, h, isNear);
+    if (p.pavementL) band(B, sm, i => half(i), i => half(i) + p.pavementL!, 0.18, COL.pavers, h, isNear, bed);
+    if (p.pavementR) band(B, sm, i => -half(i) - p.pavementR!, i => -half(i), 0.18, COL.pavers, h, isNear, bed);
     if (p.kind === 'road') {
       // the kerb sits inside the kerb-to-kerb width: asphalt and lines inside it
-      strip(B, sm, half, 0.14, COL.kerb, h, isNear);
-      strip(B, sm, i => half(i) - 0.5, 0.19, COL.line, h, isNear);
-      strip(B, sm, i => half(i) - 0.5 - LINE_W, 0.24, COL.asphalt, h, isNear);
-      strip(B, sm, half, 0.3, COL.asphalt, h, i => !isNear(i)); // far away: asphalt only
-      strip(B, sm, 0.22, 0.29, COL.line, h, i => isNear(i) && Math.floor(sm[i].s / 3.2) % 2 === 0);
+      strip(B, sm, half, 0.14, COL.kerb, h, isNear, bed);
+      strip(B, sm, i => half(i) - 0.5, 0.19, COL.line, h, isNear, bed);
+      strip(B, sm, i => half(i) - 0.5 - LINE_W, 0.24, COL.asphalt, h, isNear, bed);
+      strip(B, sm, half, 0.3, COL.asphalt, h, i => !isNear(i), bed); // far away: asphalt only
+      strip(B, sm, 0.22, 0.29, COL.line, h, i => isNear(i) && Math.floor(sm[i].s / 3.2) % 2 === 0, bed);
     } else if (p.kind === 'service') {
       const top = p.surface === 'pavers' ? COL.pavers : COL.service; // a paved drive (the Admin forecourt loop) is red-pink pavers, not asphalt
-      strip(B, sm, half, 0.13, COL.kerb, h, isNear);
-      strip(B, sm, i => half(i) - 0.4, 0.21, top, h, isNear);
-      strip(B, sm, half, 0.28, top, h, i => !isNear(i));
+      strip(B, sm, half, 0.13, COL.kerb, h, isNear, bed);
+      strip(B, sm, i => half(i) - 0.4, 0.21, top, h, isNear, bed);
+      strip(B, sm, half, 0.28, top, h, i => !isNear(i), bed);
     } else {
-      if (p.kerb) strip(B, sm, i => half(i) + 0.18, 0.09, COL.kerb, h); // paved walks: a stone kerb edge just outside the pavers
-      strip(B, sm, half, p.kind === 'track' ? 0.1 : 0.12, p.kind === 'track' ? COL.track : p.colour ? over(p.colour) : COL.path, h);
+      if (p.kerb) strip(B, sm, i => half(i) + 0.18, 0.09, COL.kerb, h, undefined, bed); // paved walks: a stone kerb edge just outside the pavers
+      strip(B, sm, half, p.kind === 'track' ? 0.1 : 0.12, p.kind === 'track' ? COL.track : p.colour ? over(p.colour) : COL.path, h, undefined, bed);
     }
   }
 }
