@@ -106,7 +106,7 @@ export class SchematicSurveySource implements CampusGeometrySource {
   getPaths(): PathLine[] {
     const spec = new Map(this.hardscape?.roads.map(r => [r.id, r]) ?? []), sp = this.hardscape?.items.find(i => i.id === 'scholars-path');
     const own = this.layout.paths.map(p => (p.id === 'covered-walk' && sp?.pts ? { ...p, pts: sp.pts, width: sp.width } : { ...p, pts: p.pts.map(q => this.tx(q)) }));
-    return [...(this.osm?.roads ?? []), ...own].map(p => { const r = spec.get(p.id); return r ? { ...p, width: r.width, pavementL: r.pavementL, pavementR: r.pavementR, narrow: r.narrow } : p; });
+    return [...(this.osm?.roads ?? []), ...own].map(p => { const r = spec.get(p.id); return r ? { ...p, width: r.width, pavementL: r.pavementL, pavementR: r.pavementR, narrow: r.narrow, surface: (r as { surface?: string }).surface ?? p.surface } : p; });
   }
   getAreas(): Area[] {
     const osmAreas = this.osm?.areas ?? [];

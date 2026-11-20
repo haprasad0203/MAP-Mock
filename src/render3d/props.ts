@@ -50,8 +50,10 @@ export function addProps(B: Buckets, world: WorldModel, h: SurfaceAt) {
   const flag = lm('flag');
   if (flag) {
     const [x, y] = flag, g = h(x, y);
-    B.prism(K, ngon(x, y, 1.6, 8), g, g + 0.5, CONCRETE); B.prism(K, ngon(x, y, 0.16, 6), g + 0.5, g + 19, WHITE);
-    ([['#FF9933', 18.0], ['#FFFFFF', 17.2], ['#138808', 16.4]] as [string, number][]).forEach(([c, z]) => B.box(K, x + 2.0, y, 3.6, 0.1, 0, g + z, g + z + 0.8, rgb(c)));
+    // a very tall mast (about 30 m) with a large tricolour and a gold finial (2025 film @0:06, @0:14)
+    B.prism(K, ngon(x, y, 1.6, 8), g, g + 0.5, CONCRETE); B.prism(K, ngon(x, y, 0.28, 8), g + 0.5, g + 30, WHITE); B.prism(K, ngon(x, y, 0.42, 8), g + 30, g + 30.8, rgb('#D4A93A'));
+    ([['#FF9933', 28.6], ['#FFFFFF', 26.8], ['#138808', 25.0]] as [string, number][]).forEach(([c, z]) => B.box(K, x + 2.9, y, 5.4, 0.12, 0, g + z, g + z + 1.8, rgb(c)));
+    B.prism(K, ngon(x + 2.9, y, 0.42, 12), g + 26.95, g + 27.0, rgb('#1A2B7A')); // the chakra, a hint
   }
 
   // ---- main gate: the road point at the gate (for the bus); the portal is built by the guard-room landmark ----

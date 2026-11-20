@@ -32,15 +32,16 @@ export const buildAdmin: LandmarkBuilder = (B, b, ctx) => {
   const v1 = Math.min(L, ...ends.filter(e => e.reduce((x, y) => x + y, 0) / e.length >= L / 2).map(e => Math.min(...e))) + 0.5, Lv = v1 - v0;
   const c0 = v0 + Lv / 3, c1 = v0 + (2 * Lv) / 3, Dw = 11, Dc = Math.max(14, Math.min(22, depthAt(poly, front, L / 2) - 4));
   for (const f of fs) B.wall('plain', f.a, f.b, g - 4, g0, rgb('#C9C3B6'));                        // plinth
-  // rear hall: everything deeper than the wings, at the wings' height, plain white with high windows
-  const hall = behind(poly, front, Dw);
-  if (hall.length >= 3) {
-    for (const f of facesOf(hall)) { flat(B, f, 0, f.len, g0, Hw); if (f.len > 6) punched(B, f, 1, f.len - 1, g0, 3, FHR, Math.max(1, Math.round(f.len / 5)), 1.6, 1.4, 1.1); }
-    top = Math.max(top, insetRoof(B, hall, Hw, roof));
-  }
+  // the centre block and the hall behind it stand under ONE big hip roof, about 43 m square, its front eave along the
+  // facade (H A's drone nadir, 20 Nov; 2025 film @0:06). The hall walls are white with high windows, up to the centre eaves.
+  const Wh = Math.min(43, Lv * 0.8), h0s = L / 2 - Wh / 2, h1s = L / 2 + Wh / 2, Dh = Math.max(Dc + 4, Math.min(43, depthAt(poly, front, L / 2) - 0.5));
+  const hallFaces: Face[] = [faceOf(fp(front, h1s, -Dw), fp(front, h1s, -Dh)), faceOf(fp(front, h1s, -Dh), fp(front, h0s, -Dh)), faceOf(fp(front, h0s, -Dh), fp(front, h0s, -Dw))];
+  for (const f of hallFaces) { flat(B, f, 0, f.len, g0, Hend); if (f.len > 6) punched(B, f, 1, f.len - 1, g0, 4, FHR, Math.max(1, Math.round(f.len / 5)), 1.6, 1.4, 1.1); }
+  for (const [a, b] of [[h0s, c0], [c1, h1s]] as [number, number][]) if (b - a > 0.5) flat(B, faceOf(fp(front, a, -Dw), fp(front, b, -Dw)), 0, b - a, Hw - 0.5, Hend); // hall front above the wing roofs
+  B.cap('plain', [fp(front, h0s, -Dw), fp(front, h1s, -Dw), fp(front, h1s, -Dh), fp(front, h0s, -Dh)], Hend - 0.05, WALL);
   // linking wings: corridor galleries on the front, white ends
   gallery(B, front, v0, c0, g0, 3, FHR); gallery(B, front, c1, v1, g0, 3, FHR);
-  for (const [s0, s1] of [[v0 - 2, c0], [c1, v1 + 2]] as [number, number][]) top = Math.max(top, hipOver(B, front, s0 - 0.3, s1 + 0.3, -0.2, Dw, Hw, roof, 1.3, 3.2, ROOF_OPTS));
+  for (const [s0, s1] of [[v0 - 2, c0], [c1, v1 + 2]] as [number, number][]) top = Math.max(top, hipOver(B, front, s0 - 0.3, s1 + 0.3, -0.2, Dw, Hw, roof, 1.3, 3.2, { ...ROOF_OPTS, fasciaCol: rgb('#1F5A4C') }));
   // centre block: a 4-floor box from the front line back Dc
   const cf = faceOf(fp(front, c0), fp(front, c1));
   const side = (s: number, sgn: number) => faceOf(sgn > 0 ? fp(front, s, -Dc) : fp(front, s), sgn > 0 ? fp(front, s) : fp(front, s, -Dc));
@@ -48,7 +49,7 @@ export const buildAdmin: LandmarkBuilder = (B, b, ctx) => {
   for (const f of sides) { flat(B, f, 0, f.len, g0, Hend); bands(f, 0.6, f.len - 0.6, f.len > 16 ? 3 : 2); }
   portico(cf);
   bevelCorners(B, [fp(front, c0), fp(front, c1), fp(front, c1, -Dc), fp(front, c0, -Dc)], g0, Hend, WALL, 0.12);
-  top = Math.max(top, hipOver(B, front, c0, c1, 0, Dc, Hend, roof, 1.5, 5.5, ROOF_OPTS));
+  top = Math.max(top, hipOver(B, front, h0s, h1s, 0, Dh, Hend, roof, 1.6, 9.5, ROOF_OPTS));
 
   // ---------- end blocks: parts 0 + 1 (west) and part 3 (east) ----------
   b.parts.forEach((p, idx) => {

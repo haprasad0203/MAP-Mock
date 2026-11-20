@@ -53,11 +53,11 @@ function slope(B: Buckets, key: string, o0: P3, o1: P3, i1: P3, i0: P3, col: RGB
 }
 
 /** Options for the landmark roofs: a deeper white fascia band, and raised caps along the hips and the ridge. */
-export interface RoofOpts { fascia?: number; ridge?: boolean }
+export interface RoofOpts { fascia?: number; ridge?: boolean; fasciaCol?: RGB }
 
 export function hipRoof(B: Buckets, part: { cx: number; cy: number; w: number; d: number; angle: number }, top: number, roofHex: string, maxRise = MAX_RISE, eave = EAVE, opts: RoofOpts = {}) {
   const f = frameOf(part), a = f.a + eave, b = f.b + eave, m = roofMat(roofHex), slab = opts.fascia ?? SLAB;
-  B.prism('plain', [at(f, -a, -b, 0), at(f, a, -b, 0), at(f, a, b, 0), at(f, -a, b, 0)].map(p => [p[0], p[1]] as XY), top, top + slab, FASCIA, false);
+  B.prism('plain', [at(f, -a, -b, 0), at(f, a, -b, 0), at(f, a, b, 0), at(f, -a, b, 0)].map(p => [p[0], p[1]] as XY), top, top + slab, opts.fasciaCol ?? FASCIA, false);
   const inset = Math.min(b, maxRise / PITCH_TAN), h0 = top + slab, h1 = h0 + inset * PITCH_TAN, ia = a - inset, ib = b - inset;
   const o = [at(f, -a, -b, h0), at(f, a, -b, h0), at(f, a, b, h0), at(f, -a, b, h0)], i = [at(f, -ia, -ib, h1), at(f, ia, -ib, h1), at(f, ia, ib, h1), at(f, -ia, ib, h1)];
   for (let k = 0; k < 4; k++) slope(B, m.key, o[k], o[(k + 1) % 4], i[(k + 1) % 4], i[k], m.col);

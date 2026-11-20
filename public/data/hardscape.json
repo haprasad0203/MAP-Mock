@@ -132,21 +132,22 @@
   {
    "id": "osm-1050247320",
    "kind": "service",
-   "width": 6.5,
+   "surface": "pavers",
+   "width": 7.5,
    "kerb": 0.4,
    "pavementL": 0,
    "pavementR": 0,
    "narrow": [
     {
-     "s0": 89.2,
+     "s0": 86.8,
      "s1": 122.5,
      "width": 4,
      "reason": "within 0 m of admin"
     }
    ],
    "measured": [],
-   "confidence": "default",
-   "note": "Campus service road (target 6–7 m)"
+   "confidence": "seen",
+   "note": "Admin forecourt loop drive: red-pink pavers, not asphalt (drone nadir and 2025 film, 20 Nov)"
   },
   {
    "id": "osm-1050247321",
@@ -1579,9 +1580,9 @@
   },
   {
    "road": "osm-1050247320",
-   "at": [233.1, -215.4],
+   "at": [234.4, -217.4],
    "width": 4,
-   "from": 6.5,
+   "from": 7.5,
    "building": "admin"
   },
   {

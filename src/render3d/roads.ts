@@ -97,9 +97,10 @@ export function addRoads(B: Buckets, paths: PathLine[], h: SurfaceAt, near: (x: 
       strip(B, sm, half, 0.3, COL.asphalt, h, i => !isNear(i)); // far away: asphalt only
       strip(B, sm, 0.22, 0.29, COL.line, h, i => isNear(i) && Math.floor(sm[i].s / 3.2) % 2 === 0);
     } else if (p.kind === 'service') {
+      const top = p.surface === 'pavers' ? COL.pavers : COL.service; // a paved drive (the Admin forecourt loop) is red-pink pavers, not asphalt
       strip(B, sm, half, 0.13, COL.kerb, h, isNear);
-      strip(B, sm, i => half(i) - 0.4, 0.21, COL.service, h, isNear);
-      strip(B, sm, half, 0.28, COL.service, h, i => !isNear(i));
+      strip(B, sm, i => half(i) - 0.4, 0.21, top, h, isNear);
+      strip(B, sm, half, 0.28, top, h, i => !isNear(i));
     } else {
       if (p.kerb) strip(B, sm, i => half(i) + 0.18, 0.09, COL.kerb, h); // paved walks: a stone kerb edge just outside the pavers
       strip(B, sm, half, p.kind === 'track' ? 0.1 : 0.12, p.kind === 'track' ? COL.track : p.colour ? over(p.colour) : COL.path, h);

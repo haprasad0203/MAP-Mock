@@ -73,6 +73,7 @@ const ROADS = {
   'rd-fblock': { width: 7.5, pavementL: 1.2, pavementR: 0, note: 'Hostel hairpin road (F Block); a light footpath strip on the inside of the bends in the 0405 screenshot', confidence: 'measured' },
   'rd-nab-front': { width: 7, pavementL: 1.5, pavementR: 0, note: 'NAB front road along the SE face, past the NAB lawn (H A marked view)', confidence: 'by-eye' },
   'osm-1050216150': { width: 8, pavementL: 0, pavementR: 0, note: 'Public road along the south (ATM); outside the campus', confidence: 'by-eye' },
+  'osm-1050247320': { width: 7.5, pavementL: 0, pavementR: 0, surface: 'pavers', note: 'Admin forecourt loop drive: red-pink pavers, not asphalt (drone nadir and 2025 film, 20 Nov)', confidence: 'seen' },
 };
 // (the main road's east pavement is the 2 m verge between the kerb and the Scholar's Path)
 const roadIds = new Set([...osm.roads.filter(r => r.pts.some(q => inside(q[0], q[1]))).map(r => r.id), ...layout.paths.filter(p => p.kind === 'road' || p.kind === 'service').map(p => p.id), 'osm-1050216150']);
@@ -92,7 +93,7 @@ const roads = [], tight = [];
 for (const id of roadIds) {
   const p = pathOf(id); if (!p) continue;
   const base = SPEC[p.kind] ?? SPEC.service, own = ROADS[id] ?? {};
-  const r = { id, kind: p.kind, width: own.width ?? base.width, kerb: base.kerb, pavementL: own.pavementL ?? 0, pavementR: own.pavementR ?? 0, narrow: [], measured: MEASURED[id] ?? [], confidence: own.confidence ?? 'default', note: own.note ?? (p.kind === 'service' ? 'Campus service road (target 6–7 m)' : '') };
+  const r = { id, kind: p.kind, ...(own.surface ? { surface: own.surface } : {}), width: own.width ?? base.width, kerb: base.kerb, pavementL: own.pavementL ?? 0, pavementR: own.pavementR ?? 0, narrow: [], measured: MEASURED[id] ?? [], confidence: own.confidence ?? 'default', note: own.note ?? (p.kind === 'service' ? 'Campus service road (target 6–7 m)' : '') };
   // tight spots: full half-width plus pavement must stay at least 1 m clear of every footprint; otherwise narrow locally
   const sm = resample(p.pts, 2); let run = null;
   const flush = () => { if (run) { r.narrow.push({ s0: r1(run.s0), s1: r1(run.s1), width: r1(run.w), reason: `within ${r1(run.c)} m of ${run.id}` }); tight.push({ road: id, at: P(run.at), width: r1(run.w), from: r.width, building: run.id }); run = null; } };
