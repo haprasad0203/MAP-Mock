@@ -6,11 +6,12 @@ lay=json.load(open('layout/out/campus-layout.json'))
 pl=json.load(open('/mnt/user-data/uploads/Map Mock/public/data/places.json'))
 area={a['id']:a for a in lay['areas']}
 cen=lambda pts:[round(Polygon(pts).centroid.x),round(Polygon(pts).centroid.y)]
-AT={'football':cen(area['football']['pts']),'basketball':[-210,140],'volleyball':[-180,137],'tennis':[-219,140],
+AT={'football':cen(area['football']['pts']),'basketball':[-210,140],'volleyball':[-217,171],'tennis':[-180,137],  # 21 Nov: the sand court north of the basketball courts; the blue court with a net (H A drone)
+    
     'covered-walkway':[-150,170],'lake':[-79,-55]}
 for p in pl['places']:
     if p['id'] in AT: p['at']=AT[p['id']]
-    if p['id']=='tennis': p['confirm']='OSM tags both west courts as basketball; whether one is used for tennis/badminton to confirm'
+    if p['id']=='tennis': p['note']='The blue court with a net east of the basketball courts (H A drone, June; OSM tags it volleyball).'
     if p['id']=='covered-walkway':
         p['name']="Scholar's Path"; p['aliases']=list(dict.fromkeys(["Scholar's Path","Scholars Path",'Covered walkway','Walkway','Corridor']))
         p['confirm']="H A, 16 Nov: the Scholar's Path is the teal-roofed covered walkway (canopy). It runs beside the main road on the right as you enter by the main gate and up through the middle of campus (zig-zag past the courts to the hostels). Only the middle section is in the layout; the roadside run is to be added in hardscape.json"

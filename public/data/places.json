@@ -321,26 +321,27 @@
       "name": "Volleyball Court",
       "category": "sports",
       "at": [
-        -180,
-        137
+        -217.0,
+        171.0
       ],
       "aliases": [
         "Volleyball"
-      ]
+      ],
+      "confirm": "The sand court north of the basketball courts (H A drone, June; satellite pin)."
     },
     {
       "id": "tennis",
       "name": "Tennis Court",
       "category": "sports",
       "at": [
-        -219,
-        140
+        -180.0,
+        137.0
       ],
       "aliases": [
         "Tennis",
         "Badminton"
       ],
-      "confirm": "OSM tags both west courts as basketball; whether one is used for tennis/badminton to confirm"
+      "note": "The blue court with a net east of the basketball courts (H A drone, June; OSM tags it volleyball)."
     },
     {
       "id": "covered-walkway",

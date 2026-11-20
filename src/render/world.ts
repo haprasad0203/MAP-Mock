@@ -168,17 +168,18 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   // so the data's roads, plazas, lawns and buildings win). Trees then grow only on what is left wild.
   const lc = src.getLandcover?.();
   if (lc) {
-    let k = 0;
-    for (let r = 0; r < lc.rle.length; r += 2) {
-      const v = lc.rle[r], n = lc.rle[r + 1];
-      if (v === 2 || v === 3) for (let q = k; q < k + n; q++) {
-        const ci = q % lc.cols, cj = Math.floor(q / lc.cols), cx = lc.x0 + ci * lc.cell, cy = lc.y0 + cj * lc.cell;
-        for (let dy = 0; dy < lc.cell; dy++) for (let dx = 0; dx < lc.cell; dx++) {
-          const ix = Math.floor(cx + dx + HALF), iy = Math.floor(cy + dy + HALF); if (ix < 0 || iy < 0 || ix >= SIZE || iy >= SIZE) continue;
-          const m = iy * SIZE + ix; if (mask[m] === G.WILD) mask[m] = v === 2 ? G.OPEN : G.EARTH;
-        }
-      }
-      k += n;
+    const grid = new Uint8Array(lc.cols * lc.rows); let k = 0;
+    for (let r = 0; r < lc.rle.length; r += 2) { grid.fill(lc.rle[r], k, k + lc.rle[r + 1]); k += lc.rle[r + 1]; }
+    const at = (x: number, y: number) => { const i = Math.floor((x - lc.x0) / lc.cell), j = Math.floor((y - lc.y0) / lc.cell); return i < 0 || j < 0 || i >= lc.cols || j >= lc.rows ? 0 : grid[j * lc.cols + i]; };
+    // each metre looks the class up a little off its own position (up to ±0.7 of a cell), so patch edges come out
+    // ragged like real ground instead of 3 m squares
+    const ix0 = Math.max(0, Math.floor(lc.x0 + HALF)), iy0 = Math.max(0, Math.floor(lc.y0 + HALF));
+    const ix1 = Math.min(SIZE, Math.ceil(lc.x0 + lc.cols * lc.cell + HALF)), iy1 = Math.min(SIZE, Math.ceil(lc.y0 + lc.rows * lc.cell + HALF));
+    for (let iy = iy0; iy < iy1; iy++) for (let ix = ix0; ix < ix1; ix++) {
+      const m = iy * SIZE + ix; if (mask[m] !== G.WILD) continue;
+      const x = ix - HALF + 0.5, y = iy - HALF + 0.5, j = lc.cell * 0.7;
+      const v = at(x + (hash2(ix, iy, 61) - 0.5) * 2 * j, y + (hash2(ix, iy, 62) - 0.5) * 2 * j);
+      if (v === 2) mask[m] = G.OPEN; else if (v === 3) mask[m] = G.EARTH;
     }
   }
 
