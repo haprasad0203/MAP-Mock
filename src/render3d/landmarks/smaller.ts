@@ -70,7 +70,7 @@ export const buildGuardRoom: LandmarkBuilder = (B, b, ctx) => {
 };
 
 export const buildKalamCentre: LandmarkBuilder = (B, b, ctx) => {
-  const g = b.groundElev ?? 0, g0 = g + PL, roof = sampledRoof('#3F8F80'), CLAD = rgb('#E8DCC6');
+  const g = b.groundElev ?? 0, g0 = g + PL, roof = sampledRoof('#A2ACB4'), CLAD = rgb('#E2E2DD'); // light grey metal roof and light grey-white walls, as filmed (H A drone, June @0:36.8)
   const ent = ctx.entrances.find(e => e.buildingId === b.id)?.at;
   let top = g;
   b.parts.forEach((p, i) => {
