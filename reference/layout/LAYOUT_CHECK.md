@@ -135,3 +135,21 @@ wing and sat about 7 m off, and the earlier 47.5° fit, which was wrong.
   - **rd-nab-west (back road):** moved about 4 m toward the building, and runs on to the SW road.
   - **rd-nab-north:** now ends on the back road. **To confirm:** from the air it looks like a red-earth track, not a paved road.
 - **Generator:** applies the same file (`scripts/apply_nab_drone.py`), so a rebuild keeps all of this.
+
+## Admin Block and the other drone items, re-traced (20 Nov 2026, applied)
+- **Admin is an L round the flag forecourt,** on the same campus grid as NAB (walls at 56.5° and −33.5°):
+  - east end block, east linking wing, a 40 m square hall at the corner, west linking wing, west end block;
+  - the hall's corner points at the flag, and that corner is the centre block with the portico. This is why the films show a pyramid-roofed centre with both wings receding symmetrically.
+- **Method:** roof outlines are traced at eave height (15.6 m and 11.9 m) and converted with the relief-aware fit. Walls sit 1.3 m in on outside edges; parts overlap where they join.
+- **Cross-check:** the east and west end blocks land within 1.5–1.7 m of the old Overture footprints. The old by-eye centre part (60 × 44 m at −15°) was wrong.
+- **Files:** `scripts/admin-from-drone.mjs` → `reference/layout/admin_drone.json` → `scripts/apply_admin_drone.py`, also used by the generator. The main door is at the portico corner.
+- **Converted again with the relief-aware fit,** each at its own level (moves of 1–5 m):
+  - the forecourt lawn and drive path;
+  - the huts, store and plant house round Cafe Cloud and between Admin and NAB, plus the Amul kiosk;
+  - every drone hardscape item.
+
+  Files: `scripts/drone-items.mjs`, `scripts/apply_drone_items.py`.
+- **Areas:**
+  - **terrace-garden:** now the real statue-garden lawn; it was a by-eye rectangle.
+  - **nab-lawn:** now the real slope lawn between Admin and NAB; it was a by-eye quadrilateral.
+- **Whole-frame check:** `reference/real/drone_check_v3.jpg`, from `scripts/drone-check.mjs`. Our data is drawn back onto H A's photo at each item's height.

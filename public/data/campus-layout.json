@@ -145,138 +145,159 @@
    "labelPriority": 1,
    "parts": [
     {
-     "cx": 165.7,
-     "cy": -199.9,
-     "w": 23.0,
-     "d": 22.3,
-     "angle": -33.7,
+     "cx": 156.9,
+     "cy": -213.6,
+     "w": 14.3,
+     "d": 22.9,
+     "angle": -124.5,
      "floors": 4,
      "roof": "hip",
-     "glass": "atrium",
      "poly": [
       [
-       169.0,
-       -215.5
-      ],
-      [
-       181.4,
-       -197.0
-      ],
-      [
-       173.3,
-       -191.6
-      ],
-      [
-       171.7,
-       -193.9
-      ],
-      [
-       167.1,
-       -190.9
-      ],
-      [
-       168.7,
-       -188.5
+       170.4,
+       -214.2
       ],
       [
        162.3,
-       -184.3
+       -226.0
       ],
       [
-       149.9,
-       -202.8
+       143.5,
+       -213.0
+      ],
+      [
+       151.6,
+       -201.2
       ]
      ],
-     "src": "overture b636eb74-95f6-4bac-97db-8f8e1a525506 (Google Open Buildings)"
+     "src": "H A drone nadir 20 Nov, roof outline at eave height, walls 1.3 m in, relief-corrected (scripts/admin-from-drone.mjs)",
+     "role": "endblock",
+     "key": "endW"
     },
     {
-     "cx": 156.5,
-     "cy": -215.0,
-     "w": 27.0,
-     "d": 13.2,
-     "angle": -33.9,
+     "cx": 165.9,
+     "cy": -199.8,
+     "w": 26.5,
+     "d": 21.2,
+     "angle": -124.7,
+     "floors": 3,
+     "roof": "hip",
+     "poly": [
+      [
+       182.2,
+       -195.0
+      ],
+      [
+       167.1,
+       -216.8
+      ],
+      [
+       149.7,
+       -204.7
+      ],
+      [
+       164.7,
+       -182.9
+      ]
+     ],
+     "src": "H A drone nadir 20 Nov, roof outline at eave height, walls 1.3 m in, relief-corrected (scripts/admin-from-drone.mjs)",
+     "role": "wing",
+     "key": "wingW"
+    },
+    {
+     "cx": 192.3,
+     "cy": -177.9,
+     "w": 40.0,
+     "d": 40.5,
+     "angle": -124.7,
      "floors": 4,
      "roof": "hip",
      "poly": [
       [
-       164.0,
-       -228.0
+       220.4,
+       -173.0
       ],
       [
-       171.3,
-       -217.1
+       197.6,
+       -205.9
       ],
       [
-       149.0,
-       -202.0
+       164.3,
+       -182.9
       ],
       [
-       141.6,
-       -213.0
+       187.1,
+       -150.0
       ]
      ],
-     "src": "overture 0120412b-6ab3-4a6c-83d9-e4b0c2e67d37 (Google Open Buildings)"
+     "src": "H A drone nadir 20 Nov, roof outline at eave height, walls 1.3 m in, relief-corrected (scripts/admin-from-drone.mjs)",
+     "role": "hall",
+     "key": "hall",
+     "glass": "atrium"
     },
     {
-     "cx": 207.6,
-     "cy": -183.7,
-     "w": 59.8,
-     "d": 44.4,
-     "angle": -15.0,
+     "cx": 225.4,
+     "cy": -190.1,
+     "w": 24.5,
+     "d": 26.5,
+     "angle": -124.9,
      "floors": 3,
      "roof": "hip",
      "poly": [
       [
-       184.5,
-       -154.6
+       243.3,
+       -187.6
       ],
       [
-       238.7,
-       -183.2
+       229.3,
+       -207.7
       ],
       [
-       230.5,
-       -212.9
+       207.5,
+       -192.6
       ],
       [
-       173.2,
-       -197.5
+       221.4,
+       -172.5
       ]
      ],
-     "src": "by-eye (drone + satellite), survey to confirm"
+     "src": "H A drone nadir 20 Nov, roof outline at eave height, walls 1.3 m in, relief-corrected (scripts/admin-from-drone.mjs)",
+     "role": "wing",
+     "key": "wingE"
     },
     {
-     "cx": 239.7,
-     "cy": -201.0,
-     "w": 24.3,
-     "d": 14.4,
-     "angle": 56.2,
-     "floors": 3,
+     "cx": 238.6,
+     "cy": -199.6,
+     "w": 24.2,
+     "d": 14.9,
+     "angle": -124.5,
+     "floors": 4,
      "roof": "hip",
-     "glass": "stair",
      "poly": [
       [
-       239.0,
-       -215.1
+       251.5,
+       -193.8
       ],
       [
-       252.5,
-       -194.9
+       237.8,
+       -213.7
       ],
       [
-       240.5,
-       -187.0
+       225.6,
+       -205.2
       ],
       [
-       227.0,
-       -207.1
+       239.3,
+       -185.5
       ]
      ],
-     "src": "overture a9105d83-2702-4452-b261-1ec8d1a3de96 (Google Open Buildings)"
+     "src": "H A drone nadir 20 Nov, roof outline at eave height, walls 1.3 m in, relief-corrected (scripts/admin-from-drone.mjs)",
+     "role": "endblock",
+     "key": "endE"
     }
    ],
    "short": "Admin",
-   "confirm": "One building holding the Admin offices, the Auditorium and the Library (confirmed). Which wing holds which: to confirm. Google labels it \"IIM Shillong Auditorium\".",
+   "confirm": "Plan traced on H A's drone footage (20 Nov): an L round the flag forecourt, the big square hall at the corner with the portico facing the flag.",
    "groundElev": 9.6
   },
   {
@@ -835,8 +856,8 @@
    "labelPriority": 2,
    "parts": [
     {
-     "cx": 57.8,
-     "cy": -234.7,
+     "cx": 56.0,
+     "cy": -236.1,
      "w": 4.1,
      "d": 4.5,
      "angle": -164.6,
@@ -844,28 +865,28 @@
      "roof": "hip",
      "poly": [
       [
-       60.5,
-       -236.3
+       58.7,
+       -237.8
       ],
       [
-       56.5,
-       -237.4
+       54.7,
+       -238.9
       ],
       [
-       55.1,
-       -233.1
+       53.3,
+       -234.6
       ],
       [
-       59.0,
-       -231.8
+       57.2,
+       -233.2
       ]
      ],
-     "src": "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"
+     "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
     }
    ],
    "short": "Amul Cafe",
    "confirm": "The teal-roofed kiosk by Cafe Cloud (H A drone, 20 Nov).",
-   "groundElev": 2.0
+   "groundElev": 6.5
   },
   {
    "id": "kalam-centre",
@@ -4441,36 +4462,36 @@
    "unnamed": true,
    "parts": [
     {
-     "cx": 102.1,
-     "cy": -139.5,
-     "w": 8.3,
+     "cx": 100.3,
+     "cy": -140.2,
+     "w": 8.2,
      "d": 7.9,
-     "angle": -148.8,
+     "angle": -148.4,
      "floors": 1,
      "roof": "flat",
      "poly": [
       [
-       108.0,
-       -140.5
+       106.2,
+       -141.2
       ],
       [
-       100.9,
-       -144.8
+       99.2,
+       -145.5
       ],
       [
-       96.2,
-       -138.5
+       94.4,
+       -139.2
       ],
       [
-       103.3,
-       -134.2
+       101.5,
+       -134.8
       ]
      ],
-     "src": "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"
+     "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
     }
    ],
    "confirm": "Walled plant between Admin and NAB (open tanks with equipment; water or sewage plant, to confirm).",
-   "groundElev": 10.8
+   "groundElev": 8
   },
   {
    "id": "cafe-hut-red",
@@ -4482,35 +4503,35 @@
    "unnamed": true,
    "parts": [
     {
-     "cx": 79.3,
-     "cy": -231.7,
-     "w": 5.6,
-     "d": 5.3,
-     "angle": -134.3,
+     "cx": 77.7,
+     "cy": -233.0,
+     "w": 5.5,
+     "d": 5.4,
+     "angle": -133.5,
      "floors": 1,
      "roof": "hip",
      "poly": [
       [
-       83.2,
-       -231.5
+       81.5,
+       -232.8
       ],
       [
-       79.3,
-       -235.5
+       77.7,
+       -236.8
       ],
       [
-       75.4,
-       -231.9
+       73.7,
+       -233.2
       ],
       [
-       79.5,
-       -227.8
+       77.9,
+       -229.1
       ]
      ],
-     "src": "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"
+     "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
     }
    ],
-   "groundElev": 6.6
+   "groundElev": 6.5
   },
   {
    "id": "cafe-shed-blue",
@@ -4522,8 +4543,8 @@
    "unnamed": true,
    "parts": [
     {
-     "cx": 45.0,
-     "cy": -226.8,
+     "cx": 43.0,
+     "cy": -228.4,
      "w": 4.5,
      "d": 2.4,
      "angle": 176.2,
@@ -4531,26 +4552,26 @@
      "roof": "flat",
      "poly": [
       [
-       47.3,
-       -228.2
+       45.2,
+       -229.8
       ],
       [
-       42.8,
-       -227.9
+       40.7,
+       -229.5
       ],
       [
-       43.0,
-       -225.5
+       40.9,
+       -227.1
       ],
       [
-       47.1,
-       -225.5
+       45.0,
+       -227.1
       ]
      ],
-     "src": "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"
+     "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
     }
    ],
-   "groundElev": 1.3
+   "groundElev": 6.5
   },
   {
    "id": "cafe-store",
@@ -4562,8 +4583,8 @@
    "unnamed": true,
    "parts": [
     {
-     "cx": 47.0,
-     "cy": -183.1,
+     "cx": 45.0,
+     "cy": -184.2,
      "w": 8.9,
      "d": 6.6,
      "angle": -121.7,
@@ -4571,26 +4592,26 @@
      "roof": "gable",
      "poly": [
       [
-       52.4,
-       -180.5
+       50.4,
+       -181.6
       ],
       [
-       47.7,
-       -188.1
+       45.7,
+       -189.2
       ],
       [
-       41.5,
-       -185.9
+       39.5,
+       -187.0
       ],
       [
-       46.4,
-       -177.8
+       44.3,
+       -178.9
       ]
      ],
-     "src": "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"
+     "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
     }
    ],
-   "groundElev": 5.6
+   "groundElev": 6.5
   }
  ],
  "paths": [
@@ -5334,35 +5355,35 @@
    "kind": "footpath",
    "pts": [
     [
-     201.8,
-     -207.2
+     198.3,
+     -208.3
     ],
     [
      204.0,
      -227.0
     ],
     [
-     205.3,
-     -235.7
+     204.8,
+     -236.5
     ],
     [
-     193.5,
-     -244.2
+     193.0,
+     -245.3
     ],
     [
-     187.4,
-     -258.3
+     186.8,
+     -259.5
     ],
     [
-     189.9,
-     -274.0
+     189.5,
+     -275.5
     ],
     [
-     182.7,
-     -294.9
+     182.3,
+     -296.6
     ]
    ],
-   "src": "H A drone nadir 20 Nov: portico, flag ring, the path up the lawn, the drive to the bus bay, the main road"
+   "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
   },
   {
    "id": "fp-nab-side-w",
@@ -5666,59 +5687,59 @@
    "name": "Flag forecourt",
    "pts": [
     [
-     231.6,
-     -230.6
+     231.1,
+     -230.9
     ],
     [
-     209.0,
-     -236.3
+     208.3,
+     -236.9
     ],
     [
-     178.8,
-     -242.0
+     177.9,
+     -242.8
     ],
     [
-     174.9,
-     -236.4
+     173.9,
+     -237.2
     ],
     [
-     176.7,
-     -230.0
+     175.7,
+     -230.7
     ],
     [
-     183.5,
-     -220.5
+     182.5,
+     -221.1
     ],
     [
-     190.3,
-     -211.0
+     189.3,
+     -211.4
     ],
     [
-     196.4,
-     -207.5
+     195.4,
+     -207.9
     ],
     [
-     202.0,
-     -206.6
+     201.1,
+     -206.9
     ],
     [
-     207.2,
-     -208.1
+     206.3,
+     -208.4
     ],
     [
-     211.3,
-     -210.5
+     210.5,
+     -210.8
     ],
     [
-     218.9,
-     -216.7
+     218.2,
+     -217.0
     ],
     [
-     226.5,
-     -222.8
+     225.9,
+     -223.1
     ]
    ],
-   "src": "H A drone nadir 20 Nov: the teardrop lawn inside the loop drive (scripts/lib/dronefit.mjs)"
+   "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
   },
   {
    "id": "aud-plaza",
@@ -5749,62 +5770,102 @@
    "name": "Kalam statue garden",
    "pts": [
     [
-     213.8,
-     -238.8
+     302.5,
+     -304.1
     ],
     [
-     333.1,
-     -238.8
+     282.1,
+     -333.2
     ],
     [
-     333.1,
-     -307.0
+     249.4,
+     -337.3
     ],
     [
-     230.8,
-     -307.0
+     217.8,
+     -317.5
+    ],
+    [
+     198.5,
+     -299.6
+    ],
+    [
+     190.5,
+     -275.8
+    ],
+    [
+     194.7,
+     -262.9
+    ],
+    [
+     217.4,
+     -251.3
+    ],
+    [
+     247.7,
+     -238.9
+    ],
+    [
+     267.7,
+     -235.9
+    ],
+    [
+     288.2,
+     -253.5
     ]
    ],
-   "src": "by-eye (drone)"
+   "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)"
   },
   {
    "id": "nab-lawn",
    "kind": "lawn",
    "pts": [
     [
-     181.7,
-     -111.0
+     187.4,
+     -145.4
     ],
     [
-     168.7,
-     -142.6
+     153.8,
+     -154.8
     ],
     [
-     124.1,
-     -122.2
+     121.2,
+     -149.7
     ],
     [
-     126.0,
-     -104.6
+     103.2,
+     -131.5
     ],
     [
-     134.6,
-     -95.1
+     118.3,
+     -111.7
     ],
     [
-     134.8,
-     -94.8
+     142.0,
+     -94.7
     ],
     [
-     135.0,
-     -94.4
+     165.0,
+     -75.2
     ],
     [
-     137.1,
-     -91.0
+     183.3,
+     -57.1
+    ],
+    [
+     192.8,
+     -72.6
+    ],
+    [
+     182.8,
+     -101.3
+    ],
+    [
+     181.0,
+     -122.6
     ]
    ],
-   "src": "marked by H A on zoom_G",
+   "src": "H A drone nadir 20 Nov, relief-aware (scripts/drone-items.mjs)",
    "name": "NAB lawn"
   },
   {
@@ -6295,8 +6356,8 @@
    "id": "admin-main",
    "buildingId": "admin",
    "at": [
-    201.8,
-    -207.2
+    198.3,
+    -208.3
    ],
    "main": true
   },
