@@ -1219,42 +1219,74 @@
    "id": "gym",
    "name": "Sports Pavilion & Gym",
    "category": "sports",
-   "wall": "#F4F2EA",
-   "roofColor": "#3E8A6E",
+   "wall": "#F2F0EA",
+   "roofColor": "#3E9C8A",
    "labelPriority": 2,
    "parts": [
     {
-     "cx": -276.6,
-     "cy": 154.2,
-     "w": 21.5,
-     "d": 11.2,
-     "angle": -50.2,
+     "cx": -147.8,
+     "cy": 129.4,
+     "w": 22.2,
+     "d": 23.4,
+     "angle": -12.6,
+     "floors": 1,
+     "roof": "hip",
+     "poly": [
+      [
+       -160.05,
+       120.21
+      ],
+      [
+       -138.38,
+       115.38
+      ],
+      [
+       -135.47,
+       138.55
+      ],
+      [
+       -157.14,
+       143.38
+      ]
+     ],
+     "src": "H A June drone frame (dji 0623 191506 @0:42.8), camera solved from the OSM courts and roads (scripts/zone-from-oblique.mjs)",
+     "role": "main",
+     "key": "hall"
+    },
+    {
+     "cx": -162.6,
+     "cy": 133.7,
+     "w": 5.0,
+     "d": 9.5,
+     "angle": 121.0,
      "floors": 1,
      "roof": "gable",
      "poly": [
       [
-       -274.1,
-       142.4
+       -166.19,
+       129.68
       ],
       [
-       -265.4,
-       149.6
+       -168.78,
+       133.99
       ],
       [
-       -279.2,
-       166.1
+       -159.96,
+       137.44
       ],
       [
-       -287.8,
-       158.9
+       -155.31,
+       133.6
       ]
      ],
-     "src": "overture e3e4c25c-ce6b-4f44-97b1-88a36edf3db9 (Google Open Buildings)"
+     "src": "H A June drone frame (dji 0623 191506 @0:42.8), camera solved from the OSM courts and roads (scripts/zone-from-oblique.mjs)",
+     "role": "annex",
+     "key": "annex"
     }
    ],
    "short": "Gym",
-   "confirm": "Pavilion at the west end of the court strip; whether the gym is inside to confirm.",
-   "groundElev": 16.4
+   "confirm": "The white hall with the green hip roof beside the tennis court (H A, 21 Nov); door on the walkway side to confirm.",
+   "groundElev": 10.8
   },
   {
    "id": "court-kiosk",
@@ -4590,6 +4622,47 @@
     }
    ],
    "groundElev": 6.5
+  },
+  {
+   "wall": "#F4F2EA",
+   "roofColor": "#3E8A6E",
+   "parts": [
+    {
+     "cx": -276.6,
+     "cy": 154.2,
+     "w": 21.5,
+     "d": 11.2,
+     "angle": -50.2,
+     "floors": 1,
+     "roof": "gable",
+     "poly": [
+      [
+       -274.1,
+       142.4
+      ],
+      [
+       -265.4,
+       149.6
+      ],
+      [
+       -279.2,
+       166.1
+      ],
+      [
+       -287.8,
+       158.9
+      ]
+     ],
+     "src": "overture e3e4c25c-ce6b-4f44-97b1-88a36edf3db9 (Google Open Buildings)"
+    }
+   ],
+   "groundElev": 16.4,
+   "id": "bldg-portico-loop",
+   "name": "Campus building",
+   "category": "service",
+   "labelPriority": 3,
+   "unnamed": true,
+   "confirm": "White building with a columned portico by the loop road (it was mapped as the gym); its use to confirm."
   }
  ],
  "paths": [
@@ -4899,27 +4972,43 @@
    "id": "covered-walk",
    "kind": "covered",
    "name": "Scholar's Path (covered walkway)",
-   "src": "Overture 954 + 949 (walkway roofs) joined by eye",
+   "src": "D Block end and south end: Overture walkway roofs; between them the real zig-zag from H A June drone frame (dji 0623 191506 @0:42.8), camera solved from the OSM courts and roads (scripts/zone-from-oblique.mjs)",
    "pts": [
     [
      -221.7,
      224.2
     ],
     [
-     -208.0,
-     184.1
+     -232.99,
+     213.67
     ],
     [
-     -160.7,
-     183.6
+     -221.99,
+     195.46
     ],
     [
-     -139.0,
-     111.6
+     -210.94,
+     192.96
     ],
     [
-     -96.7,
-     67.2
+     -204.49,
+     179.27
+    ],
+    [
+     -153.74,
+     165.2
+    ],
+    [
+     -125.85,
+     134.17
+    ],
+    [
+     -129.07,
+     106.81
+    ],
+    [
+     -91.12,
+     66.23
     ],
     [
      -91.9,
@@ -5168,15 +5257,15 @@
    "kind": "footpath",
    "pts": [
     [
-     -278.4,
-     167.3
+     -135.84,
+     126.8
     ],
     [
-     -272.2,
-     176.5
+     -126.84,
+     125.74
     ]
    ],
-   "src": "entrance connector (auto)"
+   "src": "the gym door to the Scholar's Path (H A drone, 21 Nov)"
   },
   {
    "id": "fp-court-kiosk",
@@ -5618,46 +5707,46 @@
    "name": "Football Ground",
    "pts": [
     [
-     -159.9,
-     225.8
+     -164.3,
+     234.2
     ],
     [
-     -118.9,
-     256.6
+     -123.1,
+     264.2
     ],
     [
-     -60.9,
-     171.2
+     -67.7,
+     188.2
     ],
     [
-     -101.9,
-     140.4
+     -108.9,
+     158.2
     ]
    ],
-   "src": "by-eye; Google pin"
+   "src": "grass pitch 51 x 94 m: H A satellite (lengths) and June drone frame (fence corners)"
   },
   {
    "id": "courts-surround",
    "kind": "plaza",
    "pts": [
     [
-     -236.1,
-     163.8
+     -229.2,
+     157.0
     ],
     [
-     -164.6,
-     162.4
+     -190.7,
+     157.0
     ],
     [
-     -165.6,
-     110.1
+     -190.7,
+     123.0
     ],
     [
-     -237.1,
-     111.5
+     -229.2,
+     123.0
     ]
    ],
-   "src": "OSM recreation ground + 4 m"
+   "src": "the basketball pair + 2.5 m (OSM courts; June drone frame)"
   },
   {
    "id": "admin-forecourt",
@@ -6415,8 +6504,8 @@
    "id": "gym-main",
    "buildingId": "gym",
    "at": [
-    -278.4,
-    167.3
+    -135.84,
+    126.8
    ],
    "main": true
   },

@@ -131,7 +131,7 @@ describe('hardscape.json (Phase 3M v2)', () => {
   const layout: CampusLayout = JSON.parse(fs.readFileSync('public/data/campus-layout.json', 'utf8'));
   const osm = JSON.parse(fs.readFileSync('public/data/osm.json', 'utf8'));
   const all: { id: string; pts: XY[] }[] = [...osm.roads, ...layout.paths];
-  const TYPES = new Set(['covered-walkway', 'plaza', 'parking', 'footpath', 'steps', 'hedge', 'flower-bed', 'terrace', 'retaining-wall', 'wall', 'fence', 'floodlight', 'court-surround', 'lake-edge', 'trail', 'gate', 'courtyard', 'tree-line', 'light-row', 'pavement', 'ramp', 'railing', 'lawn', 'earth-track', 'open-tank', 'bench-row', 'paving']); // the last three: H A's drone footage, 20 Nov
+  const TYPES = new Set(['covered-walkway', 'plaza', 'parking', 'footpath', 'steps', 'hedge', 'flower-bed', 'terrace', 'retaining-wall', 'wall', 'fence', 'floodlight', 'court-surround', 'lake-edge', 'trail', 'gate', 'courtyard', 'tree-line', 'light-row', 'pavement', 'ramp', 'railing', 'lawn', 'earth-track', 'open-tank', 'bench-row', 'paving', 'court-surround-blue', 'earth']); // the last three: H A's drone footage, 20 Nov
   it('every item has a known type, geometry, a source and a sensible size', () => {
     for (const it of H.items) {
       expect(TYPES.has(it.type), it.id).toBe(true);

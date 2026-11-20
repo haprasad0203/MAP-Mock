@@ -1836,13 +1836,17 @@
     [-69, 32.6],
     [-71.6, 36],
     [-91.9, 47.5],
-    [-96.7, 67.2],
-    [-139, 111.6],
-    [-160.7, 183.6],
-    [-208, 184.1],
+    [-91.1, 66.2],
+    [-129.1, 106.8],
+    [-125.8, 134.2],
+    [-153.7, 165.2],
+    [-204.5, 179.3],
+    [-210.9, 193],
+    [-222, 195.5],
+    [-233, 213.7],
     [-221.7, 224.2]
    ],
-   "length": 779.2,
+   "length": 792.3,
    "source": [
     "H A's hi-res satellite 0423/0405 (looked at, not traced)",
     "homepage video @0:08.5",
@@ -2314,17 +2318,34 @@
    "note": "paver apron from the hall to the loop-road kerb, steps and planters at its door"
   },
   {
+   "id": "tennis-surround",
+   "type": "court-surround-blue",
+   "material": "blue acrylic surround",
+   "colour": "#3E6FB8",
+   "poly": [
+    [-191.5, 157.3],
+    [-168.4, 157.3],
+    [-168.4, 116.5],
+    [-191.5, 116.5]
+   ],
+   "source": [
+    "H A June drone frame",
+    "OSM pitch"
+   ],
+   "confidence": "seen"
+  },
+  {
    "id": "courts-fence",
    "type": "fence",
    "material": "green chain-link on steel posts",
    "colour": "#3D6B4A",
    "height": 3.6,
    "pts": [
-    [-236.7, 164.6],
-    [-164, 163.2],
-    [-165, 109.3],
-    [-237.7, 110.7],
-    [-236.7, 164.6]
+    [-230.2, 158.3],
+    [-167.4, 158.3],
+    [-167.4, 115.5],
+    [-230.2, 115.5],
+    [-230.2, 158.3]
    ],
    "source": [
     "drone 54s / 9QBtbam1G5Q @0:52.5",
@@ -2338,14 +2359,32 @@
    "material": "red acrylic surround",
    "colour": "#C8534A",
    "poly": [
-    [-236.1, 163.8],
-    [-164.6, 162.4],
-    [-165.6, 110.1],
-    [-237.1, 111.5]
+    [-229.2, 157],
+    [-190.7, 157],
+    [-190.7, 123],
+    [-229.2, 123]
    ],
    "source": [
     "drone 54s / 9QBtbam1G5Q @0:52.5",
     "courts-aerial_s1"
+   ],
+   "confidence": "seen"
+  },
+  {
+   "id": "football-track",
+   "type": "earth",
+   "name": "Dirt track round the football ground",
+   "material": "red-brown earth",
+   "colour": "#B07250",
+   "poly": [
+    [-170.2, 233.4],
+    [-120.5, 269.6],
+    [-61.8, 189],
+    [-111.5, 152.8]
+   ],
+   "source": [
+    "H A satellite (seen)",
+    "H A June drone frame"
    ],
    "confidence": "seen"
   },
@@ -2356,11 +2395,11 @@
    "colour": "#3A4148",
    "height": 2.4,
    "pts": [
-    [-162.9, 225.4],
-    [-117.5, 259.2],
-    [-57.9, 171.6],
-    [-103.3, 137.8],
-    [-162.9, 225.4]
+    [-170.2, 233.4],
+    [-120.5, 269.6],
+    [-61.8, 189],
+    [-111.5, 152.8],
+    [-170.2, 233.4]
    ],
    "source": [
     "drone 9QBtbam1G5Q @0:38.5",
@@ -2374,7 +2413,7 @@
    "material": "steel lattice mast, lamp head",
    "colour": "#9AA1A8",
    "height": 18,
-   "at": [-162.9, 225.4],
+   "at": [-170.2, 233.4],
    "source": [
     "drone 9QBtbam1G5Q @0:38.5",
     "homepage video @0:39.5 (lit at night)",
@@ -2388,7 +2427,7 @@
    "material": "steel lattice mast, lamp head",
    "colour": "#9AA1A8",
    "height": 18,
-   "at": [-117.5, 259.2],
+   "at": [-120.5, 269.6],
    "source": [
     "drone 9QBtbam1G5Q @0:38.5",
     "homepage video @0:39.5 (lit at night)",
@@ -2402,7 +2441,7 @@
    "material": "steel lattice mast, lamp head",
    "colour": "#9AA1A8",
    "height": 18,
-   "at": [-57.9, 171.6],
+   "at": [-61.8, 189],
    "source": [
     "drone 9QBtbam1G5Q @0:38.5",
     "homepage video @0:39.5 (lit at night)",
@@ -2416,7 +2455,7 @@
    "material": "steel lattice mast, lamp head",
    "colour": "#9AA1A8",
    "height": 18,
-   "at": [-103.3, 137.8],
+   "at": [-111.5, 152.8],
    "source": [
     "drone 9QBtbam1G5Q @0:38.5",
     "homepage video @0:39.5 (lit at night)",

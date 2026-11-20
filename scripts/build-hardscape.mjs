@@ -186,9 +186,12 @@ add({ id: 'admin-road-retaining-wall', type: 'retaining-wall', material: 'random
 
 // sports: court fences, football fence and floodlights, pavilion forecourt
 { const cs = area('courts-surround').pts;
-  add({ id: 'courts-fence', type: 'fence', material: 'green chain-link on steel posts', colour: '#3D6B4A', height: 3.6, pts: [...grow(cs.slice(0, 4), 1.0), grow(cs.slice(0, 4), 1.0)[0]], source: [SRC.q54, SRC.s9159], confidence: 'seen' });
+  const all3 = [[-230.2, 158.3], [-167.4, 158.3], [-167.4, 115.5], [-230.2, 115.5]]; // the basketball pair and the tennis court together (June drone frame)
+  add({ id: 'tennis-surround', type: 'court-surround-blue', material: 'blue acrylic surround', colour: '#3E6FB8', poly: [[-191.5, 157.3], [-168.4, 157.3], [-168.4, 116.5], [-191.5, 116.5]].map(P), source: ['H A June drone frame', 'OSM pitch'], confidence: 'seen' });
+  add({ id: 'courts-fence', type: 'fence', material: 'green chain-link on steel posts', colour: '#3D6B4A', height: 3.6, pts: [...all3.map(P), P(all3[0])], source: [SRC.q54, SRC.s9159], confidence: 'seen' });
   add({ id: 'courts-surround-red', type: 'court-surround', material: 'red acrylic surround', colour: '#C8534A', poly: cs.slice(0, 4).map(P), source: [SRC.q54, 'courts-aerial_s1'], confidence: 'seen' }); }
-{ const fb = area('football').pts.slice(0, 4), g = grow(fb, 3);
+{ const fb = area('football').pts.slice(0, 4), g = grow(fb, 6); // the fence runs round the dirt track, about 6 m outside the grass
+  add({ id: 'football-track', type: 'earth', name: 'Dirt track round the football ground', material: 'red-brown earth', colour: '#B07250', poly: grow(fb, 6), source: ['H A satellite (seen)', 'H A June drone frame'], confidence: 'seen' });
   add({ id: 'football-fence', type: 'fence', material: 'dark steel mesh fence', colour: '#3A4148', height: 2.4, pts: [...g, g[0]], source: [SRC.q38, SRC.s677], confidence: 'seen' });
   g.forEach((q, k) => add({ id: `football-floodlight-${k + 1}`, type: 'floodlight', material: 'steel lattice mast, lamp head', colour: '#9AA1A8', height: 18, at: q, source: [SRC.q38, 'homepage video @0:39.5 (lit at night)', SRC.s677], confidence: k === 0 ? 'seen' : 'by-eye' })); }
 

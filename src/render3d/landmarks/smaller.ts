@@ -15,22 +15,31 @@ import {
 const PL = 0.5;
 
 export const buildGym: LandmarkBuilder = (B, b, ctx) => {
-  const g = b.groundElev ?? 0, g0 = g + PL, p = b.parts[0], H = g0 + 4.2, roof = sampledRoof('#4FA8A0');
-  const pp = ccw(partFootprint(p)), fs = facesOf(pp), ent = ctx.entrances.find(e => e.buildingId === b.id)?.at ?? [p.cx, p.cy - 20];
-  const long = Math.max(...fs.map(f => f.len));
+  // v3 (21 Nov): the white hall beside the tennis court (H A: "this building is the gym"), traced on the June drone frame
+  // (scripts/zone-from-oblique.mjs): a square-ish hall, walls 3.7 m to the eaves (measured), a row of square windows in
+  // dark frames on every face, a low green-teal hip roof with a thin white fascia; on the court side a lower annex under
+  // a gable whose end faces the courts; the door on the walkway side.
+  const g = b.groundElev ?? 0, g0 = g + 0.4, H = g + 3.7, roof = sampledRoof('#3E9C8A'), WALL_G = rgb('#F2F0EA'), FRAME = rgb('#2F3437');
+  const hall = b.parts.find(p => p.key === 'hall') ?? b.parts[0], annex = b.parts.find(p => p.key === 'annex');
+  const hp = ccw(partFootprint(hall)), fs = facesOf(hp), ent = ctx.entrances.find(e => e.buildingId === b.id)?.at ?? [hall.cx, hall.cy];
+  const doorF = faceToward(fs, ent);
   for (const f of fs) {
-    B.wall('plain', f.a, f.b, g - 3, g0, rgb('#C9C3B6')); flat(B, f, 0, f.len, g0, H);
-    if (f.len > long * 0.7) punched(B, f, 1, f.len - 1, g0, 1, 0, Math.round(f.len / 3.2), 1.4, 1.3, 1.2);
+    B.wall('plain', f.a, f.b, g - 3, g0, rgb('#C9C3B6')); flat(B, f, 0, f.len, g0, H, WALL_G);
+    const n = Math.max(2, Math.round(f.len / 3.4));
+    for (let i = 0; i < n; i++) {
+      const c = ((i + 0.5) * f.len) / n;
+      if (f === doorF && i === Math.floor(n / 2)) { panel(B, 'plain', f, c - 1.3, c + 1.3, 0.05, g0, g0 + 2.5, rgb('#6B4E3A')); panel(B, 'plain', f, c - 1.8, c + 1.8, 1.1, g0 + 2.6, g0 + 2.8, WALL_G); continue; } // the double door under a small canopy
+      panel(B, 'plain', f, c - 0.62, c + 0.62, 0.04, g0 + 1.0, g0 + 2.45, FRAME); glassGrid(B, f, c - 0.5, c + 0.5, g0 + 1.08, g0 + 2.37, 0.07, 2, 2, 0.05, FRAME);
+    }
   }
-  bevelCorners(B, pp, g0, H, WALL, 0.08);
-  let top = gableRoof(B, p, H, roof, WALL);
-  // front cross-gable porch toward the courts / entrance
-  const courts = ctx.areas.find(a => a.id === 'courts-surround'), toCourts: XY = courts ? centroidOf(courts.pts) : ent;
-  const f = faceToward(fs.filter(x => x.len > long * 0.7), toCourts), s = f.len / 2, a = Math.atan2(f.u[1], f.u[0]), c = fp(f, s, 1.6);
-  B.box('plain', c[0], c[1], 5.2, 3.6, a, g0, H, WALL);
-  glassGrid(B, faceOf(fp(f, s - 1.6, 3.42), fp(f, s + 1.6, 3.42)), 0, 3.2, g0 + 0.1, g0 + 2.7, 0.01, 2, 1, 0.12, rgb('#3F7FC0'));
-  top = Math.max(top, gableRoof(B, { cx: c[0], cy: c[1], w: 3.6, d: 5.2, angle: (a * 180) / Math.PI }, H, roof, WALL));
-  return { top, centre: [p.cx, p.cy] };
+  bevelCorners(B, hp, g0, H, WALL_G, 0.06);
+  let top = hipPart(B, hall, H, roof, 0.45, (Math.min(hall.w, hall.d) / 2 + 0.45) * Math.tan((16 * Math.PI) / 180), { fascia: 0.25, ridge: true });
+  if (annex) {
+    const ap = ccw(partFootprint(annex)), afs = facesOf(ap), Ha = g + 3.2;
+    for (const f of afs) { B.wall('plain', f.a, f.b, g - 3, g0, rgb('#C9C3B6')); flat(B, f, 0, f.len, g0, Ha, WALL_G); if (f.len > 4) glassGrid(B, f, f.len / 2 - 0.5, f.len / 2 + 0.5, g0 + 1.08, g0 + 2.37, 0.07, 2, 2, 0.05, FRAME); }
+    top = Math.max(top, gableRoof(B, annex, Ha, roof, WALL_G));
+  }
+  return { top, centre: [hall.cx, hall.cy] };
 };
 
 export const buildGuardRoom: LandmarkBuilder = (B, b, ctx) => {

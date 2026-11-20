@@ -153,3 +153,19 @@ wing and sat about 7 m off, and the earlier 47.5° fit, which was wrong.
   - **terrace-garden:** now the real statue-garden lawn; it was a by-eye rectangle.
   - **nab-lawn:** now the real slope lawn between Admin and NAB; it was a by-eye quadrilateral.
 - **Whole-frame check:** `reference/real/drone_check_v3.jpg`, from `scripts/drone-check.mjs`. Our data is drawn back onto H A's photo at each item's height.
+
+## The sports zone from H A's June drone frame (21 Nov 2026, applied)
+- **Camera:** the frame (dji 0623 191506 @0:42.8) was solved from the 10 OSM court corners and two OSM road centrelines, with an average error of 9.8 px (`scripts/lib/obliquecam.mjs`, `oblique-fit.mjs`). The same-camera render is `scripts/oblique-render.mjs`.
+- **The gym was mapped about 140 m west of where it is** (H A: "this building is the gym, it is mapped wrong"). It is the white hall with the green hip roof beside the tennis court:
+  - about 22 × 23 m, with walls 3.7 m to the eaves (measured on its near corner in the frame);
+  - a gabled annex on the court side;
+  - the door on the walkway side, to confirm.
+
+  The old footprint is a real, different building: a white building with a columned portico by the loop road. It is kept as an unnamed building (`bldg-portico-loop`), its use to confirm.
+- **The Scholar's Path between the lake side and D Block** follows its real zig-zag; corners were off by up to 20 m.
+- **Courts:**
+  - OSM's 'volleyball' pitch is the blue tennis court, with its own blue surround;
+  - the red surround belongs to the two basketball courts only;
+  - the fence runs round all three.
+- **Football ground:** the grass pitch is 51 × 94 m (lengths measured on H A's satellite screenshot), placed by its fence corners on the drone frame, which moves it by 9–19 m. A dirt track runs round it, and the fence is about 6 m outside the grass.
+- **Files:** `scripts/zone-from-oblique.mjs` → `reference/layout/zone_oblique.json` → `scripts/apply_zone_oblique.py`, also used by the generator.

@@ -125,15 +125,15 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   for (const kind of order) for (const a of areas.filter(a => a.kind === kind)) {
     const v = kind === 'lawn' ? G.LAWN : kind === 'garden' ? G.GARDEN : kind === 'plaza' ? (a.id === 'courts-surround' ? G.COURT_RED : G.PLAZA)
       : kind === 'parking' ? G.PARKING : kind === 'ground' ? (a.surface === 'earth' ? G.EARTH : G.GROUND)
-      : kind === 'court' ? (a.sport === 'tennis' ? G.COURT_BLUE : G.COURT) : G.WATER;
+      : kind === 'court' ? (a.sport === 'tennis' || a.sport === 'volleyball' ? G.COURT_BLUE : G.COURT) : G.WATER; // OSM's 'volleyball' pitch is the blue tennis court (drone, satellite)
     fillPoly(mask, a.pts, v);
   }
   // hardscape.json surfaces (Phase 3M v2): paved plazas and parking, courtyards, garden terraces, court surrounds, paths
   const hs = src.getHardscape?.() ?? [];
-  const SURF: Record<string, number> = { lawn: G.LAWN, earth: G.EARTH, paving: G.PAVING, plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
+  const SURF: Record<string, number> = { lawn: G.LAWN, earth: G.EARTH, paving: G.PAVING, plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED, 'court-surround-blue': G.COURT_BLUE };
   for (const it of hs) {
     const v = SURF[it.type]; if (v === undefined) continue;
-    if (it.poly) fillPoly(mask, it.poly, v, it.type === 'lawn' ? (c => c === G.WILD || c === G.GROUND || c === G.GARDEN) : (c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE));
+    if (it.poly) fillPoly(mask, it.poly, v, it.type === 'lawn' ? (c => c === G.WILD || c === G.GROUND || c === G.GARDEN) : it.type === 'earth' ? (c => c === G.WILD || c === G.LAWN || c === G.GARDEN) : (c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE));
     else if (it.type === 'terrace' && it.pts) fillPoly(mask, it.pts, v, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
     if (it.poly && Array.isArray(it.hole)) fillPoly(mask, it.hole as XY[], G.GARDEN); // a paved ring round a lawn (the flag forecourt)
   }
