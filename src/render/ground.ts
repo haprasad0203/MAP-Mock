@@ -85,6 +85,7 @@ export function renderChunk(m: WorldModel, rot: Rot, k: number, ci: number, cj: 
         const edge = cls(m, x + 1.5, y) !== G.GROUND || cls(m, x - 1.5, y) !== G.GROUND || cls(m, x, y + 1.5) !== G.GROUND || cls(m, x, y - 1.5) !== G.GROUND;
         col = edge ? P.courtLine : (Math.floor((x * 0.866 + y * 0.5) / 6) & 1 ? P.ground : P.stripe); break;
       }
+      case G.PAVING: col = P.plaza; break;
       case G.PLAZA: col = (Math.floor(x / 2) + Math.floor(y / 2)) & 1 && k > 1 ? P.plazaDark : P.plaza; break;
       case G.PARKING: col = Math.floor(x / 3) % 2 === 0 && k > 0.8 && hash2(Math.floor(x), Math.floor(y / 5), 3) > 0.5 ? P.parkingLine : P.parking; break;
       case G.GARDEN: col = hash2(Math.floor(x * 1.3), Math.floor(y * 1.3), 12) > 0.86 ? P.flower : P.garden; break;

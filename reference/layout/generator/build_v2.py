@@ -342,6 +342,8 @@ _spec2 = _ilu.spec_from_file_location('apply_drone_items', os.path.join(os.path.
 _di = _ilu.module_from_spec(_spec2); _spec2.loader.exec_module(_di); _di.apply(layout)   # forecourt lawn, its path, the small buildings (relief-aware)
 _spec3 = _ilu.spec_from_file_location('apply_admin_drone', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'scripts', 'apply_admin_drone.py'))
 _ad = _ilu.module_from_spec(_spec3); _spec3.loader.exec_module(_ad); _ad.apply(layout)   # the Admin Block (L plan, hall at the corner)
+_spec4 = _ilu.spec_from_file_location('apply_cafe_drone', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'scripts', 'apply_cafe_drone.py'))
+_cd = _ilu.module_from_spec(_spec4); _spec4.loader.exec_module(_cd); _cd.apply(layout)   # Cafe Cloud (octagon and verandah from the drone)
 import os; os.makedirs('layout/out', exist_ok=True)
 json.dump(layout, open('layout/out/campus-layout.json', 'w'), indent=1)
 json.dump(terrain, open('layout/out/terrain.json', 'w'))

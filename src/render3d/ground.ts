@@ -13,7 +13,7 @@ const CLASS: Record<number, [[number, number, number], number]> = {
   [G.SERVICE]: [hex('#8E9474'), 0.05], [G.ROAD_EDGE]: [hex('#95A070'), 0.06], [G.TRACK]: [hex('#A8A174'), 0.06],
   [G.PATH]: [hex('#A9A77E'), 0.05], [G.WATER]: [hex('#2A6F86'), 0.03], [G.COURT]: [hex('#2F8A6A'), 0.02],
   [G.COURT_BLUE]: [hex('#3E6FB8'), 0.02], [G.COURT_RED]: [hex('#B5564A'), 0.03], [G.EARTH]: [hex('#B07250'), 0.1],
-  [G.PLAZA]: [hex('#C99484'), 0.05], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
+  [G.PLAZA]: [hex('#C99484'), 0.05], [G.PAVING]: [hex('#BDB9B1'), 0.04], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
   [G.COVERED]: [hex('#A9A77E'), 0.05],
 };
 const MEADOW = hex('#55773A'), FOREST = hex('#46692F'); // open campus ground is rough woodland floor and scrub (drone, 20 Nov), lawns are authored

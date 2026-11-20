@@ -769,82 +769,60 @@
    "id": "cafe-cloud",
    "name": "Cafe Cloud Campus",
    "category": "food",
-   "wall": "#F4F2EA",
+   "wall": "#EFE3CF",
    "roofColor": "#3E8A4E",
    "labelPriority": 2,
    "parts": [
     {
-     "cx": 58.4,
-     "cy": -208.9,
-     "w": 30.9,
-     "d": 29.0,
-     "angle": 9.7,
+     "cx": 54.8,
+     "cy": -210.1,
+     "w": 32.7,
+     "d": 32.7,
+     "angle": 284.0,
      "floors": 1,
      "roof": "octagon",
      "glass": "atrium",
      "poly": [
       [
-       53.9,
-       -222.0
+       37.32,
+       -207.5
       ],
       [
-       54.3,
-       -224.3
-      ],
-      [
-       63.7,
-       -222.7
-      ],
-      [
-       72.3,
-       -211.8
-      ],
-      [
-       74.5,
-       -211.4
-      ],
-      [
-       71.9,
-       -196.3
-      ],
-      [
-       63.2,
-       -197.8
-      ],
-      [
-       62.5,
-       -193.5
-      ],
-      [
-       51.4,
-       -195.4
+       40.6,
+       -220.62
       ],
       [
        52.2,
-       -199.6
+       -227.58
       ],
       [
-       45.1,
-       -200.8
+       65.32,
+       -224.3
       ],
       [
-       46.4,
-       -208.4
+       72.28,
+       -212.7
       ],
       [
-       42.8,
-       -209.0
+       69.0,
+       -199.58
       ],
       [
-       45.2,
-       -223.4
+       57.4,
+       -192.62
+      ],
+      [
+       44.28,
+       -195.9
       ]
      ],
-     "src": "overture e3541016-8dfe-46b6-8b61-10198be2c242 (Google Open Buildings)"
+     "src": "H A drone nadir 21 Nov: the green roof octagon fitted by colour (rms 1.9 px), the verandah ring read on the photo (scripts/cafe-from-drone.mjs)",
+     "role": "main",
+     "key": "cafe"
     }
    ],
    "short": "Cafe Cloud",
-   "confirm": "Octagonal pavilion west of the main road, opposite the Admin Block (Google pin + drone).",
+   "confirm": "Octagon and verandah measured on H A's drone footage (21 Nov); the entrance with the sign faces the main road.",
    "groundElev": 6.7
   },
   {
@@ -5085,30 +5063,30 @@
    "kind": "footpath",
    "pts": [
     [
-     73.4,
-     -195.9
+     72.8,
+     -205.6
     ],
     [
-     88.1,
-     -192.1
+     89.6,
+     -201.4
     ]
    ],
-   "src": "entrance connector (auto)"
+   "src": "the entrance steps to the main road (H A drone nadir 21 Nov)"
   },
   {
    "id": "fp-amul-cafe",
    "kind": "footpath",
    "pts": [
     [
-     64.6,
-     -227.0
+     60.2,
+     -235.4
     ],
     [
-     94.1,
-     -220.2
+     95.3,
+     -228.3
     ]
    ],
-   "src": "entrance connector (auto)"
+   "src": "the Amul kiosk to the main road (H A drone nadir)"
   },
   {
    "id": "fp-kalam-centre",
@@ -6365,8 +6343,8 @@
    "id": "cafe-cloud-main",
    "buildingId": "cafe-cloud",
    "at": [
-    73.4,
-    -195.9
+    72.8,
+    -205.6
    ],
    "main": true
   },
@@ -6374,8 +6352,8 @@
    "id": "amul-cafe-main",
    "buildingId": "amul-cafe",
    "at": [
-    64.6,
-    -227.0
+    60.2,
+    -235.4
    ],
    "main": true
   },

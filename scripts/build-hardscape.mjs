@@ -179,8 +179,8 @@ add({ id: 'admin-road-retaining-wall', type: 'retaining-wall', material: 'random
   false && add({ id: 'nab-lawn-path', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 2.0, pts: [f.fp(f.len * 0.2, 9), P(centroid(lawn)), f.fp(f.len * 0.9, 40)], source: [SRC.home05], confidence: 'by-eye', note: 'the diagonal path across the NAB lawn' }); }
 
 // Cafe Cloud plaza (red hex pavers between the cafe and the main road)
-{ const c = bld('cafe-cloud').parts[0];
-  add({ id: 'cafe-cloud-plaza', type: 'plaza', material: 'pale pavers', colour: '#D3C7B4', poly: circle([c.cx, c.cy], 19, 24), source: ['crops cafe_dji, cafe_i363, cafe_19s'], confidence: 'by-eye', note: 'apron round the octagon, porch on the road side' }); }
+{ const c = bld('cafe-cloud').parts[0], k = 20.5 / 16.33; // the paved apron round the verandah (drone nadir, 21 Nov): the verandah octagon scaled out to about 4 m beyond it
+  add({ id: 'cafe-cloud-plaza', type: 'paving', material: 'pale grey concrete', colour: '#CFCBC3', poly: c.poly.map(q => P([c.cx + (q[0] - c.cx) * k, c.cy + (q[1] - c.cy) * k])), source: ['H A drone nadir 21 Nov', 'CCC_and_Lake IMG_6713'], confidence: 'measured', note: 'apron round the octagon; the entrance steps on the road side' }); }
 { const o = bld('octagon-hall').parts[0];
   add({ id: 'octagon-hall-plaza', type: 'plaza', material: 'red hexagonal pavers', colour: '#C4887A', poly: circle([o.cx, o.cy], 20, 24), source: ['drone 9QBtbam1G5Q @0:00.5, 0:07.5, 0:49.5'], confidence: 'seen', note: 'paver apron from the hall to the loop-road kerb, steps and planters at its door' }); }
 
@@ -234,9 +234,9 @@ add({ id: 'forecourt-solar-lights', type: 'light-row', material: 'solar street l
   // the walled plant between Admin and NAB, and the open reservoir north of NAB (missing from the data; audit 20 Nov)
   const loop = pts => [...pts, pts[0]];
   add({ id: 'plant-compound-wall', type: 'wall', name: 'Plant compound wall', material: 'plastered block wall', colour: '#D8D4CA', height: 1.8, width: 0.25, pts: loop(D([[1260, 2080], [1380, 1990], [1530, 2215], [1415, 2295]], 9.8)), source: [src], confidence: 'measured' });
-  add({ id: 'plant-yard', type: 'parking', name: 'Plant yard', material: 'concrete', colour: '#9A9C98', poly: D([[1260, 2080], [1380, 1990], [1530, 2215], [1415, 2295]], 8), bays: 0, source: [src], confidence: 'measured' });
+  add({ id: 'plant-yard', type: 'paving', name: 'Plant yard', material: 'concrete', colour: '#9A9C98', poly: D([[1260, 2080], [1380, 1990], [1530, 2215], [1415, 2295]], 8), bays: 0, source: [src], confidence: 'measured' });
   add({ id: 'plant-tanks', type: 'open-tank', name: 'Plant tanks with equipment rows', material: 'concrete tanks', colour: '#C9C6BD', water: '#5E7F78', height: 1.6, units: 3, poly: D([[1300, 2095], [1370, 2045], [1445, 2165], [1380, 2215]], 9.6), source: [src], confidence: 'measured' });
-  add({ id: 'reservoir-yard', type: 'parking', name: 'Reservoir yard', material: 'concrete', colour: '#8E918C', poly: D([[930, 3540], [1000, 3480], [1140, 3465], [1200, 3690], [1190, 3750], [1050, 3780], [995, 3770]], 5), bays: 0, source: [src], confidence: 'measured' });
+  add({ id: 'reservoir-yard', type: 'paving', name: 'Reservoir yard', material: 'concrete', colour: '#8E918C', poly: D([[930, 3540], [1000, 3480], [1140, 3465], [1200, 3690], [1190, 3750], [1050, 3780], [995, 3770]], 5), bays: 0, source: [src], confidence: 'measured' });
   add({ id: 'reservoir-wall', type: 'wall', name: 'Reservoir compound wall', material: 'plastered block wall', colour: '#D8D4CA', height: 1.8, width: 0.25, pts: loop(D([[930, 3540], [1000, 3480], [1140, 3465], [1200, 3690], [1190, 3750], [1050, 3780], [995, 3770]], 6.8)), source: [src], confidence: 'measured' });
   add({ id: 'reservoir', type: 'open-tank', name: 'Open water reservoir', material: 'concrete tank, white rim walkway', colour: '#E2E0D8', water: '#3E9EA3', height: 2.4, units: 0, poly: D([[955, 3565], [1105, 3500], [1155, 3625], [1010, 3695]], 7.4), source: [src], confidence: 'measured', note: 'teal open water seen from above; use (drinking-water reservoir or pool) to confirm' });
   // red earth tracks round the slopes (they read strongly from the air)

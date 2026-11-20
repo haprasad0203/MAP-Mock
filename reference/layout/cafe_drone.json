@@ -1,0 +1,89 @@
+{
+ "note": "Cafe Cloud from H A's drone nadir (21 Nov), scripts/cafe-from-drone.mjs. hall = the glazed octagon under the green roof; verandah = the covered ring round it.",
+ "centre": [
+  53.8,
+  -210.3
+ ],
+ "ringCentre": [
+  54.8,
+  -210.1
+ ],
+ "hallApothem": 11.64,
+ "roofApothem": 12.24,
+ "verandahApothem": 16.33,
+ "flatNormalDeg": 149.04,
+ "entranceNormalDeg": 374.04,
+ "porch": [
+  70.7,
+  -208.8
+ ],
+ "hall": [
+  [
+   41.33,
+   -208.44
+  ],
+  [
+   43.67,
+   -217.8
+  ],
+  [
+   51.94,
+   -222.77
+  ],
+  [
+   61.3,
+   -220.43
+  ],
+  [
+   66.27,
+   -212.16
+  ],
+  [
+   63.93,
+   -202.8
+  ],
+  [
+   55.66,
+   -197.83
+  ],
+  [
+   46.3,
+   -200.17
+  ]
+ ],
+ "verandah": [
+  [
+   36.32,
+   -207.7
+  ],
+  [
+   39.6,
+   -220.82
+  ],
+  [
+   51.2,
+   -227.78
+  ],
+  [
+   64.32,
+   -224.5
+  ],
+  [
+   71.28,
+   -212.9
+  ],
+  [
+   68,
+   -199.78
+  ],
+  [
+   56.4,
+   -192.82
+  ],
+  [
+   43.28,
+   -196.1
+  ]
+ ],
+ "fitRmsPx": 1.88
+}

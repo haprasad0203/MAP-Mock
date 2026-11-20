@@ -26,6 +26,11 @@ def apply(layout, plan=None):
         part = b['parts'][0]; poly = [[float(x), float(y)] for x, y in it['poly']]
         part.update(_part_rect(poly)); part['poly'] = poly; part['src'] = SRC
         b['groundElev'] = it['ground']
+    # the Amul kiosk's door and path follow the kiosk (its counter faces the road, east)
+    for e in layout['entrances']:
+        if e['id'] == 'amul-cafe-main': e['at'] = [60.2, -235.4]
+    for p in layout['paths']:
+        if p['id'] == 'fp-amul-cafe': p['pts'] = [[60.2, -235.4], [95.3, -228.3]]; p['src'] = 'the Amul kiosk to the main road (H A drone nadir)'
     return layout
 
 

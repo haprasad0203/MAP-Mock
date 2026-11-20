@@ -8,6 +8,7 @@ export const G = {
   WILD: 0, LAWN: 1, ROAD: 2, SERVICE: 3, TRACK: 4, PATH: 5, WATER: 6, COURT: 7, GROUND: 8, PLAZA: 9,
   PARKING: 10, GARDEN: 11, BUILDING: 12, COURT_RED: 13, ROAD_EDGE: 14, COVERED: 15, COURT_BLUE: 16, EARTH: 17,
   ROAD_LINE: 18, ROAD_DASH: 19, // white edge lines and centre dash on asphalt roads
+  PAVING: 20,                   // pale grey concrete paving (aprons, yards), not the red brick of the plazas
 } as const;
 
 export const HALF = 1300; // raster covers [-HALF, HALF) metres in x and y
@@ -129,7 +130,7 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   }
   // hardscape.json surfaces (Phase 3M v2): paved plazas and parking, courtyards, garden terraces, court surrounds, paths
   const hs = src.getHardscape?.() ?? [];
-  const SURF: Record<string, number> = { lawn: G.LAWN, earth: G.EARTH, plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
+  const SURF: Record<string, number> = { lawn: G.LAWN, earth: G.EARTH, paving: G.PAVING, plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
   for (const it of hs) {
     const v = SURF[it.type]; if (v === undefined) continue;
     if (it.poly) fillPoly(mask, it.poly, v, it.type === 'lawn' ? (c => c === G.WILD || c === G.GROUND || c === G.GARDEN) : (c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE));

@@ -13,7 +13,8 @@ const P = (m, z) => { const [x, y] = f.toPx3(m, z); return `${(x * k).toFixed(1)
 const inView = pts => pts.some(m => { const [x, y] = f.toPx3(m, 6); return x > -50 && y > -50 && x < meta.width + 50 && y < meta.height + 50; });
 // roof level of a building part: its ground plus its height (NAB's own measured heights by role; others by floors)
 const ROLE_H = { main: 14.5, stone: 14.5, white: 14.5, atrium: 14.5, tower: 19.5, pavilion: 18, annex: 5, endblock: 15.4, hall: 15.4, wing: 11.7 }; // wall tops (Admin's roofs overhang them by 1.3 m)
-const roofZ = (b, p) => (b.groundElev ?? 6) + (p.role ? ROLE_H[p.role] : b.id === 'admin' ? 0.6 + p.floors * 3.7 : 0.45 + p.floors * 3.4);
+const OWN_H = { 'cafe-cloud': 5.2 }; // a building's own outline height when its roles mean something else (the cafe's outline is the verandah roof)
+const roofZ = (b, p) => (b.groundElev ?? 6) + (OWN_H[b.id] ?? (p.role ? ROLE_H[p.role] : b.id === 'admin' ? 0.6 + p.floors * 3.7 : 0.45 + p.floors * 3.4));
 let svg = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke-linejoin="round">`;
 for (const r of [...O.roads, ...L.paths]) if (inView(r.pts)) svg += `<polyline points="${r.pts.map(m => P(m, 6)).join(' ')}" stroke="${r.kind === 'footpath' ? '#ffd23f' : r.kind === 'covered' ? '#22e0d0' : '#ff3b6b'}" stroke-width="${r.kind === 'footpath' ? 1.5 : 2.2}" stroke-opacity="0.9"/>`;
 for (const a of L.areas) if (inView(a.pts)) svg += `<polygon points="${a.pts.map(m => P(m, 6)).join(' ')}" stroke="#7fd4ff" stroke-width="1.4" stroke-dasharray="5 4"/>`;
