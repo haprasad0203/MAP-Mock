@@ -2918,22 +2918,46 @@
   {
    "id": "admin-nab-walk-lamps",
    "type": "light-row",
-   "name": "Street lamps along the Admin–NAB walk",
-   "material": "street lamps, about 5 m",
-   "colour": "#9AA1A8",
-   "height": 5,
-   "spacing": 13,
+   "name": "Ring-head lamps both sides of the Admin–NAB walk",
+   "material": "dark grey poles about 4.6 m, flat round ring-light heads",
+   "colour": "#3C4248",
+   "height": 4.6,
+   "spacing": 9,
+   "head": "ring",
+   "sides": 2,
+   "offset": 2,
    "pts": [
-    [173.3, -155.2],
-    [171.1, -152.4],
-    [153.7, -152.1],
-    [141.3, -147.1],
-    [132.5, -134.8],
-    [127, -122.9],
-    [121.5, -111.1]
+    [174.9, -153.6],
+    [171.5, -150.2],
+    [154.1, -149.9],
+    [142.7, -145.4],
+    [134.4, -133.7],
+    [123.5, -110.2]
    ],
    "source": [
-    "H A, 20 Nov (\"paved, with street lamps\")"
+    "H A, 20 Nov (\"paved, with street lamps\")",
+    "NAB Outside IMG_0486 @0:03, IMG_0490 @0:05"
+   ],
+   "confidence": "seen"
+  },
+  {
+   "id": "admin-nab-walk-benches",
+   "type": "bench-row",
+   "name": "Benches along the Admin–NAB walk",
+   "material": "wooden slats, black iron legs",
+   "colour": "#8A5A3C",
+   "spacing": 27,
+   "offset": 3.4,
+   "pts": [
+    [174.9, -153.6],
+    [171.5, -150.2],
+    [154.1, -149.9],
+    [142.7, -145.4],
+    [134.4, -133.7],
+    [123.5, -110.2]
+   ],
+   "source": [
+    "NAB Outside IMG_0486, IMG_0490"
    ],
    "confidence": "seen"
   },

@@ -9,6 +9,7 @@ import type { SurfaceAt } from './ground';
 type Item = Hardscape['items'][number];
 const K = 'plain';
 const col = (it: Item, fallback: string): RGB => rgb(typeof it.colour === 'string' ? it.colour : fallback);
+const disc = (x: number, y: number, r: number, n: number): XY[] => Array.from({ length: n }, (_, i) => [x + Math.cos((i / n) * Math.PI * 2) * r, y + Math.sin((i / n) * Math.PI * 2) * r] as XY);
 
 /** Points every `step` metres along a polyline, with the segment direction. */
 function along(pts: XY[], step: number): { p: XY; a: number }[] {
@@ -80,13 +81,29 @@ export function addHardscape(B: Buckets, items: Item[], h: SurfaceAt) {
           for (let k = 0; k < 3; k++) { const r = (1.1 - k * 0.3) * (H / 4); B.box(K, q.p[0], q.p[1], r * 2, r * 2, q.a + k * 0.4, g + 0.6 + k * (H / 4), g + 0.6 + (k + 1.2) * (H / 4), col(it, '#2F5F35')); }
         }
         break;
-      case 'light-row':
-        if (pts) for (const q of along(pts, (it.spacing as number) ?? 14)) {
-          const g = h(q.p[0], q.p[1]), H = it.height ?? 6;
-          B.box(K, q.p[0], q.p[1], 0.14, 0.14, 0, g - 0.3, g + H, rgb('#5A6066'));
-          B.box(K, q.p[0], q.p[1], 1.2, 0.6, q.a, g + H, g + H + 0.08, rgb('#2C3F4A'));
+      case 'light-row': {
+        if (!pts) break;
+        // one row on the line, or (sides: 2) a pair across it, `offset` metres either side; heads: a flat panel (solar
+        // street lamps) or a flat round ring light (the campus walks: NAB Outside stills)
+        const sides = Number(it.sides ?? 1) === 2 ? [-1, 1] : [0], off = Number(it.offset ?? 0), pole = col(it, '#5A6066'), ring = it.head === 'ring';
+        for (const q of along(pts, (it.spacing as number) ?? 14)) for (const s of sides) {
+          const x = q.p[0] - Math.sin(q.a) * s * off, y = q.p[1] + Math.cos(q.a) * s * off, g = h(x, y), H = it.height ?? 6;
+          B.box(K, x, y, 0.14, 0.14, 0, g - 0.3, g + H, pole);
+          if (ring) { B.prism(K, disc(x, y, 0.55, 10), g + H, g + H + 0.07, pole, true, pole); B.prism(K, disc(x, y, 0.62, 10), g + H - 0.06, g + H, rgb('#F7EBC8')); }
+          else B.box(K, x, y, 1.2, 0.6, q.a, g + H, g + H + 0.08, rgb('#2C3F4A'));
         }
         break;
+      }
+      case 'bench-row': { // wooden benches with black iron legs beside a walk, facing it
+        if (!pts) break;
+        const off = Number(it.offset ?? 3);
+        along(pts, (it.spacing as number) ?? 25).forEach((q, k) => {
+          if (k === 0) return; const s = k % 2 ? 1 : -1, x = q.p[0] - Math.sin(q.a) * s * off, y = q.p[1] + Math.cos(q.a) * s * off, g = h(x, y);
+          for (const e of [-0.75, 0.75]) B.box(K, x + Math.cos(q.a) * e, y + Math.sin(q.a) * e, 0.08, 0.45, q.a, g, g + 0.45, rgb('#22262A'));
+          B.box(K, x, y, 1.7, 0.45, q.a, g + 0.42, g + 0.5, col(it, '#8A5A3C')); B.box(K, x - Math.sin(q.a) * s * 0.22, y + Math.cos(q.a) * s * 0.22, 1.7, 0.06, q.a, g + 0.55, g + 0.9, col(it, '#8A5A3C'));
+        });
+        break;
+      }
       case 'terrace':
         if (pts) run(B, pts, h, 0.35, it.height ?? 0.8, rgb('#9C8F7A'), rgb('#B8AE9C'), 2, 0.8);     // the stone edge of each grass terrace
         break;
