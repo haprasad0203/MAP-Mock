@@ -110,3 +110,28 @@ The generator (`build_v2.py`) skips them too.
 - the woodland, red-earth tracks and lawns are as seen.
 
 **Unsure, kept for H A** (blurry or older imagery only): block-501 (rubble by a green-roofed building), east-residence[1], bldg-485, bldg-489, bldg-490, bldg-493, bldg-498, bldg-502, bldg-504, bldg-505, bldg-506, bldg-510, bldg-511, bldg-566, bldg-948, bldg-960, bldg-965 to bldg-982 and bldg-985 (forest north-west of the hostels), block-962 (a walled rectangle: court, tank or building?).
+
+## NAB and its roads traced on H A's drone footage (20 Nov 2026, applied)
+H A: "the tracing does not look right, check again in detail". This replaces the Overture parts, which were missing the SW
+wing and sat about 7 m off, and the earlier 47.5° fit, which was wrong.
+- **Method** (`scripts/nab-from-drone.mjs`; check image `reference/real/nab_drone_check.jpg`):
+  - everything is read on the straight-down still in the building's own frame (rotated views, 9 px a metre);
+  - the green roofs are measured by colour;
+  - each item is converted at its own height with a camera model. The still was taken from about 285 m: the 30 m flag mast leans 85 px, and NAB's 14.5 m parapet shows about 5 m further out than its base. The front wall's lean on the photo gave the parapet height.
+- **NAB:**
+  - **Axis and size:** 55° and 101 m long;
+  - **Main block:** 4 storeys, with a stepped back and two notches;
+  - **SE front:** two sandstone blocks standing 4.8 m proud (the SW one has the emblem), white blocks with side doors, and the faceted glass entrance under a green V band;
+  - **End towers:** set back about 6 m;
+  - **Pavilions:** three skylight pavilions on the centre line, turned 45° (14.5 m in the middle, 10 m at the sides);
+  - **Annex:** a low hexagonal annex at the back.
+
+  Parts carry a role for `landmarks/nab.ts`.
+- **Entrances:**
+  - **Main door:** the glass atrium on the lawn side (it was at the NE tip);
+  - **Side doors:** under both white blocks, each with a footpath to the front road.
+- **Roads:**
+  - **rd-nab-front:** it crossed the lawn and cut through NAB's SW end. It now runs straight along the forecourt, turns round the SW corner and goes on past the reservoir.
+  - **rd-nab-west (back road):** moved about 4 m toward the building, and runs on to the SW road.
+  - **rd-nab-north:** now ends on the back road. **To confirm:** from the air it looks like a red-earth track, not a paved road.
+- **Generator:** applies the same file (`scripts/apply_nab_drone.py`), so a rebuild keeps all of this.

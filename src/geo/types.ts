@@ -9,6 +9,9 @@ export interface Part {
   poly?: XY[];
   /** v2: provenance only. */
   src?: string;
+  /** Hand-traced landmarks (NAB, 20 Nov): what this part is, so the landmark builder draws it its own way. */
+  role?: 'main' | 'stone' | 'white' | 'atrium' | 'tower' | 'pavilion' | 'annex';
+  key?: string;
 }
 export interface Building {
   id: string; name: string; short?: string; category: Category; parts: Part[];

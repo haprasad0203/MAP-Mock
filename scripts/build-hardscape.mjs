@@ -166,8 +166,11 @@ add({ id: 'admin-road-retaining-wall', type: 'retaining-wall', material: 'random
 
 // NAB: front plaza, lawn path, canopy steps
 { const n = bld('nab'), mid = n.parts[1], lawn = area('nab-lawn').pts, f = faceToward(mid.poly, centroid(lawn));
-  add({ id: 'nab-front-plaza', type: 'plaza', name: 'NAB front plaza', material: 'red-pink pavers', colour: '#C98E80', poly: [f.fp(-14, 0.3), f.fp(f.len + 14, 0.3), f.fp(f.len + 14, 9), f.fp(-14, 9)], source: [SRC.home05, 'crops/nab_dji'], confidence: 'seen' });
-  for (const s of [f.len / 2 - 15, f.len / 2 + 15]) add({ id: `nab-canopy-steps-${s < f.len / 2 ? 'sw' : 'ne'}`, type: 'steps', material: 'granite', colour: '#BEB8AC', width: 6, height: 0.6, steps: 4, pts: [f.fp(s - 3, 0.6), f.fp(s + 3, 0.6)], depth: 1.4, source: [SRC.home05], confidence: 'seen' });
+  // the forecourt as traced on H A's drone nadir (reference/layout/nab_drone.json, scripts/nab-from-drone.mjs)
+  const nabDrone = JSON.parse(fs.readFileSync('reference/layout/nab_drone.json', 'utf8'));
+  add({ id: 'nab-front-plaza', type: 'plaza', name: 'NAB forecourt', material: 'red and cream zigzag pavers', colour: '#C98E80', poly: nabDrone.forecourt.map(P), source: [SRC.home05, 'H A drone nadir 20 Nov', 'NAB Outside IMG_0487'], confidence: 'measured' });
+  // the side-door steps are part of the NAB model now (landmarks/nab.ts)
+  false && [f.len / 2 - 15, f.len / 2 + 15].forEach(s => add({ id: `nab-canopy-steps-${s < f.len / 2 ? 'sw' : 'ne'}`, type: 'steps', material: 'granite', colour: '#BEB8AC', width: 6, height: 0.6, steps: 4, pts: [f.fp(s - 3, 0.6), f.fp(s + 3, 0.6)], depth: 1.4, source: [SRC.home05], confidence: 'seen' }));
   // 20 Nov fake-structure audit (H A's drone nadir): this 'diagonal path' is the covered walkway (admin-nab-walkway)
   false && add({ id: 'nab-lawn-path', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 2.0, pts: [f.fp(f.len * 0.2, 9), P(centroid(lawn)), f.fp(f.len * 0.9, 40)], source: [SRC.home05], confidence: 'by-eye', note: 'the diagonal path across the NAB lawn' }); }
 

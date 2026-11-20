@@ -348,6 +348,12 @@
      "s1": 5.9,
      "width": 4,
      "reason": "within 2 m of kalam-building"
+    },
+    {
+     "s0": 123.4,
+     "s1": 125.4,
+     "width": 4,
+     "reason": "within 1.3 m of nab"
     }
    ],
    "measured": [],
@@ -363,10 +369,16 @@
    "pavementR": 0,
    "narrow": [
     {
-     "s0": 66.1,
-     "s1": 70.2,
-     "width": 4.3,
-     "reason": "within 3.1 m of nab"
+     "s0": 47.9,
+     "s1": 69.7,
+     "width": 4,
+     "reason": "within 1.3 m of nab"
+    },
+    {
+     "s0": 110.7,
+     "s1": 114.6,
+     "width": 4,
+     "reason": "within 2.7 m of nab"
     }
    ],
    "measured": [],
@@ -380,14 +392,7 @@
    "kerb": 0.5,
    "pavementL": 1.5,
    "pavementR": 0,
-   "narrow": [
-    {
-     "s0": 186.8,
-     "s1": 194.8,
-     "width": 6,
-     "reason": "within 4.1 m of service-plant"
-    }
-   ],
+   "narrow": [],
    "measured": [],
    "confidence": "by-eye",
    "note": "NAB front road along the SE face, past the NAB lawn (H A marked view)"
@@ -1649,18 +1654,25 @@
    "building": "kalam-building"
   },
   {
-   "road": "rd-nab-west",
-   "at": [54.9, -110.6],
-   "width": 4.3,
+   "road": "rd-nab-north",
+   "at": [77.3, -50.7],
+   "width": 4,
    "from": 6.5,
    "building": "nab"
   },
   {
-   "road": "rd-nab-front",
-   "at": [96.6, -131.9],
-   "width": 6,
-   "from": 7,
-   "building": "service-plant"
+   "road": "rd-nab-west",
+   "at": [82, -47.2],
+   "width": 4,
+   "from": 6.5,
+   "building": "nab"
+  },
+  {
+   "road": "rd-nab-west",
+   "at": [53.4, -101.5],
+   "width": 4,
+   "from": 6.5,
+   "building": "nab"
   }
  ],
  "items": [
@@ -2174,56 +2186,21 @@
   {
    "id": "nab-front-plaza",
    "type": "plaza",
-   "name": "NAB front plaza",
-   "material": "red-pink pavers",
+   "name": "NAB forecourt",
+   "material": "red and cream zigzag pavers",
    "colour": "#C98E80",
    "poly": [
-    [73.6, -124.7],
-    [126.2, -54.5],
-    [133.2, -59.7],
-    [80.6, -129.9]
+    [154.2, -40.5],
+    [89, -134.5],
+    [75.2, -124.9],
+    [140.3, -30.9]
    ],
    "source": [
     "homepage video @0:05.5",
-    "crops/nab_dji"
+    "H A drone nadir 20 Nov",
+    "NAB Outside IMG_0487"
    ],
-   "confidence": "seen"
-  },
-  {
-   "id": "nab-canopy-steps-sw",
-   "type": "steps",
-   "material": "granite",
-   "colour": "#BEB8AC",
-   "width": 6,
-   "height": 0.6,
-   "steps": 4,
-   "pts": [
-    [89.4, -104.2],
-    [93, -99.4]
-   ],
-   "depth": 1.4,
-   "source": [
-    "homepage video @0:05.5"
-   ],
-   "confidence": "seen"
-  },
-  {
-   "id": "nab-canopy-steps-ne",
-   "type": "steps",
-   "material": "granite",
-   "colour": "#BEB8AC",
-   "width": 6,
-   "height": 0.6,
-   "steps": 4,
-   "pts": [
-    [107.4, -80.2],
-    [111, -75.4]
-   ],
-   "depth": 1.4,
-   "source": [
-    "homepage video @0:05.5"
-   ],
-   "confidence": "seen"
+   "confidence": "measured"
   },
   {
    "id": "cafe-cloud-plaza",
@@ -2908,7 +2885,7 @@
     [154.1, -149.9],
     [142.7, -145.4],
     [134.4, -133.7],
-    [123.5, -110.2]
+    [120.6, -103.9]
    ],
    "source": [
     "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)",
@@ -2933,7 +2910,7 @@
     [154.1, -149.9],
     [142.7, -145.4],
     [134.4, -133.7],
-    [123.5, -110.2]
+    [120.6, -103.9]
    ],
    "source": [
     "H A, 20 Nov (\"paved, with street lamps\")",
@@ -2955,7 +2932,7 @@
     [154.1, -149.9],
     [142.7, -145.4],
     [134.4, -133.7],
-    [123.5, -110.2]
+    [120.6, -103.9]
    ],
    "source": [
     "NAB Outside IMG_0486, IMG_0490"

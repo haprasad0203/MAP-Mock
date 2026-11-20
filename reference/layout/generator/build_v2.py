@@ -334,6 +334,10 @@ layout = {'version': 2, 'note': 'Remapped 13 Nov 2026 from Overture footprints, 
           'origin': {'lat': O[0], 'lon': O[1]}, 'boundary': rnd(boundary), 'buildings': buildings, 'paths': paths, 'areas': areas,
           'trees': trees, 'entrances': entrances, 'landmarks': landmarks,
           'attribution': '© OpenStreetMap contributors · Overture Maps Foundation · Google Open Buildings · Microsoft'}
+# 20 Nov: NAB and its roads traced on H A's drone footage (reference/layout/nab_drone.json, scripts/apply_nab_drone.py)
+import os, importlib.util as _ilu
+_spec = _ilu.spec_from_file_location('apply_nab_drone', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'scripts', 'apply_nab_drone.py'))
+_nab = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_nab); _nab.apply(layout)
 import os; os.makedirs('layout/out', exist_ok=True)
 json.dump(layout, open('layout/out/campus-layout.json', 'w'), indent=1)
 json.dump(terrain, open('layout/out/terrain.json', 'w'))
