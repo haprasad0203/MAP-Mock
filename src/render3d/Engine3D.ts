@@ -151,7 +151,10 @@ export class Engine3D implements IMapEngine {
   }
   private buildRoadsAndProps() {
     const b = this.world.bounds, near = (x: number, y: number) => x > b.minX - 120 && x < b.maxX + 120 && y > b.minY - 120 && y < b.maxY + 120;
-    const R = new Buckets(); addRoads(R, this.world.paths, this.surfaceAt, near);
+    // the hardscape footpaths (garden paths, the paved walks) as crisp paver ribbons with a kerb, like the data paths
+    const walks = (this.world.src.getHardscape?.() ?? []).filter(it => it.type === 'footpath' && it.pts && it.pts.length > 1)
+      .map(it => ({ id: 'hs:' + it.id, kind: 'footpath' as const, pts: it.pts!, width: it.width ?? 1.8, colour: typeof it.colour === 'string' ? it.colour : undefined, kerb: true }));
+    const R = new Buckets(); addRoads(R, [...this.world.paths, ...walks], this.surfaceAt, near);
     for (const m of R.meshes(k => this.mat(k))) { m.name = 'roads'; m.receiveShadow = true; this.scene.add(m); }
     const P = new Buckets(); addProps(P, this.world, this.surfaceAt); addHardscape(P, this.world.src.getHardscape?.() ?? [], this.surfaceAt); if (this.quality !== 'low') addLife(P, this.world.src.getHardscape?.() ?? [], this.surfaceAt);
     const g = new THREE.Group(); g.name = 'props';

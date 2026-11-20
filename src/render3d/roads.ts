@@ -100,7 +100,10 @@ export function addRoads(B: Buckets, paths: PathLine[], h: SurfaceAt, near: (x: 
       strip(B, sm, half, 0.13, COL.kerb, h, isNear);
       strip(B, sm, i => half(i) - 0.4, 0.21, COL.service, h, isNear);
       strip(B, sm, half, 0.28, COL.service, h, i => !isNear(i));
-    } else strip(B, sm, half, p.kind === 'track' ? 0.1 : 0.12, p.kind === 'track' ? COL.track : COL.path, h);
+    } else {
+      if (p.kerb) strip(B, sm, i => half(i) + 0.18, 0.09, COL.kerb, h); // paved walks: a stone kerb edge just outside the pavers
+      strip(B, sm, half, p.kind === 'track' ? 0.1 : 0.12, p.kind === 'track' ? COL.track : p.colour ? over(p.colour) : COL.path, h);
+    }
   }
 }
 

@@ -22,6 +22,8 @@ export interface PathLine {
   id: string; kind: 'road' | 'service' | 'track' | 'footpath' | 'covered'; pts: XY[]; steps?: boolean; name?: string; src?: string; surface?: string;
   /** From public/data/hardscape.json (Phase 3M v2): kerb-to-kerb width, pavements left/right of the direction of travel, local narrowing (s = metres along). */
   width?: number; pavementL?: number; pavementR?: number; narrow?: { s0: number; s1: number; width: number }[];
+  /** Paved walks from hardscape.json: their paver colour, drawn with a kerb edge. */
+  colour?: string; kerb?: boolean;
 }
 /** public/data/hardscape.json: real road widths, the full Scholar's Path and the paved, walled and planted ground (Phase 3M v2). */
 export interface Hardscape {

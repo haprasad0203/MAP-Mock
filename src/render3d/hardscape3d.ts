@@ -12,12 +12,17 @@ const col = (it: Item, fallback: string): RGB => rgb(typeof it.colour === 'strin
 
 /** Points every `step` metres along a polyline, with the segment direction. */
 function along(pts: XY[], step: number): { p: XY; a: number }[] {
-  const out: { p: XY; a: number }[] = [];
-  for (let i = 0; i + 1 < pts.length; i++) {
-    const [ax, ay] = pts[i], [bx, by] = pts[i + 1], L = Math.hypot(bx - ax, by - ay), n = Math.max(1, Math.round(L / step)), a = Math.atan2(by - ay, bx - ax);
-    for (let k = 0; k < n; k++) out.push({ p: [ax + ((bx - ax) * k) / n, ay + ((by - ay) * k) / n], a });
+  // evenly spaced over the whole line (not per segment), so short segments never bunch the posts together
+  const out: { p: XY; a: number }[] = []; let total = 0;
+  for (let i = 0; i + 1 < pts.length; i++) total += Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]);
+  const n = Math.max(1, Math.round(total / step)), gap = total / n;
+  let seg = 0, segStart = 0;
+  for (let k = 0; k <= n; k++) {
+    const s = k * gap;
+    while (seg + 1 < pts.length - 1 && segStart + Math.hypot(pts[seg + 1][0] - pts[seg][0], pts[seg + 1][1] - pts[seg][1]) < s) { segStart += Math.hypot(pts[seg + 1][0] - pts[seg][0], pts[seg + 1][1] - pts[seg][1]); seg++; }
+    const [ax, ay] = pts[seg], [bx, by] = pts[Math.min(seg + 1, pts.length - 1)], L = Math.hypot(bx - ax, by - ay) || 1, t = Math.min(1, Math.max(0, (s - segStart) / L));
+    out.push({ p: [ax + (bx - ax) * t, ay + (by - ay) * t], a: Math.atan2(by - ay, bx - ax) });
   }
-  if (pts.length) out.push({ p: pts[pts.length - 1], a: out.length ? out[out.length - 1].a : 0 });
   return out;
 }
 /** A strip of boxes following a polyline: w wide, from ground-sink to height, each box spanning one step. */

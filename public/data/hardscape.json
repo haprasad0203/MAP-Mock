@@ -2916,6 +2916,28 @@
    "confidence": "measured"
   },
   {
+   "id": "admin-nab-walk-lamps",
+   "type": "light-row",
+   "name": "Street lamps along the Admin–NAB walk",
+   "material": "street lamps, about 5 m",
+   "colour": "#9AA1A8",
+   "height": 5,
+   "spacing": 13,
+   "pts": [
+    [173.3, -155.2],
+    [171.1, -152.4],
+    [153.7, -152.1],
+    [141.3, -147.1],
+    [132.5, -134.8],
+    [127, -122.9],
+    [121.5, -111.1]
+   ],
+   "source": [
+    "H A, 20 Nov (\"paved, with street lamps\")"
+   ],
+   "confidence": "seen"
+  },
+  {
    "id": "plant-compound-wall",
    "type": "wall",
    "name": "Plant compound wall",
