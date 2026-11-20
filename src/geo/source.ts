@@ -17,6 +17,8 @@ export interface CampusGeometrySource {
   getBounds(): Bounds;
   /** public/data/hardscape.json items (paved, walled, fenced and planted ground), when the source has them. */
   getHardscape?(): Hardscape['items'];
+  /** public/data/landcover.json: trees, open grass and bare earth read off H A's drone footage (3 m cells), when present. */
+  getLandcover?(): Landcover | null;
 }
 
 const boundsOf = (pts: XY[]): Bounds => ({
@@ -61,7 +63,10 @@ export function computeSurveyFit(layout: CampusLayout, pts: SurveyPoint[]) {
 // ---------- Implementation 1: schematic JSON + survey (now) ----------
 export interface OsmData { roads: PathLine[]; areas: Area[]; attribution: string }
 
+export interface Landcover { x0: number; y0: number; cell: number; cols: number; rows: number; rle: number[] }
+
 export class SchematicSurveySource implements CampusGeometrySource {
+  landcover: Landcover | null = null;
   readonly name = 'schematic+survey';
   readonly attribution?: string;
   private t: Transform = IDENTITY;
@@ -125,6 +130,7 @@ export class SchematicSurveySource implements CampusGeometrySource {
   getLandmarks(): Landmark[] { return this.layout.landmarks.map(l => ({ ...l, at: this.surveyed.get('landmark:' + l.id) ?? this.tx(l.at) })); }
   getBounds(): Bounds { return boundsOf(this.getBoundary()); }
   getHardscape(): Hardscape['items'] { return this.hardscape?.items ?? []; }
+  getLandcover(): Landcover | null { return this.landcover; }
 }
 
 // ---------- Implementation 3: QGIS GeoJSON (EPSG:4326), later ----------
@@ -154,15 +160,17 @@ export class QgisGeoJsonSource implements CampusGeometrySource {
   getBounds(): Bounds { return boundsOf(this.getBoundary()); }
 }
 
-export async function loadLayout(): Promise<{ layout: CampusLayout; osm?: OsmData; hardscape?: Hardscape }> {
-  const [layout, osm, hardscape] = await Promise.all([
+export async function loadLayout(): Promise<{ layout: CampusLayout; osm?: OsmData; hardscape?: Hardscape; landcover?: Landcover }> {
+  const [layout, osm, hardscape, landcover] = await Promise.all([
     fetch('/data/campus-layout.json').then(r => r.json()),
     fetch('/data/osm.json').then(r => (r.ok ? r.json() : undefined)).catch(() => undefined),
     fetch('/data/hardscape.json').then(r => (r.ok ? r.json() : undefined)).catch(() => undefined),
+    fetch('/data/landcover.json').then(r => (r.ok ? r.json() : undefined)).catch(() => undefined),
   ]);
-  return { layout, osm, hardscape };
+  return { layout, osm, hardscape, landcover };
 }
 export async function loadGeometry(): Promise<CampusGeometrySource> {
-  const { layout, osm, hardscape } = await loadLayout();
-  return new SchematicSurveySource(layout, osm, loadSurvey(), hardscape);
+  const { layout, osm, hardscape, landcover } = await loadLayout();
+  const src = new SchematicSurveySource(layout, osm, loadSurvey(), hardscape); src.landcover = landcover ?? null;
+  return src;
 }

@@ -9,6 +9,7 @@ export const G = {
   PARKING: 10, GARDEN: 11, BUILDING: 12, COURT_RED: 13, ROAD_EDGE: 14, COVERED: 15, COURT_BLUE: 16, EARTH: 17,
   ROAD_LINE: 18, ROAD_DASH: 19, // white edge lines and centre dash on asphalt roads
   PAVING: 20,                   // pale grey concrete paving (aprons, yards), not the red brick of the plazas
+  OPEN: 21,                     // open rough grass, no trees (read off H A's drone footage: public/data/landcover.json)
 } as const;
 
 export const HALF = 1300; // raster covers [-HALF, HALF) metres in x and y
@@ -161,6 +162,24 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
     const foot = p.poly && p.poly.length >= 3 ? p.poly : partCorners(p);
     fillPoly(mask, grow(foot, 1.5), G.PLAZA, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
     fillPoly(mask, foot, G.BUILDING);
+  }
+
+  // Land cover read off H A's drone footage: open grass and bare earth where the frames show them (only over wild ground,
+  // so the data's roads, plazas, lawns and buildings win). Trees then grow only on what is left wild.
+  const lc = src.getLandcover?.();
+  if (lc) {
+    let k = 0;
+    for (let r = 0; r < lc.rle.length; r += 2) {
+      const v = lc.rle[r], n = lc.rle[r + 1];
+      if (v === 2 || v === 3) for (let q = k; q < k + n; q++) {
+        const ci = q % lc.cols, cj = Math.floor(q / lc.cols), cx = lc.x0 + ci * lc.cell, cy = lc.y0 + cj * lc.cell;
+        for (let dy = 0; dy < lc.cell; dy++) for (let dx = 0; dx < lc.cell; dx++) {
+          const ix = Math.floor(cx + dx + HALF), iy = Math.floor(cy + dy + HALF); if (ix < 0 || iy < 0 || ix >= SIZE || iy >= SIZE) continue;
+          const m = iy * SIZE + ix; if (mask[m] === G.WILD) mask[m] = v === 2 ? G.OPEN : G.EARTH;
+        }
+      }
+      k += n;
+    }
   }
 
   // Campus trees: authored clusters plus a light scatter on open lawn, kept off everything built.
