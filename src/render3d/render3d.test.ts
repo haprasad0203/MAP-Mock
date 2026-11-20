@@ -78,7 +78,8 @@ describe('building geometry', () => {
     }
     expect(parts).toBe(layout.buildings.reduce((s, b) => s + b.parts.length, 0));
     for (const [key, b] of B.map) { expect(b.pos.every(Number.isFinite), key).toBe(true); expect(b.nor.every(Number.isFinite), key).toBe(true); expect(b.uv.every(Number.isFinite), key).toBe(true); }
-    expect(B.triangles).toBeGreaterThan(5000); expect(B.triangles).toBeLessThan(120000);
+    // a sanity cap on the whole campus's building geometry; the runtime budget (LOD, merging) is Phase 5's (21 Nov: exact models)
+    expect(B.triangles).toBeGreaterThan(5000); expect(B.triangles).toBeLessThan(160000);
   });
   it('roofs face up and walls face out', () => {
     const B = new Buckets(), b = layout.buildings.find(x => x.id === 'block-501')!; addBuilding(B, b, layout.entrances); // a generic (not hand-modelled) cream building

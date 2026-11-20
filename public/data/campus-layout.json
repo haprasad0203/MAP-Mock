@@ -1661,7 +1661,7 @@
      "w": 45.7,
      "d": 10.6,
      "angle": 30.7,
-     "floors": 4,
+     "floors": 5,
      "roof": "flat",
      "balconies": true,
      "glass": "stair",
@@ -1692,7 +1692,7 @@
      "w": 35.4,
      "d": 11.2,
      "angle": 30.4,
-     "floors": 4,
+     "floors": 5,
      "roof": "flat",
      "balconies": true,
      "stoneBase": true,
@@ -1722,7 +1722,7 @@
      "w": 14.6,
      "d": 12.3,
      "angle": -59.2,
-     "floors": 4,
+     "floors": 5,
      "roof": "flat",
      "stoneBase": true,
      "poly": [
@@ -1751,7 +1751,7 @@
      "w": 34.6,
      "d": 15.1,
      "angle": 30.3,
-     "floors": 4,
+     "floors": 5,
      "roof": "flat",
      "balconies": true,
      "stoneBase": true,
@@ -1797,7 +1797,7 @@
      "w": 43.3,
      "d": 10.8,
      "angle": 30.7,
-     "floors": 4,
+     "floors": 5,
      "roof": "flat",
      "balconies": true,
      "stoneBase": true,
@@ -2102,8 +2102,8 @@
      "w": 40.6,
      "d": 23.8,
      "angle": 21.0,
-     "floors": 4,
-     "roof": "hip",
+     "floors": 9,
+     "roof": "flat",
      "stoneBase": true,
      "glass": "stair",
      "balconies": true,
@@ -2125,11 +2125,12 @@
        307.9
       ]
      ],
-     "src": "by-eye (drone + satellite), survey to confirm"
+     "src": "by-eye (drone + satellite), survey to confirm",
+     "role": "tower"
     }
    ],
    "short": "Hostel 4",
-   "confirm": "Named by H A; finished building (H A, 13 Nov). Between Hostel 1 (D Block) and Hostel 2 (F Block); missing from the open footprint data, so the outline is by eye. Survey the corners.",
+   "confirm": "The finished 9-storey hostel tower behind D Block (H A drone, June); its footprint is by eye.",
    "groundElev": 20.8
   },
   {
@@ -4663,6 +4664,49 @@
    "labelPriority": 3,
    "unnamed": true,
    "confirm": "White building with a columned portico by the loop road (it was mapped as the gym); its use to confirm."
+  },
+  {
+   "id": "hostel-site",
+   "name": "New hostel block (under construction)",
+   "short": "New hostel (site)",
+   "category": "hostel",
+   "wall": "#9C9A94",
+   "roofColor": "#8A8882",
+   "labelPriority": 3,
+   "groundElev": 20.8,
+   "parts": [
+    {
+     "cx": -238.0,
+     "cy": 309.7,
+     "w": 36.0,
+     "d": 18.0,
+     "angle": 21.0,
+     "floors": 9,
+     "roof": "flat",
+     "poly": [
+      [
+       -251.6,
+       294.9
+      ],
+      [
+       -218.0,
+       307.8
+      ],
+      [
+       -224.4,
+       324.6
+      ],
+      [
+       -258.1,
+       311.7
+      ]
+     ],
+     "role": "construction",
+     "key": "site",
+     "src": "June drone frames @0:42.8, @0:48.8: beside Hostel 4, 8 m west, about 36 x 18 m, 9 storeys of bare frame (by eye from the frames)"
+    }
+   ],
+   "confirm": "A 9-storey hostel block still a bare concrete frame in June 2026; show as a construction site (H A, 20 Nov)."
   }
  ],
  "paths": [

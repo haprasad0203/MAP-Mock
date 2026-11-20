@@ -3,14 +3,15 @@
 import { buildAdmin } from './admin';
 import { buildNab } from './nab';
 import { buildCafeCloud, buildMess, buildOctagonHall } from './octagons';
-import { buildDBlock, buildNewHostel } from './hostels';
+import { buildConstruction, buildDBlock, buildNewHostel, buildTower } from './hostels';
 import { buildGuardRoom, buildGym, buildKalamCentre, buildQuarters } from './smaller';
 import type { LandmarkBuilder } from './kit';
 
 export const LANDMARKS: Record<string, LandmarkBuilder> = {
   admin: buildAdmin, nab: buildNab,
   'cafe-cloud': buildCafeCloud, 'octagon-hall': buildOctagonHall, mess: buildMess,
-  'hostel-1': buildDBlock, 'hostel-2': buildNewHostel, 'hostel-3': buildNewHostel, 'hostel-4': buildNewHostel,
+  'hostel-1': buildDBlock, 'hostel-2': buildNewHostel, 'hostel-3': buildNewHostel, 'hostel-4': buildTower, 'hostel-site': buildConstruction,
+  commercial: buildOctagonHall, // the Commercial Complex is an octagon with a lantern (H A drone, June)
   gym: buildGym, 'guard-room': buildGuardRoom, 'kalam-centre': buildKalamCentre, type2: buildQuarters, type3: buildQuarters,
 };
 export type { LandmarkCtx } from './kit';

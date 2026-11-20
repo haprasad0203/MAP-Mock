@@ -60,6 +60,24 @@ def apply(layout, plan=None):
         if a['id'] == 'football': a['pts'] = pitch; a['src'] = 'grass pitch 51 x 94 m: H A satellite (lengths) and June drone frame (fence corners)'
         # the red surround belongs to the two basketball courts only (the tennis court has its own blue one)
         if a['id'] == 'courts-surround': a['pts'] = [[-229.2, 157.0], [-190.7, 157.0], [-190.7, 123.0], [-229.2, 123.0]]; a['src'] = 'the basketball pair + 2.5 m (OSM courts; June drone frame)'
+    # the hostel zone as filmed (June frames @0:42.8 and @0:48.8): D Block has 5 storeys; Hostel 4 is the finished 9-storey
+    # tower with a flat roof; beside it, about 8 m west, a 9-storey block still a bare concrete frame (a construction site)
+    for b in layout['buildings']:
+        if b['id'] == 'hostel-1':
+            for p in b['parts']: p['floors'] = 5
+        if b['id'] == 'hostel-4':
+            for p in b['parts']: p['floors'] = 9; p['roof'] = 'flat'; p['role'] = 'tower'
+            b['confirm'] = 'The finished 9-storey hostel tower behind D Block (H A drone, June); its footprint is by eye.'
+    if not any(b['id'] == 'hostel-site' for b in layout['buildings']):
+        h4 = next(b for b in layout['buildings'] if b['id'] == 'hostel-4')['parts'][0]
+        a4 = math.radians(h4['angle']); u = (math.cos(a4), math.sin(a4)); v = (-u[1], u[0]); off = h4['w'] / 2 + 8 + 18
+        cx, cy, w, d = h4['cx'] - u[0] * off, h4['cy'] - u[1] * off, 36.0, 18.0
+        poly = [[round(cx + sx * w / 2 * u[0] + sy * d / 2 * v[0], 1), round(cy + sx * w / 2 * u[1] + sy * d / 2 * v[1], 1)] for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        layout['buildings'].append({'id': 'hostel-site', 'name': 'New hostel block (under construction)', 'short': 'New hostel (site)', 'category': 'hostel', 'wall': '#9C9A94', 'roofColor': '#8A8882',
+                                    'labelPriority': 3, 'groundElev': next(b for b in layout['buildings'] if b['id'] == 'hostel-4').get('groundElev', 20.8),
+                                    'parts': [{'cx': round(cx, 1), 'cy': round(cy, 1), 'w': w, 'd': d, 'angle': h4['angle'], 'floors': 9, 'roof': 'flat', 'poly': poly, 'role': 'construction', 'key': 'site',
+                                               'src': 'June drone frames @0:42.8, @0:48.8: beside Hostel 4, 8 m west, about 36 x 18 m, 9 storeys of bare frame (by eye from the frames)'}],
+                                    'confirm': 'A 9-storey hostel block still a bare concrete frame in June 2026; show as a construction site (H A, 20 Nov).'})
     return layout
 
 

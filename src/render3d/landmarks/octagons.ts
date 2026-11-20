@@ -127,7 +127,7 @@ export const buildOctagonHall: LandmarkBuilder = (B, b, ctx) => {
 };
 
 export const buildMess: LandmarkBuilder = (B, b) => {
-  const g = b.groundElev ?? 0, g0 = g + PL, roof = sampledRoof('#5C656D');
+  const g = b.groundElev ?? 0, g0 = g + PL, roof = sampledRoof('#4E9C8C') /* light teal-green, as filmed (H A drone, June); it was dark slate */;
   let top = g;
   b.parts.forEach((p, i) => {
     const { c, R, turn } = fitOct(ccw(partFootprint(p))), pts = octagon(c, R, turn), H = g0 + p.floors * 3.8;
