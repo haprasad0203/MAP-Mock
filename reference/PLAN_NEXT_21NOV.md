@@ -42,6 +42,28 @@ The conference opens on **27 Nov 2026**. This plan covers everything still open 
 
 ---
 
+## Progress, 21 Nov (later the same day)
+H A's order: free rotation and tilt, then Google Maps movement, then finish the build, then the bug sweep, then the full tycoon polish.
+
+**Done:**
+- **Free rotation and tilt.**
+- **Google Maps-style gestures:** grab-drag, a smooth fling, pinch, twist and two-finger tilt, wheel steps, keyboard, and the north compass.
+- **Cafe Cloud:** octagon, verandah, entrance, sign and steps.
+- **Gym:** moved to the real hall by the tennis court.
+- **Scholar's Path:** the zig-zag.
+- **Courts:** blue tennis court; tennis and volleyball labels on the right courts.
+- **Football ground:** pitch and track.
+- **Land cover from the footage:** grass, woods and earth in the sports zone.
+- **Hostel zone:** D Block 5 storeys with roof skirts and tank stands; Hostel 4 a 9-storey tower; a construction block; the Commercial Complex an octagon; teal Mess roofs; F Block and Hostel 3 in cream.
+- **Kalam Centre:** grey roof and walls.
+
+**Still open in the build:**
+- **West campus:** two 6–7 storey bare-frame construction blocks on a cut terrace (seen in the June frame @0:27.8), not placed yet: needs a solved frame closer to them.
+- **The portico building by the loop road** (`bldg-portico-loop`): 2 storeys under a two-tier green roof (use to confirm).
+- **Octagonal Hall, gate and guard room, quarters, west cluster:** a footage check of each.
+- **Hardscape details:** the Kalam Centre forecourt (beige checker pavers), the pond by the construction site, gabion walls.
+- **Land cover beyond the sports zone:** solve more June frames.
+
 ## 1. Bugs (separate from the open work; fix first)
 
 **Bug or open item?**
