@@ -39,13 +39,13 @@
   {
    "id": "osm-1050247311",
    "kind": "road",
-   "width": 10.5,
+   "width": 8.6,
    "kerb": 0.5,
    "pavementL": 2,
    "pavementR": 1,
    "narrow": [
     {
-     "s0": 488,
+     "s0": 490,
      "s1": 510,
      "width": 6,
      "reason": "within 0 m of guard-room"
@@ -53,7 +53,8 @@
    ],
    "measured": [
     "asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)",
-    "asphalt 9 ± 1 m near the gate (0423 at 1170,735)"
+    "asphalt 9 ± 1 m near the gate (0423 at 1170,735)",
+    "asphalt 8.2 m, 7.4 m between the white edge lines, by the NAB junction (H A drone nadir 20 Nov, 8.8 px/m, at 1650,2150)"
    ],
    "confidence": "measured",
    "note": "Main campus road (gate → Admin → lake → Kalam Centre). Pavement on the Admin/east side (red hex pavers), a kerb-and-drain verge on the west."
@@ -154,14 +155,7 @@
    "kerb": 0.4,
    "pavementL": 0,
    "pavementR": 0,
-   "narrow": [
-    {
-     "s0": 163.6,
-     "s1": 179.3,
-     "width": 4,
-     "reason": "within 1.7 m of service-east"
-    }
-   ],
+   "narrow": [],
    "measured": [],
    "confidence": "default",
    "note": "Campus service road (target 6–7 m)"
@@ -265,14 +259,7 @@
    "kerb": 0.4,
    "pavementL": 0,
    "pavementR": 0,
-   "narrow": [
-    {
-     "s0": 58.5,
-     "s1": 60.6,
-     "width": 5.9,
-     "reason": "within 3.9 m of bldg-467"
-    }
-   ],
+   "narrow": [],
    "measured": [],
    "confidence": "default",
    "note": "Campus service road (target 6–7 m)"
@@ -290,12 +277,6 @@
      "s1": 51.6,
      "width": 6,
      "reason": "within 1.6 m of block-962"
-    },
-    {
-     "s0": 72.2,
-     "s1": 84.6,
-     "width": 6,
-     "reason": "within 0.5 m of bldg-959"
     },
     {
      "s0": 157.3,
@@ -348,14 +329,7 @@
    "kerb": 0.4,
    "pavementL": 0,
    "pavementR": 0,
-   "narrow": [
-    {
-     "s0": 49.9,
-     "s1": 66.3,
-     "width": 4,
-     "reason": "within 0 m of bldg-508"
-    }
-   ],
+   "narrow": [],
    "measured": [],
    "confidence": "default",
    "note": "Campus service road (target 6–7 m)"
@@ -373,30 +347,6 @@
      "s1": 5.9,
      "width": 4,
      "reason": "within 2 m of kalam-building"
-    },
-    {
-     "s0": 41.9,
-     "s1": 53.9,
-     "width": 4,
-     "reason": "within 0 m of bldg-521"
-    },
-    {
-     "s0": 59.9,
-     "s1": 77.5,
-     "width": 4,
-     "reason": "within 0.7 m of east-cluster"
-    },
-    {
-     "s0": 87.5,
-     "s1": 95.7,
-     "width": 4.3,
-     "reason": "within 3.2 m of east-cluster"
-    },
-    {
-     "s0": 103.8,
-     "s1": 120.3,
-     "width": 5.1,
-     "reason": "within 3.6 m of east-cluster"
     }
    ],
    "measured": [],
@@ -411,12 +361,6 @@
    "pavementL": 0,
    "pavementR": 0,
    "narrow": [
-    {
-     "s0": 0,
-     "s1": 0,
-     "width": 5.1,
-     "reason": "within 3.6 m of east-cluster"
-    },
     {
      "s0": 66.1,
      "s1": 70.2,
@@ -437,16 +381,10 @@
    "pavementR": 0,
    "narrow": [
     {
-     "s0": 77.3,
-     "s1": 91.6,
+     "s0": 186.8,
+     "s1": 194.8,
      "width": 6,
-     "reason": "within 0 m of bldg-559"
-    },
-    {
-     "s0": 106.2,
-     "s1": 120.3,
-     "width": 6,
-     "reason": "within 0 m of bldg-558"
+     "reason": "within 4.1 m of service-plant"
     }
    ],
    "measured": [],
@@ -1585,9 +1523,9 @@
  "tightSpots": [
   {
    "road": "osm-1050247311",
-   "at": [225.3, -317.9],
+   "at": [227, -319],
    "width": 6,
-   "from": 10.5,
+   "from": 8.6,
    "building": "guard-room"
   },
   {
@@ -1647,13 +1585,6 @@
    "building": "admin"
   },
   {
-   "road": "osm-1050247321",
-   "at": [298.6, -196.5],
-   "width": 4,
-   "from": 6.5,
-   "building": "service-east"
-  },
-  {
    "road": "osm-1050247322",
    "at": [-222.3, 220.6],
    "width": 5.4,
@@ -1675,25 +1606,11 @@
    "building": "bldg-489"
   },
   {
-   "road": "osm-1050249039",
-   "at": [544.2, -204.4],
-   "width": 5.9,
-   "from": 6.5,
-   "building": "bldg-467"
-  },
-  {
    "road": "rd-fblock",
    "at": [-123.2, 309.2],
    "width": 6,
    "from": 7.5,
    "building": "block-962"
-  },
-  {
-   "road": "rd-fblock",
-   "at": [-156.1, 337.7],
-   "width": 6,
-   "from": 7.5,
-   "building": "bldg-959"
   },
   {
    "road": "rd-fblock",
@@ -1724,53 +1641,11 @@
    "building": "hostel-3"
   },
   {
-   "road": "rd-east",
-   "at": [61.8, 113.8],
-   "width": 4,
-   "from": 6.5,
-   "building": "bldg-508"
-  },
-  {
    "road": "rd-nab-north",
    "at": [4.5, 40.8],
    "width": 4,
    "from": 6.5,
    "building": "kalam-building"
-  },
-  {
-   "road": "rd-nab-north",
-   "at": [17.1, 1.3],
-   "width": 4,
-   "from": 6.5,
-   "building": "bldg-521"
-  },
-  {
-   "road": "rd-nab-north",
-   "at": [28.4, -12.1],
-   "width": 4,
-   "from": 6.5,
-   "building": "east-cluster"
-  },
-  {
-   "road": "rd-nab-north",
-   "at": [52.8, -25.1],
-   "width": 4.3,
-   "from": 6.5,
-   "building": "east-cluster"
-  },
-  {
-   "road": "rd-nab-north",
-   "at": [65.8, -34.9],
-   "width": 5.1,
-   "from": 6.5,
-   "building": "east-cluster"
-  },
-  {
-   "road": "rd-nab-west",
-   "at": [74, -49.2],
-   "width": 5.1,
-   "from": 6.5,
-   "building": "east-cluster"
   },
   {
    "road": "rd-nab-west",
@@ -1781,17 +1656,10 @@
   },
   {
    "road": "rd-nab-front",
-   "at": [135.6, -41.9],
+   "at": [96.6, -131.9],
    "width": 6,
    "from": 7,
-   "building": "bldg-559"
-  },
-  {
-   "road": "rd-nab-front",
-   "at": [143.3, -67.6],
-   "width": 6,
-   "from": 7,
-   "building": "bldg-558"
+   "building": "service-plant"
   }
  ],
  "items": [
@@ -1813,133 +1681,133 @@
     "sides": "road side along the main road; both sides on the zig-zag"
    },
    "pts": [
-    [253.6, -325.6],
-    [250, -323.3],
-    [246.3, -321],
-    [242.7, -318.6],
-    [239, -316.3],
-    [235.4, -314],
-    [231.6, -311.6],
-    [228.3, -309.5],
-    [224.9, -307.5],
-    [221.6, -305.4],
-    [218.3, -303.4],
-    [215, -301.4],
-    [211.7, -299.3],
-    [208.4, -297.3],
-    [205, -295.3],
-    [201.7, -293.2],
-    [198.4, -291.2],
-    [195.1, -289.2],
-    [191.8, -287.2],
-    [188.4, -285],
-    [184.9, -282.8],
-    [181.4, -280.6],
-    [177.9, -278.5],
-    [174.4, -276.3],
-    [170.9, -274.1],
-    [167.5, -271.9],
-    [164, -269.7],
-    [160.5, -267.5],
-    [157, -265.4],
-    [153.5, -263.2],
-    [150.1, -261],
-    [146.7, -258.8],
-    [143.2, -256.5],
-    [139.7, -254.3],
-    [136.3, -252],
-    [132.8, -249.7],
-    [129.3, -247.5],
-    [125.8, -245.2],
-    [122.4, -242.9],
-    [119.2, -240.9],
-    [116.5, -238.7],
-    [113.5, -236.3],
-    [111.3, -234.8],
-    [110, -232.8],
-    [107.9, -229.8],
-    [106.3, -227.6],
-    [104.7, -224.1],
-    [103.2, -220.8],
-    [102.5, -217.7],
-    [101.6, -213.8],
-    [100.6, -209.8],
-    [99.8, -206],
-    [99.1, -202.4],
-    [98.3, -198.7],
-    [97.6, -195],
-    [96.8, -191],
-    [95.7, -186.6],
-    [94.6, -182.3],
-    [93.5, -178],
-    [92.4, -173.8],
-    [91, -168.6],
-    [88.6, -163.9],
-    [86.1, -159.2],
-    [82.6, -155.3],
-    [79.8, -152.2],
-    [76.8, -149],
-    [73.5, -145.8],
-    [70.4, -142.9],
-    [67.3, -140],
-    [64.2, -137],
-    [61.1, -134.1],
-    [58, -131.2],
-    [55.5, -128.8],
-    [53.2, -125.8],
-    [50.6, -122.2],
-    [47.9, -118.6],
-    [45.7, -115.6],
-    [44.3, -112.7],
-    [42.5, -109],
-    [41, -106.2],
-    [40.5, -103.7],
-    [39.7, -100.2],
-    [38.9, -96.6],
-    [38.2, -93.1],
-    [37.3, -89.2],
-    [36.5, -85.3],
-    [35.7, -81.3],
-    [34.8, -77.3],
-    [34, -73.4],
-    [33, -68.8],
-    [31.4, -64.2],
-    [29.9, -60.1],
-    [28.2, -55.6],
-    [26.3, -51.8],
-    [23.6, -47.2],
-    [19.5, -43.3],
-    [15.9, -40],
-    [11.9, -37.2],
-    [8.3, -34.7],
-    [4.4, -32],
-    [0.7, -29.9],
-    [-2.6, -28],
-    [-6, -26],
-    [-9.3, -24.1],
-    [-12.7, -22.2],
-    [-15.4, -20.6],
-    [-17.6, -18.7],
-    [-20.5, -16.3],
-    [-23.4, -13.8],
-    [-26.2, -11.4],
-    [-29.1, -8.9],
-    [-32, -6.5],
-    [-34.9, -4.1],
-    [-37.3, -2.1],
-    [-39.4, 0.4],
-    [-41.9, 3.3],
-    [-44.5, 6.2],
-    [-47.1, 9.2],
-    [-49.6, 12.1],
-    [-52.2, 15],
-    [-54.8, 17.9],
-    [-57.1, 20.6],
-    [-59.4, 23.8],
-    [-62, 27.2],
-    [-64.5, 30.6],
-    [-67.1, 34.1],
-    [-69.6, 37.5],
+    [252.3, -327.7],
+    [248.6, -325.4],
+    [245, -323],
+    [241.3, -320.7],
+    [237.7, -318.4],
+    [234, -316],
+    [230.3, -313.7],
+    [227, -311.6],
+    [223.7, -309.6],
+    [220.3, -307.5],
+    [217, -305.5],
+    [213.7, -303.5],
+    [210.4, -301.4],
+    [207.1, -299.4],
+    [203.8, -297.4],
+    [200.4, -295.3],
+    [197.1, -293.3],
+    [193.8, -291.3],
+    [190.5, -289.2],
+    [187.1, -287.1],
+    [183.6, -284.9],
+    [180.1, -282.7],
+    [176.6, -280.5],
+    [173.1, -278.3],
+    [169.6, -276.2],
+    [166.2, -274],
+    [162.7, -271.8],
+    [159.2, -269.6],
+    [155.7, -267.4],
+    [152.2, -265.2],
+    [148.8, -263.1],
+    [145.4, -260.9],
+    [141.9, -258.6],
+    [138.4, -256.3],
+    [134.9, -254.1],
+    [131.5, -251.8],
+    [128, -249.5],
+    [124.5, -247.3],
+    [121, -245],
+    [117.8, -242.9],
+    [115, -240.7],
+    [111.9, -238.3],
+    [109.6, -236.4],
+    [108, -234.2],
+    [105.9, -231.2],
+    [104.2, -228.8],
+    [102.5, -225.2],
+    [100.8, -221.6],
+    [100.1, -218.3],
+    [99.2, -214.3],
+    [98.3, -210.3],
+    [97.4, -206.5],
+    [96.7, -202.9],
+    [95.9, -199.2],
+    [95.2, -195.5],
+    [94.4, -191.6],
+    [93.3, -187.2],
+    [92.2, -182.9],
+    [91.1, -178.6],
+    [90, -174.4],
+    [88.7, -169.5],
+    [86.4, -165],
+    [84.1, -160.6],
+    [80.8, -156.9],
+    [78, -153.9],
+    [75.1, -150.7],
+    [71.8, -147.6],
+    [68.7, -144.7],
+    [65.6, -141.7],
+    [62.5, -138.8],
+    [59.4, -135.9],
+    [56.3, -132.9],
+    [53.6, -130.4],
+    [51.3, -127.2],
+    [48.6, -123.6],
+    [45.9, -120],
+    [43.6, -116.9],
+    [42.1, -113.8],
+    [40.3, -110.1],
+    [38.7, -107.1],
+    [38.1, -104.3],
+    [37.3, -100.7],
+    [36.5, -97.2],
+    [35.8, -93.7],
+    [34.9, -89.7],
+    [34.1, -85.8],
+    [33.3, -81.8],
+    [32.4, -77.8],
+    [31.6, -73.9],
+    [30.7, -69.5],
+    [29.1, -65],
+    [27.6, -61],
+    [26, -56.6],
+    [24.1, -52.9],
+    [21.7, -48.7],
+    [17.9, -45.1],
+    [14.4, -42],
+    [10.5, -39.2],
+    [6.9, -36.7],
+    [3.1, -34.1],
+    [-0.5, -32],
+    [-3.9, -30.1],
+    [-7.2, -28.1],
+    [-10.6, -26.2],
+    [-13.9, -24.3],
+    [-16.8, -22.6],
+    [-19.2, -20.6],
+    [-22.1, -18.1],
+    [-25, -15.7],
+    [-27.8, -13.2],
+    [-30.7, -10.8],
+    [-33.6, -8.4],
+    [-36.5, -5.9],
+    [-39, -3.8],
+    [-41.2, -1.2],
+    [-43.8, 1.7],
+    [-46.3, 4.6],
+    [-48.9, 7.6],
+    [-51.5, 10.5],
+    [-54, 13.4],
+    [-56.6, 16.3],
+    [-59, 19],
+    [-61.4, 22.3],
+    [-63.9, 25.7],
+    [-66.5, 29.2],
+    [-69, 32.6],
+    [-71.6, 36],
     [-91.9, 47.5],
     [-96.7, 67.2],
     [-139, 111.6],
@@ -1947,7 +1815,7 @@
     [-208, 184.1],
     [-221.7, 224.2]
    ],
-   "length": 779.5,
+   "length": 779.2,
    "source": [
     "H A's hi-res satellite 0423/0405 (looked at, not traced)",
     "homepage video @0:08.5",
@@ -2002,34 +1870,43 @@
    "material": "red-pink brick pavers",
    "colour": "#C98E80",
    "poly": [
-    [223.5, -226.8],
-    [222.6, -220.7],
-    [219.8, -215.1],
-    [215.3, -210.6],
-    [209.8, -207.8],
-    [203.5, -206.8],
-    [197.3, -207.8],
-    [191.8, -210.6],
-    [187.3, -215.1],
-    [184.5, -220.6],
-    [183.5, -226.8],
-    [184.5, -233],
-    [187.3, -238.6],
-    [191.8, -243],
-    [197.3, -245.9],
-    [203.5, -246.8],
-    [209.8, -245.9],
-    [215.3, -243],
-    [219.8, -238.6],
-    [222.6, -232.9]
+    [236.5, -236.9],
+    [210.7, -244.1],
+    [178.8, -250],
+    [167, -237.8],
+    [169.7, -226.2],
+    [177, -215.8],
+    [184.6, -205.4],
+    [193.6, -200],
+    [202.4, -198.6],
+    [210.3, -200.7],
+    [216, -204.1],
+    [223.9, -210.5],
+    [232.4, -217.4]
+   ],
+   "hole": [
+    [231.6, -230.6],
+    [209, -236.3],
+    [178.8, -242],
+    [174.9, -236.4],
+    [176.7, -230],
+    [183.5, -220.5],
+    [190.3, -211],
+    [196.4, -207.5],
+    [202, -206.6],
+    [207.2, -208.1],
+    [211.3, -210.5],
+    [218.9, -216.7],
+    [226.5, -222.8]
    ],
    "source": [
     "homepage video @0:04.5",
     "drone 9QBtbam1G5Q @0:22.5",
-    "DJI_0338"
+    "DJI_0338",
+    "H A drone nadir 20 Nov"
    ],
    "confidence": "seen",
-   "note": "horseshoe of pavers round the oval flag lawn, up to the building fronts"
+   "note": "the loop drive of pavers round the teardrop flag lawn, up to the building fronts"
   },
   {
    "id": "admin-forecourt-hedge",
@@ -2039,27 +1916,20 @@
    "height": 0.7,
    "width": 0.8,
    "pts": [
-    [215.5, -226.8],
-    [215, -223.1],
-    [213.3, -219.8],
-    [210.6, -217.1],
-    [207.3, -215.4],
-    [203.5, -214.8],
-    [199.8, -215.4],
-    [196.5, -217.1],
-    [193.8, -219.8],
-    [192.1, -223.1],
-    [191.5, -226.8],
-    [192.1, -230.5],
-    [193.8, -233.9],
-    [196.5, -236.5],
-    [199.8, -238.3],
-    [203.5, -238.8],
-    [207.3, -238.3],
-    [210.6, -236.5],
-    [213.3, -233.9],
-    [215, -230.5],
-    [215.5, -226.8]
+    [231.6, -230.6],
+    [209, -236.3],
+    [178.8, -242],
+    [174.9, -236.4],
+    [176.7, -230],
+    [183.5, -220.5],
+    [190.3, -211],
+    [196.4, -207.5],
+    [202, -206.6],
+    [207.2, -208.1],
+    [211.3, -210.5],
+    [218.9, -216.7],
+    [226.5, -222.8],
+    [231.6, -230.6]
    ],
    "source": [
     "homepage video @0:04.5"
@@ -2116,13 +1986,15 @@
    "colour": "#D9D2C2",
    "width": 1.6,
    "pts": [
-    [185.5, -222.8],
-    [221.5, -230.8]
+    [211.3, -210.3],
+    [203.5, -226.8],
+    [188.6, -214.1]
    ],
    "source": [
-    "homepage video @0:04.5"
+    "homepage video @0:04.5",
+    "H A drone nadir 20 Nov"
    ],
-   "confidence": "by-eye"
+   "confidence": "measured"
   },
   {
    "id": "flag-plinth",
@@ -2225,247 +2097,6 @@
    "source": [
     "iimking (portico)",
     "homepage video @0:04.5"
-   ],
-   "confidence": "by-eye"
-  },
-  {
-   "id": "terrace-wall-1",
-   "type": "retaining-wall",
-   "name": "Terraced garden wall",
-   "material": "random rubble stone",
-   "colour": "#9C8F7A",
-   "height": 1.2,
-   "width": 0.4,
-   "pts": [
-    [217.8, -246.8],
-    [277.7, -250.9],
-    [327.1, -248.8]
-   ],
-   "source": [
-    "Image_363",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye",
-   "note": "stepped grass terraces south of the forecourt; curved stone walls, winding paths"
-  },
-  {
-   "id": "terrace-wall-2",
-   "type": "retaining-wall",
-   "name": "Terraced garden wall",
-   "material": "random rubble stone",
-   "colour": "#9C8F7A",
-   "height": 1.2,
-   "width": 0.4,
-   "pts": [
-    [217.8, -261.8],
-    [277.7, -265.9],
-    [327.1, -263.8]
-   ],
-   "source": [
-    "Image_363",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye",
-   "note": "stepped grass terraces south of the forecourt; curved stone walls, winding paths"
-  },
-  {
-   "id": "terrace-wall-3",
-   "type": "retaining-wall",
-   "name": "Terraced garden wall",
-   "material": "random rubble stone",
-   "colour": "#9C8F7A",
-   "height": 1.2,
-   "width": 0.4,
-   "pts": [
-    [217.8, -276.8],
-    [277.7, -280.9],
-    [327.1, -278.8]
-   ],
-   "source": [
-    "Image_363",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye",
-   "note": "stepped grass terraces south of the forecourt; curved stone walls, winding paths"
-  },
-  {
-   "id": "terrace-wall-4",
-   "type": "retaining-wall",
-   "name": "Terraced garden wall",
-   "material": "random rubble stone",
-   "colour": "#9C8F7A",
-   "height": 1.2,
-   "width": 0.4,
-   "pts": [
-    [217.8, -291.8],
-    [277.7, -295.9],
-    [327.1, -293.8]
-   ],
-   "source": [
-    "Image_363",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye",
-   "note": "stepped grass terraces south of the forecourt; curved stone walls, winding paths"
-  },
-  {
-   "id": "terrace-paths",
-   "type": "footpath",
-   "material": "pale concrete",
-   "colour": "#D9D2C2",
-   "width": 1.8,
-   "pts": [
-    [221.8, -242.8],
-    [257.7, -266.9],
-    [282.7, -284.9],
-    [267.7, -300.9],
-    [254, -284.5]
-   ],
-   "source": [
-    "drone 9QBtbam1G5Q @0:22.5",
-    "Image_363"
-   ],
-   "confidence": "by-eye"
-  },
-  {
-   "id": "statue-garden-terrace-1",
-   "type": "terrace",
-   "name": "Kalam statue garden terrace",
-   "material": "grass terrace with stone edge",
-   "colour": "#8DAF4A",
-   "edgeColour": "#9C8F7A",
-   "height": 0.8,
-   "pts": [
-    [262, -284.5],
-    [261.8, -282.7],
-    [261.2, -281],
-    [260.3, -279.5],
-    [259, -278.2],
-    [257.5, -277.3],
-    [255.8, -276.7],
-    [254, -276.5],
-    [252.2, -276.7],
-    [250.5, -277.3],
-    [249, -278.2],
-    [247.7, -279.5],
-    [246.8, -281],
-    [246.2, -282.7],
-    [246, -284.5],
-    [246.2, -286.3],
-    [246.8, -288],
-    [247.7, -289.5],
-    [249, -290.8],
-    [250.5, -291.7],
-    [252.2, -292.3],
-    [254, -292.5],
-    [255.8, -292.3],
-    [257.5, -291.7],
-    [259, -290.8],
-    [260.3, -289.5],
-    [261.2, -288],
-    [261.8, -286.3],
-    [262, -284.5]
-   ],
-   "source": [
-    "H A's marked top views (from_above)",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye"
-  },
-  {
-   "id": "statue-garden-terrace-2",
-   "type": "terrace",
-   "name": "Kalam statue garden terrace",
-   "material": "grass terrace with stone edge",
-   "colour": "#8DAF4A",
-   "edgeColour": "#9C8F7A",
-   "height": 0.8,
-   "pts": [
-    [268, -284.5],
-    [267.6, -281.4],
-    [266.6, -278.4],
-    [264.9, -275.8],
-    [262.7, -273.6],
-    [260.1, -271.9],
-    [257.1, -270.9],
-    [254, -270.5],
-    [250.9, -270.9],
-    [247.9, -271.9],
-    [245.3, -273.6],
-    [243.1, -275.8],
-    [241.4, -278.4],
-    [240.4, -281.4],
-    [240, -284.5],
-    [240.4, -287.6],
-    [241.4, -290.6],
-    [243.1, -293.2],
-    [245.3, -295.4],
-    [247.9, -297.1],
-    [250.9, -298.1],
-    [254, -298.5],
-    [257.1, -298.1],
-    [260.1, -297.1],
-    [262.7, -295.4],
-    [264.9, -293.2],
-    [266.6, -290.6],
-    [267.6, -287.6],
-    [268, -284.5]
-   ],
-   "source": [
-    "H A's marked top views (from_above)",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
-   ],
-   "confidence": "by-eye"
-  },
-  {
-   "id": "statue-garden-terrace-3",
-   "type": "terrace",
-   "name": "Kalam statue garden terrace",
-   "material": "grass terrace with stone edge",
-   "colour": "#8DAF4A",
-   "edgeColour": "#9C8F7A",
-   "height": 0.8,
-   "pts": [
-    [274, -284.5],
-    [273.5, -280],
-    [272, -275.8],
-    [269.6, -272],
-    [266.5, -268.9],
-    [262.7, -266.5],
-    [258.5, -265],
-    [254, -264.5],
-    [249.5, -265],
-    [245.3, -266.5],
-    [241.5, -268.9],
-    [238.4, -272],
-    [236, -275.8],
-    [234.5, -280],
-    [234, -284.5],
-    [234.5, -289],
-    [236, -293.2],
-    [238.4, -297],
-    [241.5, -300.1],
-    [245.3, -302.5],
-    [249.5, -304],
-    [254, -304.5],
-    [258.5, -304],
-    [262.7, -302.5],
-    [266.5, -300.1],
-    [269.6, -297],
-    [272, -293.2],
-    [273.5, -289],
-    [274, -284.5]
-   ],
-   "source": [
-    "H A's marked top views (from_above)",
-    "drone 9QBtbam1G5Q @0:22.5",
-    "iimshillong 2024/10/3"
    ],
    "confidence": "by-eye"
   },
@@ -2592,23 +2223,6 @@
     "homepage video @0:05.5"
    ],
    "confidence": "seen"
-  },
-  {
-   "id": "nab-lawn-path",
-   "type": "footpath",
-   "material": "pale concrete",
-   "colour": "#D9D2C2",
-   "width": 2,
-   "pts": [
-    [96.2, -109.1],
-    [142.8, -107],
-    [146, -94.3]
-   ],
-   "source": [
-    "homepage video @0:05.5"
-   ],
-   "confidence": "by-eye",
-   "note": "the diagonal path across the NAB lawn"
   },
   {
    "id": "cafe-cloud-plaza",
@@ -3036,32 +2650,459 @@
    "height": 6,
    "spacing": 14,
    "pts": [
-    [220, -226.8],
-    [219.3, -221.8],
-    [216.9, -217.1],
-    [213.3, -213.5],
-    [208.7, -211.1],
-    [203.5, -210.3],
-    [198.4, -211.1],
-    [193.8, -213.5],
-    [190.2, -217.1],
-    [187.8, -221.7],
-    [187, -226.8],
-    [187.8, -231.9],
-    [190.2, -236.6],
-    [193.8, -240.1],
-    [198.4, -242.6],
-    [203.5, -243.3],
-    [208.7, -242.6],
-    [213.3, -240.1],
-    [216.9, -236.6],
-    [219.3, -231.8],
-    [220, -226.8]
+    [234.3, -234.2],
+    [209.9, -240.7],
+    [178.8, -246.5],
+    [170.5, -237.2],
+    [172.7, -227.9],
+    [179.8, -217.9],
+    [187.1, -207.8],
+    [194.8, -203.3],
+    [202.2, -202.1],
+    [208.9, -204],
+    [214, -206.9],
+    [221.7, -213.2],
+    [229.8, -219.8],
+    [234.3, -234.2]
    ],
    "source": [
     "homepage video @0:04.5"
    ],
    "confidence": "seen"
+  },
+  {
+   "id": "statue-garden-lawn",
+   "type": "lawn",
+   "name": "Kalam statue garden lawn",
+   "material": "mown grass on the terraced slope",
+   "colour": "#5F8C3E",
+   "poly": [
+    [300, -301.9],
+    [279.9, -330.3],
+    [247.8, -334],
+    [217, -314.5],
+    [198.2, -296.7],
+    [190.5, -273.4],
+    [194.7, -260.8],
+    [217, -249.6],
+    [246.8, -237.6],
+    [266.4, -234.8],
+    [286.4, -252.2]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "statue-ring-path",
+   "type": "footpath",
+   "name": "Ring path round the Kalam statue",
+   "material": "pale stone pavers",
+   "colour": "#CBBFA6",
+   "width": 2.3,
+   "pts": [
+    [263.8, -284.1],
+    [263.6, -282.2],
+    [263.1, -280.4],
+    [262.4, -278.7],
+    [261.3, -277.2],
+    [259.9, -275.8],
+    [258.4, -274.7],
+    [256.7, -274],
+    [254.9, -273.5],
+    [253, -273.3],
+    [251.1, -273.5],
+    [249.3, -274],
+    [247.6, -274.7],
+    [246.1, -275.8],
+    [244.7, -277.2],
+    [243.6, -278.7],
+    [242.9, -280.4],
+    [242.4, -282.2],
+    [242.2, -284.1],
+    [242.4, -286],
+    [242.9, -287.8],
+    [243.6, -289.5],
+    [244.7, -291],
+    [246.1, -292.4],
+    [247.6, -293.5],
+    [249.3, -294.2],
+    [251.1, -294.7],
+    [253, -294.9],
+    [254.9, -294.7],
+    [256.7, -294.2],
+    [258.4, -293.5],
+    [259.9, -292.4],
+    [261.3, -291],
+    [262.4, -289.5],
+    [263.1, -287.8],
+    [263.6, -286],
+    [263.8, -284.1]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "statue-diamond",
+   "type": "plaza",
+   "name": "Statue plinth square",
+   "material": "pale stone",
+   "colour": "#D8D0BE",
+   "poly": [
+    [255, -291.5],
+    [245.5, -286.1],
+    [250.9, -276.6],
+    [260.4, -282]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "statue-cross-path",
+   "type": "footpath",
+   "material": "pale stone pavers",
+   "colour": "#CBBFA6",
+   "width": 1.8,
+   "pts": [
+    [248.5, -292.3],
+    [257.4, -275.5],
+    [258.8, -274]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "statue-snake-path",
+   "type": "footpath",
+   "name": "Winding garden path",
+   "material": "pale stone pavers",
+   "colour": "#CBBFA6",
+   "width": 2.2,
+   "pts": [
+    [258.8, -274],
+    [263, -269.9],
+    [266.1, -264.3],
+    [266.7, -257.7],
+    [265, -251.7],
+    [262.1, -249.5],
+    [257.2, -250.9],
+    [251.9, -255.3],
+    [245.1, -260.7],
+    [239.5, -261.6],
+    [233.1, -259.8],
+    [228, -258.3],
+    [223.2, -257.9],
+    [218, -260.5],
+    [212.3, -265.5],
+    [208.8, -274.2],
+    [208, -279.7],
+    [205.7, -282.1],
+    [202.5, -281.2],
+    [201.1, -276.9],
+    [200.9, -271],
+    [200.8, -266.4],
+    [198.5, -264.6]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "admin-parking-north",
+   "type": "parking",
+   "name": "Forecourt parking row",
+   "material": "red-pink pavers, painted bays",
+   "colour": "#C98E80",
+   "poly": [
+    [231.1, -245.9],
+    [183.3, -254.3],
+    [182.4, -249.3],
+    [230.2, -240.9]
+   ],
+   "bays": 14,
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "turning-island-lawn",
+   "type": "lawn",
+   "name": "Lawn island by the bus bay",
+   "material": "mown grass, hedge edge",
+   "colour": "#5F8C3E",
+   "poly": [
+    [190, -278.7],
+    [179.3, -282.6],
+    [170, -280.7],
+    [167.5, -273.7],
+    [169.9, -269.5],
+    [179.1, -268.8],
+    [187.7, -272.3]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "admin-nab-slope-lawn",
+   "type": "lawn",
+   "name": "Lawn on the slope between Admin and NAB",
+   "material": "grass slope",
+   "colour": "#5F8C3E",
+   "poly": [
+    [188.5, -145.6],
+    [155.4, -154.6],
+    [123.4, -149.4],
+    [105.8, -131.4],
+    [120.8, -112],
+    [144.2, -95.4],
+    [167, -76.4],
+    [185, -58.8],
+    [194.3, -74],
+    [184.2, -102.2],
+    [182.3, -123.1]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "nab-paved-court",
+   "type": "plaza",
+   "name": "Paved court below Admin",
+   "material": "red-pink pavers",
+   "colour": "#C4917F",
+   "poly": [
+    [190.8, -66.9],
+    [179.6, -78.1],
+    [161.4, -65.3],
+    [169.8, -47.7]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "admin-nab-walkway",
+   "type": "footpath",
+   "name": "Paved walk, Admin to NAB (open, no canopy: H A, 20 Nov)",
+   "material": "pale grey concrete pavers",
+   "colour": "#CFCBC2",
+   "width": 2.6,
+   "pts": [
+    [174.9, -153.6],
+    [171.5, -150.2],
+    [154.1, -149.9],
+    [142.7, -145.4],
+    [134.4, -133.7],
+    [123.5, -110.2]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)",
+    "H A drone 23 Jun @0:12.8"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "plant-compound-wall",
+   "type": "wall",
+   "name": "Plant compound wall",
+   "material": "plastered block wall",
+   "colour": "#D8D4CA",
+   "height": 1.8,
+   "width": 0.25,
+   "pts": [
+    [124.8, -148.3],
+    [114.4, -161.7],
+    [91.2, -141.6],
+    [101.4, -129.4],
+    [124.8, -148.3]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "plant-yard",
+   "type": "parking",
+   "name": "Plant yard",
+   "material": "concrete",
+   "colour": "#9A9C98",
+   "poly": [
+    [124.8, -148.3],
+    [114.4, -161.7],
+    [91.2, -141.6],
+    [101.4, -129.4]
+   ],
+   "bays": 0,
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "plant-tanks",
+   "type": "open-tank",
+   "name": "Plant tanks with equipment rows",
+   "material": "concrete tanks",
+   "colour": "#C9C6BD",
+   "water": "#5E7F78",
+   "height": 1.6,
+   "units": 3,
+   "poly": [
+    [120, -147.8],
+    [113.8, -155.4],
+    [102, -144.5],
+    [107.6, -137.1]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "reservoir-yard",
+   "type": "parking",
+   "name": "Reservoir yard",
+   "material": "concrete",
+   "colour": "#8E918C",
+   "poly": [
+    [117.1, 21.5],
+    [111.2, 12.8],
+    [96.4, 6.9],
+    [83, 29.8],
+    [82.3, 36.6],
+    [96.8, 44.1],
+    [103.1, 44.7]
+   ],
+   "bays": 0,
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "reservoir-wall",
+   "type": "wall",
+   "name": "Reservoir compound wall",
+   "material": "plastered block wall",
+   "colour": "#D8D4CA",
+   "height": 1.8,
+   "width": 0.25,
+   "pts": [
+    [117.1, 21.5],
+    [111.2, 12.8],
+    [96.4, 6.9],
+    [83, 29.8],
+    [82.3, 36.6],
+    [96.8, 44.1],
+    [103.1, 44.7],
+    [117.1, 21.5]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "reservoir",
+   "type": "open-tank",
+   "name": "Open water reservoir",
+   "material": "concrete tank, white rim walkway",
+   "colour": "#E2E0D8",
+   "water": "#3E9EA3",
+   "height": 2.4,
+   "units": 0,
+   "poly": [
+    [113.6, 23.4],
+    [99.1, 11.8],
+    [89.9, 24],
+    [103.7, 36]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured",
+   "note": "teal open water seen from above; use (drinking-water reservoir or pool) to confirm"
+  },
+  {
+   "id": "earth-track-sw",
+   "type": "earth-track",
+   "name": "Earth track below Admin",
+   "material": "red laterite earth",
+   "colour": "#B9714A",
+   "width": 4,
+   "pts": [
+    [230.4, -145.5],
+    [245.6, -159.1],
+    [259.6, -173.1],
+    [275.3, -184],
+    [283.7, -186.8]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "earth-track-nab",
+   "type": "earth-track",
+   "name": "Earth track round the NAB slope",
+   "material": "red laterite earth",
+   "colour": "#B9714A",
+   "width": 4,
+   "pts": [
+    [194.2, -119.9],
+    [204, -109.5],
+    [212.6, -94.4],
+    [217.5, -75.3],
+    [219.4, -54.4],
+    [212.5, -38.5],
+    [198.8, -34.7],
+    [180.3, -32.1],
+    [156.4, -28.5],
+    [136.6, -21.2],
+    [125, -6.6],
+    [117.4, 11.7],
+    [113.3, 35.9],
+    [115.3, 56.3]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
+  },
+  {
+   "id": "earth-track-west",
+   "type": "earth-track",
+   "name": "Earth track west of the statue garden",
+   "material": "red laterite earth",
+   "colour": "#B9714A",
+   "width": 3.5,
+   "pts": [
+    [303.8, -283],
+    [295.1, -270.1],
+    [291.1, -250.9],
+    [291.3, -233],
+    [290.3, -215.5]
+   ],
+   "source": [
+    "H A drone nadir 20 Nov (dji_fly_20260907_045954_491_1788784390269_video-00.24.8.jpg)"
+   ],
+   "confidence": "measured"
   }
  ]
 }

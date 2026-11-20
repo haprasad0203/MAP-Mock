@@ -116,11 +116,12 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
   }
   // hardscape.json surfaces (Phase 3M v2): paved plazas and parking, courtyards, garden terraces, court surrounds, paths
   const hs = src.getHardscape?.() ?? [];
-  const SURF: Record<string, number> = { plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
+  const SURF: Record<string, number> = { lawn: G.LAWN, earth: G.EARTH, plaza: G.PLAZA, courtyard: G.PLAZA, parking: G.PARKING, terrace: G.GARDEN, 'flower-bed': G.GARDEN, 'court-surround': G.COURT_RED };
   for (const it of hs) {
     const v = SURF[it.type]; if (v === undefined) continue;
-    if (it.poly) fillPoly(mask, it.poly, v, c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE);
+    if (it.poly) fillPoly(mask, it.poly, v, it.type === 'lawn' ? (c => c === G.WILD || c === G.GROUND || c === G.GARDEN) : (c => c !== G.WATER && c !== G.COURT && c !== G.COURT_BLUE));
     else if (it.type === 'terrace' && it.pts) fillPoly(mask, it.pts, v, c => c === G.LAWN || c === G.WILD || c === G.GARDEN);
+    if (it.poly && Array.isArray(it.hole)) fillPoly(mask, it.hole as XY[], G.GARDEN); // a paved ring round a lawn (the flag forecourt)
   }
   const paths = src.getPaths();
   const notWater = (c: number) => c !== G.WATER;
@@ -135,6 +136,8 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
       } else strokeLine(mask, p.pts, halfW(p), ROAD_C[kind], kind === 'footpath' ? notWater : kind === 'service' ? (c => c !== G.ROAD && c !== G.ROAD_LINE && c !== G.ROAD_DASH) : undefined);
     }
   for (const it of hs) if ((it.type === 'footpath' || it.type === 'trail') && it.pts && it.pts.length > 1) strokeLine(mask, it.pts, (it.width ?? 1.8) / 2, it.type === 'trail' ? G.TRACK : G.PATH, c => c !== G.WATER && c !== G.ROAD && c !== G.ROAD_LINE && c !== G.SERVICE && c !== G.BUILDING);
+  // red laterite tracks round the slopes (drone, 20 Nov): only over open ground
+  for (const it of hs) if (it.type === 'earth-track' && it.pts && it.pts.length > 1) strokeLine(mask, it.pts, (it.width ?? 4) / 2, G.EARTH, c => c === G.WILD || c === G.LAWN || c === G.GARDEN);
   // centre dash on asphalt, only where the cell is plain asphalt
   for (const p of paths.filter(p => p.kind === 'road')) dashLine(mask, p.pts, DASH_ON, DASH_OFF, G.ROAD_DASH, c => c === G.ROAD);
   const buildings = src.getBuildings();
@@ -161,11 +164,14 @@ export function buildWorld(src: CampusGeometrySource): WorldModel {
     }
   }
   const b = src.getBounds();
-  for (let y = Math.floor(b.minY); y < b.maxY; y += 9) for (let x = Math.floor(b.minX); x < b.maxX; x += 9) {
-    const jx = x + hash2(x, y, 21) * 8, jy = y + hash2(x, y, 22) * 8;
+  // H A's drone footage (20 Nov): the campus between the buildings is mostly woodland, with mown lawns only where they
+  // are authored (forecourts, gardens, slopes). So open campus ground gets close groves with a few small clearings.
+  const wild = (x: number, y: number, r: number) => { for (let dy = -r; dy <= r; dy += r) for (let dx = -r; dx <= r; dx += r) if (cls({ mask } as WorldModel, x + dx, y + dy) !== G.WILD) return false; return true; };
+  for (let y = Math.floor(b.minY); y < b.maxY; y += 6.5) for (let x = Math.floor(b.minX); x < b.maxX; x += 6.5) {
+    const jx = x + hash2(x, y, 21) * 6, jy = y + hash2(x, y, 22) * 6;
     if (!campusAt({ inCampus } as WorldModel, jx, jy)) continue;
-    if (valueNoise(jx / 70, jy / 70, 5) < 0.5) continue; // SCENE_LOOK row 2: groves fill the open slopes, gaps between them
-    if (free(jx, jy, 5)) campusTrees.push({ x: jx, y: jy, s: 0.8 + hash2(x, y, 23) * 0.5, v: hash2(x, y, 24) });
+    if (valueNoise(jx / 60, jy / 60, 5) < 0.3) continue; // small clearings
+    if (wild(jx, jy, 4.5)) campusTrees.push({ x: jx, y: jy, s: 0.85 + hash2(x, y, 23) * 0.55, v: hash2(x, y, 24) });
   }
 
   return {

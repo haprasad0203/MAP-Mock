@@ -12,11 +12,11 @@ const CLASS: Record<number, [[number, number, number], number]> = {
   [G.ROAD]: [hex('#8E9474'), 0.05], [G.ROAD_LINE]: [hex('#8E9474'), 0.05], [G.ROAD_DASH]: [hex('#8E9474'), 0.05],
   [G.SERVICE]: [hex('#8E9474'), 0.05], [G.ROAD_EDGE]: [hex('#95A070'), 0.06], [G.TRACK]: [hex('#A8A174'), 0.06],
   [G.PATH]: [hex('#A9A77E'), 0.05], [G.WATER]: [hex('#2A6F86'), 0.03], [G.COURT]: [hex('#2F8A6A'), 0.02],
-  [G.COURT_BLUE]: [hex('#3E6FB8'), 0.02], [G.COURT_RED]: [hex('#B5564A'), 0.03], [G.EARTH]: [hex('#B88D60'), 0.08],
+  [G.COURT_BLUE]: [hex('#3E6FB8'), 0.02], [G.COURT_RED]: [hex('#B5564A'), 0.03], [G.EARTH]: [hex('#B07250'), 0.1],
   [G.PLAZA]: [hex('#C99484'), 0.05], [G.PARKING]: [hex('#7E858C'), 0.04], [G.BUILDING]: [hex('#CFC6B4'), 0.02],
   [G.COVERED]: [hex('#A9A77E'), 0.05],
 };
-const MEADOW = hex('#638A3E'), FOREST = hex('#46692F'); // SCENE_LOOK row 4: warm grass, not lime
+const MEADOW = hex('#55773A'), FOREST = hex('#46692F'); // open campus ground is rough woodland floor and scrub (drone, 20 Nov), lawns are authored
 
 /** Ground colour for the whole ±1300 m square. `size` = texture pixels per side (2600 = 1 m per pixel). */
 export function bakeGroundTexture(world: WorldModel, size: number): THREE.DataTexture {
@@ -43,7 +43,7 @@ export function bakeGroundWeights(world: WorldModel): THREE.DataTexture {
   for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) {
     const q = (j * 2) * SIZE + i * 2, c = world.mask[q], o = (j * size + i) * 4;
     if (c === G.LAWN || c === G.GARDEN || c === G.GROUND) data[o] = 255;
-    else if (c === G.WILD) { if (world.inCampus[q]) data[o] = 150; else data[o + 1] = 255; }
+    else if (c === G.WILD) { if (world.inCampus[q]) { data[o] = 70; data[o + 1] = 185; } else data[o + 1] = 255; }
     else if (c === G.PLAZA) data[o + 2] = 255;
     data[o + 3] = 255;
   }

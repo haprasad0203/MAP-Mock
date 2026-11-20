@@ -131,7 +131,7 @@ describe('hardscape.json (Phase 3M v2)', () => {
   const layout: CampusLayout = JSON.parse(fs.readFileSync('public/data/campus-layout.json', 'utf8'));
   const osm = JSON.parse(fs.readFileSync('public/data/osm.json', 'utf8'));
   const all: { id: string; pts: XY[] }[] = [...osm.roads, ...layout.paths];
-  const TYPES = new Set(['covered-walkway', 'plaza', 'parking', 'footpath', 'steps', 'hedge', 'flower-bed', 'terrace', 'retaining-wall', 'wall', 'fence', 'floodlight', 'court-surround', 'lake-edge', 'trail', 'gate', 'courtyard', 'tree-line', 'light-row', 'pavement', 'ramp', 'railing']);
+  const TYPES = new Set(['covered-walkway', 'plaza', 'parking', 'footpath', 'steps', 'hedge', 'flower-bed', 'terrace', 'retaining-wall', 'wall', 'fence', 'floodlight', 'court-surround', 'lake-edge', 'trail', 'gate', 'courtyard', 'tree-line', 'light-row', 'pavement', 'ramp', 'railing', 'lawn', 'earth-track', 'open-tank']); // the last three: H A's drone footage, 20 Nov
   it('every item has a known type, geometry, a source and a sensible size', () => {
     for (const it of H.items) {
       expect(TYPES.has(it.type), it.id).toBe(true);
@@ -141,14 +141,14 @@ describe('hardscape.json (Phase 3M v2)', () => {
       if (it.height !== undefined) expect(it.height > 0 && it.height <= 40, it.id).toBe(true);
     }
   });
-  it('every road entry matches a data path; the main road is 10–11 m and campus service roads 6–7 m', () => {
+  it('every road entry matches a data path; the main road is 8–9 m and campus service roads 6–7 m', () => {
     const ids = new Set(all.map(p => p.id));
     for (const r of H.roads) {
       expect(ids.has(r.id), r.id).toBe(true);
       for (const z of r.narrow) expect(z.width <= r.width && z.s1 >= z.s0, r.id).toBe(true);
     }
     const main = H.roads.find((r: { id: string }) => r.id === 'osm-1050247311');
-    expect(main.width).toBeGreaterThanOrEqual(10); expect(main.width).toBeLessThanOrEqual(11);
+    expect(main.width).toBeGreaterThanOrEqual(8); expect(main.width).toBeLessThanOrEqual(9); // 8.2 m asphalt measured on H A's drone nadir (20 Nov)
     for (const r of H.roads.filter((r: { kind: string; note: string }) => r.kind === 'service' && r.note !== 'off campus')) expect(r.width >= 6 && r.width <= 7, r.id).toBe(true);
   });
   it("the Scholar's Path runs from the main gate to D Block", () => {

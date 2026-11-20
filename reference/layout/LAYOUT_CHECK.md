@@ -78,3 +78,35 @@ Proposals only. `campus-layout.json` is **not** edited. Evidence: `reference/rea
 | 7 | `cafe-cloud` | outline | the 14-point outline | the real octagon sits about 5 m east of the drawn outline (within the fit error; check it on the survey walk) | reference/real/cafe-cloud_fit.png |
 
 Admin and NAB fit the satellite within the pin-fit error (about 5 m); no footprint changes are proposed for them.
+
+## Fake and missing buildings, H A's footage (20 Nov 2026, applied)
+H A asked to remove every building and structure the real footage does not show. Each footprint was drawn over H A's
+straight-down drone still (Sept 2026, `scripts/lib/dronefit.mjs`, fit about 2 m) and, where the drone does not reach, over
+the hi-res satellite screenshots (check only). Sheets: `reference/real/audit/audit_*.jpg`, `cross_01.jpg`
+(`scripts/audit-footprints.mjs`).
+
+**Removed (the footage shows empty ground):**
+- **east-cluster:** all 5 blocks between NAB and the Kalam Centre (scrub, debris and tracks on both the drone and the satellite).
+- **service-east:** both blocks (bare red earth).
+- **NAB area:** bldg-556 (the lawn hut by the walk), bldg-558 (on the NAB road pavement), bldg-559 (on the NAB forecourt pavers), bldg-521.
+- **Further out:** bldg-467, bldg-507, bldg-508, bldg-509 (on a road bend), bldg-959, bldg-963, bldg-964, bldg-983, bldg-984.
+
+The generator (`build_v2.py`) skips them too.
+
+**Added (real, missing from the data):**
+- **service-plant:** the walled plant between Admin and NAB, with open tanks and equipment rows (hardscape plant-tanks, plant-compound-wall, plant-yard).
+- **cafe-hut-red, cafe-shed-blue, cafe-store:** round Cafe Cloud.
+- **The open reservoir north of NAB** (hardscape reservoir, reservoir-wall, reservoir-yard). Its use (drinking-water reservoir or pool) is to confirm.
+
+**Moved:**
+- **amul-cafe** is the teal-roofed kiosk by Cafe Cloud, about 4 m square (it was a 10 × 7 m guess).
+
+**Also from the drone (hardscape and layout):**
+- the forecourt is a teardrop lawn inside the loop drive;
+- the forecourt path follows the real drive;
+- the statue garden has one ring path and a winding path (the stepped rings, straight terrace walls and straight path are removed);
+- the main road is 8.6 m;
+- the Admin–NAB walk is an open paved path (no canopy, H A) that ends at the NAB road;
+- the woodland, red-earth tracks and lawns are as seen.
+
+**Unsure, kept for H A** (blurry or older imagery only): block-501 (rubble by a green-roofed building), east-residence[1], bldg-485, bldg-489, bldg-490, bldg-493, bldg-498, bldg-502, bldg-504, bldg-505, bldg-506, bldg-510, bldg-511, bldg-566, bldg-948, bldg-960, bldg-965 to bldg-982 and bldg-985 (forest north-west of the hostels), block-962 (a walled rectangle: court, tank or building?).

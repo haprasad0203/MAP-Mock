@@ -5,6 +5,7 @@
 // the rest are local metres chosen by eye with the source named on each item. campus-layout.json is not edited.
 // Usage: node scripts/build-hardscape.mjs  (then node scripts/hardscape-check.mjs)
 import fs from 'node:fs';
+import { fitDrone, NADIR_ADMIN } from './lib/dronefit.mjs';
 
 const layout = JSON.parse(fs.readFileSync('public/data/campus-layout.json', 'utf8'));
 const osm = JSON.parse(fs.readFileSync('public/data/osm.json', 'utf8'));
@@ -60,14 +61,14 @@ const len = pts => pts.reduce((s, q, i) => (i ? s + Math.hypot(q[0] - pts[i - 1]
 // Measured on H A's hi-res satellite screenshots (scale bars: 0423 = 2.0 px/m, 0405 = 2.45 px/m) with
 // scripts/grid-crop.mjs, and checked against the drone stills (cars about 4.3 m, lane markings):
 const MEASURED = {
-  'osm-1050247311': ['asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)', 'asphalt 9 ± 1 m near the gate (0423 at 1170,735)', ],
+  'osm-1050247311': ['asphalt 9 ± 1 m by the lake (0423 grid crop at 815,250)', 'asphalt 9 ± 1 m near the gate (0423 at 1170,735)', 'asphalt 8.2 m, 7.4 m between the white edge lines, by the NAB junction (H A drone nadir 20 Nov, 8.8 px/m, at 1650,2150)'],
   'osm-1050247312': ['about 8 m between the white edge lines plus a 1 m kerb-and-drain verge, a red paver pavement about 2.5 m on one side, by the Octagonal Hall (drone stills 9QBtbam1G5Q @0:05.5 and @0:07.5)'],
   'rd-fblock': ['asphalt 7 ± 1 m on the hostel hairpin (0405 grid crop at 770,250)'],
 };
 const SPEC = { road: { width: 10, kerb: 0.5 }, service: { width: 6.5, kerb: 0.4 }, footpath: { width: 2.6, kerb: 0 }, track: { width: 3.6, kerb: 0 }, covered: { width: 3, kerb: 0 } };
 // per-road choices (L/R = left/right of the polyline's direction of travel)
 const ROADS = {
-  'osm-1050247311': { width: 10.5, pavementL: 2.0, pavementR: 1.0, note: 'Main campus road (gate → Admin → lake → Kalam Centre). Pavement on the Admin/east side (red hex pavers), a kerb-and-drain verge on the west.', confidence: 'measured' },
+  'osm-1050247311': { width: 8.6, pavementL: 2.0, pavementR: 1.0, note: 'Main campus road (gate → Admin → lake → Kalam Centre). Pavement on the Admin/east side (red hex pavers), a kerb-and-drain verge on the west.', confidence: 'measured' },
   'osm-1050247312': { width: 9.5, pavementL: 2.5, pavementR: 0, note: 'Campus loop road to the courts, hostels and quarters; red paver pavement on one side by the Octagonal Hall', confidence: 'measured' },
   'rd-fblock': { width: 7.5, pavementL: 1.2, pavementR: 0, note: 'Hostel hairpin road (F Block); a light footpath strip on the inside of the bends in the 0405 screenshot', confidence: 'measured' },
   'rd-nab-front': { width: 7, pavementL: 1.5, pavementR: 0, note: 'NAB front road along the SE face, past the NAB lawn (H A marked view)', confidence: 'by-eye' },
@@ -117,7 +118,7 @@ for (const r of osm.roads) if (!roadIds.has(r.id) && (r.kind === 'road' || r.kin
 // parking), drone 54s / 9QBtbam1G5Q @0:50–0:55 (the zig-zag past the courts). The middle run is the data's covered-walk.
 const main = pathOf('osm-1050247311'), gate = lm('main-gate');
 const mainRun = sliceLine(main.pts, gate, [-79, 36]);              // gate → Kalam Centre junction (polyline runs the other way)
-const roadside = offsetLine(mainRun, -(10.5 / 2 + 2.0 + 1.5)); // right of travel from the gate (heading NW) = the east side; the pale strip sits just past the kerb verge in 0423
+const roadside = offsetLine(mainRun, -(8.6 / 2 + 0.5 + 1.5)); // walkway centre 6.3 m from the road centre (drone nadir, 20 Nov) // right of travel from the gate (heading NW) = the east side; the pale strip sits just past the kerb verge in 0423
 const middle = pathOf('covered-walk').pts.slice().reverse();        // (-91.9, 47.5) → … → D Block (-221.7, 224.2)
 const scholars = [...roadside.slice(0, -1), ...middle.map(P)];
 
@@ -138,10 +139,11 @@ add({ id: 'scholars-path-mess-link', type: 'covered-walkway', name: "Scholar's P
 
 // Admin: flag forecourt, ring path, hedges, parking, planters, terraces, statue garden
 const fore = area('admin-forecourt').pts, flag = lm('flag');
-add({ id: 'admin-forecourt-paving', type: 'plaza', name: 'Flag forecourt paving', material: 'red-pink brick pavers', colour: '#C98E80', poly: grow(fore, 8), source: [SRC.home04, SRC.q22, SRC.dji], confidence: 'seen', note: 'horseshoe of pavers round the oval flag lawn, up to the building fronts' });
+add({ id: 'admin-forecourt-paving', type: 'plaza', name: 'Flag forecourt paving', material: 'red-pink brick pavers', colour: '#C98E80', poly: grow(fore, 8), hole: fore.map(P), source: [SRC.home04, SRC.q22, SRC.dji, 'H A drone nadir 20 Nov'], confidence: 'seen', note: 'the loop drive of pavers round the teardrop flag lawn, up to the building fronts' });
 add({ id: 'admin-forecourt-hedge', type: 'hedge', material: 'clipped box hedge with conifer topiary', colour: '#3E7A35', height: 0.7, width: 0.8, pts: [...fore.map(P), P(fore[0])], source: [SRC.home04], confidence: 'seen' });
 add({ id: 'flag-ring-path', type: 'footpath', material: 'pale concrete pavers', colour: '#D9D2C2', width: 1.6, pts: [...circle(flag, 6.5, 28), circle(flag, 6.5, 28)[0]], source: [SRC.home04, SRC.q22], confidence: 'seen' });
-add({ id: 'flag-cross-paths', type: 'footpath', material: 'pale concrete pavers', colour: '#D9D2C2', width: 1.6, pts: [P([flag[0] - 18, flag[1] + 4]), P([flag[0] + 18, flag[1] - 4])], source: [SRC.home04], confidence: 'by-eye' });
+{ const fit = fitDrone(NADIR_ADMIN.pairs); // the ring's two paths down to the building corners (drone nadir, 20 Nov)
+  add({ id: 'flag-cross-paths', type: 'footpath', material: 'pale concrete pavers', colour: '#D9D2C2', width: 1.6, pts: [P(fit.toM([670, 1352])), P(flag), P(fit.toM([872, 1372]))], source: [SRC.home04, 'H A drone nadir 20 Nov'], confidence: 'measured' }); }
 add({ id: 'flag-plinth', type: 'plaza', material: 'stone ring plinth', colour: '#CFC6B4', poly: circle(flag, 2.6, 16), height: 0.5, source: [SRC.home04], confidence: 'seen' });
 { const e = bld('admin').parts[3], f = faceToward(e.poly, flag);
   add({ id: 'admin-parking-east', type: 'parking', material: 'red-pink pavers, painted bays', colour: '#C98E80', poly: [f.fp(-4, 2), f.fp(f.len + 12, 2), f.fp(f.len + 12, 16), f.fp(-4, 16)], bays: 10, source: [SRC.home04, SRC.q16, SRC.dji], confidence: 'seen', note: 'cars parked in front of and beside the east block' }); }
@@ -151,9 +153,11 @@ add({ id: 'flag-plinth', type: 'plaza', material: 'stone ring plinth', colour: '
   add({ id: 'admin-wing-planters', type: 'flower-bed', material: 'stone-edged raised beds, flowers and shrubs', colour: '#6E9A3E', height: 0.5, width: 1.6, pts: [f.fp(2, 2.2), f.fp(f.len - 2, 2.2)], source: ['iimshillong 2024/10/7', 'collegebatch 310633'], confidence: 'seen' });
   add({ id: 'admin-portico-steps', type: 'steps', material: 'granite steps', colour: '#BEB8AC', width: 14, height: 0.6, steps: 4, pts: [f.fp(f.len / 2 - 7, 0.5), f.fp(f.len / 2 + 7, 0.5)], depth: 1.4, source: ['iimking (portico)', SRC.home04], confidence: 'by-eye' }); }
 const tg = area('terrace-garden').pts, tc = centroid(tg), statue = lm('kalam-statue');
-[0, 1, 2, 3].forEach(k => add({ id: `terrace-wall-${k + 1}`, type: 'retaining-wall', name: 'Terraced garden wall', material: 'random rubble stone', colour: '#9C8F7A', height: 1.2, width: 0.4, pts: [P([tg[0][0] + 4, tg[0][1] - 8 - k * 15]), P([tc[0], tc[1] - k * 15 + 22]), P([tg[1][0] - 6, tg[1][1] - 10 - k * 15])], source: [SRC.i363, SRC.q22, 'iimshillong 2024/10/3'], confidence: 'by-eye', note: 'stepped grass terraces south of the forecourt; curved stone walls, winding paths' }));
-add({ id: 'terrace-paths', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 1.8, pts: [P([tg[0][0] + 8, tg[0][1] - 4]), P([tc[0] - 20, tc[1] + 6]), P([tc[0] + 5, tc[1] - 12]), P([tc[0] - 10, tc[1] - 28]), P(statue)], source: [SRC.q22, SRC.i363], confidence: 'by-eye' });
-[8, 14, 20].forEach((r, k) => add({ id: `statue-garden-terrace-${k + 1}`, type: 'terrace', name: 'Kalam statue garden terrace', material: 'grass terrace with stone edge', colour: '#8DAF4A', edgeColour: '#9C8F7A', height: 0.8, pts: [...circle(statue, r, 28), circle(statue, r, 28)[0]], source: [SRC.marked, SRC.q22, 'iimshillong 2024/10/3'], confidence: 'by-eye' }));
+// 20 Nov fake-structure audit (H A's drone nadir): the garden has curved terrace edges, not straight stone walls across it
+false && [0, 1, 2, 3].forEach(k => add({ id: `terrace-wall-${k + 1}`, type: 'retaining-wall', name: 'Terraced garden wall', material: 'random rubble stone', colour: '#9C8F7A', height: 1.2, width: 0.4, pts: [P([tg[0][0] + 4, tg[0][1] - 8 - k * 15]), P([tc[0], tc[1] - k * 15 + 22]), P([tg[1][0] - 6, tg[1][1] - 10 - k * 15])], source: [SRC.i363, SRC.q22, 'iimshillong 2024/10/3'], confidence: 'by-eye', note: 'stepped grass terraces south of the forecourt; curved stone walls, winding paths' }));
+// 20 Nov fake-structure audit (H A's drone nadir): no straight path across the garden (its real paths are the ring and the winding path)
+false && add({ id: 'terrace-paths', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 1.8, pts: [P([tg[0][0] + 8, tg[0][1] - 4]), P([tc[0] - 20, tc[1] + 6]), P([tc[0] + 5, tc[1] - 12]), P([tc[0] - 10, tc[1] - 28]), P(statue)], source: [SRC.q22, SRC.i363], confidence: 'by-eye' });
+false && [8, 14, 20].forEach((r, k) => add({ id: `statue-garden-terrace-${k + 1}`, type: 'terrace', name: 'Kalam statue garden terrace', material: 'grass terrace with stone edge', colour: '#8DAF4A', edgeColour: '#9C8F7A', height: 0.8, pts: [...circle(statue, r, 28), circle(statue, r, 28)[0]], source: [SRC.marked, SRC.q22, 'iimshillong 2024/10/3'], confidence: 'by-eye' }));
 add({ id: 'statue-plaza', type: 'plaza', material: 'pale pavers round the statue plinth', colour: '#D9D2C2', poly: circle(statue, 4.5, 20), source: [SRC.marked], confidence: 'by-eye' });
 
 // the roadside below Admin: stone retaining wall with a railing between the Scholar's Path and the Admin ground
@@ -163,7 +167,8 @@ add({ id: 'admin-road-retaining-wall', type: 'retaining-wall', material: 'random
 { const n = bld('nab'), mid = n.parts[1], lawn = area('nab-lawn').pts, f = faceToward(mid.poly, centroid(lawn));
   add({ id: 'nab-front-plaza', type: 'plaza', name: 'NAB front plaza', material: 'red-pink pavers', colour: '#C98E80', poly: [f.fp(-14, 0.3), f.fp(f.len + 14, 0.3), f.fp(f.len + 14, 9), f.fp(-14, 9)], source: [SRC.home05, 'crops/nab_dji'], confidence: 'seen' });
   for (const s of [f.len / 2 - 15, f.len / 2 + 15]) add({ id: `nab-canopy-steps-${s < f.len / 2 ? 'sw' : 'ne'}`, type: 'steps', material: 'granite', colour: '#BEB8AC', width: 6, height: 0.6, steps: 4, pts: [f.fp(s - 3, 0.6), f.fp(s + 3, 0.6)], depth: 1.4, source: [SRC.home05], confidence: 'seen' });
-  add({ id: 'nab-lawn-path', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 2.0, pts: [f.fp(f.len * 0.2, 9), P(centroid(lawn)), f.fp(f.len * 0.9, 40)], source: [SRC.home05], confidence: 'by-eye', note: 'the diagonal path across the NAB lawn' }); }
+  // 20 Nov fake-structure audit (H A's drone nadir): this 'diagonal path' is the covered walkway (admin-nab-walkway)
+  false && add({ id: 'nab-lawn-path', type: 'footpath', material: 'pale concrete', colour: '#D9D2C2', width: 2.0, pts: [f.fp(f.len * 0.2, 9), P(centroid(lawn)), f.fp(f.len * 0.9, 40)], source: [SRC.home05], confidence: 'by-eye', note: 'the diagonal path across the NAB lawn' }); }
 
 // Cafe Cloud plaza (red hex pavers between the cafe and the main road)
 { const c = bld('cafe-cloud').parts[0];
@@ -196,6 +201,38 @@ add({ id: 'hostel2-courtyard', type: 'courtyard', material: 'pavers and lawn bet
 // tree lines
 add({ id: 'roadside-conifers-admin', type: 'tree-line', material: 'clipped conifers (cypress)', colour: '#2F5F35', height: 4, spacing: 4, pts: offsetLine(sliceLine(main.pts, [95, -224], [145, -268]), 10.5 / 2 + 2.5 + 5.2, 6), source: [SRC.home08], confidence: 'seen' });
 add({ id: 'forecourt-solar-lights', type: 'light-row', material: 'solar street lights, 6 m', colour: '#9AA1A8', height: 6, spacing: 14, pts: grow(fore, 4.5).concat([grow(fore, 4.5)[0]]), source: [SRC.home04], confidence: 'seen' });
+
+// ---------- H A's drone footage (20 Nov): straight-down still over Admin–NAB (scripts/lib/dronefit.mjs, fit rms ≈ 2 m) ----------
+// Outlines read off H A's own footage in full-size pixels and converted to local metres (the footage is ours to measure from).
+{ const fit = fitDrone(NADIR_ADMIN.pairs), D = pts => pts.map(q => P(fit.toM(q))), K = q => q.map(([x, y]) => [x * 2.16, y * 2.16]);
+  const src = 'H A drone nadir 20 Nov (' + NADIR_ADMIN.file + ')';
+  add({ id: 'statue-garden-lawn', type: 'lawn', name: 'Kalam statue garden lawn', material: 'mown grass on the terraced slope', colour: '#5F8C3E', poly: D(K([[60, 170], [170, 80], [300, 100], [400, 210], [455, 300], [460, 400], [430, 445], [330, 465], [200, 480], [120, 470], [60, 380]])), source: [src], confidence: 'measured' });
+  add({ id: 'statue-ring-path', type: 'footpath', name: 'Ring path round the Kalam statue', material: 'pale stone pavers', colour: '#CBBFA6', width: 2.3, pts: [...circle(fit.toM([488, 628]), 10.8, 36), circle(fit.toM([488, 628]), 10.8, 36)[0]], source: [src], confidence: 'measured' });
+  add({ id: 'statue-diamond', type: 'plaza', name: 'Statue plinth square', material: 'pale stone', colour: '#D8D0BE', poly: D([[488, 560], [556, 628], [488, 696], [420, 628]]), source: [src], confidence: 'measured' });
+  add({ id: 'statue-cross-path', type: 'footpath', material: 'pale stone pavers', colour: '#CBBFA6', width: 1.8, pts: D([[545, 568], [430, 690], [415, 700]]), source: [src], confidence: 'measured' });
+  add({ id: 'statue-snake-path', type: 'footpath', name: 'Winding garden path', material: 'pale stone pavers', colour: '#CBBFA6', width: 2.2, pts: D([[415, 700], [370, 725], [330, 765], [310, 820], [310, 875], [330, 900], [375, 900], [430, 875], [500, 845], [550, 850], [600, 880], [640, 905], [680, 920], [730, 910], [790, 880], [840, 815], [860, 770], [885, 755], [910, 770], [912, 810], [900, 860], [890, 900], [905, 920]]), source: [src], confidence: 'measured' });
+  add({ id: 'admin-parking-north', type: 'parking', name: 'Forecourt parking row', material: 'red-pink pavers, painted bays', colour: '#C98E80', poly: D([[585, 1003], [1010, 1043], [1006, 1088], [581, 1048]]), bays: 14, source: [src], confidence: 'measured' });
+  add({ id: 'turning-island-lawn', type: 'lawn', name: 'Lawn island by the bus bay', material: 'mown grass, hedge edge', colour: '#5F8C3E', poly: D([[1010, 820], [1110, 812], [1185, 850], [1190, 915], [1160, 945], [1080, 930], [1015, 880]]), source: [src], confidence: 'measured' });
+  add({ id: 'admin-nab-slope-lawn', type: 'lawn', name: 'Lawn on the slope between Admin and NAB', material: 'grass slope', colour: '#5F8C3E', poly: D(K([[330, 905], [470, 905], [590, 960], [640, 1050], [560, 1110], [450, 1150], [340, 1200], [250, 1250], [230, 1180], [300, 1080], [330, 1000]])), source: [src], confidence: 'measured' });
+  add({ id: 'nab-paved-court', type: 'plaza', name: 'Paved court below Admin', material: 'red-pink pavers', colour: '#C4917F', poly: D(K([[236, 1212], [292, 1180], [350, 1250], [298, 1310]])), source: [src], confidence: 'measured' });
+  // it ends at the NAB road's kerb (the drone shows it stopping there; it never crosses the road)
+  const roadPts = [...osm.roads, ...layout.paths].filter(r => r.kind === 'road' || r.kind === 'service'), roadW = id => ROADS[id]?.width ?? SPEC[roadPts.find(r => r.id === id)?.kind ?? 'road']?.width ?? 8;
+  const clear = q => roadPts.every(r => r.pts.every((a, i) => i === 0 || segDist(q, r.pts[i - 1], a) > roadW(r.id) / 2 + 2.2));
+  const stopAtRoad = pts => { const out = [pts[0]]; for (let i = 1; i < pts.length; i++) { const a = out[out.length - 1], b = pts[i], n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 0.5); let last = a; for (let k = 1; k <= n; k++) { const q = [a[0] + ((b[0] - a[0]) * k) / n, a[1] + ((b[1] - a[1]) * k) / n]; if (!clear(q)) { if (last !== a) out.push(P(last)); return out; } last = q; } out.push(b); } return out; };
+  add({ id: 'admin-nab-walkway', type: 'footpath', name: 'Paved walk, Admin to NAB (open, no canopy: H A, 20 Nov)', material: 'pale grey concrete pavers', colour: '#CFCBC2', width: 2.6, pts: stopAtRoad(D(K([[392, 888], [402, 905], [470, 925], [510, 955], [530, 1010], [552, 1142]]))), source: [src, 'H A drone 23 Jun @0:12.8'], confidence: 'measured' });
+  // the walled plant between Admin and NAB, and the open reservoir north of NAB (missing from the data; audit 20 Nov)
+  const loop = pts => [...pts, pts[0]];
+  add({ id: 'plant-compound-wall', type: 'wall', name: 'Plant compound wall', material: 'plastered block wall', colour: '#D8D4CA', height: 1.8, width: 0.25, pts: loop(D([[1260, 2080], [1380, 1990], [1530, 2215], [1415, 2295]])), source: [src], confidence: 'measured' });
+  add({ id: 'plant-yard', type: 'parking', name: 'Plant yard', material: 'concrete', colour: '#9A9C98', poly: D([[1260, 2080], [1380, 1990], [1530, 2215], [1415, 2295]]), bays: 0, source: [src], confidence: 'measured' });
+  add({ id: 'plant-tanks', type: 'open-tank', name: 'Plant tanks with equipment rows', material: 'concrete tanks', colour: '#C9C6BD', water: '#5E7F78', height: 1.6, units: 3, poly: D([[1300, 2095], [1370, 2045], [1445, 2165], [1380, 2215]]), source: [src], confidence: 'measured' });
+  add({ id: 'reservoir-yard', type: 'parking', name: 'Reservoir yard', material: 'concrete', colour: '#8E918C', poly: D([[930, 3540], [1000, 3480], [1140, 3465], [1200, 3690], [1190, 3750], [1050, 3780], [995, 3770]]), bays: 0, source: [src], confidence: 'measured' });
+  add({ id: 'reservoir-wall', type: 'wall', name: 'Reservoir compound wall', material: 'plastered block wall', colour: '#D8D4CA', height: 1.8, width: 0.25, pts: loop(D([[930, 3540], [1000, 3480], [1140, 3465], [1200, 3690], [1190, 3750], [1050, 3780], [995, 3770]])), source: [src], confidence: 'measured' });
+  add({ id: 'reservoir', type: 'open-tank', name: 'Open water reservoir', material: 'concrete tank, white rim walkway', colour: '#E2E0D8', water: '#3E9EA3', height: 2.4, units: 0, poly: D([[955, 3565], [1105, 3500], [1155, 3625], [1010, 3695]]), source: [src], confidence: 'measured', note: 'teal open water seen from above; use (drinking-water reservoir or pool) to confirm' });
+  // red earth tracks round the slopes (they read strongly from the air)
+  add({ id: 'earth-track-sw', type: 'earth-track', name: 'Earth track below Admin', material: 'red laterite earth', colour: '#B9714A', width: 4, pts: D(K([[165, 860], [120, 790], [80, 720], [30, 660], [0, 640]])), source: [src], confidence: 'measured' });
+  add({ id: 'earth-track-nab', type: 'earth-track', name: 'Earth track round the NAB slope', material: 'red laterite earth', colour: '#B9714A', width: 4, pts: D(K([[280, 1000], [230, 1030], [180, 1080], [140, 1150], [110, 1230], [120, 1300], [170, 1330], [240, 1360], [330, 1400], [400, 1450], [430, 1520], [440, 1600], [430, 1700], [400, 1778]])), source: [src], confidence: 'measured' });
+  add({ id: 'earth-track-west', type: 'earth-track', name: 'Earth track west of the statue garden', material: 'red laterite earth', colour: '#B9714A', width: 3.5, pts: D(K([[25, 240], [45, 300], [40, 380], [20, 450], [5, 520]])), source: [src], confidence: 'measured' });
+}
 
 // ---------- write ----------
 const out = {

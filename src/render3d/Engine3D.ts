@@ -90,6 +90,8 @@ export class Engine3D implements IMapEngine {
     this.scene.background = new THREE.Color(MIST); this.scene.fog = new THREE.Fog(MIST, 1e5, 2e5); // the mist ring does the work; no camera-distance fog
 
     this.terrain = new Terrain(assets.terrain, { buildings: world.buildings, areas: world.areas, paths: world.paths, bounds: world.bounds });
+    // structures added from the footage without a surveyed level stand on the natural ground (their pad used the same level)
+    for (const b of world.buildings) if (b.groundElev == null) b.groundElev = this.terrain.baseAt(b.parts[0].cx, b.parts[0].cy);
     this.lighting = new Lighting(this.scene);
     this.buildGround(); this.buildBuildings(); this.buildHouses(); this.buildRoadsAndProps(); this.buildTrees();
     this.markers = new Markers(this.scene, this.surfaceAt);
@@ -157,7 +159,7 @@ export class Engine3D implements IMapEngine {
     this.scene.add(g);
   }
   private buildTrees() {
-    this.campusTrees = buildTrees(this.world.campusTrees, this.surfaceAt, 0.62, 'campus-trees');
+    this.campusTrees = buildTrees(this.world.campusTrees, this.surfaceAt, 0.4, 'campus-trees');
     this.forest = buildTrees(forestSpots(this.world, this.assets.surroundings?.houses ?? [], FOREST_BUDGET), this.surfaceAt, 0.86, 'forest');
     this.scene.add(this.campusTrees.group, this.forest.group);
   }

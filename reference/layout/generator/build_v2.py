@@ -90,10 +90,24 @@ B('amul-cafe', 'Amul Cafe', 'food', '#C9B48A', C['GREY'],
   [eye([(oc[0] - 4, oc[1] - 26), (oc[0] + 6, oc[1] - 26), (oc[0] + 6, oc[1] - 19), (oc[0] - 4, oc[1] - 19)], 1, 'gable')], 2, short='Amul Cafe',
   confirm='Kiosk next to Cafe Cloud (confirmed as Amul Cafe); exact outline by eye.')
 
+# ---------------- 20 Nov audit: real structures seen on H A's straight-down drone still (scripts/lib/dronefit.mjs) ----------------
+def drone(pts, floors, roof, **extra):
+    p = part_from_poly(pts, floors, roof, **extra); p['src'] = "H A drone nadir 20 Nov (dji_fly_20260907 @0:24.8), fake/missing audit"; return p
+B('service-plant', 'Service plant house', 'service', '#E9E6DE', '#8A9096', [drone([(108.0, -140.5), (100.9, -144.8), (96.2, -138.5), (103.3, -134.2)], 1, 'flat')], 3,
+  confirm='Walled plant between Admin and NAB (open tanks with equipment; water or sewage plant, to confirm).')
+B('cafe-hut-red', 'Hut by Cafe Cloud', 'service', '#EDE6D8', '#B8504A', [drone([(83.2, -231.5), (79.3, -235.5), (75.4, -231.9), (79.5, -227.8)], 1, 'hip')], 3)
+B('cafe-shed-blue', 'Shed by Cafe Cloud', 'service', '#D9D6CE', '#3D6FB0', [drone([(47.3, -228.2), (42.8, -227.9), (43.0, -225.5), (47.1, -225.5)], 1, 'flat')], 3)
+B('cafe-store', 'Store north of Cafe Cloud', 'service', '#E4E1D8', '#8E969C', [drone([(52.4, -180.5), (47.7, -188.1), (41.5, -185.9), (46.4, -177.8)], 1, 'gable')], 3)
+for _b in buildings:
+    if _b['id'] == 'amul-cafe':  # the teal-roofed kiosk, about 4 m square (was a 10 x 7 m guess)
+        _b['parts'] = [drone([(60.5, -236.3), (56.5, -237.4), (55.1, -233.1), (59.0, -231.8)], 1, 'hip')]; _b['roofColor'] = '#3F9A93'
+        _b['confirm'] = 'The teal-roofed kiosk by Cafe Cloud (H A drone, 20 Nov).'
+
 # ---------------- Kalam area ----------------
 B('kalam-centre', 'Dr. Kalam Centre', 'venue', C['WHITE'], C['GREEN'], [fpart(494, 3, 'hip', glass='stair'), fpart(495, 3, 'hip')], 1, short='Kalam Centre')
 B('kalam-building', 'Kalam Building', 'venue', C['WHITE'], C['GREEN'], [fpart(500, 2, 'hip')], 2, confirm='Assumed to be the block just east of the Kalam Centre.')
-B('east-cluster', 'Campus blocks (between NAB and Kalam Centre)', 'service', '#ECE4D2', C['GREEN'],
+# 20 Nov: H A's drone footage and the satellite show bare ground, scrub and debris here, no buildings (fake-building audit)
+if False: B('east-cluster', 'Campus blocks (between NAB and Kalam Centre)', 'service', '#ECE4D2', C['GREEN'],
   [fpart(i, 2, 'hip') for i in (513, 514, 515, 519, 520)], 3, short='Campus blocks', confirm='Use of these small blocks to confirm.')
 B('block-501', 'Campus building', 'service', '#ECE4D2', C['GREEN'], [fpart(501, 2, 'hip')], 3, confirm='Use to confirm.')
 B('block-503', 'Campus building', 'service', '#ECE4D2', C['GREEN'], [fpart(503, 2, 'hip')], 3, confirm='Use to confirm.')
@@ -148,7 +162,8 @@ B('type3', 'Faculty Quarters Type 3', 'staff', C['WHITE'], C['TEAL'], [fpart(i, 
 
 # ---------------- Services ----------------
 B('substation', 'IIM Substation', 'service', '#D9D4C8', C['GREY'], [fpart(468, 1, 'flat')], 3)
-B('service-east', 'Service buildings (east of Admin)', 'service', '#D9D4C8', C['GREY'], [fpart(563, 1, 'flat'), fpart(564, 1, 'flat')], 3, confirm='Use to confirm.')
+# 20 Nov: bare red earth on the satellite (fake-building audit)
+if False: B('service-east', 'Service buildings (east of Admin)', 'service', '#D9D4C8', C['GREY'], [fpart(563, 1, 'flat'), fpart(564, 1, 'flat')], 3, confirm='Use to confirm.')
 gate = L(*PINS['IIM-Shillong (main listing)'])
 B('guard-room', 'Main Gate Security', 'help', C['CREAM'], C['GREEN'],
   [eye([(gate[0] - 9, gate[1] + 2), (gate[0] - 3, gate[1] + 2), (gate[0] - 3, gate[1] + 7), (gate[0] - 9, gate[1] + 7)], 1, 'hip')], 3, short='Security',
@@ -168,7 +183,7 @@ areas = [
   {'id': 'lake', 'kind': 'water', 'name': 'Campus Lake', 'pts': rnd(list(lake_poly.exterior.coords)[:-1]), 'src': 'OSM lake outline'},
   {'id': 'football', 'kind': 'ground', 'surface': 'grass', 'name': 'Football Ground', 'pts': rnd(foot), 'src': 'by-eye; Google pin'},
   {'id': 'courts-surround', 'kind': 'plaza', 'pts': rnd(list(court_union.buffer(4, join_style=2).exterior.coords)[:-1]), 'src': 'OSM recreation ground + 4 m'},
-  {'id': 'admin-forecourt', 'kind': 'garden', 'name': 'Flag forecourt', 'pts': rnd(circle(forecourt_c, 12)), 'src': 'by-eye (drone: circular garden + flag)'},
+  {'id': 'admin-forecourt', 'kind': 'garden', 'name': 'Flag forecourt', 'pts': [[231.6, -230.6], [209.0, -236.3], [178.8, -242.0], [174.9, -236.4], [176.7, -230.0], [183.5, -220.5], [190.3, -211.0], [196.4, -207.5], [202.0, -206.6], [207.2, -208.1], [211.3, -210.5], [218.9, -216.7], [226.5, -222.8]], 'src': 'H A drone nadir 20 Nov: the teardrop lawn inside the loop drive (scripts/lib/dronefit.mjs)'},
   {'id': 'aud-plaza', 'kind': 'plaza', 'pts': rnd([z03(470, 640), z03(745, 625), z03(765, 705), z03(470, 725)]), 'src': 'by-eye'},
   {'id': 'terrace-garden', 'kind': 'garden', 'name': 'Kalam statue garden', 'pts': rnd([z03(650, 700), z03(1000, 700), z03(1000, 900), z03(700, 900)]), 'src': 'by-eye (drone)'},
   {'id': 'nab-lawn', 'kind': 'lawn', 'pts': rnd([z03(430, 250), z03(560, 330), z03(520, 420), z03(400, 360)]), 'src': 'by-eye'},
@@ -250,7 +265,7 @@ fc = forecourt_c
 for e in entrances:
     if e['buildingId'] == 'admin':
         fx, fy = I03(965, 431); e['at'] = [r1(fx), r1(fy - 1.5)]
-paths.append({'id': 'fp-admin-forecourt', 'kind': 'footpath', 'pts': rnd([next(e['at'] for e in entrances if e['buildingId'] == 'admin'), fc, gate]), 'src': 'forecourt walk to the gate road'})
+paths.append({'id': 'fp-admin-forecourt', 'kind': 'footpath', 'pts': [[201.8, -207.2], [204.0, -227.0], [205.3, -235.7], [193.5, -244.2], [187.4, -258.3], [189.9, -274.0], [182.7, -294.9]], 'src': 'H A drone nadir 20 Nov: portico, flag ring, the path up the lawn, the drive to the bus bay, the main road'})
 
 # ---------------- Landmarks ----------------
 landmarks = [
@@ -280,6 +295,9 @@ from shapely.geometry import Polygon as _P
 _bd = _P(boundary)
 _used = set(USED)
 _skip = {949, 954, 1009, 891, 892, 522, 523, 524}   # walkway roofs (drawn as the covered walk), the tank, SW village edge
+# 20 Nov fake-building audit (H A's drone nadir + satellite show empty ground): the east-cluster and service-east
+# footprints, and these stray shapes
+_skip |= {513, 514, 515, 519, 520, 563, 564, 467, 507, 508, 509, 521, 556, 558, 559, 959, 963, 964, 983, 984}
 for i, f in sorted(FP.items()):
     if i in _used or i in _skip or f['area'] < 15 or not _bd.contains(Point(f['c'])): continue
     if Polygon(foot).buffer(2).contains(Point(f['c'])): continue   # stray shapes on the football ground
@@ -309,7 +327,7 @@ terrain = {'note': 'Elevation in metres above the campus lake (lake = 0). Rows r
 
 # 14 Nov: generic "Campus building"-type names cluttered the 3D labels. Draw them, but no label / search / hit-test.
 for b in buildings:
-    if b['id'] in ('east-cluster', 'block-501', 'block-503', 'east-residence', 'court-kiosk', 'block-962', 'block-488', 'service-east'):
+    if b['id'] in ('east-cluster', 'block-501', 'block-503', 'east-residence', 'court-kiosk', 'block-962', 'block-488', 'service-east', 'service-plant', 'cafe-hut-red', 'cafe-shed-blue', 'cafe-store'):
         b['unnamed'] = True; b['labelPriority'] = 3
     if b['id'] == 'west-cluster': b['labelPriority'] = 3   # name still to confirm
 layout = {'version': 2, 'note': 'Remapped 13 Nov 2026 from Overture footprints, OSM roads/lake/courts, Google pins (names only) and drone photos. See reference/layout/LAYOUT_INVENTORY.md. Parts carry "poly" (true footprint) and "src".',

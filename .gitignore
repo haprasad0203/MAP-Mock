@@ -6,3 +6,4 @@ dist/
 .claude/
 *.tsbuildinfo
 .env*
+__pycache__/

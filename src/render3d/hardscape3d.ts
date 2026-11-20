@@ -102,6 +102,21 @@ export function addHardscape(B: Buckets, items: Item[], h: SurfaceAt) {
         }
         break;
       }
+      case 'open-tank': { // concrete tank walls, a flat water surface and (for a plant) rows of dark equipment across it
+        const poly = it.poly; if (!poly || poly.length < 3) break;
+        const H = it.height ?? 1.6, g = Math.min(...poly.map(q => h(q[0], q[1])));
+        run(B, [...poly, poly[0]], () => g, 0.35, H, col(it, '#C9C6BD'), rgb('#E8E6DF'), 2.5, 0.8);
+        B.cap(K, poly, g + H - 0.35, rgb(typeof it.water === 'string' ? it.water : '#3E9EA3'));
+        const n = Number(it.units ?? 0); if (!n) break;
+        const [a, b, c, d] = poly, mid = (p: XY, q: XY, t: number): XY => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+        const lenAB = Math.hypot(b[0] - a[0], b[1] - a[1]), lenBC = Math.hypot(c[0] - b[0], c[1] - b[1]);
+        const [s0, s1, e0, e1] = lenAB >= lenBC ? [a, b, d, c] : [b, c, a, d]; // units run across the long side
+        for (let k = 0; k < n; k++) {
+          const t = (k + 0.5) / n, p0 = mid(s0, s1, t), p1 = mid(e0, e1, t), cx = (p0[0] + p1[0]) / 2, cy = (p0[1] + p1[1]) / 2, ang = Math.atan2(p1[1] - p0[1], p1[0] - p0[0]);
+          B.box(K, cx, cy, Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) * 0.7, Math.max(lenAB, lenBC) / n * 0.35, ang, g + H - 0.4, g + H + 0.5, rgb('#3A4046'), rgb('#4A5258'));
+        }
+        break;
+      }
       default: break; // plazas, parking, courtyards, paths, the lake edge: ground texture; walkways and the gate: their own builders
     }
   }
