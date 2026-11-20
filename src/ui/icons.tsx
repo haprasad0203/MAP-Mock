@@ -8,6 +8,8 @@ export const IconClose = () => <S><path d="M6 6l12 12M18 6 6 18" /></S>;
 export const IconLocate = () => <S><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" fill="currentColor" /><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5" /></S>;
 export const IconRotate = () => <S><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3" /><path d="M19.5 4.5v4h-4" /></S>;
 export const IconCompass = () => <S><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" fill="currentColor" fillOpacity=".25" /></S>;
+/** Compass needle pointing up (north): the north half red. Rotated by the view's bearing in CampusPage. */
+export const IconNorth = () => <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 15.2 12H8.8z" fill="#D64545" /><path d="M12 20.8 8.8 12h6.4z" fill="currentColor" fillOpacity=".45" /><circle cx="12" cy="12" r="1.3" fill="#fff" /></svg>;
 export const IconLayers = () => <S><path d="m12 3.5 8.5 4.5-8.5 4.5L3.5 8z" /><path d="m3.5 12.5 8.5 4.5 8.5-4.5" /><path d="m3.5 16.5 8.5 4.5 8.5-4.5" /></S>;
 export const IconWalk = () => <S><circle cx="13" cy="4.5" r="1.8" fill="currentColor" /><path d="m10 21 2-6-2.5-2.5L11 8l3 2.5 3 1M14 15l2 6M11 8 7.5 10v3" /></S>;
 export const IconShare = () => <S><circle cx="18" cy="5.5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="18.5" r="2.5" /><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1" /></S>;

@@ -8,7 +8,7 @@ import type { EngineOptions, Hit, IMapEngine, Layers, Pin, View } from '../rende
 import type { WorldModel } from '../render/world';
 import { Terrain, type TerrainData } from './terrain';
 const DEV_CAM = typeof location !== 'undefined' ? (new URLSearchParams(location.search).get('cam')?.split(',').map(Number) ?? null) : null;
-import { applyPose, distanceFor, PITCH, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
+import { applyPose, azimuth, distanceFor, PITCH, screenRay, screenToGround, screenToPlane, worldToScreen } from './camera';
 import { bakeGroundTexture, bakeGroundWeights, buildTerrainGeometry, groundMaterial, type SurfaceAt } from './ground';
 import { iconFor } from '../ui/mapIcons';
 import { Buckets } from './mesh';
@@ -62,7 +62,10 @@ export class Engine3D implements IMapEngine {
   private k: number; private rotF: number;
   private W = 1; private H = 1; private dist = 1000;
   private dirty = true; private raf = 0; private anim: ((t: number) => boolean) | null = null;
-  private vel: XY = [0, 0]; private dragging = false;
+  private pitch = PITCH;                                   // tilt, degrees down from the horizon (free, like Google Maps)
+  private fling: { v: XY; t: number } | null = null;        // pan glide after a flick (px per ms), time-based decay
+  private zoomGoal: { z: number; at: XY; t: number } | null = null; // smooth wheel zoom: log-zoom target round an anchor
+  private spin: { v: number; t: number } | null = null;     // rotation glide after a twist (quarter turns per ms)
   private abort = new AbortController(); private ro: ResizeObserver;
   private pickables: THREE.Mesh[] = []; private unnamed: THREE.Mesh[] = []; private ray = new THREE.Raycaster();
   private mats = new Map<string, THREE.Material>();
@@ -78,7 +81,7 @@ export class Engine3D implements IMapEngine {
   constructor(private canvas: HTMLCanvasElement, public world: WorldModel, private assets: Assets, view: View | null, private opts: EngineOptions = {}, quality: Quality = 'high', private auto = false) {
     const t0 = performance.now();
     this.view = view ?? { cx: world.centre[0], cy: world.centre[1], level: 1, rot: 0 };
-    this.k = this.view.k ?? LEVELS[Math.max(0, Math.min(LEVELS.length - 1, this.view.level))]; this.rotF = this.view.rot;
+    this.k = this.view.k ?? LEVELS[Math.max(0, Math.min(LEVELS.length - 1, this.view.level))]; this.rotF = this.view.turn ?? this.view.rot; this.pitch = clampPitch(this.view.pitch ?? PITCH);
     canvas.style.imageRendering = 'auto';
     this.quality = quality;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -117,7 +120,7 @@ export class Engine3D implements IMapEngine {
     const sm = (a: number, b: number) => { const x = Math.max(0, Math.min(1, (u - a) / (b - a))); return x * x * (3 - 2 * x); };
     const drop = 1 - (1 - Math.min(1, u / 0.92)) ** 4; // fast fall, long soft landing
     const kEnd = this.k, kStart = kEnd / 14;
-    return { k: Math.exp(Math.log(kStart) + (Math.log(kEnd) - Math.log(kStart)) * drop), pitch: 86 - (86 - PITCH) * sm(0.12, 1), rot: this.rotF + 0.55 * (1 - sm(0, 1)), trees: sm(0.3, 0.8), build: sm(0.42, 0.9), labels: u > 0.86 };
+    return { k: Math.exp(Math.log(kStart) + (Math.log(kEnd) - Math.log(kStart)) * drop), pitch: 86 - (86 - this.pitch) * sm(0.12, 1), rot: this.rotF + 0.55 * (1 - sm(0, 1)), trees: sm(0.3, 0.8), build: sm(0.42, 0.9), labels: u > 0.86 };
   }
   private applyIntro(u: number) {
     const p = this.introPose(u), root = this.scene.getObjectByName('buildings'), props = this.scene.getObjectByName('props');
@@ -214,20 +217,27 @@ export class Engine3D implements IMapEngine {
   setUser(u: UserFix | null) { this.markers.setUser(u); this.invalidate(); }
   setOnAir(buildingIds: string[]) { this.onAir = new Set(buildingIds); this.invalidate(); }
   rotate(dir: 1 | -1 = 1) {
-    const from = this.rotF, to = Math.round(from) + dir, t0 = performance.now();
-    this.view.rot = (((to % 4) + 4) % 4) as Rot; this.vel = [0, 0];
-    this.anim = t => { const u = Math.min(1, (t - t0) / 600), e = u < 0.5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2; this.rotF = from + (to - from) * e; if (u >= 1) { this.rotF = this.view.rot; this.persist(); return false; } return true; };
-    this.emitView(); this.kick();
+    const from = this.rotF, to = Math.round(from) + dir, t0 = performance.now(); this.stopMotion();
+    this.anim = t => { const u = Math.min(1, (t - t0) / 600), e = u < 0.5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2; this.rotF = from + (to - from) * e; this.syncRot(); if (u >= 1) { this.persist(); return false; } return true; };
+    this.kick();
   }
+  /** North up (the camera due south of the centre: turn 0.5, the nearest such) and the default tilt, smoothly. */
+  resetNorth(ms = 550) {
+    const from = this.rotF, to = 0.5 + 4 * Math.round((from - 0.5) / 4), p0 = this.pitch, t0 = performance.now(); this.stopMotion();
+    this.anim = t => { const u = Math.min(1, (t - t0) / ms), e = 1 - (1 - u) ** 3; this.rotF = from + (to - from) * e; this.pitch = p0 + (PITCH - p0) * e; this.view.pitch = this.pitch; this.syncRot(); if (u >= 1) { this.persist(); return false; } return true; };
+    this.kick();
+  }
+  /** The compass heading the view looks toward: 0 = north up, clockwise. */
+  get bearing() { const az = azimuth(this.rotF), lx = -Math.cos(az), ly = -Math.sin(az); return (((Math.atan2(lx, ly) * 180) / Math.PI) % 360 + 360) % 360; }
   recentre() { this.flyTo([this.world.centre[0] + 20, this.world.centre[1]], this.W < 700 ? 2 : 3); }
   /** Fly so `at` lands at screen fraction (fx, fy): callers use it to keep the place clear of the bottom sheet. */
   flyTo(at0: XY, level?: number, ms = 650, fx = 0.5, fy = 0.5) {
     const lv = Math.max(0, Math.min(LEVELS.length - 1, level ?? Math.max(this.view.level, 5))), toK = LEVELS[lv];
     // where would (fx, fy) fall if we centred on `at`? Shift the centre the other way by that much.
     const tmp = new THREE.PerspectiveCamera(), h = this.terrain.baseAt(at0[0], at0[1]);
-    applyPose(tmp, { cx: at0[0], cy: at0[1], h, k: toK, rot: this.view.rot }, this.W, this.H);
+    applyPose(tmp, { cx: at0[0], cy: at0[1], h, k: toK, rot: this.rotF, pitch: this.pitch }, this.W, this.H);
     const p = screenToPlane(tmp, fx * this.W, fy * this.H, this.W, this.H, h), at: XY = [2 * at0[0] - p[0], 2 * at0[1] - p[1]];
-    const from = { x: this.view.cx, y: this.view.cy, z: Math.log(this.k) }, toZ = Math.log(toK), t0 = performance.now(); this.vel = [0, 0];
+    const from = { x: this.view.cx, y: this.view.cy, z: Math.log(this.k) }, toZ = Math.log(toK), t0 = performance.now(); this.stopMotion();
     this.anim = t => {
       const u = Math.min(1, (t - t0) / ms), e = u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2;
       this.view.cx = from.x + (at[0] - from.x) * e; this.view.cy = from.y + (at[1] - from.y) * e; this.setK(Math.exp(from.z + (toZ - from.z) * e));
@@ -238,7 +248,8 @@ export class Engine3D implements IMapEngine {
   zoomBy(f: number, anchor?: XY) {
     const a = anchor ?? [this.W / 2, this.H / 2], from = Math.log(this.k), to = Math.log(Math.max(K_MIN, Math.min(K_MAX, this.k * f))), t0 = performance.now();
     let last = from;
-    this.anim = t => { const u = Math.min(1, (t - t0) / 220), z = from + (to - from) * (1 - (1 - u) ** 2); this.zoomAround(Math.exp(z - last), a); last = z; if (u >= 1) { this.persist(); return false; } return true; };
+    this.stopMotion();
+    this.anim = t => { const u = Math.min(1, (t - t0) / 300), z = from + (to - from) * (1 - (1 - u) ** 3); this.zoomAround(Math.exp(z - last), a); last = z; if (u >= 1) { this.persist(); return false; } return true; };
     this.kick();
   }
   /** World position (on the ground) of a CSS-pixel point on the canvas. */
@@ -276,14 +287,16 @@ export class Engine3D implements IMapEngine {
       this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: p.k, rot: p.rot, pitch: p.pitch }, this.W, this.H);
       return;
     }
-    this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: this.k, rot: this.rotF }, this.W, this.H);
+    this.dist = applyPose(this.camera, { cx: this.view.cx, cy: this.view.cy, h: this.centreH(), k: this.k, rot: this.rotF, pitch: this.pitch }, this.W, this.H);
     if (DEV_CAM) { // dev only: ?cam=x,y,az,pitch,dist,fov frees the camera to match a drone photo (aerial match sheets)
       const [x, y, az, pitch, d, fov] = DEV_CAM, a = (az * Math.PI) / 180, pt = (pitch * Math.PI) / 180, h = this.terrain.baseAt(x, y);
       this.camera.fov = fov; this.camera.position.set(x + d * Math.cos(pt) * Math.cos(a), h + d * Math.sin(pt), -(y + d * Math.cos(pt) * Math.sin(a)));
       this.camera.near = 5; this.camera.far = d * 4 + 9000; this.camera.lookAt(x, h, -y); this.camera.updateProjectionMatrix(); this.camera.updateMatrixWorld(true);
     }
   }
-  private emitView() { this.opts.onView?.({ ...this.view, tier: this.tier }); }
+  private emitView() { this.opts.onView?.({ ...this.view, tier: this.tier, bearing: this.bearing }); }
+  private syncRot() { this.view.turn = this.rotF; this.view.rot = (((Math.round(this.rotF) % 4) + 4) % 4) as Rot; }
+  private stopMotion() { this.anim = null; this.fling = null; this.zoomGoal = null; this.spin = null; }
   private persist() { try { sessionStorage.setItem('campus.view', JSON.stringify(this.view)); } catch { /* ignore */ } this.emitView(); }
   private resize() {
     const r = this.canvas.getBoundingClientRect(); if (!r.width || !r.height) return;
@@ -329,10 +342,7 @@ export class Engine3D implements IMapEngine {
       const u = Math.min(1, (performance.now() - this.pulseT0) / 1600); this.markers.pulse(u); this.dirty = true;
       if (u >= 1) this.pulseT0 = -1; else more = true;
     }
-    if (Math.abs(this.vel[0]) + Math.abs(this.vel[1]) > 0.02 && !this.dragging) {
-      this.panBy(this.vel[0] * 16, this.vel[1] * 16); this.vel = [this.vel[0] * 0.92, this.vel[1] * 0.92]; more = true;
-      if (Math.abs(this.vel[0]) + Math.abs(this.vel[1]) <= 0.02) this.persist();
-    }
+    if (this.glide(t)) more = true;
     if (this.dirty || more) {
       this.draw(t); this.dirty = false;
       if (this.lastT) { this.frameMs.push(t - this.lastT); if (this.frameMs.length > 40) this.frameMs.shift(); this.probe++; this.checkSpeed(); }
@@ -368,48 +378,190 @@ export class Engine3D implements IMapEngine {
     this.fpsEl.textContent = `${ms ? `${ms} ms/frame  ${Math.round(1000 / ms)} fps` : 'drag the map to measure'}\n${this.quality} · ${r.calls} calls · ${Math.round(r.triangles / 1000)}k tris · dpr ${this.renderer.getPixelRatio()}`;
   }
 
-  // ---------- input (same gestures as the 2D engine) ----------
+  // ---------- navigation: Google Maps-style gestures (H A, 21 Nov) ----------
+  // One finger or the left mouse button: grab and drag (the ground point under the finger stays under it), and a flick
+  // glides on and slows smoothly. Two fingers: pinch zooms round the fingers, twisting rotates (after a 10° threshold so
+  // a pinch never rotates by accident), moving pans; both fingers up or down together tilts. Double-tap zooms in,
+  // double-tap and drag zooms with one finger, a two-finger tap zooms out. Mouse: the wheel zooms smoothly at the cursor
+  // (trackpad pinch too); right-drag or Ctrl-drag rotates (across) and tilts (up and down); double-click zooms in
+  // (Shift: out). Keyboard on the map: arrows pan, + and − zoom, Shift+arrows rotate and tilt, N turns north up.
   private plane(px: number, py: number): XY { return screenToPlane(this.camera, px, py, this.W, this.H, this.centreH()); }
+  /** The ground plane point under a screen point, or null near the horizon (where a small move would fling the map). */
+  private planeAt(px: number, py: number): XY | null {
+    const { o, d } = screenRay(this.camera, px, py, this.W, this.H); if (d.y > -0.03) return null;
+    const t = (this.centreH() - o.y) / d.y; if (t < 0 || t > this.dist * 6) return null;
+    return [o.x + d.x * t, -(o.z + d.z * t)];
+  }
+  /** Move the content by (dx, dy) screen pixels (the glide, the keyboard). */
   private panBy(dx: number, dy: number) { this.sync(); const a = this.plane(this.W / 2 - dx, this.H / 2 - dy); this.view.cx = a[0]; this.view.cy = a[1]; this.clamp(); this.dirty = true; }
+  /** Keep the world point grab under the screen point (px, py): a 1:1 drag at any tilt. */
+  private holdAt(grab: XY, px: number, py: number) {
+    this.sync(); const cur = this.planeAt(px, py); if (!cur) return;
+    this.view.cx += grab[0] - cur[0]; this.view.cy += grab[1] - cur[1]; this.clamp(); this.dirty = true;
+  }
   private zoomAround(f: number, anchor: XY) {
-    this.sync(); const before = this.plane(anchor[0], anchor[1]);
-    this.setK(this.k * f); this.sync(); const after = this.plane(anchor[0], anchor[1]);
+    this.sync(); const before = this.planeAt(anchor[0], anchor[1]) ?? this.plane(this.W / 2, this.H / 2);
+    this.setK(this.k * f); this.sync(); const after = this.planeAt(anchor[0], anchor[1]) ?? this.plane(this.W / 2, this.H / 2);
     this.view.cx += before[0] - after[0]; this.view.cy += before[1] - after[1]; this.clamp(); this.invalidate();
   }
+  /** Rotate by dTurn quarter turns round a screen point (it stays where it is). */
+  private turnAround(dTurn: number, anchor: XY) {
+    this.sync(); const before = this.planeAt(anchor[0], anchor[1]);
+    this.rotF += dTurn; this.syncRot(); this.sync(); const after = before && this.planeAt(anchor[0], anchor[1]);
+    if (before && after) { this.view.cx += before[0] - after[0]; this.view.cy += before[1] - after[1]; this.clamp(); }
+    this.dirty = true;
+  }
+  private tiltBy(dDeg: number) { this.pitch = clampPitch(this.pitch + dDeg); this.view.pitch = this.pitch; this.dirty = true; }
   private clamp() {
     const b = this.world.bounds, m = 380;
     this.view.cx = Math.max(b.minX - m, Math.min(b.maxX + m, this.view.cx)); this.view.cy = Math.max(b.minY - m, Math.min(b.maxY + m, this.view.cy));
   }
+  /** One frame of the glides: the pan fling (time constant 325 ms), the smooth wheel zoom (90 ms) and the twist glide. */
+  private glide(t: number): boolean {
+    let more = false;
+    if (this.fling) {
+      const dt = Math.min(50, t - this.fling.t); this.fling.t = t;
+      if (dt > 0) { this.panBy(this.fling.v[0] * dt, this.fling.v[1] * dt); const k = Math.exp(-dt / 325); this.fling.v = [this.fling.v[0] * k, this.fling.v[1] * k]; }
+      if (Math.hypot(this.fling.v[0], this.fling.v[1]) < 0.012) { this.fling = null; this.persist(); } else more = true;
+    }
+    if (this.zoomGoal) {
+      const g = this.zoomGoal, dt = Math.min(50, t - g.t); g.t = t;
+      const dz = g.z - Math.log(this.k), step = dz * (1 - Math.exp(-Math.max(1, dt) / 90));
+      this.zoomAround(Math.exp(step), g.at);
+      if (Math.abs(dz - step) < 0.003) { this.zoomGoal = null; this.persist(); } else more = true;
+    }
+    if (this.spin) {
+      const dt = Math.min(50, t - this.spin.t); this.spin.t = t;
+      if (dt > 0) { this.turnAround(this.spin.v * dt, [this.W / 2, this.H / 2]); this.spin.v *= Math.exp(-dt / 250); }
+      if (Math.abs(this.spin.v) < 0.00002) { this.spin = null; this.persist(); } else more = true;
+    }
+    return more;
+  }
   private bindInput() {
-    const el = this.canvas, o = { signal: this.abort.signal }; const pts = new Map<number, XY>();
-    let last: XY = [0, 0], lastT = 0, startT = 0, moved = 0, pinchD = 0, wheelT: ReturnType<typeof setTimeout> | undefined;
-    const local = (e: PointerEvent | MouseEvent): XY => { const r = el.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const el = this.canvas, o = { signal: this.abort.signal };
+    el.tabIndex = 0; el.style.outline = 'none';
+    interface Ptr { x: number; y: number; x0: number; y0: number; t0: number; touch: boolean }
+    interface Two { d: number; a: number; c: XY; grab: XY | null; rot: number; rotOn: boolean; kind: 'undecided' | 'transform' | 'tilt'; t0: number; moved: number; spinV: number; lastT: number }
+    const pts = new Map<number, Ptr>(), local = (e: MouseEvent): XY => { const r = el.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    let mode: 'none' | 'pan' | 'orbit' | 'two' | 'quick' = 'none', grab: XY | null = null, hist: { t: number; x: number; y: number }[] = [];
+    let moved = 0, downT = 0, orbitLast: XY = [0, 0], two: Two | null = null;
+    let lastType = 'mouse', lastTap = { t: 0, x: 0, y: 0 }, quick: { y0: number; z0: number; at: XY; moved: number; t0: number } | null = null;
+    const D2R = Math.PI / 180, wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
+    const pair = () => { const [a, b] = [...pts.values()]; return { d: Math.hypot(a.x - b.x, a.y - b.y), ang: Math.atan2(b.y - a.y, b.x - a.x), c: [(a.x + b.x) / 2, (a.y + b.y) / 2] as XY }; };
+    el.addEventListener('contextmenu', e => e.preventDefault(), o);
     el.addEventListener('pointerdown', e => {
-      if (this.introActive) { this.skipIntro(); return; } // a tap skips the sky entrance
-      try { el.setPointerCapture(e.pointerId); } catch { /* synthetic pointer */ } pts.set(e.pointerId, local(e)); this.anim = null; this.vel = [0, 0];
-      if (pts.size === 1) { this.dragging = true; last = local(e); lastT = startT = performance.now(); moved = 0; }
-      if (pts.size === 2) { const [a, b] = [...pts.values()]; pinchD = Math.hypot(a[0] - b[0], a[1] - b[1]); moved = 99; }
+      if (this.introActive) { this.skipIntro(); return; }
+      try { el.setPointerCapture(e.pointerId); } catch { /* synthetic pointer */ }
+      try { el.focus({ preventScroll: true }); } catch { /* not focusable */ }
+      const [x, y] = local(e), now = performance.now(); this.stopMotion(); lastType = e.pointerType;
+      pts.set(e.pointerId, { x, y, x0: x, y0: y, t0: now, touch: e.pointerType !== 'mouse' });
+      if (pts.size === 1) {
+        moved = 0; downT = now; hist = [{ t: now, x, y }];
+        if (e.pointerType === 'mouse' && (e.button === 2 || e.ctrlKey || e.metaKey)) { mode = 'orbit'; orbitLast = [x, y]; return; }
+        // a second tap close to the first: double-tap zooms in, double-tap and drag zooms with one finger
+        if (e.pointerType !== 'mouse' && now - lastTap.t < 320 && Math.hypot(x - lastTap.x, y - lastTap.y) < 40) { mode = 'quick'; quick = { y0: y, z0: Math.log(this.k), at: [x, y], moved: 0, t0: now }; return; }
+        mode = 'pan'; this.sync(); grab = this.planeAt(x, y);
+      } else if (pts.size === 2) {
+        const p = pair(); mode = 'two'; this.sync();
+        two = { d: p.d, a: p.ang, c: p.c, grab: this.planeAt(p.c[0], p.c[1]), rot: 0, rotOn: false, kind: 'undecided', t0: now, moved: 0, spinV: 0, lastT: now };
+      }
+      this.kick();
     }, o);
     el.addEventListener('pointermove', e => {
-      if (!pts.has(e.pointerId)) return; const p = local(e); pts.set(e.pointerId, p);
-      if (pts.size === 2) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinchD > 0) this.zoomAround(d / pinchD, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]); pinchD = d; return; }
-      const dx = p[0] - last[0], dy = p[1] - last[1], now = performance.now(); moved += Math.abs(dx) + Math.abs(dy);
-      this.panBy(dx, dy); { const dt = Math.max(8, now - lastT), sp = Math.hypot(dx, dy) / dt, cap = sp > 2.5 ? 2.5 / sp : 1; this.vel = [(dx / dt) * cap, (dy / dt) * cap]; } // a flick glides, but never flies off the campus last = p; lastT = now; this.kick();
+      const p = pts.get(e.pointerId); if (!p) return;
+      const [x, y] = local(e), now = performance.now(), dx = x - p.x, dy = y - p.y; p.x = x; p.y = y;
+      if (mode === 'pan' && pts.size === 1) {
+        moved += Math.abs(dx) + Math.abs(dy); hist.push({ t: now, x, y }); while (hist.length > 2 && now - hist[0].t > 100) hist.shift();
+        if (grab) this.holdAt(grab, x, y); else { this.panBy(dx, dy); this.sync(); grab = this.planeAt(x, y); }
+      } else if (mode === 'orbit') {
+        const ox = x - orbitLast[0], oy = y - orbitLast[1]; orbitLast = [x, y]; moved += Math.abs(ox) + Math.abs(oy);
+        this.turnAround((-ox * 0.4) / 90, [this.W / 2, this.H / 2]); this.tiltBy(oy * 0.3);
+      } else if (mode === 'quick' && quick) {
+        quick.moved += Math.abs(dy); const z = quick.z0 + (y - quick.y0) * 0.012; this.zoomAround(Math.exp(z - Math.log(this.k)), quick.at);
+      } else if (mode === 'two' && two && pts.size === 2) {
+        const q = pair(); two.moved += Math.abs(dx) + Math.abs(dy);
+        if (two.kind === 'undecided' && two.moved > 14) {
+          // both fingers moving up or down together, little pinch or twist: tilt; anything else: pan, zoom and rotate
+          const vs = [...pts.values()], fy = vs.map(v => v.y - v.y0), fx = vs.map(v => v.x - v.x0);
+          const together = fy[0] * fy[1] > 0 && fy.every((v, i) => Math.abs(v) > 1.6 * Math.abs(fx[i]));
+          two.kind = together && Math.abs(q.d - two.d) < 0.25 * Math.min(Math.abs(fy[0]), Math.abs(fy[1])) + 6 && Math.abs(wrap(q.ang - two.a)) < 8 * D2R ? 'tilt' : 'transform';
+        }
+        if (two.kind === 'tilt') this.tiltBy((dy * 0.3) / 2);
+        else if (two.kind === 'transform') {
+          if (two.grab) this.holdAt(two.grab, q.c[0], q.c[1]);
+          if (two.d > 0 && q.d > 0) this.zoomAround(q.d / two.d, q.c);
+          const da = wrap(q.ang - two.a); two.rot += da;
+          if (!two.rotOn && Math.abs(two.rot) > 10 * D2R) two.rotOn = true;
+          if (two.rotOn) {
+            const dTurn = -da / (Math.PI / 2); this.turnAround(dTurn, q.c);
+            const dt = Math.max(8, now - two.lastT); two.spinV = 0.7 * two.spinV + 0.3 * (dTurn / dt);
+          }
+          this.sync(); two.grab = this.planeAt(q.c[0], q.c[1]);
+        }
+        two.d = q.d; two.a = q.ang; two.c = q.c; two.lastT = now;
+      }
+      this.kick();
     }, o);
     const up = (e: PointerEvent) => {
-      if (!pts.has(e.pointerId)) return; const p = local(e); pts.delete(e.pointerId);
-      if (pts.size === 1) { last = [...pts.values()][0]; pinchD = 0; this.persist(); return; }
-      if (pts.size === 0) {
-        this.dragging = false;
-        if (moved < 8 && performance.now() - startT < 500) { this.vel = [0, 0]; this.opts.onSelect?.(this.hitTest(p[0], p[1])); }
-        else if (performance.now() - lastT > 80) { this.vel = [0, 0]; this.persist(); }
-        this.kick();
+      const p = pts.get(e.pointerId); if (!p) return; pts.delete(e.pointerId);
+      const now = performance.now(), [x, y] = local(e);
+      if (mode === 'two' && two) {
+        // a quick two-finger tap zooms out; after a twist, the rotation glides a little
+        if (pts.size === 1 && two.moved < 12 && now - two.t0 < 280) this.zoomBy(0.5, two.c);
+        else if (two.rotOn && Math.abs(two.spinV) > 0.00015) this.spin = { v: Math.max(-0.004, Math.min(0.004, two.spinV)), t: now };
+        two = null;
+        if (pts.size === 1) { const r = [...pts.values()][0]; mode = 'pan'; this.sync(); grab = this.planeAt(r.x, r.y); hist = [{ t: now, x: r.x, y: r.y }]; moved = 99; }
+        this.persist(); this.kick(); return;
       }
+      if (pts.size > 0) return;
+      if (mode === 'quick' && quick) {
+        if (quick.moved < 10 && now - quick.t0 < 300) this.zoomBy(2, quick.at); // a plain double-tap
+        quick = null; lastTap = { t: 0, x: 0, y: 0 };
+      } else if (mode === 'pan') {
+        if (moved < 8 && now - downT < 500) {
+          this.opts.onSelect?.(this.hitTest(x, y));
+          if (p.touch) lastTap = { t: now, x, y };
+        } else {
+          // the flick: speed over the last 100 ms, only if the finger was still moving when it lifted
+          const h0 = hist[0], h1 = hist[hist.length - 1];
+          if (h0 && h1 && now - h1.t < 60 && h1.t - h0.t > 8) {
+            let vx = (h1.x - h0.x) / (h1.t - h0.t), vy = (h1.y - h0.y) / (h1.t - h0.t); const sp = Math.hypot(vx, vy), cap = 4;
+            if (sp > cap) { vx *= cap / sp; vy *= cap / sp; }
+            if (sp > 0.1) this.fling = { v: [vx, vy], t: now };
+          }
+        }
+      }
+      mode = 'none'; grab = null; this.persist(); this.kick();
     };
     el.addEventListener('pointerup', up, o); el.addEventListener('pointercancel', up, o);
-    el.addEventListener('wheel', e => { e.preventDefault(); if (this.introActive) { this.skipIntro(); return; } this.zoomAround(Math.exp(-e.deltaY * 0.0022), local(e)); clearTimeout(wheelT); wheelT = setTimeout(() => this.persist(), 160); }, { passive: false, signal: this.abort.signal });
-    el.addEventListener('dblclick', e => this.zoomBy(1.9, local(e)), o);
+    el.addEventListener('wheel', e => {
+      e.preventDefault(); if (this.introActive) { this.skipIntro(); return; }
+      this.fling = null; this.anim = null;
+      const at = local(e), dy = e.deltaY * (e.deltaMode === 1 ? 33 : e.deltaMode === 2 ? 400 : 1), now = performance.now();
+      if (e.ctrlKey) { this.zoomGoal = null; this.zoomAround(Math.exp(-dy * 0.012), at); this.persistSoon(); } // trackpad pinch
+      else if (Math.abs(dy) >= 40) {                                                                              // a mouse wheel notch: a smooth step
+        const z0 = this.zoomGoal ? this.zoomGoal.z : Math.log(this.k), z = Math.max(Math.log(K_MIN), Math.min(Math.log(K_MAX), z0 - (dy / 100) * Math.log(1.6)));
+        this.zoomGoal = { z, at, t: now };
+      } else { this.zoomGoal = null; this.zoomAround(Math.exp(-dy * 0.005), at); this.persistSoon(); }            // a trackpad scroll
+      this.kick();
+    }, { passive: false, signal: this.abort.signal });
+    // double-click is the mouse's; a touch double-tap is handled above (some browsers send both, which would zoom twice)
+    el.addEventListener('dblclick', e => { if (lastType !== 'mouse') return; if (e.shiftKey || e.altKey) this.zoomBy(0.5, local(e)); else this.zoomBy(2, local(e)); }, o);
+    el.addEventListener('keydown', e => {
+      const c: XY = [this.W / 2, this.H / 2], k = e.key, now = performance.now(); let used = true;
+      if (e.shiftKey && k === 'ArrowLeft') this.turnAround(15 / 90, c); else if (e.shiftKey && k === 'ArrowRight') this.turnAround(-15 / 90, c);
+      else if (e.shiftKey && k === 'ArrowUp') this.tiltBy(-8); else if (e.shiftKey && k === 'ArrowDown') this.tiltBy(8);
+      else if (k === 'ArrowLeft') this.fling = { v: [1.2, 0], t: now }; else if (k === 'ArrowRight') this.fling = { v: [-1.2, 0], t: now };
+      else if (k === 'ArrowUp') this.fling = { v: [0, 1.2], t: now }; else if (k === 'ArrowDown') this.fling = { v: [0, -1.2], t: now };
+      else if (k === '+' || k === '=') this.zoomBy(1.6); else if (k === '-' || k === '_') this.zoomBy(1 / 1.6);
+      else if (k === 'n' || k === 'N') this.resetNorth(); else used = false;
+      if (used) { e.preventDefault(); this.persistSoon(); this.kick(); }
+    }, o);
   }
+  private persistT: ReturnType<typeof setTimeout> | undefined;
+  private persistSoon() { clearTimeout(this.persistT); this.persistT = setTimeout(() => this.persist(), 160); }
 }
 
+/** Tilt limits: from nearly straight down to a low view over the hills (degrees down from the horizon). */
+function clampPitch(p: number) { return Math.max(24, Math.min(88.5, p)); }
 export { distanceFor };

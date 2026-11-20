@@ -2,13 +2,15 @@ import type { XY } from '../geo/grid';
 import type { Category } from '../geo/types';
 import type { Rot, Tier } from './iso';
 
-/** `level` indexes LEVELS (iso.ts). The 3D engine also stores the exact zoom in `k`. */
-export interface View { cx: number; cy: number; level: number; rot: Rot; k?: number }
+/** `level` indexes LEVELS (iso.ts). The 3D engine also stores the exact zoom in `k`, its free rotation in `turn` (quarter
+ *  turns, continuous; `rot` is then the nearest quarter) and its tilt in `pitch` (degrees down from the horizon). */
+export interface View { cx: number; cy: number; level: number; rot: Rot; k?: number; turn?: number; pitch?: number }
 export interface Pin { id: string; at: XY; label: string; kind: 'place' | 'landmark'; category: Category; priority: 1 | 2 | 3 }
 export interface Hit { buildingId?: string; at: XY }
 export interface EngineOptions {
   onSelect?: (hit: Hit | null) => void;
-  onView?: (v: View & { tier: Tier }) => void;
+  /** `bearing`: the compass heading the view looks toward (0 = north up, clockwise; 3D only). */
+  onView?: (v: View & { tier: Tier; bearing?: number }) => void;
   /** 3D only: the engine lowered its own quality tier because frames were slow. */
   onQuality?: (q: 'high' | 'medium' | 'low') => void;
   /** 3D only: open with the sky entrance (camera drops through the clouds and settles). `onIntro(u)` reports progress 0..1. */
@@ -30,6 +32,8 @@ export interface IMapEngine {
   setSelected(id: string | null): void;
   setLayers(l: Partial<Layers>): void;
   rotate(dir?: 1 | -1): void;
+  /** 3D only: turn to north up and the default tilt, smoothly. */
+  resetNorth?(): void;
   recentre(): void;
   flyTo(at: XY, level?: number, ms?: number, fx?: number, fy?: number): void;
   zoomBy(f: number, anchor?: XY): void;

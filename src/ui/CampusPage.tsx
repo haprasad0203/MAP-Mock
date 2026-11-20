@@ -12,7 +12,7 @@ import { activeEvents, activeRoomChanges, applyRoomChanges, fixtureLive, minutes
 import { ARRIVE_M, buildGraph, nextStep, offRoute, REROUTE_M, routeTo, routeToPoint, walkable, type Route } from '../route/graph';
 import { LocationSource, type Fix } from '../route/location';
 import { ListView } from './ListView';
-import { IconClose, IconCompass, IconLayers, IconLocate, IconRotate, IconSearch } from './icons';
+import { IconClose, IconLayers, IconLocate, IconNorth, IconRotate, IconSearch } from './icons';
 import { BottomSheet, type Selection } from './BottomSheet';
 import { iconUrl } from './mapIcons';
 import SkyIntro, { markIntroPlayed, wantsIntro, type SkyIntroHandle } from './SkyIntro';
@@ -58,7 +58,7 @@ export default function CampusPage() {
   const [sel, setSel] = useState<Selection | null>(null);
   const [layersOpen, setLayersOpen] = useState(false);
   const [layers, setLayers] = useState({ labels: true, illustrated: true, trees: true });
-  const [tier, setTier] = useState<Tier>('area'); const [rot, setRot] = useState(0);
+  const [tier, setTier] = useState<Tier>('area'); const [rot, setRot] = useState(0); const [bearing, setBearing] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   // sky entrance: decided once per open; the clouds cover the loading time, then part as the camera drops
   const [intro, setIntro] = useState(() => use3d && wantsIntro());
@@ -105,7 +105,7 @@ export default function CampusPage() {
         const pl = places.places.find(p => p.buildingId === hit.buildingId && p.id === hit.buildingId) ?? places.places.find(p => p.buildingId === hit.buildingId);
         setSel({ kind: 'building', buildingId: hit.buildingId, place: pl }); e.setSelected(hit.buildingId);
       },
-      onView: (v: View & { tier: Tier }) => { setTier(v.tier); setRot(v.rot); },
+      onView: (v: View & { tier: Tier; bearing?: number }) => { setTier(v.tier); setRot(v.rot); setBearing(v.bearing ?? 0); },
       onQuality: (q: string) => setToast(`Map detail lowered to ${q} to keep it smooth.`),
       intro,
       onIntro: (u: number) => { skyRef.current?.progress(u); if (u >= 1) { markIntroPlayed(); setIntro(false); } },
@@ -301,7 +301,8 @@ export default function CampusPage() {
       <div className="controls">
         <button className="ctl" aria-label={follow === 'follow' ? 'Following you: tap to stop' : follow === 'centre' ? 'Tap again to follow you' : 'Show my location'} aria-pressed={follow !== 'off'} onClick={locate}><IconLocate />{follow === 'follow' && <span className="badge">ON</span>}</button>
         <button className="ctl" aria-label="Rotate the view 90 degrees" onClick={() => engineRef.current?.rotate(1)}><IconRotate /><span className="badge">{['SE', 'NE', 'NW', 'SW'][rot]}</span></button>
-        <button className="ctl" aria-label="Recentre on the whole campus" onClick={() => { engineRef.current?.recentre(); }}><IconCompass /></button>
+        {/* the compass: its needle points north; a tap turns the map north up, a second tap shows the whole campus */}
+        <button className="ctl" aria-label={Math.abs(((bearing + 180) % 360) - 180) > 2 ? 'Turn the map north up' : 'Show the whole campus'} title="North up (N)" onClick={() => { const e = engineRef.current; if (e?.resetNorth && Math.abs(((bearing + 180) % 360) - 180) > 2) e.resetNorth(); else e?.recentre(); }}><span className="needle" style={{ transform: `rotate(${-bearing}deg)` }}><IconNorth /></span></button>
         <button className="ctl" aria-label="Map layers" aria-pressed={layersOpen} onClick={() => setLayersOpen(o => !o)}><IconLayers /></button>
       </div>
       {layersOpen && (

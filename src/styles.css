@@ -165,3 +165,6 @@ table.pts { width: 100%; border-collapse: collapse; font-size: 13px; } table.pts
 @media (prefers-reduced-motion: reduce) { .sky-puff { animation: none !important; } }
 .app > *:not(canvas):not(.sky-intro):not(.map-labels) { transition: opacity 0.6s ease; }
 .app.intro-on > *:not(canvas):not(.sky-intro):not(.map-labels) { opacity: 0; pointer-events: none; }
+
+/* the compass needle turns with the map (free rotation, 21 Nov) */
+.ctl .needle { display: inline-flex; transition: transform 0.08s linear; }
