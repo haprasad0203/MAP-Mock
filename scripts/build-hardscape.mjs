@@ -73,7 +73,7 @@ const ROADS = {
   'rd-fblock': { width: 7.5, pavementL: 1.2, pavementR: 0, note: 'Hostel hairpin road (F Block); a light footpath strip on the inside of the bends in the 0405 screenshot', confidence: 'measured' },
   'rd-nab-front': { width: 7, pavementL: 1.5, pavementR: 0, note: 'NAB front road along the SE face, past the NAB lawn (H A marked view)', confidence: 'by-eye' },
   'osm-1050216150': { width: 8, pavementL: 0, pavementR: 0, note: 'Public road along the south (ATM); outside the campus', confidence: 'by-eye' },
-  'osm-1050247320': { width: 7.5, pavementL: 0, pavementR: 0, surface: 'pavers', note: 'Admin forecourt loop drive: red-pink pavers, not asphalt (drone nadir and 2025 film, 20 Nov)', confidence: 'seen' },
+  'osm-1050247320': { width: 7, pavementL: 0, pavementR: 0, surface: 'pavers', note: 'Admin forecourt loop drive: red-pink pavers, not asphalt (drone nadir and 2025 film, 20 Nov)', confidence: 'seen' },
 };
 // (the main road's east pavement is the 2 m verge between the kerb and the Scholar's Path)
 const roadIds = new Set([...osm.roads.filter(r => r.pts.some(q => inside(q[0], q[1]))).map(r => r.id), ...layout.paths.filter(p => p.kind === 'road' || p.kind === 'service').map(p => p.id), 'osm-1050216150']);

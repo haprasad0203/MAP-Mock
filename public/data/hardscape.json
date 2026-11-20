@@ -133,13 +133,13 @@
    "id": "osm-1050247320",
    "kind": "service",
    "surface": "pavers",
-   "width": 7.5,
+   "width": 7,
    "kerb": 0.4,
    "pavementL": 0,
    "pavementR": 0,
    "narrow": [
     {
-     "s0": 86.8,
+     "s0": 89.2,
      "s1": 122.5,
      "width": 4,
      "reason": "within 0 m of admin"
@@ -1580,9 +1580,9 @@
   },
   {
    "road": "osm-1050247320",
-   "at": [234.4, -217.4],
+   "at": [233.1, -215.4],
    "width": 4,
-   "from": 7.5,
+   "from": 7,
    "building": "admin"
   },
   {
